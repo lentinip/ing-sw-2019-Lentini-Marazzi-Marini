@@ -1,18 +1,23 @@
-package java.it.polimi.sw2019.model;
+package it.polimi.sw2019.model;
 
 public class Marks extends Tokens {
 
-    /** Default constructor */
+    /**
+     * Default constructor
+     */
 
     public Marks() {
 
     }
 
-    /** Attributes */
+    /* Attributes */
 
-    private Character markSequence[15]; /** max 3 marks from another player */
+    /**
+     * max 3 marks from another player
+     */
+    private Character[] markSequence = new Character[15];
 
-    /** Methods */
+    /* Methods */
 
     public Character[] getMarkSequence() {
         return markSequence;

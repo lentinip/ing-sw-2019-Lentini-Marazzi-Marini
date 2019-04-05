@@ -1,14 +1,16 @@
-package java.it.polimi.sw2019.model;
+package it.polimi.sw2019.model;
 
 public class Weapon {
 
-    /** Default constructor **/
+    /**
+     * Default constructor
+     */
 
     public Weapon() {
 
     }
 
-    /** Attributes **/
+    /* Attributes */
 
     private String name;
 
@@ -18,7 +20,7 @@ public class Weapon {
 
     private boolean isLoaded;
 
-    /** Methods **/
+    /* Methods */
 
     public String getName() {
         return name;

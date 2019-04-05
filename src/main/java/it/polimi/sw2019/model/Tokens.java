@@ -1,14 +1,16 @@
-package java.it.polimi.sw2019.model;
+package it.polimi.sw2019.model;
 
 public class Tokens {
 
-    /* Default constructor */
+    /**
+     * Default constructor
+     */
 
     public Tokens() {
 
     }
 
-    /** Attributes */
+    /* Attributes */
 
     private int green;
 
@@ -21,7 +23,7 @@ public class Tokens {
     private int purple;
 
 
-   /** Methods */
+   /* Methods */
 
     public int getGreen() {
         return green;
@@ -63,7 +65,9 @@ public class Tokens {
         this.purple = purple;
     }
 
-    /** returns an array of characters in descending order based on who did more kills/marks/damage/points */
+    /**
+     * returns an array of characters in descending order based on who did more kills/marks/damage/points
+     */
 
     public Character[] getRanking() {
 

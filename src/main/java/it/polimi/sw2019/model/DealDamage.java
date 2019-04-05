@@ -1,14 +1,16 @@
-package java.it.polimi.sw2019.model;
+package it.polimi.sw2019.model;
 
 public class DealDamage implements Action {
 
-    /** Default constructor **/
+    /**
+     * Default constructor
+     */
 
     public DealDamage() {
 
     }
 
-    /** Methods **/
+    /* Methods */
 
     public void action(Player player) {
         //TODO implement

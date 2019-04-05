@@ -1,18 +1,20 @@
-package java.it.polimi.sw2019.model;
+package it.polimi.sw2019.model;
 
 public class SpawnCell extends Cell{
 
-    /** Default constructor **/
+    /**
+     * Default constructor
+     */
 
     public SpawnCell() {
 
     }
 
-    /** Attributes **/
+    /* Attributes */
 
     private Weapon[] weapons; //max 3 weapons
 
-    /** Methods **/
+    /* Methods */
 
     public Weapon getWeapon(int i) {
         return weapons[i];

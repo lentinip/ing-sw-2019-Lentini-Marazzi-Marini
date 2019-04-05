@@ -1,13 +1,15 @@
-package java.it.polimi.sw2019.model;
+package it.polimi.sw2019.model;
 
 public class Grab implements Action {
 
-    /** Default constructor **/
+    /**
+     * Default constructor
+     */
     public Grab() {
 
     }
 
-    /** Methods **/
+    /* Methods */
 
     public void action(Player player) {
         //TODO implement

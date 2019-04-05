@@ -1,21 +1,29 @@
-package java.it.polimi.sw2019.model;
+package it.polimi.sw2019.model;
 
 public class Match {
 
-    /** Default constructor */
+    /**
+     * Default constructor
+     */
     public Match() {
 
     }
 
-    /** Attributes */
+    /* Attributes */
 
     private int idPartita;
 
-    private int boardType;      /** tells in what kind of board players are going to play */
+    /**
+     * tells in what kind of board players are going to play
+     */
+    private int boardType;
 
     private Board board;
 
-    private Player[] players;     /** max 5 players */
+    /**
+     * max 5 players
+     */
+    private Player[] players;
 
     private int numberOfPlayers;
 
@@ -23,11 +31,17 @@ public class Match {
 
     private Score score;
 
-    private boolean iWantFrenzyMode;  /** set at the start of the game when you choose if you want to play frenzy*/
+    /**
+     * set at the start of the game when you choose if you want to play frenzy
+     */
+    private boolean iWantFrenzyMode;
 
-    private boolean frenzyMode; /** set 'true' when last player dies only if iWantFrenzyMode is 'true' */
+    /**
+     * set 'true' when last player dies only if iWantFrenzyMode is 'true'
+     */
+    private boolean frenzyMode;
 
-    /** Methods */
+    /* Methods */
 
     public int getIdPartita() {
         return idPartita;

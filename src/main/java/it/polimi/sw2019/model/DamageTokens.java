@@ -1,20 +1,22 @@
-package java.it.polimi.sw2019.model;
+package it.polimi.sw2019.model;
 
 public class DamageTokens extends Tokens {
 
-    /** Default constructor */
+    /**
+     * Default constructor
+     */
 
     public DamageTokens() {
 
     }
 
-    /** Attributes */
+    /* Attributes */
 
-    private Character[] damageSequence;
+    private Character[] damageSequence = new Character[12];
 
     private int totalDamage;
 
-    /** Methods */
+    /* Methods */
 
     public Character[] getDamageSequence() {
         return damageSequence;

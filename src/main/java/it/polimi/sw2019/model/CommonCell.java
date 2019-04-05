@@ -1,20 +1,22 @@
-package java.it.polimi.sw2019.model;
+package it.polimi.sw2019.model;
 
 public class CommonCell extends Cell {
 
-    /*** Default constructor **/
+    /**
+     * Default constructor
+     */
 
     public CommonCell() {
 
     }
 
-    /** Attributes **/
+    /* Attributes */
 
     private AmmoTile ammo;
 
     private boolean isEmpty;
 
-    /** Methods **/
+    /* Methods */
 
     public AmmoTile getAmmo() {
         return ammo;
@@ -23,7 +25,7 @@ public class CommonCell extends Cell {
     public void setAmmo(AmmoTile ammoTile){   //draw an Ammo card and put it in the Cell
 
         //TODO implement
-        return null;
+        return;
     }
 
     public boolean getIsEmpty () {

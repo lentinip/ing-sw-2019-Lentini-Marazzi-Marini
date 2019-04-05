@@ -1,22 +1,30 @@
-package java.it.polimi.sw2019.model;
+package it.polimi.sw2019.model;
 
 public class KillTokens extends Tokens{
 
-    /** Default constructor */
+    /**
+     * Default constructor
+     */
 
     public KillTokens() {
 
     }
 
-    /** Attributes */
+    /* Attributes */
 
-    private Character[] killSequence; /** array that represents the killshot track status */
+    /**
+     * array that represents the killshot track status
+     */
+    private Character[] killSequence = new Character[40];
 
-    private boolean[] overkillSequence; /** array to track the overkills in the killshot track */
+    /**
+     * array to track the overkills in the killshot track
+     */
+    private boolean[] overkillSequence;
 
     private int totalKills;
 
-    /** Methods */
+    /* Methods */
 
     public Character[] getKillSequence() {
         return killSequence;
