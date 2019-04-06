@@ -31,9 +31,7 @@ public class Powerup {
         return(color);
     }
 
-    public Colors setColor(Colors color) {
-        this.color = color;
-    }
+    public void setColor(Colors color) { this.color = color; }
 
     public void effect() {
 

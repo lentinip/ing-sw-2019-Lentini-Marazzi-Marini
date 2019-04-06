@@ -14,7 +14,7 @@ public class DamageTokens extends Tokens {
 
     private Character[] damageSequence = new Character[12];
 
-    private int totalDamage;
+    private int totalDamage = 0;
 
     /* Methods */
 

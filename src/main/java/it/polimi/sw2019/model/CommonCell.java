@@ -25,7 +25,7 @@ public class CommonCell extends Cell {
     public void setAmmo(AmmoTile ammoTile){   //draw an Ammo card and put it in the Cell
 
         //TODO implement
-        return;
+
     }
 
     public boolean getIsEmpty () {

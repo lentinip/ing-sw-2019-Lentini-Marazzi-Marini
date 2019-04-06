@@ -7,11 +7,11 @@ public class Shoot implements Action {
      */
 
     public Shoot() {
-
     }
 
     /* Methods */
 
+    @Override
     public void action(Player player) {
         //TODO implement
     }

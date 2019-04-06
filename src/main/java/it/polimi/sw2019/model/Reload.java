@@ -12,6 +12,7 @@ public class Reload implements Action {
 
     /* Methods */
 
+    @Override
     public void action(Player player) {
         //TODO implement
     }

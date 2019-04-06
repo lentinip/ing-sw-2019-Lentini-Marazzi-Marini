@@ -12,7 +12,7 @@ public class SpawnCell extends Cell{
 
     /* Attributes */
 
-    private Weapon[] weapons; //max 3 weapons
+    private Weapon[] weapons; /* max 3 weapons */
 
     /* Methods */
 

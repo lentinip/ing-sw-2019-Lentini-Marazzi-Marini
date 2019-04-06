@@ -6,5 +6,5 @@ public enum Character {
     BANSHEE,
     DOZER,
     VIOLET,
-    SPROG
+    SPROG;
 }

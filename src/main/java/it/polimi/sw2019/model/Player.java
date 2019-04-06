@@ -75,7 +75,6 @@ public class Player {
 
         //TODO implement
 
-        return;
     }
 
     /**
@@ -87,28 +86,24 @@ public class Player {
 
         //TODO implement
 
-        return;
     }
 
     public void useWeapon(Weapon weapon){
 
         //TODO implement
 
-        return;
     }
 
     public void usePoweup(Powerup powerup){
 
         //TODO implement
 
-        return;
     }
 
     public void addPowerup(Powerup powerup){
 
         //TODO implement
 
-        return;
     }
 
     /**
@@ -119,10 +114,5 @@ public class Player {
 
         //TODO implement
 
-        return;
     }
-
-
-
-
 }

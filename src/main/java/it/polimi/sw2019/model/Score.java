@@ -20,5 +20,7 @@ public class Score {
 
         //TODO implement
 
+        return;
+
     }
 }
