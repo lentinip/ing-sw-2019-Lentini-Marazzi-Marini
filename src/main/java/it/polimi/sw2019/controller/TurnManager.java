@@ -1,13 +1,13 @@
 package it.polimi.sw2019.controller;
 import it.polimi.sw2019.model.*;
 
+
 public class TurnManager {
 
     /**
-     * Default constructor
+     * Default Constructor
      */
-
-    public TurnManager () {
+    public TurnManager() {
 
     }
 
@@ -21,9 +21,6 @@ public class TurnManager {
 
     private TypeOfAction typeOfAction;
 
-    /**
-     * index of the powerup used to pay
-     */
     private int powerupPaid;
 
     private ShootingChoices shootingChoices;
@@ -62,29 +59,44 @@ public class TurnManager {
         return typeOfAction;
     }
 
+    public void setPowerupPaid(int powerupPaid) {
+        this.powerupPaid = powerupPaid;
+    }
+
+    public int getPowerupPaid() {
+        return powerupPaid;
+    }
+
+    public void setShootingChoices(ShootingChoices shootingChoices) {
+        this.shootingChoices = shootingChoices;
+    }
+
+    public ShootingChoices getShootingChoices() {
+        return shootingChoices;
+    }
+
     public void doAction() {
 
         //TODO implement
         return;
     }
 
-    public void endTurn() {
+    public void endTur() {
 
         //TODO implement
         return;
     }
 
-    public void timer() {
+    public void timer()  {
 
         //TODO implement
         return;
     }
 
-    public void reset() {
+    public void reset()  {
 
         //TODO implement
         return;
     }
 
 }
-

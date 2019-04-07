@@ -6,13 +6,11 @@ public class ShootingChoices {
     /**
      * Default constructor
      */
-
     public ShootingChoices() {
 
     }
 
     /* Attributes */
-
     private boolean effect1;
 
     private boolean effect2;
@@ -42,7 +40,7 @@ public class ShootingChoices {
     }
 
     public boolean getEffect2() {
-        return effect1;
+        return effect2;
     }
 
     public void setEffect3(boolean effect3) {
