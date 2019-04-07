@@ -127,4 +127,9 @@ public class Match {
 
      }
 
+     public void setNextPlayer(){
+
+        //TODO implement
+     }
+
 }

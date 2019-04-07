@@ -25,6 +25,10 @@ public class Player {
 
     private Powerup[] powerups = new Powerup[3];
 
+    private int numberOfActions = 2;
+
+    private ActionContext action;
+
 
 
     /* Methods */
@@ -53,17 +57,12 @@ public class Player {
         this.position = position;
     }
 
-    /**
-     * You can know if a player is visible from this player
-     * @param player The player you wanna know if is visible
-     * @return true if is visible
-     */
-    public boolean canISee(Player player){
+    public int getNumberOfActions() {
+        return numberOfActions;
+    }
 
-        //TODO implement
-
-        //return false
-        return true;
+    public void setNumberOfActions(int numberOfActions) {
+        this.numberOfActions = numberOfActions;
     }
 
     /**
@@ -114,5 +113,36 @@ public class Player {
 
         //TODO implement
 
+    }
+
+    public void reorderArray(){
+
+        //TODO implement
+    }
+
+    public Weapon[] loadedWeapons(){
+
+        //TODO implement
+
+        return weapons;
+    }
+
+    /**
+     * Checks if a weapon is loaded and if there are targets available for the weapons
+     */
+    public Weapon[] availableWeapons(){
+
+        //TODO implement
+
+        return weapons;
+    }
+
+    public Cell[] visibleCell(){
+
+        Cell[] result = new Cell[1];
+
+        //TODO implement
+
+        return result;
     }
 }

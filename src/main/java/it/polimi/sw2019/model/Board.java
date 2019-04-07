@@ -63,17 +63,29 @@ public class Board {
 
     public Weapon drawWeapon(){
 
+        Weapon result = new Weapon();
+
         //TODO implement
+
+        return result;
     }
 
     public Powerup drawPowerup(){
 
+        Powerup result = new Powerup();
+
         //TODO implement
+
+        return result;
     }
 
     public AmmoTile drawAmmo(){
 
+        AmmoTile result = new AmmoTile();
+
         //TODO implement
+
+        return result;
     }
 
 

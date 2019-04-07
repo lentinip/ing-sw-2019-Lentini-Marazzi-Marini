@@ -18,13 +18,13 @@ public class Cell {
 
     private int column;
 
-    private RoomElement up; //type of the upSide of the Cell
+    private Cell up; //type of the upSide of the Cell
 
-    private RoomElement down; //type of the downSide of the Cell
+    private Cell down; //type of the downSide of the Cell
 
-    private RoomElement left; //type of the leftSide of the Cell
+    private Cell left; //type of the leftSide of the Cell
 
-    private RoomElement right; //type of the rightSide of the Cell
+    private Cell right; //type of the rightSide of the Cell
 
     private boolean isCommon; //tell if the Cell is Common or Spawn
 
@@ -54,43 +54,52 @@ public class Cell {
         this.column = column;
     }
 
-    public RoomElement getUp() {
+    public Cell getUp() {
         return up;
     }
 
-    public void setUp(RoomElement up) {
+    public void setUp(Cell up) {
         this.up = up;
     }
 
-    public RoomElement getDown() {
+    public Cell getDown() {
         return down;
     }
 
-    public void setDown(RoomElement down) {
+    public void setDown(Cell down) {
         this.down = down;
     }
 
-    public RoomElement getLeft() {
+    public Cell getLeft() {
         return left;
     }
 
-    public void setLeft(RoomElement left) {
+    public void setLeft(Cell left) {
         this.left = left;
     }
 
-    public RoomElement getRight() {
+    public Cell getRight() {
         return right;
     }
 
-    public void setRight(RoomElement right) {
+    public void setRight(Cell right) {
         this.right = right;
     }
 
-    public boolean isCommon() {
-        return isCommon;
+    public boolean getCommon(){
+        return this.isCommon;
     }
 
     public void setCommon(boolean common) {
         isCommon = common;
+    }
+
+    public Player[] playersInside(){
+
+        Player[] result = new Player[1];
+
+        //TODO implement
+
+        return result;
     }
 }

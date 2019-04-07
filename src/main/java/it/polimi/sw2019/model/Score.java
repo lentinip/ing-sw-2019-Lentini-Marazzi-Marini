@@ -18,9 +18,10 @@ public class Score {
      */
     public Character[] getRanking() {//OVERRIDING
 
+        Character[] result = new Character[5];
+
         //TODO implement
 
-        return;
-
+        return result;
     }
 }

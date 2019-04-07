@@ -29,7 +29,7 @@ public class Controller {
     }
 
     public Player[] getWaitingPlayers() {
-        return waitingPlayers[];
+        return waitingPlayers;
     }
 
     public void setTurnManager(TurnManager turnManager) {

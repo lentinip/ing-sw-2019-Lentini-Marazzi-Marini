@@ -36,4 +36,13 @@ public class Room {
         this.spawnCell = spawnCell;
     }
 
+    public Player[] playersInside(){
+
+        Player[] result = new Player[1];
+
+        //TODO implement
+
+        return result;
+    }
+
 }

@@ -71,7 +71,11 @@ public class Tokens {
 
     public Character[] getRanking() {
 
+        Character[] result = new Character[5];
+
           //TODO implement
+
+        return result;
     }
 
 }
