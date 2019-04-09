@@ -44,7 +44,7 @@ public class Weapon {
         return reloadCost;
     }
 
-    public void setReloadCost(Ammo grabCost) {
+    public void setReloadCost(Ammo reloadCost) {
         this.reloadCost = reloadCost;
     }
 

@@ -81,7 +81,7 @@ public class TurnManager {
         return;
     }
 
-    public void endTur() {
+    public void endTurn() {
 
         //TODO implement
         return;

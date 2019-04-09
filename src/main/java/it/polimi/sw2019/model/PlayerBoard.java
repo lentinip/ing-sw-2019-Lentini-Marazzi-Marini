@@ -43,7 +43,7 @@ public class PlayerBoard {
     /**
      * Updates the score in the Score class
      */
-    public void updateScore(){
+    public void updateScore(Score score){
 
         //TODO implement
 

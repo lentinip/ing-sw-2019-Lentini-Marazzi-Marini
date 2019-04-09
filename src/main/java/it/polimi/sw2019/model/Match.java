@@ -132,4 +132,10 @@ public class Match {
         //TODO implement
      }
 
+     public void endTurn() {
+
+        //TODO implement
+         return;
+     }
+
 }

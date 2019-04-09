@@ -12,57 +12,57 @@ public class Tokens {
 
     /* Attributes */
 
-    private int green;
+    private int distructor;
 
-    private int yellow;
+    private int banshee;
 
-    private int blue;
+    private int dozer;
 
-    private int grey;
+    private int violet;
 
-    private int purple;
+    private int sprog;
 
 
    /* Methods */
 
-    public int getGreen() {
-        return green;
+    public void setDistructor(int distructor) {
+        this.distructor = distructor;
     }
 
-    public void setGreen(int green) {
-        this.green = green;
+    public int getDistructor() {
+        return distructor;
     }
 
-    public int getYellow() {
-        return yellow;
+    public void setBanshee(int banshee) {
+        this.banshee = banshee;
     }
 
-    public void setYellow(int yellow) {
-        this.yellow = yellow;
+    public int getBanshee() {
+        return banshee;
     }
 
-    public int getBlue() {
-        return blue;
+    public void setDozer(int dozer) {
+        this.dozer = dozer;
     }
 
-    public void setBlue(int blue) {
-        this.blue = blue;
+    public int getDozer() {
+        return dozer;
     }
 
-    public int getGrey() {
-        return grey;
+    public void setViolet(int violet) {
+        this.violet = violet;
     }
 
-    public void setGrey(int grey) {
-        this.grey = grey;
+    public int getViolet() {
+        return violet;
     }
 
-    public int getPurple() {
-        return purple;
+    public void setSprog(int sprog) {
+        this.sprog = sprog;
     }
 
-    public void setPurple(int purple) {
-        this.purple = purple;
+    public int getSprog() {
+        return sprog;
     }
 
     /**
@@ -75,6 +75,13 @@ public class Tokens {
 
           //TODO implement
 
+        return result;
+    }
+
+    public Character[] orderArray() {
+
+        Character[] result = new Character[1];
+        //TODO implement
         return result;
     }
 

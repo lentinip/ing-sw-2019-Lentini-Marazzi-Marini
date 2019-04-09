@@ -75,9 +75,16 @@ public class KillTokens extends Tokens{
     /**
      *  method called by the class Score to update the score when the game ends
      */
-    public void updateKillScore() {
+    public void updateScore(Score score) {
 
         //TODO implement
 
+    }
+
+    public Character[]  getRanking() {
+
+        Character[] result = new Character[1];
+        //TODO implement
+        return result;
     }
 }

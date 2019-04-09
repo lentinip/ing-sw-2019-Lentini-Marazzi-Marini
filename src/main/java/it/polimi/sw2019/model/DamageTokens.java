@@ -53,4 +53,11 @@ public class DamageTokens extends Tokens {
 
         //TODO implement
     }
+
+    public Character[]  getRanking() {
+
+        Character[] result = new Character[1];
+        //TODO implement
+        return result;
+    }
 }

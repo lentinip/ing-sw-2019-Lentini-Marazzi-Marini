@@ -16,7 +16,7 @@ public class Score {
     /**
      * Method that returns a descending array of Characters that represents the game LeaderBoard
      */
-    public Character[] getRanking() {//OVERRIDING
+    public Character[] getRanking(KillTokens killTrack) {
 
         Character[] result = new Character[5];
 
