@@ -1,5 +1,8 @@
 package it.polimi.sw2019.model;
 
+import static it.polimi.sw2019.model.Character.*;
+import java.util.Arrays
+
 public class KillTokens extends Tokens{
 
     /**
@@ -7,6 +10,8 @@ public class KillTokens extends Tokens{
      */
 
     public KillTokens() {
+
+        Arrays.fill(overkillSequence, false); //Set all the overkillSequence to false
 
     }
 
@@ -20,9 +25,9 @@ public class KillTokens extends Tokens{
     /**
      * array to track the overkills in the killshot track
      */
-    private boolean[] overkillSequence;
+    private boolean[] overkillSequence = new boolean[40];
 
-    private int totalKills;
+    private int totalKills = 0;
 
     /* Methods */
 
@@ -52,24 +57,58 @@ public class KillTokens extends Tokens{
 
     /**
      *
-     * @param i number of kills you are adding
-     * @param opponent Player who killed someone
+     * @param killer Player who killed someone
      */
+    public void addKill(Character killer) {
 
-    public void addKill(int i, Character opponent) {
+        switch (killer){ //Each case adds a point depending on the Player and adds the Character to the killSequence
+            case BANSHEE:
+                setBanshee(getBanshee()+1);
+                killSequence[totalKills] = BANSHEE;
+            case DISTRUCTOR:
+                setDistructor(getDistructor()+1);
+                killSequence[totalKills] = DISTRUCTOR;
+            case DOZER:
+                setDozer(getDozer()+1);
+                killSequence[totalKills] = DOZER;
+            case SPROG:
+                setSprog(getSprog()+1);
+                killSequence[totalKills] = SPROG;
+            case VIOLET:
+                setViolet(getViolet()+1);
+                killSequence[totalKills] = VIOLET;
+        }
 
-        //TODO implement
+        totalKills++; //Updates the number of totalKills
+
+        //At the end of the function killSequence[totalKills] points to null
     }
 
     /**
      *
-     * @param i number of overkills
-     * @param opponent player who did the overkill
+     * @param killer player who did the overkill
      */
+    public void addOverkill(Character killer) {
 
-    public void addOverKill(int i, Character opponent) {
+        addKill(killer);
 
-        //TODO implement
+        switch (killer){ //Each case adds a point depending on the Player and signs the overkill into the overkillSequence
+            case BANSHEE:
+                setBanshee(getBanshee()+1);
+                overkillSequence[totalKills - 1] = true; //there is totalKills - 1 because addKill already updates the value
+            case DISTRUCTOR:
+                setDistructor(getDistructor()+1);
+                overkillSequence[totalKills - 1] = true;
+            case DOZER:
+                setDozer(getDozer()+1);
+                overkillSequence[totalKills - 1] = true;
+            case SPROG:
+                setSprog(getSprog()+1);
+                overkillSequence[totalKills - 1] = true;
+            case VIOLET:
+                setViolet(getViolet()+1);
+                overkillSequence[totalKills - 1] = true;
+
     }
 
     /**
@@ -83,8 +122,14 @@ public class KillTokens extends Tokens{
 
     public Character[]  getRanking() {
 
-        Character[] result = new Character[1];
-        //TODO implement
+        Character[] result;
+
+        result = orderArray();
+
+
+
+
+
         return result;
     }
 }
