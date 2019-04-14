@@ -1,7 +1,10 @@
 package it.polimi.sw2019.model;
 
 import static it.polimi.sw2019.model.Character.*;
-import java.util.Arrays
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class KillTokens extends Tokens{
 
@@ -92,40 +95,41 @@ public class KillTokens extends Tokens{
 
         addKill(killer);
 
-        switch (killer){ //Each case adds a point depending on the Player and signs the overkill into the overkillSequence
+        switch (killer) { //Each case adds a point depending on the Player and signs the overkill into the overkillSequence
             case BANSHEE:
-                setBanshee(getBanshee()+1);
+                setBanshee(getBanshee() + 1);
                 overkillSequence[totalKills - 1] = true; //there is totalKills - 1 because addKill already updates the value
             case DISTRUCTOR:
-                setDistructor(getDistructor()+1);
+                setDistructor(getDistructor() + 1);
                 overkillSequence[totalKills - 1] = true;
             case DOZER:
-                setDozer(getDozer()+1);
+                setDozer(getDozer() + 1);
                 overkillSequence[totalKills - 1] = true;
             case SPROG:
-                setSprog(getSprog()+1);
+                setSprog(getSprog() + 1);
                 overkillSequence[totalKills - 1] = true;
             case VIOLET:
-                setViolet(getViolet()+1);
+                setViolet(getViolet() + 1);
                 overkillSequence[totalKills - 1] = true;
+        }
 
     }
 
     /**
      *  method called by the class Score to update the score when the game ends
      */
-    public void updateScore(Score score) {
+    public void updateScore(Score score){
 
         //TODO implement
 
     }
 
-    public Character[]  getRanking() {
+    public List<Character>  getRanking(){
 
-        Character[] result;
+            List<Character> result = new ArrayList<>();
 
-        result = orderArray();
 
+        //TODO implement
 
 
 
