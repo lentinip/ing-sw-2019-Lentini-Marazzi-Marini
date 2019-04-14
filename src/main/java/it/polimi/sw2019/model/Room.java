@@ -18,6 +18,8 @@ public class Room {
     private Cell[] roomCells = new Cell[4];
 
 
+
+
     /* Methods */
 
     public Colors getColor() {
@@ -36,13 +38,50 @@ public class Room {
         this.spawnCell = spawnCell;
     }
 
-    public Player[] playersInside(){
+    public Player[] playersInside(Player[] players){
 
-        Player[] result = new Player[1];
+        /**
+         * array to save the players in the room
+         */
+        Player[] result = new Player[5];
+        /**
+         * array to get the players in every single cell
+         */
+        Player[] playersInCell = new Player[5];
+        /**
+         * three index to scan the arrays: roomCells, result and playersInCell
+         */
+        int index, playersIndex, playersInIndex;
 
-        //TODO implement
+
+        playersInIndex = 0;
+        for(index = 0; index<4; index++) {
+
+            if(roomCells[index] != null) {
+
+                playersInCell = roomCells[index].playersInside(players);
+                for(playersIndex = 0; playersIndex<5; playersIndex++) {
+
+                    if(playersInCell[playersIndex] != null) {
+
+                        result[playersInIndex] = playersInCell[playersIndex];
+                        playersInIndex++;
+                    }
+                    else{
+                        playersIndex = 4;
+                    }
+                }
+            }
+            else{
+                index = 3;
+            }
+        }
 
         return result;
     }
 
+    public void addCell(Cell cell, int index) {
+        this.roomCells[index] = cell;
+        return;
+    }
 }

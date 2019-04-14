@@ -5,6 +5,7 @@ public class Board {
     /**
      * Default constructor
      */
+
     public Board(){
 
     }
@@ -56,16 +57,22 @@ public class Board {
      */
     public void setField(int i) {
 
-        //TODO implement
-
-        return;
+            //TODO implement
     }
 
     public Weapon drawWeapon(){
 
         Weapon result = new Weapon();
+        int index;
 
-        //TODO implement
+        for(index = 21; index>0; index--) {
+
+            if(weaponsDeck[index] != null) {
+
+                result = weaponsDeck[index];
+                index = 1;
+            }
+        }
 
         return result;
     }
@@ -74,7 +81,16 @@ public class Board {
 
         Powerup result = new Powerup();
 
-        //TODO implement
+        int index;
+
+        for(index = 24; index>0; index--) {
+
+            if(powerupsDeck[index] != null) {
+
+                result = powerupsDeck[index];
+                index = 1;
+            }
+        }
 
         return result;
     }
@@ -83,7 +99,16 @@ public class Board {
 
         AmmoTile result = new AmmoTile();
 
-        //TODO implement
+        int index;
+
+        for(index = 36; index>0; index--) {
+
+            if(ammoDeck[index] != null) {
+
+                result = ammoDeck[index];
+                index = 1;
+            }
+        }
 
         return result;
     }

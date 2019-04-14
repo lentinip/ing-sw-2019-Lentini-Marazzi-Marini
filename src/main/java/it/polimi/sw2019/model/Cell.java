@@ -94,12 +94,46 @@ public class Cell {
         isCommon = common;
     }
 
-    public Player[] playersInside(){
+    public Player[] playersInside(Player[] players){
 
-        Player[] result = new Player[1];
+        Player[] result = new Player[5];
+        Player[] current = new Player[5];
+        Cell position;
 
-        //TODO implement
+        current = players;
+        int index, resultIndex;
+
+        resultIndex = 0;
+        for(index = 0; index<5; index++)
+        {
+
+            position = current[index].getPosition();
+
+            if (position.getRow() == this.row) {
+
+                if(position.getColumn() == this.column) {
+
+                    result[resultIndex] = current[index];
+                }
+            }
+    }
 
         return result;
+    }
+
+    public void setCellStructure(Colors color, int row, int column, boolean isCommon) {
+        this.color = color;
+        this.row = row;
+        this.column = column;
+        this.isCommon = isCommon;
+        return;
+    }
+
+    public void setCellNeighbors(Cell up, Cell down, Cell left, Cell right) {
+        this.up = up;
+        this.down = down;
+        this.left = left;
+        this.right = right;
+        return;
     }
 }
