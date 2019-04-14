@@ -1,5 +1,10 @@
 package it.polimi.sw2019.model;
 
+import com.sun.org.apache.xpath.internal.operations.Lt;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cell {
 
     /**
@@ -12,7 +17,7 @@ public class Cell {
 
     /* Attributes */
 
-    private Colors color;
+    private Room room;
 
     private int row;
 
@@ -30,12 +35,12 @@ public class Cell {
 
     /* Methods */
 
-    public Colors getColor() {
-        return color;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setColor(Colors color) {
-        this.color = color;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public int getRow() {
@@ -94,39 +99,30 @@ public class Cell {
         isCommon = common;
     }
 
-    public Player[] playersInside(Player[] players){
+    public List<Player> playersInCell(List<Player> players){
 
-        Player[] result = new Player[5];
-        Player[] current = new Player[5];
+        List<Player> playersInCell = new ArrayList<>();
         Cell position;
 
-        current = players;
-        int index, resultIndex;
+        for( int i = 0; i < players.size(); i++) {
 
-        resultIndex = 0;
-        for(index = 0; index<5; index++)
-        {
+            position = players.get(i).getPosition();
 
-            position = current[index].getPosition();
+            if (position.getRow() == this.row && position.getColumn() == this.column) {
 
-            if (position.getRow() == this.row) {
+                playersInCell.add(players.get(i));
 
-                if(position.getColumn() == this.column) {
-
-                    result[resultIndex] = current[index];
-                }
             }
+        }
+
+        return playersInCell;
     }
 
-        return result;
-    }
-
-    public void setCellStructure(Colors color, int row, int column, boolean isCommon) {
-        this.color = color;
+    public void setCellStructure(Room room, int row, int column, boolean isCommon) {
+        this.room = room;
         this.row = row;
         this.column = column;
         this.isCommon = isCommon;
-        return;
     }
 
     public void setCellNeighbors(Cell up, Cell down, Cell left, Cell right) {
@@ -134,6 +130,5 @@ public class Cell {
         this.down = down;
         this.left = left;
         this.right = right;
-        return;
     }
 }

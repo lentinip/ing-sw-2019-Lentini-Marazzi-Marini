@@ -1,5 +1,8 @@
 package it.polimi.sw2019.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Room {
 
     /**
@@ -15,7 +18,7 @@ public class Room {
 
     private SpawnCell spawnCell;
 
-    private Cell[] roomCells = new Cell[4];
+    private List<Cell> roomCells = new ArrayList<>();
 
 
 
@@ -38,50 +41,26 @@ public class Room {
         this.spawnCell = spawnCell;
     }
 
-    public Player[] playersInside(Player[] players){
-
-        /**
-         * array to save the players in the room
-         */
-        Player[] result = new Player[5];
-        /**
-         * array to get the players in every single cell
-         */
-        Player[] playersInCell = new Player[5];
-        /**
-         * three index to scan the arrays: roomCells, result and playersInCell
-         */
-        int index, playersIndex, playersInIndex;
-
-
-        playersInIndex = 0;
-        for(index = 0; index<4; index++) {
-
-            if(roomCells[index] != null) {
-
-                playersInCell = roomCells[index].playersInside(players);
-                for(playersIndex = 0; playersIndex<5; playersIndex++) {
-
-                    if(playersInCell[playersIndex] != null) {
-
-                        result[playersInIndex] = playersInCell[playersIndex];
-                        playersInIndex++;
-                    }
-                    else{
-                        playersIndex = 4;
-                    }
-                }
-            }
-            else{
-                index = 3;
-            }
-        }
-
-        return result;
+    public List<Cell> getRoomCells() {
+        return roomCells;
     }
 
-    public void addCell(Cell cell, int index) {
-        this.roomCells[index] = cell;
-        return;
+    public List<Player> playersInside(List<Player> players){
+
+    List<Player> playersInside = new ArrayList<>();
+
+        for (int i = 0; i < roomCells.size(); i++) {
+
+            playersInside.addAll(roomCells.get(i).playersInCell(players));
+
+        }
+
+        return playersInside;
+    }
+
+    public void addCell(Cell cell) {
+
+         roomCells.add(cell);
+
     }
 }

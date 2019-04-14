@@ -1,4 +1,6 @@
 package it.polimi.sw2019.model;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
 
@@ -21,14 +23,13 @@ public class Player {
 
     private Cell position;
 
-    private Weapon[] weapons = new Weapon[3];
+    private List<Weapon> weapons = new ArrayList<>();
 
-    private Powerup[] powerups = new Powerup[3];
+    private List<Powerup> powerups = new ArrayList<>();
 
     private int numberOfActions = 2;
 
     private ActionContext action;
-
 
 
     /* Methods */
@@ -65,6 +66,14 @@ public class Player {
         this.numberOfActions = numberOfActions;
     }
 
+    public List<Weapon> getWeapons() {
+        return weapons;
+    }
+
+    public List<Powerup> getPowerups() {
+        return powerups;
+    }
+
     /**
      * Removes a weapon from the weapons array
      *
@@ -72,7 +81,7 @@ public class Player {
      */
     public void discardWeapon(int i){
 
-        //TODO implement
+        weapons.remove(i);
 
     }
 
@@ -81,27 +90,39 @@ public class Player {
      *
      * @param weapon The weapon that has to be added to the array
      */
-    public void addWeapon(Weapon weapon){ //Adds a weapon into the weapons array
+    public void addWeapon(Weapon weapon) { //Adds a weapon into the weapons array
 
-        //TODO implement
+        if (weapons.size() < 3)
+
+           { weapons.add(weapon); }
+
+        //TODO implement exceptions
 
     }
 
     public void useWeapon(Weapon weapon){
 
-        //TODO implement
+        weapon.setIsLoaded(false);
+
+        //TODO implement exceptions
 
     }
 
     public void usePoweup(Powerup powerup){
 
-        //TODO implement
+        powerups.remove(powerup);
+
+        //TODO implement exceptions
 
     }
 
     public void addPowerup(Powerup powerup){
 
-        //TODO implement
+        if (powerups.size() < 3)
+
+           { powerups.add(powerup); }
+
+        //TODO implements exceptions
 
     }
 
@@ -111,38 +132,86 @@ public class Player {
      */
     public void discardPowerup(int i){
 
-        //TODO implement
+        if (powerups.size() > 0) {
+
+               //TODO implement the reduction of the cost
+
+               powerups.remove(i);
+        }
 
     }
 
-    public void reorderArray(){
+    public List<Weapon> loadedWeapons(){
 
-        //TODO implement
-    }
+      List<Weapon> loadedWeapons = new ArrayList<>();
 
-    public Weapon[] loadedWeapons(){
+      for (int i = 0; i < weapons.size(); i++ ) {
 
-        //TODO implement
+          if (weapons.get(i).getIsLoaded()) {
 
-        return weapons;
+              loadedWeapons.add(weapons.get(i));
+
+          }
+      }
+      return loadedWeapons;
+
+      //TODO implement exceptions
     }
 
     /**
      * Checks if a weapon is loaded and if there are targets available for the weapons
      */
-    public Weapon[] availableWeapons(){
+    public List<Weapon> availableWeapons(){
 
-        //TODO implement
+        List<Weapon> availableWeapons = new ArrayList<>();
+        List<Weapon> loadedWeapons = loadedWeapons();
 
-        return weapons;
+        for (int i = 0; i < loadedWeapons.size(); i++ ) {
+
+            if (loadedWeapons.get(i).usableWeapon()) {
+
+                availableWeapons.add(loadedWeapons.get(i));
+            }
+        }
+
+        //TODO implement exceptions
+
+        return availableWeapons;
     }
 
-    public Cell[] visibleCell(){
+    public List<Cell> visibleCells(){
 
-        Cell[] result = new Cell[1];
+        List<Cell> visibleCells = new ArrayList<>();
+        Colors positionColor = position.getRoom().getColor();
 
-        //TODO implement
+        visibleCells.addAll(position.getRoom().getRoomCells());
 
-        return result;
+        /**
+         * with these if condition I'm checking if the player is near one or more doors,
+         * if the answer is "yes", I'm adding to visibleCells the cells inside the rooms he can watch in.
+         */
+
+        if (position.getUp().getRoom().getColor() != positionColor ) {
+
+            visibleCells.addAll(position.getUp().getRoom().getRoomCells());
+        }
+
+        if (position.getLeft().getRoom().getColor() != positionColor ) {
+
+            visibleCells.addAll(position.getLeft().getRoom().getRoomCells());
+        }
+
+        if (position.getDown().getRoom().getColor() != positionColor ) {
+
+            visibleCells.addAll(position.getDown().getRoom().getRoomCells());
+        }
+
+        if (position.getRight().getRoom().getColor() != positionColor ) {
+
+            visibleCells.addAll(position.getRight().getRoom().getRoomCells());
+        }
+
+        //TODO case where at up, down, left, right there is a wall and then Cell is null
+        return visibleCells;
     }
 }
