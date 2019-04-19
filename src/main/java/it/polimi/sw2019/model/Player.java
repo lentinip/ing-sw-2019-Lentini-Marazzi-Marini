@@ -27,9 +27,12 @@ public class Player {
 
     private List<Powerup> powerups = new ArrayList<>();
 
+
     private int numberOfActions = 2;
 
     private ActionContext action;
+
+    private Boolean isDead;
 
 
     /* Methods */
@@ -72,6 +75,30 @@ public class Player {
 
     public List<Powerup> getPowerups() {
         return powerups;
+    }
+
+    public void setAction(ActionContext action) {
+        this.action = action;
+    }
+
+    public ActionContext getAction() {
+        return action;
+    }
+
+    public void setDead(Boolean dead) {
+        isDead = dead;
+    }
+
+    public Boolean getDead() {
+        return isDead;
+    }
+
+    public void setPlayerBoard(PlayerBoard playerBoard) {
+        this.playerBoard = playerBoard;
+    }
+
+    public PlayerBoard getPlayerBoard() {
+        return playerBoard;
     }
 
     /**
@@ -186,7 +213,7 @@ public class Player {
 
         visibleCells.addAll(position.getRoom().getRoomCells());
 
-        /**
+        /*
          * with these if condition I'm checking if the player is near one or more doors,
          * if the answer is "yes", I'm adding to visibleCells the cells inside the rooms he can watch in.
          */

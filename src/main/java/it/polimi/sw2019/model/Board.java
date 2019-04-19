@@ -113,5 +113,9 @@ public class Board {
         return result;
     }
 
+    public void updateKillTrack (Player deadPlayer) {
+
+        //TODO implement
+    }
 
 }

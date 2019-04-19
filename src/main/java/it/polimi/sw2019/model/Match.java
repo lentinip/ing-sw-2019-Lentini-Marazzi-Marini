@@ -138,4 +138,10 @@ public class Match {
          return;
      }
 
+     public void respawn(Player deadPlayer){
+
+        //TODO implement
+     }
+
 }
+
