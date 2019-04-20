@@ -24,4 +24,9 @@ public class Score {
 
         return result;
     }
+
+    public void addPoints(int points, Character character){
+
+        //TODO implement
+    }
 }

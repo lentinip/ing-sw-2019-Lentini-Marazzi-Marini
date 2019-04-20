@@ -136,4 +136,11 @@ public class KillTokens extends Tokens{
 
         return result;
     }
+
+    public void incrementKill(){
+
+        totalKills = totalKills + 1;
+    }
+
 }
+

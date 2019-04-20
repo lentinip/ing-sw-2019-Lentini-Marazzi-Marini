@@ -135,76 +135,92 @@ public class Match {
 
     }
 
-      public void endMatch() {
+    public void endMatch() {
 
       //TODO implement
 
-     }
+    }
 
-     public void setNextPlayer(){
-
-        //TODO implement
-     }
-
-     public void flipBoards(){
+    public void setNextPlayer(){
 
         //TODO implement
-         return;
-     }
-
+    }
 
     public void endTurn() {
 
-         PlayerBoard playerBoard;
-         KillTokens killTokens;
+        PlayerBoard playerBoard;
+        KillTokens killTokens;
 
-        /**
+        killTokens = board.getKillTrack();
+
+        /*
          * verifies if players are dead or not (if true resets the damages)
          */
-        for(int index = 0; index<players.size(); index++) {
+        for(int i = 0; i<players.size(); i++) {
 
-             if(this.players.get(index).isDead()) {
+             if(this.players.get(i).isDead()) {
 
-                 playerBoard = this.players.get(index).getPlayerBoard();
-                 playerBoard.updateScore(this.score);
+                 playerBoard = this.players.get(i).getPlayerBoard();
+
+                 if (playerBoard.isFlipped()) {
+
+                     playerBoard.updateFrenzyScore(this.score);
+
+                 }
+
+                 else {
+
+                     playerBoard.updateScore(this.score);
+
+                 }
+
+                 board.updateKillTrack(players.get(i));
+
                  playerBoard.getDamage().reset();
-                 this.players.get(index).setDead(false);
+
+                 /* if a player dies during frenzy his board is flipped */
+
+                 if (killTokens.getTotalKills() >= 8) {
+
+                     playerBoard.setFlipped(true);
+
+                 }
+
+                 respawn(this.players.get(i));
              }
          }
         //TODO implement exceptions
 
-        /**
+        /*
          * calls endMatch at the end
          */
-         if(frenzyMode) {
+         if(frenzyMode && currentPlayer == lastPlayer) {
 
-             if(currentPlayer == lastPlayer) {
-                 endMatch();
-             }
+              endMatch();
          }
 
-        /**
+        /*
          * initializes frenzy mode
          */
-        killTokens = this.board.getKillTrack();
-         if(killTokens.getTotalKills() >= 8) {
 
-             if(lastPlayer == null) {
+        if(killTokens.getTotalKills() >= 8 && this.lastPlayer == null){
+
                  frenzyMode = true;
                  this.lastPlayer = this.currentPlayer;
-                 flipBoards();
-             }
-         }
-         //TODO implement exceptions
+
+        }
+
+        //TODO implement exceptions
 
          setNextPlayer();
          return;
-     }
+    }
 
-     public void respawn(Player deadPlayer){
+
+    public void respawn(Player deadPlayer){
 
         //TODO implement
-     }
+    }
 
 }
 

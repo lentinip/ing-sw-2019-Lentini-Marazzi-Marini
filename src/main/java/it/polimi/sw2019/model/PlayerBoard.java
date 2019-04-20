@@ -1,5 +1,7 @@
 package it.polimi.sw2019.model;
 
+import java.util.ArrayList;
+
 public class PlayerBoard {
 
     /**
@@ -17,6 +19,8 @@ public class PlayerBoard {
 
     private boolean firstPlayer = false;
 
+    private boolean flipped = false;
+
     private int numOfDeaths = 0;
 
     private Ammo ammo;
@@ -30,6 +34,14 @@ public class PlayerBoard {
 
     public void setFirstPlayer(boolean firstPlayer){
         this.firstPlayer = firstPlayer;
+    }
+
+    public boolean isFlipped() {
+        return flipped;
+    }
+
+    public void setFlipped(boolean flipped) {
+        this.flipped = flipped;
     }
 
     public int getNumOfDeaths() {
@@ -49,13 +61,62 @@ public class PlayerBoard {
     }
 
     /**
-     * Updates the score in the Score class
+     * update the score when the board is not flipped
+     * @param score
      */
     public void updateScore(Score score){
 
-        //TODO implement
+        ArrayList<Character> ranking;
+        ranking = damage.getRanking();
+        int points;
 
-        return;
+        /*
+         * giving 1 point for the first blood
+         */
+        score.addPoints(1, damage.getDamageSequence().get(0) );
+
+        for (int i = 0; i < ranking.size(); i++){
+
+         /* points added to the player */
+
+           points = 8 - numOfDeaths*2 - 2*i;
+
+           if (points <= 0) {
+
+               score.addPoints(1,ranking.get(i));
+           }
+
+           else {
+
+               score.addPoints(points, ranking.get(i));
+
+           }
+        }
+    }
+
+    /**
+     * update the score when the board is flipped in frenzy
+     * @param score
+     */
+    public void updateFrenzyScore(Score score){
+
+        ArrayList<Character> ranking;
+        ranking = damage.getRanking();
+
+        for (int i = 0; i < ranking.size(); i++){
+
+            if (i < 2){
+
+                score.addPoints(2, ranking.get(i));
+
+            }
+
+            else{
+
+                score.addPoints(1, ranking.get(i));
+            }
+        }
+
     }
 
 }

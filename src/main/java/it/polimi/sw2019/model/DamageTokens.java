@@ -1,5 +1,7 @@
 package it.polimi.sw2019.model;
 
+import java.util.ArrayList;
+
 public class DamageTokens extends Tokens {
 
     /**
@@ -12,17 +14,17 @@ public class DamageTokens extends Tokens {
 
     /* Attributes */
 
-    private Character[] damageSequence = new Character[12];
+    private ArrayList<Character> damageSequence = new ArrayList<>();
 
     private int totalDamage = 0;
 
     /* Methods */
 
-    public Character[] getDamageSequence() {
+    public ArrayList<Character> getDamageSequence() {
         return damageSequence;
     }
 
-    public void setDamageSequence(Character[] damageSequence) {
+    public void setDamageSequence(ArrayList<Character> damageSequence) {
         this.damageSequence = damageSequence;
     }
 
@@ -54,10 +56,12 @@ public class DamageTokens extends Tokens {
         //TODO implement
     }
 
-    public Character[]  getRanking() {
+    public ArrayList<Character> getRanking() {
 
-        Character[] result = new Character[1];
+        ArrayList<Character> result = new ArrayList<>();
+
         //TODO implement
+
         return result;
     }
 }
