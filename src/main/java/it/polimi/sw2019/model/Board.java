@@ -51,6 +51,10 @@ public class Board {
         this.ammoTileUsed = ammoTileUsed;
     }
 
+    public KillTokens getKillTrack() {
+        return killTrack;
+    }
+
     /**
      * Set the game board
      * @param i index of the board wanted for the match

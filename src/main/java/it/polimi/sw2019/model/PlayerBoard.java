@@ -40,6 +40,14 @@ public class PlayerBoard {
         this.numOfDeaths = numOfDeaths;
     }
 
+    public void setDamage(DamageTokens damage) {
+        this.damage = damage;
+    }
+
+    public DamageTokens getDamage() {
+        return damage;
+    }
+
     /**
      * Updates the score in the Score class
      */

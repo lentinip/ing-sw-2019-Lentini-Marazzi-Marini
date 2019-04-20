@@ -69,6 +69,7 @@ public class Player {
         this.numberOfActions = numberOfActions;
     }
 
+
     public List<Weapon> getWeapons() {
         return weapons;
     }
@@ -89,7 +90,7 @@ public class Player {
         isDead = dead;
     }
 
-    public Boolean getDead() {
+    public Boolean isDead() {
         return isDead;
     }
 
@@ -100,6 +101,8 @@ public class Player {
     public PlayerBoard getPlayerBoard() {
         return playerBoard;
     }
+
+
 
     /**
      * Removes a weapon from the weapons array

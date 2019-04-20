@@ -1,5 +1,8 @@
 package it.polimi.sw2019.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Match {
 
     /**
@@ -23,13 +26,16 @@ public class Match {
     /**
      * max 5 players
      */
-    private Player[] players;
+    private List<Player> players = new ArrayList<>();
 
     private int numberOfPlayers;
 
     private Player currentPlayer;
 
     private Score score;
+
+    private Player lastPlayer;
+
 
     /**
      * set at the start of the game when you choose if you want to play frenzy
@@ -67,11 +73,11 @@ public class Match {
         this.board = board;
     }
 
-    public Player[] getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(Player[] players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
@@ -115,6 +121,14 @@ public class Match {
         this.frenzyMode = frenzyMode;
     }
 
+    public void setLastPlayer(Player lastPlayer) {
+        this.lastPlayer = lastPlayer;
+    }
+
+    public Player getLastPlayer() {
+        return lastPlayer;
+    }
+
     public void initializeMatch() {
 
       //TODO implement
@@ -132,9 +146,58 @@ public class Match {
         //TODO implement
      }
 
-     public void endTurn() {
+     public void flipBoards(){
 
         //TODO implement
+         return;
+     }
+
+
+    public void endTurn() {
+
+         PlayerBoard playerBoard;
+         KillTokens killTokens;
+
+        /**
+         * verifies if players are dead or not (if true resets the damages)
+         */
+        for(int index = 0; index<players.size(); index++) {
+
+             if(this.players.get(index).isDead()) {
+
+                 playerBoard = this.players.get(index).getPlayerBoard();
+                 playerBoard.updateScore(this.score);
+                 playerBoard.getDamage().reset();
+                 this.players.get(index).setDead(false);
+             }
+         }
+        //TODO implement exceptions
+
+        /**
+         * calls endMatch at the end
+         */
+         if(frenzyMode) {
+
+             if(currentPlayer == lastPlayer) {
+                 endMatch();
+             }
+         }
+
+        /**
+         * initializes frenzy mode
+         */
+        killTokens = this.board.getKillTrack();
+         if(killTokens.getTotalKills() >= 8) {
+
+             if(lastPlayer == null) {
+                 frenzyMode = true;
+                 this.lastPlayer = this.currentPlayer;
+                 flipBoards();
+             }
+         }
+         //TODO implement exceptions
+
+         setNextPlayer();
          return;
      }
 
