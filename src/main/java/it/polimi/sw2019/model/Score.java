@@ -57,4 +57,9 @@ public class Score extends Tokens {
     public List<Character>  getRanking(){
         return orderArrayByComparator(charactersMap, new RankingComparator());
     }
+
+    public void addPoints(int points, Character character){
+
+        //TODO implement
+    }
 }

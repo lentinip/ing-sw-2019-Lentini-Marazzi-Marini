@@ -1,5 +1,8 @@
 package it.polimi.sw2019.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Match {
 
     /**
@@ -23,13 +26,16 @@ public class Match {
     /**
      * max 5 players
      */
-    private Player[] players;
+    private List<Player> players = new ArrayList<>();
 
     private int numberOfPlayers;
 
     private Player currentPlayer;
 
     private Score score;
+
+    private Player lastPlayer;
+
 
     /**
      * set at the start of the game when you choose if you want to play frenzy
@@ -67,11 +73,11 @@ public class Match {
         this.board = board;
     }
 
-    public Player[] getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(Player[] players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
@@ -115,27 +121,106 @@ public class Match {
         this.frenzyMode = frenzyMode;
     }
 
+    public void setLastPlayer(Player lastPlayer) {
+        this.lastPlayer = lastPlayer;
+    }
+
+    public Player getLastPlayer() {
+        return lastPlayer;
+    }
+
     public void initializeMatch() {
 
       //TODO implement
 
     }
 
-      public void endMatch() {
+    public void endMatch() {
 
       //TODO implement
 
-     }
+    }
 
-     public void setNextPlayer(){
-
-        //TODO implement
-     }
-
-     public void endTurn() {
+    public void setNextPlayer(){
 
         //TODO implement
+    }
+
+    public void endTurn() {
+
+        PlayerBoard playerBoard;
+        KillTokens killTokens;
+
+        killTokens = board.getKillTrack();
+
+        /*
+         * verifies if players are dead or not (if true resets the damages)
+         */
+        for(int i = 0; i<players.size(); i++) {
+
+             if(this.players.get(i).isDead()) {
+
+                 playerBoard = this.players.get(i).getPlayerBoard();
+
+                 if (playerBoard.isFlipped()) {
+
+                     playerBoard.updateFrenzyScore(this.score);
+
+                 }
+
+                 else {
+
+                     playerBoard.updateScore(this.score);
+
+                 }
+
+                 board.updateKillTrack(players.get(i));
+
+                 playerBoard.getDamage().reset();
+
+                 /* if a player dies during frenzy his board is flipped */
+
+                 if (killTokens.getTotalKills() >= 8) {
+
+                     playerBoard.setFlipped(true);
+
+                 }
+
+                 respawn(this.players.get(i));
+             }
+         }
+        //TODO implement exceptions
+
+        /*
+         * calls endMatch at the end
+         */
+         if(frenzyMode && currentPlayer == lastPlayer) {
+
+              endMatch();
+         }
+
+        /*
+         * initializes frenzy mode
+         */
+
+        if(killTokens.getTotalKills() >= 8 && this.lastPlayer == null){
+
+                 frenzyMode = true;
+                 this.lastPlayer = this.currentPlayer;
+
+        }
+
+        //TODO implement exceptions
+
+         setNextPlayer();
          return;
-     }
+    }
+
+
+    public void respawn(Player deadPlayer){
+
+        //TODO implement
+    }
 
 }
+

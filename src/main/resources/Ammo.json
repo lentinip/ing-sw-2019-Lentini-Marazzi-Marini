@@ -1,0 +1,102 @@
+{
+
+  "AmmoTile": [
+
+    {
+      "quantity": 3,
+      "yellow": 1,
+      "blue": 2,
+      "red": 0,
+      "powerup": false
+    },
+
+    {
+      "quantity": 3,
+      "yellow": 1,
+      "blue": 0,
+      "red": 2,
+      "powerup": false
+    },
+
+    {
+      "quantity": 3,
+      "yellow": 0,
+      "blue": 2,
+      "red": 1,
+      "powerup": false
+    },
+
+    {
+      "quantity": 3,
+      "yellow": 2,
+      "blue": 0,
+      "red": 1,
+      "powerup": false
+    },
+
+    {
+      "quantity": 3,
+      "yellow": 2,
+      "blue": 1,
+      "red": 0,
+      "powerup": false
+    },
+
+    {
+      "quantity": 3,
+      "yellow": 0,
+      "blue": 1,
+      "red": 2,
+      "powerup": false
+    },
+
+    {
+      "quantity": 2,
+      "yellow": 2,
+      "blue": 0,
+      "red": 0,
+      "powerup": true
+    },
+
+    {
+      "quantity": 2,
+      "yellow": 0,
+      "blue": 0,
+      "red": 2,
+      "powerup": true
+    },
+
+    {
+      "quantity": 2,
+      "yellow": 0,
+      "blue": 2,
+      "red": 0,
+      "powerup": true
+    },
+
+    {
+      "quantity": 4,
+      "yellow": 1,
+      "blue": 0,
+      "red": 1,
+      "powerup": true
+    },
+
+    {
+      "quantity": 4,
+      "yellow": 1,
+      "blue": 1,
+      "red": 0,
+      "powerup": true
+    },
+
+    {
+      "quantity": 4,
+      "yellow": 0,
+      "blue": 1,
+      "red": 1,
+      "powerup": true
+    };
+
+  ]
+}

@@ -51,6 +51,10 @@ public class Board {
         this.ammoTileUsed = ammoTileUsed;
     }
 
+    public KillTokens getKillTrack() {
+        return killTrack;
+    }
+
     /**
      * Set the game board
      * @param i index of the board wanted for the match
@@ -113,5 +117,20 @@ public class Board {
         return result;
     }
 
+    public void updateKillTrack (Player deadPlayer) {
 
+        if (deadPlayer.getPlayerBoard().getDamage().getTotalDamage() == 11){
+
+            killTrack.addKill(deadPlayer.getPlayerBoard().getDamage().getDamageSequence().get(10));
+            killTrack.incrementKill();
+
+        }
+         else if (deadPlayer.getPlayerBoard().getDamage().getTotalDamage() == 12){
+
+            killTrack.addKill(deadPlayer.getPlayerBoard().getDamage().getDamageSequence().get(11));
+            killTrack.addOverkill(deadPlayer.getPlayerBoard().getDamage().getDamageSequence().get(11));
+            killTrack.incrementKill();
+        }
+
+    }
 }
