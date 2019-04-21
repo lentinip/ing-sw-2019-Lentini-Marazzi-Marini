@@ -2,97 +2,68 @@ package it.polimi.sw2019.model;
 
 import java.util.*;
 
-import static it.polimi.sw2019.model.Character.*;
-
 public class Tokens {
 
     /**
      * Default constructor
      */
 
-    public Tokens() {
+    public Tokens(List<Character> charactersInGame) {
 
+        for (Character character : charactersInGame) {
+            charactersMap.put(character, 0);
+        }
     }
 
     /* Attributes */
 
-    private int distructor;
-
-    private int banshee;
-
-    private int dozer;
-
-    private int violet;
-
-    private int sprog;
-
+    protected EnumMap<Character, Integer> charactersMap = new EnumMap<>(Character.class);
 
    /* Methods */
 
-    public void setDistructor(int distructor) {
-        this.distructor = distructor;
-    }
-
-    public int getDistructor() {
-        return distructor;
-    }
-
-    public void setBanshee(int banshee) {
-        this.banshee = banshee;
-    }
-
-    public int getBanshee() {
-        return banshee;
-    }
-
-    public void setDozer(int dozer) {
-        this.dozer = dozer;
-    }
-
-    public int getDozer() {
-        return dozer;
-    }
-
-    public void setViolet(int violet) {
-        this.violet = violet;
-    }
-
-    public int getViolet() {
-        return violet;
-    }
-
-    public void setSprog(int sprog) {
-        this.sprog = sprog;
-    }
-
-    public int getSprog() {
-        return sprog;
+    /**
+     * Adds the number of the new tokens of a Character
+     * @param numerOfTokens number of new tokens
+     * @param ownerOfTheTokens owner of the tokens
+     */
+    public void addTokens(int numerOfTokens, Character ownerOfTheTokens){
+        charactersMap.replace(ownerOfTheTokens, charactersMap.get(ownerOfTheTokens) + numerOfTokens);
     }
 
     /**
-     * @return  an array of Characters in decreasing order by tokens they have (it doesn't manage players with the same tokens), if a player has 0 tokens isn't gonna be in the array
+     *
+     * @param player
+     * @return the number of tokens of the player
      */
-    public Character[] orderArray() {
+    public int getTokensOfCharacter(Character player){
+        return charactersMap.get(player);
+    }
 
-        Character[] result = new Character[5];
+    /**
+     * @return  an ArrayList of Characters in decreasing order by tokens they have (it doesn't manage players with the same tokens), if a player has 0 tokens isn't gonna be in the array
+     */
+    public List<Character>orderArray(){
+        return orderArrayByComparator(charactersMap, new RankingComparator());
+    }
 
-        EnumMap<Character, Integer> ranking = new EnumMap<>(Character.class);
-        ranking.put(BANSHEE, banshee);
-        ranking.put(DISTRUCTOR, distructor);
-        ranking.put(DOZER, dozer);
-        ranking.put(SPROG, sprog);
-        ranking.put(VIOLET, violet);
+    /**
+     *
+     * @param enumMapComparator Comparator<Map.Entry<Character, Integer>>
+     * @return an ArrayList of Characters in decreasing order by the enumMapComparator
+     */
+    protected List<Character> orderArrayByComparator(Map<Character, Integer> map, Comparator<Map.Entry<Character, Integer>> enumMapComparator) {
 
-        ranking = sortByValues(ranking);
+        List<Character> result = new ArrayList<>();
 
-        int i = 0;
+        EnumMap<Character, Integer> ranking;
+
+        ranking = sortByValues(map, enumMapComparator);
 
         //This for sets the keys of the map in the Character array
         for(Map.Entry entry : ranking.entrySet()){
             //With this condition there are NOT gonna be the players with 0 tokens in the array
             if ((Integer) entry.getValue()!=0) {
-                result[i] = (Character) entry.getKey();
-                i++;
+                result.add((Character) entry.getKey());
             }
         }
 
@@ -115,13 +86,13 @@ public class Tokens {
      * @param map EnumMap that is going to be sorted
      * @return an EnumMap sorted
      */
-    private EnumMap<Character, Integer> sortByValues(EnumMap<Character, Integer> map){
+    private EnumMap<Character, Integer> sortByValues(Map<Character, Integer> map, Comparator<Map.Entry<Character,Integer>> enumMapComparator){
 
         //This method first creates a list with the entries of the map (an entry contains the key and the value)
         List<Map.Entry<Character, Integer>> list = new LinkedList<>(map.entrySet());
 
         //Than sorts the list using the comparator implemented before
-        list.sort(Collections.reverseOrder(new RankingComparator()));
+        list.sort(Collections.reverseOrder(enumMapComparator));
 
         //Creates a new empty EnumMap
         EnumMap<Character, Integer> sortedMap = new EnumMap<>(Character.class);

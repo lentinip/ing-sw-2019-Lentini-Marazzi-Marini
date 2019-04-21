@@ -1,10 +1,9 @@
 package it.polimi.sw2019.model;
 
-import static it.polimi.sw2019.model.Character.*;
-
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 public class KillTokens extends Tokens{
 
@@ -12,50 +11,36 @@ public class KillTokens extends Tokens{
      * Default constructor
      */
 
-    public KillTokens() {
-
-        Arrays.fill(overkillSequence, false); //Set all the overkillSequence to false
-
+    public KillTokens(List<Character> charactersInGame) {
+        super(charactersInGame);
     }
 
     /* Attributes */
 
     /**
-     * array that represents the killshot track status
+     * ArrayList that represents the killshot track status
      */
-    private Character[] killSequence = new Character[40];
+    private List<Character> killSequence = new ArrayList<>();
 
     /**
      * array to track the overkills in the killshot track
      */
-    private boolean[] overkillSequence = new boolean[40];
+    private List<Boolean> overkillSequence = new ArrayList<>();
 
     private int totalKills = 0;
 
     /* Methods */
 
-    public Character[] getKillSequence() {
+    public List<Character> getKillSequence() {
         return killSequence;
     }
 
-    public void setKillSequence(Character[] killSequence) {
-        this.killSequence = killSequence;
-    }
-
-    public boolean[] getOverkillSequence() {
+    public List<Boolean> getOverkillSequence() {
         return overkillSequence;
-    }
-
-    public void setOverkillSequence(boolean[] overkillSequence) {
-        this.overkillSequence = overkillSequence;
     }
 
     public int getTotalKills() {
         return totalKills;
-    }
-
-    public void setTotalKills(int totalKills) {
-        this.totalKills = totalKills;
     }
 
     /**
@@ -64,55 +49,25 @@ public class KillTokens extends Tokens{
      */
     public void addKill(Character killer) {
 
-        switch (killer){ //Each case adds a point depending on the Player and adds the Character to the killSequence
-            case BANSHEE:
-                setBanshee(getBanshee()+1);
-                killSequence[totalKills] = BANSHEE;
-            case DISTRUCTOR:
-                setDistructor(getDistructor()+1);
-                killSequence[totalKills] = DISTRUCTOR;
-            case DOZER:
-                setDozer(getDozer()+1);
-                killSequence[totalKills] = DOZER;
-            case SPROG:
-                setSprog(getSprog()+1);
-                killSequence[totalKills] = SPROG;
-            case VIOLET:
-                setViolet(getViolet()+1);
-                killSequence[totalKills] = VIOLET;
-        }
+        addTokens(1, killer);
+        killSequence.add(killer);
+        overkillSequence.add(false);
 
         totalKills++; //Updates the number of totalKills
 
-        //At the end of the function killSequence[totalKills] points to null
     }
 
     /**
-     *
+     * Method that signs if a player overkilled somebody (it manages also the kill)
      * @param killer player who did the overkill
      */
     public void addOverkill(Character killer) {
 
-        addKill(killer);
+        addTokens(2, killer);
+        killSequence.add(killer);
+        overkillSequence.add(true);
 
-        switch (killer) { //Each case adds a point depending on the Player and signs the overkill into the overkillSequence
-            case BANSHEE:
-                setBanshee(getBanshee() + 1);
-                overkillSequence[totalKills - 1] = true; //there is totalKills - 1 because addKill already updates the value
-            case DISTRUCTOR:
-                setDistructor(getDistructor() + 1);
-                overkillSequence[totalKills - 1] = true;
-            case DOZER:
-                setDozer(getDozer() + 1);
-                overkillSequence[totalKills - 1] = true;
-            case SPROG:
-                setSprog(getSprog() + 1);
-                overkillSequence[totalKills - 1] = true;
-            case VIOLET:
-                setViolet(getViolet() + 1);
-                overkillSequence[totalKills - 1] = true;
-        }
-
+        totalKills++;
     }
 
     /**
@@ -124,16 +79,35 @@ public class KillTokens extends Tokens{
 
     }
 
-    public List<Character>  getRanking(){
+    /**
+     * Comparator for KillTokens points in the charactersMap of Tokens
+     */
+    private class RankingComparator implements Comparator<Map.Entry<Character, Integer>> {
 
-            List<Character> result = new ArrayList<>();
+        public int compare(Map.Entry<Character, Integer> o1, Map.Entry<Character, Integer> o2) {
 
+            //Checks if the two Characters have the same amount of tokens in the killTrack
+            if (o1.getValue().equals(o2.getValue())){
+                //If o1 killed someone in the killSequence before o2 he is going to be the greater
+                if (killSequence.indexOf(o1.getKey()) > killSequence.indexOf(o2.getKey())){
+                    return 1;
+                }
+                if (killSequence.indexOf(o1.getKey()) < killSequence.indexOf(o2.getKey())){
+                    return -1;
+                }
+            }
+            return o1.getValue().compareTo(o2.getValue());
+        }
 
-        //TODO implement
-
-
-
-
-        return result;
     }
+
+    /**
+     *
+     * @return an ArrayList of Character ordered by the rules of the KillTrack
+     */
+    public List<Character>  getRanking(){
+        return orderArrayByComparator(charactersMap, new RankingComparator());
+    }
+
+
 }
