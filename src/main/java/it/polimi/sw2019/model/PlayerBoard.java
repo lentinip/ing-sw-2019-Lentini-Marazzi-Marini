@@ -2,6 +2,7 @@ package it.polimi.sw2019.model;
 
 import java.util.ArrayList;
 
+
 public class PlayerBoard {
 
     /**

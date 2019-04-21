@@ -1,5 +1,6 @@
 package it.polimi.sw2019.model;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Tokens {
@@ -42,7 +43,7 @@ public class Tokens {
     /**
      * @return  an ArrayList of Characters in decreasing order by tokens they have (it doesn't manage players with the same tokens), if a player has 0 tokens isn't gonna be in the array
      */
-    public List<Character>orderArray(){
+    public ArrayList<Character>orderArray(){
         return orderArrayByComparator(charactersMap, new RankingComparator());
     }
 
@@ -51,9 +52,9 @@ public class Tokens {
      * @param enumMapComparator Comparator<Map.Entry<Character, Integer>>
      * @return an ArrayList of Characters in decreasing order by the enumMapComparator
      */
-    protected List<Character> orderArrayByComparator(Map<Character, Integer> map, Comparator<Map.Entry<Character, Integer>> enumMapComparator) {
+    protected ArrayList<Character> orderArrayByComparator(Map<Character, Integer> map, Comparator<Map.Entry<Character, Integer>> enumMapComparator) {
 
-        List<Character> result = new ArrayList<>();
+        ArrayList<Character> result = new ArrayList<>();
 
         EnumMap<Character, Integer> ranking;
 

@@ -1,5 +1,6 @@
 package it.polimi.sw2019.model;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -54,12 +55,7 @@ public class Score extends Tokens {
     /**
      * Method that returns a descending array of Characters that represents the game LeaderBoard
      */
-    public List<Character>  getRanking(){
+    public ArrayList<Character> getRanking(){
         return orderArrayByComparator(charactersMap, new RankingComparator());
-    }
-
-    public void addPoints(int points, Character character){
-
-        //TODO implement
     }
 }

@@ -1,6 +1,9 @@
 package it.polimi.sw2019.model;
-
-import java.util.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 public class DamageTokens extends Tokens {
 
@@ -87,7 +90,7 @@ public class DamageTokens extends Tokens {
      *
      * @return an ArrayList of Character ordered by the rules of the damageSequence
      */
-    public List<Character>  getRanking(){
+    public ArrayList<Character>  getRanking(){
         return orderArrayByComparator(charactersMap, new RankingComparator());
     }
 }
