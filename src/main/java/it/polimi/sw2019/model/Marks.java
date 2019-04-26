@@ -34,7 +34,7 @@ public class Marks extends Tokens {
      */
     public void addMark(int i, Character opponent) {
 
-        if (getTokensOfCharacter(opponent)<3){
+        if (charactersMap.get(opponent)<3){
             int newMarks = charactersMap.get(opponent) + i;
             if (newMarks>3){
                 i = 3-charactersMap.get(opponent);
@@ -50,10 +50,13 @@ public class Marks extends Tokens {
     /**
      * Removes the marks of a player
      * @param opponent Player who gave those marks
+     * @return the number of the marks removed
      */
-    public void removeMarks(Character opponent) {
-        charactersMap.put(opponent, 0);
+    public int removeMarks(Character opponent) {
+        int result = charactersMap.get(opponent);
+        charactersMap.replace(opponent, 0);
         markSequence.removeAll(Collections.singleton(opponent));
+        return result;
     }
 
 }
