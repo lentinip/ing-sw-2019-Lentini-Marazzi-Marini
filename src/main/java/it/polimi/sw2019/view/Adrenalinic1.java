@@ -1,4 +1,6 @@
-package it.polimi.sw2019.model;
+package it.polimi.sw2019.view;
+
+import it.polimi.sw2019.view.Normal;
 
 public class Adrenalinic1 extends Normal {
 

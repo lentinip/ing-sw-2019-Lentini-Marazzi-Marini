@@ -30,7 +30,7 @@ public class Player {
 
     private int numberOfActions = 2;
 
-    private ActionContext action;
+    private State state;
 
     private Boolean isDead;
 
@@ -69,6 +69,13 @@ public class Player {
         this.numberOfActions = numberOfActions;
     }
 
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public State getState() {
+        return state;
+    }
 
     public List<Weapon> getWeapons() {
         return weapons;
@@ -76,14 +83,6 @@ public class Player {
 
     public List<Powerup> getPowerups() {
         return powerups;
-    }
-
-    public void setAction(ActionContext action) {
-        this.action = action;
-    }
-
-    public ActionContext getAction() {
-        return action;
     }
 
     public void setDead(Boolean dead) {

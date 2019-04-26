@@ -1,5 +1,8 @@
 package it.polimi.sw2019.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Weapon {
 
     /**
@@ -14,6 +17,8 @@ public class Weapon {
 
     private String name;
 
+    private String description;
+
     private Ammo grabCost;
 
     private Ammo reloadCost;
@@ -21,6 +26,14 @@ public class Weapon {
     private boolean isLoaded;
 
     private Player owner;
+
+    private WeaponsType type;
+
+    private List<Effect> effects = new ArrayList<>();
+
+    private boolean hasAnOrder;          /* weapon's effects must be executed in a precise order */
+
+    private boolean hasAMoveTypeEffect;  /* There is an only move optional effect */
 
     /* Methods */
 
@@ -30,6 +43,22 @@ public class Weapon {
 
     public void setName (String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Effect> getEffects() {
+        return effects;
+    }
+
+    public void setEffects(List<Effect> effects) {
+        this.effects = effects;
     }
 
     public Ammo getGrabCost() {
@@ -62,6 +91,30 @@ public class Weapon {
 
     public void setOwner(Player owner) {
         this.owner = owner;
+    }
+
+    public WeaponsType getType() {
+        return type;
+    }
+
+    public void setType(WeaponsType type) {
+        this.type = type;
+    }
+
+    public boolean isOrdered() {
+        return hasAnOrder;
+    }
+
+    public void setHasAnOrder(boolean hasAnOrder) {
+        this.hasAnOrder = hasAnOrder;
+    }
+
+    public boolean getHasAMoveTypeEffect() {
+        return hasAMoveTypeEffect;
+    }
+
+    public void setHasAMoveTypeEffect(boolean hasAMoveTypeEffect) {
+        this.hasAMoveTypeEffect = hasAMoveTypeEffect;
     }
 
     public void effect() {  // use the weapon effect

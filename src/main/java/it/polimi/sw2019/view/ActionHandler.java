@@ -1,16 +1,18 @@
-package it.polimi.sw2019.model;
+package it.polimi.sw2019.view;
+
+import it.polimi.sw2019.model.Player;
 
 /**
  *  Context of state pattern
  */
 
-public class ActionContext {
+public class ActionHandler {
 
     /**
      * Default constructor
      */
 
-    public ActionContext(){}
+    public ActionHandler(){}
 
     /* Attributes */
 
@@ -19,6 +21,7 @@ public class ActionContext {
      */
 
     private ComplexAction stateAction;
+    private Player player;
 
     /* Methods */
 
@@ -28,6 +31,14 @@ public class ActionContext {
 
     public ComplexAction getStateAction() {
         return stateAction;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void moveAction(){
@@ -43,5 +54,13 @@ public class ActionContext {
     public void shoot(){
 
         //TODO implement
+    }
+
+    /**
+     * asks player if he wants to do a move, moveandgrab or moveandshoot and calls the method
+     */
+    public void askKindOfAction(){
+
+        //TODO implement here
     }
 }

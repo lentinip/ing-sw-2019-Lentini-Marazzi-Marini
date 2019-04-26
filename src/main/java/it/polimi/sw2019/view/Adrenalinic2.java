@@ -1,4 +1,4 @@
-package it.polimi.sw2019.model;
+package it.polimi.sw2019.view;
 
 public class Adrenalinic2 extends Adrenalinic1 {
 

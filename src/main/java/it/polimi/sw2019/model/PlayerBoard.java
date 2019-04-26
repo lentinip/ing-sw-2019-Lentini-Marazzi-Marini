@@ -29,7 +29,7 @@ public class PlayerBoard {
 
     /* Methods */
 
-    public boolean getFirstPlayer(){
+    public boolean isFirstPlayer(){
         return this.firstPlayer;
     }
 

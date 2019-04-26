@@ -208,12 +208,23 @@ public class Match {
                  frenzyMode = true;
                  this.lastPlayer = this.currentPlayer;
 
+                 for (int i = 0; i < players.size(); i++){
+
+                     while(players.get(i) != currentPlayer){
+
+                         players.get(i).setState(State.FRENZYAFTERFIRST);
+                         i++;
+                     }
+
+                     players.get(i).setState(State.FRENZYBEFOREFIRST);
+                 }
+
         }
 
         //TODO implement exceptions
 
          setNextPlayer();
-         return;
+
     }
 
 
