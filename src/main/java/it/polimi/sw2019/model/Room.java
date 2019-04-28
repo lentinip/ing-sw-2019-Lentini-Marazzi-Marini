@@ -60,7 +60,10 @@ public class Room {
 
     public void addCell(Cell cell) {
 
-         roomCells.add(cell);
+        if(cell == null) {
+            throw new NullPointerException("addCell parameter can't be null");}
+
+        roomCells.add(cell);
 
     }
 }

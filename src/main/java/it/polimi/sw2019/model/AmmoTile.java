@@ -17,7 +17,7 @@ public class AmmoTile extends Ammo {
 
     /* Methods */
 
-    public boolean getPowerup(){
+    public boolean isPowerup(){
         return this.powerup;
     }
 

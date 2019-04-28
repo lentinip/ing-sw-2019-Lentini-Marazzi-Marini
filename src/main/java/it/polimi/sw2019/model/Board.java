@@ -54,6 +54,10 @@ public class Board {
         this.ammoTileUsed = ammoTileUsed;
     }
 
+    public void setKillTrack(KillTokens killTrack) {
+        this.killTrack = killTrack;
+    }
+
     public KillTokens getKillTrack() {
         return killTrack;
     }
@@ -68,7 +72,7 @@ public class Board {
      */
     public void setField(int i) {
 
-            //TODO implement
+            //TODO implement IndexOutOfBoundException
     }
 
     public Weapon drawWeapon(){
@@ -84,6 +88,8 @@ public class Board {
                 index = 1;
             }
         }
+
+        //TODO implement DeckEmptyException
 
         return result;
     }
@@ -103,6 +109,8 @@ public class Board {
             }
         }
 
+        //TODO implement DeckEmptyException
+
         return result;
     }
 
@@ -121,10 +129,16 @@ public class Board {
             }
         }
 
+        //TODO implement DeckEmptyException
+
         return result;
     }
 
     public void updateKillTrack (Player deadPlayer) {
+
+        if(deadPlayer == null) {
+            throw new NullPointerException("updateKillTrack parameter can't be null");
+        }
 
         if (deadPlayer.getPlayerBoard().getDamage().getTotalDamage() == 11){
 

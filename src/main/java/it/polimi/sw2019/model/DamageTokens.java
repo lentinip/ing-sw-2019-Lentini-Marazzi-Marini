@@ -27,6 +27,14 @@ public class DamageTokens extends Tokens {
         return damageSequence;
     }
 
+    public void setTotalDamage(int totalDamage) {
+        this.totalDamage = totalDamage;
+    }
+
+    public void setDamageSequence(List<Character> damageSequence) {
+        this.damageSequence = damageSequence;
+    }
+
     public int getTotalDamage() {
         return totalDamage;
     }
