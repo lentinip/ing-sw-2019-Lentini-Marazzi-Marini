@@ -104,6 +104,9 @@ public class Cell {
         List<Player> playersInCell = new ArrayList<>();
         Cell position;
 
+        if(players == null) {
+            throw new NullPointerException("playersInCell parameter can't be null");}
+
         for( int i = 0; i < players.size(); i++) {
 
             position = players.get(i).getPosition();

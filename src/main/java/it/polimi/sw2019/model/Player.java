@@ -125,6 +125,9 @@ public class Player {
 
            { weapons.add(weapon); }
 
+        if(weapon == null)
+            throw new NullPointerException("'weapon' can't be null");
+
         //TODO implement exceptions
 
     }
