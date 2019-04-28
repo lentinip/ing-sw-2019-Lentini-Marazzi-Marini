@@ -1,5 +1,8 @@
 package it.polimi.sw2019.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
 
     /**
@@ -12,7 +15,7 @@ public class Board {
 
     /* Attributes */
 
-    private Cell[][] field = new Cell[4][3];
+    private List<Cell> field = new ArrayList<>();
 
     private KillTokens killTrack;
 
@@ -30,7 +33,7 @@ public class Board {
 
     private int ammoTileUsed = 0;
 
-    private Room[] rooms = new Room[6];
+    private List<Room> rooms = new ArrayList<>();
 
 
     /* Methods */
@@ -53,6 +56,10 @@ public class Board {
 
     public KillTokens getKillTrack() {
         return killTrack;
+    }
+
+    public List<Cell> getField() {
+        return field;
     }
 
     /**
