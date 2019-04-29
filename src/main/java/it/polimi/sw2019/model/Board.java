@@ -67,6 +67,21 @@ public class Board {
     }
 
     /**
+     * Return a reference of Cell giving the row and the column
+     * @param cellRow
+     * @param cellColumn
+     * @return a reference of Cell (can be null)
+     */
+    public Cell getCell(int cellRow, int cellColumn){
+        for(Cell cell: field){
+            if(cell.getRow()==cellRow && cell.getColumn()==cellColumn){
+                return cell;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Set the game board
      * @param i index of the board wanted for the match
      */

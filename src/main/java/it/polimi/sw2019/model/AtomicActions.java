@@ -12,9 +12,15 @@ public class AtomicActions {
 
     /* Methods */
 
-    public void move(Player movingPlayer, Cell selectedCell){
-
-        //TODO implement here
+    /**
+     * Changes the Player position to a specific Cell
+     * @param player the Player that is going to move
+     * @param selectedCell destination Cell
+     */
+    public void move(Player player, Cell selectedCell){
+        if(player!= null && selectedCell!=null){
+            player.setPosition(selectedCell);
+        }
     }
 
     public void grabPowerUp(Player grabbingPlayer, CommonCell selectedCell){

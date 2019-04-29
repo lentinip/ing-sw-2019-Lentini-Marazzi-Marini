@@ -1,4 +1,4 @@
-package it.polimi.sw2019.controller;
+package it.polimi.sw2019.model;
 
 public enum TypeOfAction {
     MOVE,
@@ -6,5 +6,7 @@ public enum TypeOfAction {
     SHOOT,
     RELOAD,
     ENDTURN,
-    USEPOWERUP
+    USEPOWERUP,
+    DEALDAMAGE,
+    MARK
 }

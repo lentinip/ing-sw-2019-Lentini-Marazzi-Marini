@@ -129,6 +129,20 @@ public class Match {
         return lastPlayer;
     }
 
+    /**
+     * Returns the Player with a specific Character
+     * @param character THe Character of the player
+     * @return the Player reference (Can be null)
+     */
+    public Player getPlayerFromCharacter(Character character){
+        for(Player player : players){
+            if (player.getCharacter()==character){
+                return player;
+            }
+        }
+        return null;
+    }
+
     public void initializeMatch() {
 
       //TODO implement

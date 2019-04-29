@@ -1,5 +1,8 @@
 package it.polimi.sw2019.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SpawnCell extends Cell{
 
     /**
@@ -12,16 +15,15 @@ public class SpawnCell extends Cell{
 
     /* Attributes */
 
-    private Weapon[] weapons; /* max 3 weapons */
+    private List<Weapon> weapons = new ArrayList<>(); /* max 3 weapons */
 
     /* Methods */
 
-    public Weapon getWeapon(int i) {
-        return weapons[i];
+    public List<Weapon> getWeapons() {
+        return weapons;
     }
 
-    public void setWeapon (int i, Weapon weapon) {
-        this.weapons[i] = weapon;
+    public void setWeapons(List<Weapon> weapons) {
+        this.weapons = weapons;
     }
-
 }

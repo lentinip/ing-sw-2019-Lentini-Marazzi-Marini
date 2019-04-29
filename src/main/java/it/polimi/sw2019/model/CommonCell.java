@@ -28,7 +28,7 @@ public class CommonCell extends Cell {
 
     }
 
-    public boolean getIsEmpty () {
+    public boolean isEmpty () {
         return isEmpty;
     }
 
