@@ -12,7 +12,7 @@ public class SingleTarget extends Effect {
 
         //TODO implement here
 
-        };
+        }
 
     /* Attributes */
 
@@ -38,23 +38,4 @@ public class SingleTarget extends Effect {
         this.marks = marks;
     }
 
-
-    public List<Cell> reachableCells(Player owner){
-
-        List<Cell> reachableCells = new ArrayList<>();
-
-        //TODO implement here
-
-
-        return reachableCells;
-    }
-
-    public List<Player> reachablePlayers(Player owner){
-
-        List<Player> reachablePlayers = new ArrayList<>();
-
-        //TODO implement here
-
-        return reachablePlayers;
-    }
 }

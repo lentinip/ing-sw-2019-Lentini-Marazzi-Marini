@@ -20,6 +20,8 @@ public class Room {
 
     private List<Cell> roomCells = new ArrayList<>();
 
+    private List<Player> players = new ArrayList<>(); /* added to use playersInside() */
+
 
 
 
@@ -45,13 +47,21 @@ public class Room {
         return roomCells;
     }
 
-    public List<Player> playersInside(List<Player> players){
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public List<Player> playersInside(){
 
     List<Player> playersInside = new ArrayList<>();
 
         for (int i = 0; i < roomCells.size(); i++) {
 
-            playersInside.addAll(roomCells.get(i).playersInCell(players));
+            playersInside.addAll(roomCells.get(i).playersInCell());
 
         }
 

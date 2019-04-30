@@ -61,6 +61,22 @@ public class PlayerBoard {
         return damage;
     }
 
+    public void setMarks(Marks marks) {
+        this.marks = marks;
+    }
+
+    public Marks getMarks() {
+        return marks;
+    }
+
+    public void setAmmo(Ammo ammo) {
+        this.ammo = ammo;
+    }
+
+    public Ammo getAmmo() {
+        return ammo;
+    }
+
     /**
      * update the score when the board is not flipped
      * @param score

@@ -99,21 +99,24 @@ public class Cell {
         isCommon = common;
     }
 
-    public List<Player> playersInCell(List<Player> players){
+    /**
+     * @return the players inside the cell;
+     */
+    public List<Player> playersInCell(){
 
         List<Player> playersInCell = new ArrayList<>();
         Cell position;
 
-        if(players == null) {
+        if(room.getPlayers().isEmpty()) {
             throw new NullPointerException("playersInCell parameter can't be null");}
 
-        for( int i = 0; i < players.size(); i++) {
+        for( int i = 0; i < room.getPlayers().size(); i++) {
 
-            position = players.get(i).getPosition();
+            position = room.getPlayers().get(i).getPosition();
 
             if (position.getRow() == this.row && position.getColumn() == this.column) {
 
-                playersInCell.add(players.get(i));
+                playersInCell.add(room.getPlayers().get(i));
 
             }
         }
@@ -133,5 +136,75 @@ public class Cell {
         this.down = down;
         this.left = left;
         this.right = right;
+    }
+
+    /**
+     * @return the adjacent cells (considering walls)
+     */
+    public List<Cell> nearCells(){
+        List<Cell> nearCells = new ArrayList<>();
+
+        if (this.up != null){
+
+            nearCells.add(this.up);
+        }
+
+        if (this.down != null){
+
+            nearCells.add(this.down);
+        }
+
+        if (this.left != null){
+
+            nearCells.add(this.left);
+        }
+
+        if (this.right != null){
+
+            nearCells.add(this.right);
+        }
+
+        return nearCells;
+
+    }
+
+    /**
+     *
+     * @param numberOfMoves
+     * @return the cells you can reach with numberOfMoves moves
+     */
+    public List<Cell> reachableCells(int numberOfMoves){
+
+        List<Cell> reachableCells = new ArrayList<>();
+        List<Cell> reachableCellsCopy = new ArrayList<>();
+        reachableCells.add(this);
+        reachableCellsCopy = reachableCells;
+
+        int counter = 0;
+
+        while ( counter < numberOfMoves ){
+
+            for (Cell cell: reachableCells){
+
+                reachableCellsCopy.addAll(cell.nearCells());
+            }
+
+            reachableCells = reachableCellsCopy;
+            counter++;
+        }
+
+        /* now I remove duplicates from the list */
+
+        reachableCells.clear();
+
+        for (Cell cell: reachableCellsCopy){
+
+            if (!reachableCells.contains(cell)){
+
+                reachableCells.add(cell);
+            }
+        }
+
+        return reachableCells;
     }
 }

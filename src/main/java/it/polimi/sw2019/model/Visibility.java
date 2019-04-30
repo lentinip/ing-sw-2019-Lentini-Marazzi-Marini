@@ -75,7 +75,7 @@ public class Visibility {
                int column = reachableCells.get(i).getColumn();
 
                /* check if the cell is exactly movesAway from player position */
-               if(Math.abs(playerRow - row) == movesAway || Math.abs(playerColumn-column) == movesAway){
+               if(Math.abs(playerRow - row) + Math.abs(playerColumn-column) == movesAway){
 
                    reachableCells.add(visibleCells.get(i));
                }
@@ -90,7 +90,7 @@ public class Visibility {
                int column = reachableCells.get(i).getColumn();
 
                /* check if the cell is at least movesAway from the player position */
-               if (Math.abs(playerRow - row) >= movesAway || Math.abs(playerColumn - column) >= movesAway) {
+               if (Math.abs(playerRow - row) + Math.abs(playerColumn - column) >= movesAway) {
 
                    reachableCells.add(visibleCells.get(i));
                }
@@ -154,7 +154,7 @@ public class Visibility {
         List<Cell> reachableCells = player.visibleCells();
         List<Cell> playerRoomCells = player.getPosition().getRoom().getRoomCells();
 
-        /* removing from the visible cells the cells of the player room */
+        /* removing from the visible cells the */
         reachableCells.removeAll(playerRoomCells);
 
         return reachableCells;

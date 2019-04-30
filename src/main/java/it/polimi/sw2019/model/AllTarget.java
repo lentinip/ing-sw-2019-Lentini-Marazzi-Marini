@@ -21,16 +21,5 @@ public class AllTarget extends Effect {
 
     /* methods  */
 
-    public List<Cell> reachableCells(Player owner){
-
-        List<Cell> reachableCells = new ArrayList<>();
-
-        //TODO implement here
-
-
-        return reachableCells;
-    }
-
-
 }
 

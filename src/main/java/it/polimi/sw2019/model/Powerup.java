@@ -40,5 +40,20 @@ public class Powerup {
         return;
     }
 
+    /**
+     *
+     * @param cost
+     * @return true if the powerup can be used to pay part of the cost, false otherwise
+     */
+    public boolean useToPay(Ammo cost){
+
+        if (color == Colors.RED && cost.getRed() > 0 || color == Colors.BLUE && cost.getBlue() > 0 || color == Colors.YELLOW && cost.getYellow() > 0) {
+
+            return true;
+        }
+
+        else return false;
+    }
+
 
 }

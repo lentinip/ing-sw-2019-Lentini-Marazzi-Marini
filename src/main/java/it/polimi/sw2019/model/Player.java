@@ -246,4 +246,77 @@ public class Player {
         //TODO case where at up, down, left, right there is a wall and then Cell is null
         return visibleCells;
     }
+
+    /**
+     * I wrote this method to simplify the method canIPay() it considers the powerUps in the total count of the Ammo
+     * @return an array of 3 int: (index 0: total red Ammo, index 1: total blue Ammo, index 2: total yellowAmmo)
+     */
+    public int[] virtualAmmo(){
+
+        int virtualAmmo[] = new int[3];
+
+        virtualAmmo[0] = playerBoard.getAmmo().getRed();
+        virtualAmmo[1] = playerBoard.getAmmo().getBlue();
+        virtualAmmo[2] = playerBoard.getAmmo().getYellow();
+
+        if (!powerups.isEmpty()) {
+
+            for(int i = 0; i < powerups.size(); i++){
+
+                if (powerups.get(i).getColor() == Colors.RED) {
+
+                    virtualAmmo[0]++;
+                }
+
+                else if (powerups.get(i).getColor() == Colors.BLUE){
+
+                    virtualAmmo[1]++;
+                }
+
+                else if (powerups.get(i).getColor() == Colors.YELLOW){
+
+                    virtualAmmo[2]++;
+                }
+            }
+        }
+
+        return virtualAmmo;
+    }
+
+    /**
+     *
+     * @param cost the cost I have to pay
+     * @return true if I can pay the cost (considering also powerup)
+     */
+    public Boolean canIPay(Ammo cost){
+
+      int virtualAmmo[] = virtualAmmo();
+
+      if(virtualAmmo[0] >= cost.getRed() && virtualAmmo[1] >= cost.getBlue() && virtualAmmo[2] >= cost.getYellow()){
+
+          return true;
+      }
+
+      else return false;
+    }
+
+    /**
+     * this method has to be called only when I'm sure I can pay the cost ( canIpay returns true )
+     * @param cost
+     * @return the powerups that I can use to pay a cost, returns an empty list if I don't have powerups or they are not of the right color
+     */
+    public List<Powerup> payingPoweups(Ammo cost){
+
+        List<Powerup> payingPoweups = new ArrayList<>();
+
+        for (int i = 0; i < powerups.size(); i++){
+
+            if ( powerups.get(i).useToPay(cost) ){
+
+                payingPoweups.add(powerups.get(i));
+            }
+        }
+
+        return payingPoweups;
+    }
 }

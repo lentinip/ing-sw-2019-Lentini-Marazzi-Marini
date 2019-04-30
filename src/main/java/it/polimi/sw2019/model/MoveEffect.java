@@ -112,5 +112,22 @@ public class MoveEffect {
     public void setObligatoryTarget(boolean obligatoryTarget) {
         this.obligatoryTarget = obligatoryTarget;
     }
+
+    /**
+     * Method that tells you if you can choose when to do the move
+     */
+    public boolean iCanChooseWhenMoveTarget(){
+
+        if (!moveTargetBefore && !moveTargetAfter ) { return true; }
+
+        else { return false; }
+    }
+
+    public boolean iCanChooseWhenMove(){
+
+        if (!moveYouBefore && !moveYouAfter) { return true; }
+
+        else { return false; }
+    }
 }
 

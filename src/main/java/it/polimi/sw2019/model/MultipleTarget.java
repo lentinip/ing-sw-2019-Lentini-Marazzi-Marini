@@ -67,23 +67,4 @@ public class MultipleTarget extends Effect{
         this.maxTargets = maxTargets;
     }
 
-
-    public List<Cell> reachableCells(Player owner){
-
-        List<Cell> reachableCells = new ArrayList<>();
-
-        //TODO implement here
-
-
-        return reachableCells;
-    }
-
-    public List<Player> reachablePlayers(Player owner){
-
-        List<Player> reachablePlayers = new ArrayList<>();
-
-        //TODO implement here
-
-        return reachablePlayers;
-    }
 }
