@@ -23,7 +23,7 @@ public class Weapon {
 
     private Ammo reloadCost;
 
-    private boolean isLoaded;
+    private boolean isLoaded = true;
 
     private Player owner;
 
@@ -125,30 +125,131 @@ public class Weapon {
     }
 
     /**
-     * Calculates if is possible to use this weapon by the owner
-     *
-     * @return true if the weapon is usable, false if not
+     * useful in usableWeapon and probably in future too...
+     * @return the MOVE typer effect if the weapon has one
      */
-    public boolean usableWeapon(){
+    public Effect getMoveTypeEffect(){
 
-        boolean result = false;
+        for (Effect effect: effects){
 
-        //TODO implement
+            if (effect.getType() == EffectsKind.MOVE){
 
-        return result;
+                return effect;
+            }
+        }
+
+        throw new NullPointerException("This Weapon has no Move type effect");
     }
 
     /**
-     * Calculates the cells where this weapon can shoot
-     *
-     * @return array of Cell with the cells where the owner can shoot
+     * Call this method before showing the possibility to do a shooting action
+     * @param allPlayers
+     * @return
      */
-    public Cell[] shootableCells(){
+    public boolean usableWeaponBeforeComplexAction(List<Player> allPlayers){
 
-        Cell[] result = new Cell[1];
+        State currentState = owner.getState();
 
-        //TODO implement
+        if (currentState == State.ADRENALINIC2 || currentState == State.FRENZYBEFOREFIRST){
 
-        return result;
+            Cell startingPosition = owner.getPosition(); /* saving the starting position */
+
+            for (Cell reachableCell: startingPosition.reachableCells(1)){
+
+                owner.setPosition(reachableCell);
+
+                if (usableWeapon(allPlayers)){
+
+                    owner.setPosition(startingPosition);
+                    return true;
+                }
+            }
+
+            owner.setPosition(startingPosition);
+            return false;
+        }
+
+        else if ( currentState == State.FRENZYAFTERFIRST){
+
+            Cell startingPosition = owner.getPosition(); /* saving the starting position */
+
+            for (Cell reachableCell: startingPosition.reachableCells(2)){
+
+                owner.setPosition(reachableCell);
+
+                if (usableWeapon(allPlayers)){
+
+                    owner.setPosition(startingPosition);
+                    return true;
+                }
+            }
+
+            owner.setPosition(startingPosition);
+            return false;
+        }
+
+        else return usableWeapon(allPlayers);
+
     }
+
+    /**
+     * Calculates if is possible to use this weapon by the owner
+     * @param allPlayers all the players in the game, passed by the Player when the method is called
+     * @return true if the weapon is usable, false if not
+     */
+    public boolean usableWeapon(List<Player> allPlayers){
+
+        if ( !hasAMoveTypeEffect ){
+
+            return hasOneUsableEffect(allPlayers);
+        }
+
+        else {
+
+            if ( !hasOneUsableEffect(allPlayers) ){
+
+                int moves = getMoveTypeEffect().getMove().getMoveYou();
+                Cell startingPosition = owner.getPosition();    /* saving the starting position */
+
+                for (Cell reachableCell: startingPosition.reachableCells(moves)){
+
+                    owner.setPosition(reachableCell);
+
+                    if ( hasOneUsableEffect(allPlayers) ){
+
+                        owner.setPosition(startingPosition);
+                        return true;
+                    }
+                }
+
+                owner.setPosition(startingPosition);
+            }
+
+            else { return true; }
+        }
+
+        return false;
+    }
+
+
+    /**
+     * this method is useful to implement usableWeapon()
+     * @param allPlayers
+     * @return true if the weapon has at least one usable effect (excluding move type effect)
+     */
+    public boolean hasOneUsableEffect(List<Player> allPlayers){
+
+        for(Effect effect: effects){
+
+            if (effect.getType() != EffectsKind.MOVE && effect.usableEffect(owner, allPlayers)){
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+
 }

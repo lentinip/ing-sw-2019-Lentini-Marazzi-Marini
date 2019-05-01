@@ -119,7 +119,7 @@ abstract class Effect {
 
         List<Cell> reachableCells = new ArrayList<>();
 
-        reachableCells = visibilityClass.visibility(visibility, owner, movesAway[0], exactly);
+        reachableCells = visibilityClass.visibility(visibility, owner, movesAway[0], exactly, move.getMoveYou());
 
         return reachableCells;
     }
@@ -175,19 +175,63 @@ abstract class Effect {
     }
 
     /**
-     *
+     * CALL ONLY IF YOU KNOW THE EFFECT IS NOT MOVE TYPE ONLY
+     * @param allPlayers contains the list of all the players, it will be passed from the view to usableWeapon that calls this method
      * @param owner the player who is using the weapon
      * @return true if the player can actually pay and apply the effect
      */
-    public boolean usableEffect(Player owner){
+    public boolean usableEffect(Player owner, List<Player> allPlayers){
 
-        if (!owner.canIPay(cost)) {
+        if (!owner.canIPay(cost)) { /* can I pay the cost of the effect? */
 
             return false;
         }
 
-       //TODO implement here
+        if (!reachablePlayers(owner).isEmpty()){ /* can I shoot someone? */
 
-        return true;
+            return true;
+        }
+
+        if (move == null){ /* I can't shoot anyone and I don't have a move */
+
+            return false;
+        }
+
+        allPlayers.remove(owner);
+
+        if (move.iCanMoveTargetBefore()){  /* I can move targets and after the move I can shoot them */
+
+           for(Player target: allPlayers){
+
+               for(Cell reachableCell: target.getPosition().reachableCells(move.getMoveTargets()[0])){
+
+                   if (reachableCells(owner).contains(reachableCell)){
+
+                       return true;
+                   }
+               }
+           }
+        }
+
+        if (move.iCanMoveBefore()){ /* I can move myself and after the move I can shoot someone */
+
+            Cell startingPosition = owner.getPosition(); /* saving my starting position */
+
+            for (Cell reachableCell: startingPosition.reachableCells(move.getMoveYou())){
+
+                owner.setPosition(reachableCell);
+
+                if( !shootableCells(owner).isEmpty() ){
+
+                    owner.setPosition(startingPosition);
+
+                    return true;
+                }
+            }
+
+            owner.setPosition(startingPosition);
+        }
+
+        return false;
     }
 }

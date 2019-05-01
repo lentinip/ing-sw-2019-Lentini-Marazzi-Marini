@@ -129,5 +129,19 @@ public class MoveEffect {
 
         else { return false; }
     }
+
+    public boolean iCanMoveBefore(){
+
+        if (moveYouBefore || iCanChooseWhenMove()) { return true; }
+
+        else { return false; }
+    }
+
+    public boolean iCanMoveTargetBefore(){
+
+        if (moveTargetBefore || iCanChooseWhenMoveTarget()) { return true; }
+
+        else { return false; }
+    }
 }
 

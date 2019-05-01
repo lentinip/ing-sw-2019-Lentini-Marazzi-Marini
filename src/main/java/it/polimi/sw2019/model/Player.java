@@ -1,6 +1,7 @@
 package it.polimi.sw2019.model;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LongSummaryStatistics;
 
 public class Player {
 
@@ -191,6 +192,52 @@ public class Player {
     }
 
     /**
+     *
+     * @return true if I can reach and shoot any player (considering move actions and reload in FRENZY action)
+     */
+    public Boolean canIshootBeforeComplexAction() {
+
+        List<Player> allPlayers = position.getRoom().getPlayers();
+
+        if (state == State.FRENZYAFTERFIRST || state == State.FRENZYBEFOREFIRST) {
+
+           for (Weapon weapon: weapons){
+
+               if( weapon.usableWeaponBeforeComplexAction(allPlayers) ){
+
+                   if ( weapon.getIsLoaded()){
+
+                       return true;
+                   }
+
+                   else {
+
+                       if (canIPay(weapon.getReloadCost())){
+
+                           return true;
+                       }
+                   }
+               }
+           }
+
+           return false;
+        }
+
+        else {
+
+            for (Weapon weapon : loadedWeapons()) {
+
+                if (weapon.usableWeaponBeforeComplexAction(allPlayers)) {
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    /**
      * Checks if a weapon is loaded and if there are targets available for the weapons
      */
     public List<Weapon> availableWeapons(){
@@ -200,13 +247,16 @@ public class Player {
 
         for (int i = 0; i < loadedWeapons.size(); i++ ) {
 
-            if (loadedWeapons.get(i).usableWeapon()) {
+            if (loadedWeapons.get(i).usableWeapon(position.getRoom().getPlayers())) {
 
                 availableWeapons.add(loadedWeapons.get(i));
             }
         }
 
-        //TODO implement exceptions
+        if (availableWeapons.isEmpty()) {
+
+            throw new NullPointerException("Can't use any weapon to shoot in this position");
+        }
 
         return availableWeapons;
     }

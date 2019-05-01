@@ -23,9 +23,10 @@ public class Visibility {
      * @param player
      * @param movesAway
      * @param exactly
+     * @param moves
      * @return
      */
-    public List<Cell> visibility(KindOfVisibility visibility, Player player, int movesAway, boolean exactly){
+    public List<Cell> visibility(KindOfVisibility visibility, Player player, int movesAway, boolean exactly, int moves){
 
         List<Cell> reachableCells = new ArrayList<>();
 
@@ -47,6 +48,11 @@ public class Visibility {
         else if (visibility == visibility.DIFF_ROOM){
 
             reachableCells = diffRoom(player);
+        }
+
+        else if (visibility == visibility.MOVE){
+
+            reachableCells = move(player, moves);
         }
 
         return  reachableCells;
@@ -156,6 +162,19 @@ public class Visibility {
 
         /* removing from the visible cells the */
         reachableCells.removeAll(playerRoomCells);
+
+        return reachableCells;
+    }
+
+    /**
+     *
+     * @param player
+     * @param moves max moves he can do
+     * @return the cells that the player can reach
+     */
+    public List<Cell> move(Player player, int moves){
+
+        List<Cell> reachableCells = player.getPosition().reachableCells(moves);
 
         return reachableCells;
     }
