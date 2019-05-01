@@ -43,6 +43,10 @@ public class Room {
         this.spawnCell = spawnCell;
     }
 
+    public void setRoomCells(List<Cell> roomCells) {
+        this.roomCells = roomCells;
+    }
+
     public List<Cell> getRoomCells() {
         return roomCells;
     }

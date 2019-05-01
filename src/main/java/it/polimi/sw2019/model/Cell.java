@@ -1,6 +1,5 @@
 package it.polimi.sw2019.model;
 
-import com.sun.org.apache.xpath.internal.operations.Lt;
 
 import java.util.ArrayList;
 import java.util.List;

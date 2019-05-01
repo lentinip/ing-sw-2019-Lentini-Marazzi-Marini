@@ -22,6 +22,7 @@ public class TestRoom {
         Cell cell2 = new Cell();
         Cell cell3 = new Cell();
         Cell cell4 = new Cell();
+        Cell cell5 = new Cell();
 
         cell1.setColumn(1);
         cell1.setRow(1);
@@ -31,7 +32,11 @@ public class TestRoom {
         cell3.setRow(1);
         cell4.setColumn(2);
         cell4.setRow(2);
+        cell5.setColumn(3);
+        cell5.setRow(1);
 
+        List<Cell> roomCells = new ArrayList<>();
+        room.setRoomCells(roomCells);
         room.addCell(cell1);
         room.addCell(cell2);
         room.addCell(cell3);
@@ -40,24 +45,33 @@ public class TestRoom {
         Player player2 = new Player();
         Player player3 = new Player();
         Player player4 = new Player();
+        Player player5 = new Player();
 
         player1.setPosition(cell1);
         player2.setPosition(cell2);
         player3.setPosition(cell3);
         player4.setPosition(cell4);
+        player5.setPosition(cell5);
 
         List<Player> testPlayers = new ArrayList<>();
         testPlayers.add(player1);
         testPlayers.add(player2);
         testPlayers.add(player3);
         testPlayers.add(player4);
+        testPlayers.add(player5);
+
+        room.setPlayers(testPlayers);
+
+        cell1.setRoom(room);
+        cell2.setRoom(room);
+        cell3.setRoom(room);
 
         List<Player> resultPlayers = new ArrayList<>();
         resultPlayers.add(player1);
         resultPlayers.add(player2);
         resultPlayers.add(player3);
 
-        assertEquals(resultPlayers, room.playersInside(testPlayers));
+        assertEquals(resultPlayers, room.playersInside());
     }
 
     @Test

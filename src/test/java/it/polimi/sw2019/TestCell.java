@@ -1,6 +1,7 @@
 package it.polimi.sw2019;
 
 import it.polimi.sw2019.model.Cell;
+import it.polimi.sw2019.model.Room;
 import it.polimi.sw2019.model.Player;
 import org.junit.Test;
 
@@ -33,22 +34,31 @@ public class TestCell {
         player3.setPosition(cell1);
         Player player4 = new Player();
         player4.setPosition(cell3);
+        Player player5 = new Player();
+        player5.setPosition(cell3);
 
         List<Player> testPlayer = new ArrayList<>();
         testPlayer.add(player1);
         testPlayer.add(player2);
         testPlayer.add(player3);
         testPlayer.add(player4);
+        testPlayer.add(player5);
+
+        Room room = new Room();
+
+        room.setPlayers(testPlayer);
+
+        cell1.setRoom(room);
 
         List<Player> resultPlayer = new ArrayList<>();
         resultPlayer.add(player1);
         resultPlayer.add(player3);
 
-        assertEquals(resultPlayer, cell1.playersInCell(testPlayer));
+        assertEquals(resultPlayer, cell1.playersInCell());
 
-        List<Player> nullList = null;
+        room.setPlayers(null);
         try{
-            cell1.playersInCell(nullList);
+            cell1.playersInCell();
             fail();
         } catch (NullPointerException e) {System.out.print("fallito");}
     }
