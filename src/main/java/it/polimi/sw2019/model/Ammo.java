@@ -64,4 +64,14 @@ public class Ammo {
             this.blue = 3;
         }
     }
+
+    /**
+     * Subtract the input Ammo to the Ammo that calls the method
+     * @param toSubtract Ammo to subtract
+     */
+    public void ammoSubtraction(Ammo toSubtract){
+        red = red - toSubtract.getRed();
+        yellow = yellow - toSubtract.getYellow();
+        blue = blue - toSubtract.getBlue();
+    }
 }
