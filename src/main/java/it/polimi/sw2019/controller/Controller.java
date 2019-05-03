@@ -16,7 +16,7 @@ public class Controller {
 
     private Player[] waitingPlayers;
 
-    private TurnManager turnManager;
+    private TurnManager turnManager = new TurnManager(match);
 
     /* Methods */
 

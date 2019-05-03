@@ -161,15 +161,12 @@ public class Player {
 
     /**
      * Removes a powerup from the powerups array for using it as an ammo
-     * @param i The powerup you want to discard
+     * @param powerupIndex The powerup you want to discard
      */
-    public void discardPowerup(int i){
+    public void discardPowerup(int powerupIndex){
 
         if (powerups.size() > 0) {
-
-               //TODO implement the reduction of the cost
-
-               powerups.remove(i);
+               powerups.remove(powerupIndex);
         }
 
     }

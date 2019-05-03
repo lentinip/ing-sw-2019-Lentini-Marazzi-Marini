@@ -1,6 +1,7 @@
 package it.polimi.sw2019.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Board {
@@ -19,17 +20,17 @@ public class Board {
 
     private KillTokens killTrack;
 
-    private Weapon[] weaponsDeck = new Weapon[21];
+    private List<Weapon> weaponsDeck = new ArrayList<>(); //Size: 21
 
-    private Powerup[] powerupsDeck = new Powerup[24];
+    private List<Powerup> powerupsDeck = new ArrayList<>(); //Size: 24
 
-    private Powerup[] powerupsDiscarded = new Powerup[24];
+    private List<Powerup> powerupsDiscarded = new ArrayList<>(); //Size: 24
 
     private int powerupUsed = 0;
 
-    private AmmoTile[] ammoDeck = new AmmoTile[36];
+    private List<AmmoTile> ammoDeck = new ArrayList<>(); //Size: 36
 
-    private AmmoTile[] ammoDiscarded = new AmmoTile[36];
+    private List<AmmoTile> ammoDiscarded = new ArrayList<>(); //Size: 36
 
     private int ammoTileUsed = 0;
 
@@ -68,8 +69,8 @@ public class Board {
 
     /**
      * Return a reference of Cell giving the row and the column
-     * @param cellRow
-     * @param cellColumn
+     * @param cellRow cell's row
+     * @param cellColumn cell's column
      * @return a reference of Cell (can be null)
      */
     public Cell getCell(int cellRow, int cellColumn){
@@ -91,62 +92,95 @@ public class Board {
     }
 
     public Weapon drawWeapon(){
-
-        Weapon result = new Weapon();
-        int index;
-
-        for(index = 21; index>0; index--) {
-
-            if(weaponsDeck[index] != null) {
-
-                result = weaponsDeck[index];
-                index = 1;
-            }
+        if (!weaponsDeck.isEmpty()){
+            Weapon result = weaponsDeck.get(weaponsDeck.size()-1);
+            weaponsDeck.remove(result);
+            return result;
         }
-
-        //TODO implement DeckEmptyException
-
-        return result;
+        else {
+            //TODO implement DeckEmptyException
+            return null;
+        }
     }
 
+    /**
+     * Draws a powerup from the powerupDeck and than if is empty it restores it (shuffling it)
+     * @return a Powerup
+     */
     public Powerup drawPowerup(){
 
-        Powerup result = new Powerup();
+        if (!powerupsDeck.isEmpty()){
+            Powerup result = powerupsDeck.get(powerupsDeck.size()-1);
+            powerupsDeck.remove(result);
 
-        int index;
+            //If the pile of powerups is empty the powerupDeck needs to be restored
+            if (powerupsDeck.isEmpty()){
+                powerupsDeck.addAll(powerupsDiscarded);
 
-        for(index = 24; index>0; index--) {
+                //Let's shuffle the powerupsDeck
+                Collections.shuffle(powerupsDeck);
 
-            if(powerupsDeck[index] != null) {
-
-                result = powerupsDeck[index];
-                index = 1;
+                //Let's clear the discarded pile
+                powerupsDiscarded.clear();
             }
+
+            return result;
         }
 
-        //TODO implement DeckEmptyException
-
-        return result;
+        else {
+            //TODO implement DeckEmptyException
+            return null;
+        }
     }
 
+    /**
+     * Draws an AmmoTile from the ammoDeck and than if is empty it restores it (shuffling it)
+     * @return
+     */
     public AmmoTile drawAmmo(){
 
-        AmmoTile result = new AmmoTile();
+        if (!ammoDeck.isEmpty()){
+            AmmoTile result = ammoDeck.get(ammoDeck.size()-1);
+            ammoDeck.remove(result);
 
-        int index;
+            //If the pile of AmmoTile is empty the AmmoTileDeck needs to be restored
+            if (ammoDeck.isEmpty()){
+                ammoDeck.addAll(ammoDiscarded);
 
-        for(index = 36; index>0; index--) {
+                //Let's shuffle the ammoDeck
+                Collections.shuffle(ammoDeck);
 
-            if(ammoDeck[index] != null) {
-
-                result = ammoDeck[index];
-                index = 1;
+                //Let's clear the discarded pile
+                ammoDiscarded.clear();
             }
+
+            return result;
         }
 
-        //TODO implement DeckEmptyException
+        else {
+            //TODO implement DeckEmptyException
+            return null;
+        }
+    }
 
-        return result;
+    /**
+     * Adds a powerup to the discarded pile
+     * @param powerupToDiscard powerup to discard
+     */
+    public void discardPowerup(Powerup powerupToDiscard){
+
+        //Adds the powerup to the discarded ones
+        powerupsDiscarded.add(powerupToDiscard);
+    }
+
+    /**
+     * Adds an AmmoTile to the discarded pile
+     * @param ammoTileToDiscard AmmoTile to discard
+     */
+    public void discardAmmo(AmmoTile ammoTileToDiscard){
+
+        //Adds the ammo to the discarded ones
+        ammoDiscarded.add(ammoTileToDiscard);
     }
 
     public void updateKillTrack (Player deadPlayer) {

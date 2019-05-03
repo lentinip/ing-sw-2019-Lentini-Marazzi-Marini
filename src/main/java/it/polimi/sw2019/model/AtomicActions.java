@@ -1,14 +1,19 @@
 package it.polimi.sw2019.model;
 
+import java.util.List;
+
 public class AtomicActions {
 
     /**
      * Default Constructor
      */
-    public AtomicActions(){
-
-        //TODO implement here
+    public AtomicActions(Match match){
+        this.match = match;
     }
+
+    /* Attributes */
+
+    Match match;
 
     /* Methods */
 
@@ -23,43 +28,187 @@ public class AtomicActions {
         }
     }
 
-    public void grabPowerUp(Player grabbingPlayer, CommonCell selectedCell){
+    /**
+     * Performs the grab in a CommonCell, adds the correct stuff to the Player and then discards the ammoTile.
+     * The cell at the end of the method is empty and with Ammo = null.
+     * @param grabbingPlayer the grabbing Player
+     * @param selectedCell the selected CommonCell
+     */
+    public void grab(Player grabbingPlayer, CommonCell selectedCell){
 
-        //TODO implement here
+        Ammo playerAmmo = grabbingPlayer.getPlayerBoard().getAmmo();
+        AmmoTile cellTile = selectedCell.getAmmo();
+
+        //The player receives the ammo described in the tile
+        playerAmmo.addRed(cellTile.getRed());
+        playerAmmo.addBlue(cellTile.getBlue());
+        playerAmmo.addYellow(cellTile.getYellow());
+
+        //If the AmmoTile has signed the powerup and the player has less than 3 powerups, he draws one
+        if(cellTile.isPowerup() && grabbingPlayer.getPowerups().size()<3){
+            Powerup powerup = match.getBoard().drawPowerup();
+            if (powerup!=null){
+                grabbingPlayer.addPowerup(powerup);
+            }
+        }
+
+        //Removes the AmmoTile from the CommonCell
+        selectedCell.setAmmo(null);
+        selectedCell.setIsEmpty(false);
+
+        //Addss the AmmoTile to the discarded ones in the Board
+        match.getBoard().discardAmmo(cellTile);
     }
 
-    public void grabWeapon(Player grabbingPlayer, SpawnCell selectedCell, Weapon selectedWeapon){
+    /**
+     * Performs the grab of a Weapon in a SpawnCell, adds it to the player and removes it from the cell
+     * @param grabbingPlayer the grabbing Player
+     * @param selectedCell the selected SpawnCell
+     * @param weaponIndex the weapon index in the SpawnCell
+     */
+    public void grabWeapon(Player grabbingPlayer, SpawnCell selectedCell, int weaponIndex){
 
-        //TODO implement here
+        Weapon grabbedWeapon = selectedCell.getWeapons().get(weaponIndex);
+
+        //Adds the weapon to the Players weapon
+        grabbingPlayer.getWeapons().add(grabbedWeapon);
+
+        //Removes it from the cell
+        selectedCell.getWeapons().remove(grabbedWeapon);
 
     }
 
+    /**
+     * Performs the grab of a Weapon in a SpawnCell when the Player needs to replace one of his weapons
+     * @param grabbingPlayer the grabbing Player
+     * @param selectedCell the selected SpawnCell
+     * @param cellWeaponIndex the weapon index in the SpawnCell
+     * @param playerWeaponIndex the weapon index in the Player
+     */
+    public void grabWeaponAndReplace(Player grabbingPlayer, SpawnCell selectedCell, int cellWeaponIndex, int playerWeaponIndex){
+
+        Weapon weaponToReplace = grabbingPlayer.getWeapons().get(playerWeaponIndex);
+
+        //Removes the weapon from the player
+        grabbingPlayer.getWeapons().remove(weaponToReplace);
+
+        //Performs the normal grabWeapon
+        grabWeapon(grabbingPlayer, selectedCell, cellWeaponIndex);
+
+        //"Recharges" the Player's weapon
+        weaponToReplace.setIsLoaded(true);
+
+        //Adds the Player's weapon to the SpawnCell
+        selectedCell.getWeapons().add(weaponToReplace);
+    }
+
+    /**
+     * Deal a specific amount of damage to a Player
+     * @param shooter Player who shoots
+     * @param receiver Player who receives the damage
+     * @param damage Number of tokens that the shooter gives
+     */
     public void DealDamage(Player shooter, Player receiver, int damage){
-
-        //TODO implement here
-
+        DamageTokens receiverDamage = receiver.getPlayerBoard().getDamage();
+        receiverDamage.addDamage(damage, shooter.getCharacter());
     }
 
-    public  void DealDamageAll(Player shooter, Cell selectedCell, int damage){
+    public  void DealDamageAll(Player shooter, Cell selectedCell, boolean isRoom, int damage){
+        List<Player> receivers;
 
-        //TODO implement here
+        //Manage if the damage goes to all the room or all the cell
+        if (isRoom){
+            receivers = selectedCell.getRoom().playersInside();
+        }
+        else{
+            receivers = selectedCell.playersInCell();
+        }
 
+        //Iterate for all the players
+        for (Player player : receivers){
+            DealDamage(shooter, player, damage);
+        }
     }
 
     public void Mark(Player shooter, Player receiver, int mark){
-
-        //TODO implement here
-
+        Marks receiverMarks = receiver.getPlayerBoard().getMarks();
+        receiverMarks.addMark(mark, shooter.getCharacter());
     }
 
-    public void MarkAll(Player shooter, Cell selectedCell, int mark){
+    public void MarkAll(Player shooter, Cell selectedCell, boolean isRoom, int mark){
+        List<Player> receivers;
 
-        //TODO implement here
+        //Manage if the damage goes to all the room or all the cell
+        if (isRoom){
+            receivers = selectedCell.getRoom().playersInside();
+        }
+        else{
+            receivers = selectedCell.playersInCell();
+        }
+
+        //Iterate for all the players
+        for (Player player: receivers){
+            Mark(shooter, player, mark);
+        }
     }
 
     public void reload(Player reloader, Weapon reloadedWeapon){
+        payAmmo(reloader, reloadedWeapon.getReloadCost());
+    }
 
-        //TODO implement here
+    /**
+     * Adds one cube of ammo to the Ammo of the Player owner and than discards it
+     * @param owner Player owner of the powerup
+     * @param powerupIndex index of the powerup in the Powerups of Player
+     */
+    public void convertPowerup(Player owner, int powerupIndex){
+        Ammo playerAmmo = owner.getPlayerBoard().getAmmo();
+        Powerup powerupToDiscard = owner.getPowerups().get(powerupIndex);
 
+        //Set the ammo to the player
+        switch (powerupToDiscard.getColor()){
+            case RED:
+                playerAmmo.addRed(1);
+                break;
+            case BLUE:
+                playerAmmo.addBlue(1);
+                break;
+            case YELLOW:
+                playerAmmo.addYellow(1);
+                break;
+            default:
+                //It should never come here
+        }
+
+        //Removes the powerup from the powerups of the Player
+        owner.discardPowerup(powerupIndex);
+        //Adds it to the discarded ones in the Board
+        match.getBoard().discardPowerup(powerupToDiscard);
+    }
+
+    /**
+     * Removes a cost from the Player
+     * @param owner Player
+     * @param cost Ammo that is going to be removed
+     */
+    public void payAmmo(Player owner, Ammo cost){
+        owner.getPlayerBoard().getAmmo().ammoSubtraction(cost);
+    }
+
+    /**
+     * Removes a cost from the Player's Ammo using also Powerups
+     * @param owner Player
+     * @param cost Ammo that is going to be removed
+     * @param powerups List of Powerup used to pay a cost
+     */
+    public void payAmmoWithPowerups(Player owner, Ammo cost, List<Powerup> powerups){
+
+        //Converts the powerups in Ammo for the player
+        for (Powerup powerup: powerups){
+            convertPowerup(owner, owner.getPowerups().indexOf(powerup));
+        }
+
+        //Then removes the cost
+        payAmmo(owner, cost);
     }
 }

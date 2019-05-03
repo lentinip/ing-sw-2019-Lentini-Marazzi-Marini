@@ -36,6 +36,8 @@ public class Match {
 
     private Player lastPlayer;
 
+    private AtomicActions atomicActions = new AtomicActions(this);
+
 
     /**
      * set at the start of the game when you choose if you want to play frenzy
@@ -127,6 +129,10 @@ public class Match {
 
     public Player getLastPlayer() {
         return lastPlayer;
+    }
+
+    public AtomicActions getAtomicActions() {
+        return atomicActions;
     }
 
     /**
