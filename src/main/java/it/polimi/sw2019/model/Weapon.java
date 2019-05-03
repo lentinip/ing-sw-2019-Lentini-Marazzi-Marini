@@ -25,7 +25,7 @@ public class Weapon {
 
     private boolean isLoaded = true;
 
-    private Player owner;
+    private Player owner = null;
 
     private WeaponsType type;
 
@@ -154,18 +154,20 @@ public class Weapon {
 
             Cell startingPosition = owner.getPosition(); /* saving the starting position */
 
+            Player copy = new Player();
+
+            copy.setPosition(startingPosition);
+
             for (Cell reachableCell: startingPosition.reachableCells(1)){
 
-                owner.setPosition(reachableCell);
+                copy.setPosition(reachableCell);
 
                 if (usableWeapon(allPlayers)){
 
-                    owner.setPosition(startingPosition);
                     return true;
                 }
             }
 
-            owner.setPosition(startingPosition);
             return false;
         }
 
@@ -173,18 +175,19 @@ public class Weapon {
 
             Cell startingPosition = owner.getPosition(); /* saving the starting position */
 
+            Player copy = new Player();
+
+            copy.setPosition(startingPosition);
+
             for (Cell reachableCell: startingPosition.reachableCells(2)){
 
-                owner.setPosition(reachableCell);
+                copy.setPosition(reachableCell);
 
                 if (usableWeapon(allPlayers)){
 
-                    owner.setPosition(startingPosition);
                     return true;
                 }
             }
-
-            owner.setPosition(startingPosition);
             return false;
         }
 
@@ -211,18 +214,19 @@ public class Weapon {
                 int moves = getMoveTypeEffect().getMove().getMoveYou();
                 Cell startingPosition = owner.getPosition();    /* saving the starting position */
 
+                Player copy = new Player();
+
+                copy.setPosition(startingPosition);
+
                 for (Cell reachableCell: startingPosition.reachableCells(moves)){
 
-                    owner.setPosition(reachableCell);
+                    copy.setPosition(reachableCell);
 
                     if ( hasOneUsableEffect(allPlayers) ){
 
-                        owner.setPosition(startingPosition);
                         return true;
                     }
                 }
-
-                owner.setPosition(startingPosition);
             }
 
             else { return true; }

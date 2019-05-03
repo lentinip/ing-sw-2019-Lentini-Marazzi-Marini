@@ -137,7 +137,7 @@ abstract class Effect {
 
         for (int i = 0; i < reachableCells.size(); i++) {
 
-            targets = reachableCells.get(i).playersInCell(); /* removing the player who is shooting from the list of the possible targets */
+            targets.addAll(reachableCells.get(i).playersInCell()); /* removing the player who is shooting from the list of the possible targets */
 
             if (targets.contains(owner)) { targets.remove(owner); }
 
@@ -182,6 +182,8 @@ abstract class Effect {
      */
     public boolean usableEffect(Player owner, List<Player> allPlayers){
 
+        List<Player> targets = new ArrayList<>();
+
         if (!owner.canIPay(cost)) { /* can I pay the cost of the effect? */
 
             return false;
@@ -197,13 +199,14 @@ abstract class Effect {
             return false;
         }
 
-        allPlayers.remove(owner);
+        targets.addAll(allPlayers);
+        targets.remove(owner);
 
         if (move.iCanMoveTargetBefore()){  /* I can move targets and after the move I can shoot them */
 
            for(Player target: allPlayers){
 
-               for(Cell reachableCell: target.getPosition().reachableCells(move.getMoveTargets()[0])){
+               for(Cell reachableCell: target.getPosition().reachableCells(move.getMoveTargets())){
 
                    if (reachableCells(owner).contains(reachableCell)){
 
@@ -217,19 +220,19 @@ abstract class Effect {
 
             Cell startingPosition = owner.getPosition(); /* saving my starting position */
 
+            Player copy = new Player();
+
+            copy.setPosition(startingPosition);
+
             for (Cell reachableCell: startingPosition.reachableCells(move.getMoveYou())){
 
-                owner.setPosition(reachableCell);
+                copy.setPosition(reachableCell);
 
-                if( !shootableCells(owner).isEmpty() ){
-
-                    owner.setPosition(startingPosition);
+                if( !shootableCells(copy).isEmpty() ){
 
                     return true;
                 }
             }
-
-            owner.setPosition(startingPosition);
         }
 
         return false;

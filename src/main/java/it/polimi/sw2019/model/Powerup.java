@@ -15,6 +15,18 @@ public class Powerup {
 
     private String name;
 
+    private String description;
+
+    private TypeOfAction typeOfAction;
+
+    private int value;  /* for example the amount of damage */
+
+    private boolean duringYourTurn;
+
+    private boolean duringDamageAction; /* condition to activate the powerup */
+
+    private MoveEffect move; /* up to know != null only for "Newton" powerup */
+
     private Colors color;
 
     /* Methods */
@@ -32,6 +44,54 @@ public class Powerup {
     }
 
     public void setColor(Colors color) { this.color = color; }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public TypeOfAction getTypeOfAction() {
+        return typeOfAction;
+    }
+
+    public void setTypeOfAction(TypeOfAction typeOfAction) {
+        this.typeOfAction = typeOfAction;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public boolean isDuringYourTurn() {
+        return duringYourTurn;
+    }
+
+    public void setDuringYourTurn(boolean duringYourTurn) {
+        this.duringYourTurn = duringYourTurn;
+    }
+
+    public boolean isDuringDamageAction() {
+        return duringDamageAction;
+    }
+
+    public void setDuringDamageAction(boolean duringDamageAction) {
+        this.duringDamageAction = duringDamageAction;
+    }
+
+    public MoveEffect getMove() {
+        return move;
+    }
+
+    public void setMove(MoveEffect move) {
+        this.move = move;
+    }
 
     public void effect() {
 

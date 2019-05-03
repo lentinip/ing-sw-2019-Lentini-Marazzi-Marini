@@ -199,7 +199,7 @@ public class Player {
 
         List<Player> allPlayers = position.getRoom().getPlayers();
 
-        if (state == State.FRENZYAFTERFIRST || state == State.FRENZYBEFOREFIRST) {
+        if (state == State.FRENZYAFTERFIRST || state == State.FRENZYBEFOREFIRST) { /* I can reload during the action */
 
            for (Weapon weapon: weapons){
 

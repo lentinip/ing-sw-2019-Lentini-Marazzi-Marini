@@ -177,7 +177,7 @@ public class Cell {
         List<Cell> reachableCells = new ArrayList<>();
         List<Cell> reachableCellsCopy = new ArrayList<>();
         reachableCells.add(this);
-        reachableCellsCopy = reachableCells;
+        reachableCellsCopy.add(this);
 
         int counter = 0;
 
@@ -188,7 +188,8 @@ public class Cell {
                 reachableCellsCopy.addAll(cell.nearCells());
             }
 
-            reachableCells = reachableCellsCopy;
+            reachableCells.clear();
+            reachableCells.addAll(reachableCellsCopy);
             counter++;
         }
 
