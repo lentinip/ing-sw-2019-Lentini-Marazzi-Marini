@@ -67,6 +67,18 @@ public class Board {
         return field;
     }
 
+    public void setAmmoDeck(List<AmmoTile> ammoDeck) {
+        this.ammoDeck = ammoDeck;
+    }
+
+    public void setPowerupsDeck(List<Powerup> powerupsDeck) {
+        this.powerupsDeck = powerupsDeck;
+    }
+
+    public void setWeaponsDeck(List<Weapon> weaponsDeck) {
+        this.weaponsDeck = weaponsDeck;
+    }
+
     /**
      * Return a reference of Cell giving the row and the column
      * @param cellRow cell's row

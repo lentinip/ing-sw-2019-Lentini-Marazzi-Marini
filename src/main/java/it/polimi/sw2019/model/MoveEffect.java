@@ -12,7 +12,7 @@ public class MoveEffect {
 
     private int moveYou; /* how many spaces you can move */
 
-    private int moveTargets; /* how many spaces you can move avery target chosen */
+    private int moveTargets; /* how many spaces you can move every target chosen */
 
     private boolean moveTargetBefore; /* true if you have to move the target before the shoot*/
 

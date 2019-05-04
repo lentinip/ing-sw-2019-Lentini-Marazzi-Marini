@@ -8,10 +8,7 @@ public class MultipleTarget extends Effect{
     /**
      * Default Constructor
      */
-    public MultipleTarget(){
-
-        //TODO implement here
-    }
+    public MultipleTarget(){}
 
     /* Attributes */
 
@@ -21,7 +18,7 @@ public class MultipleTarget extends Effect{
 
     private boolean differentSquares; /* true if the targets have to be on different squares */
 
-    private boolean differentPlayers; /* true if the target have to be a different one from the previously choosen */
+    private boolean differentPlayers = false;
 
     private int maxTargets; /* max number of targets you can hit */
 

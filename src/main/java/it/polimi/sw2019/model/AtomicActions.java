@@ -2,7 +2,7 @@ package it.polimi.sw2019.model;
 
 import java.util.List;
 
-public class AtomicActions {
+public class  AtomicActions {
 
     /**
      * Default Constructor

@@ -2,108 +2,108 @@
   {
     "quantity": 3,
     "AmmoTile" : {
+      "red": 0,
       "yellow": 1,
       "blue": 2,
-      "red": 0,
       "powerup": false
     }
   },
   {
     "quantity": 3,
     "AmmoTile" : {
+      "red": 2,
       "yellow": 1,
       "blue": 0,
-      "red": 2,
       "powerup": false
     }
   },
   {
     "quantity": 3,
     "AmmoTile" : {
-      "yellow": 0,
-      "blue": 2,
       "red": 1,
-      "powerup": false
-    }
-  },
-  {
-    "quantity": 3,
-    "AmmoTile" : {
       "yellow": 2,
       "blue": 0,
-      "red": 1,
       "powerup": false
     }
   },
   {
     "quantity": 3,
     "AmmoTile" : {
-      "yellow": 2,
-      "blue": 1,
-      "red": 0,
-      "powerup": false
-    }
-  },
-  {
-    "quantity": 3,
-    "AmmoTile" : {
+      "red": 2,
       "yellow": 0,
       "blue": 1,
-      "red": 2,
+      "powerup": false
+    }
+  },
+  {
+    "quantity": 3,
+    "AmmoTile" : {
+      "red": 0,
+      "yellow": 2,
+      "blue": 1,
+      "powerup": false
+    }
+  },
+  {
+    "quantity": 3,
+    "AmmoTile" : {
+      "red": 1,
+      "yellow": 0,
+      "blue": 2,
       "powerup": false
     }
   },
   {
     "quantity": 2,
     "AmmoTile" : {
+      "red": 2,
+      "yellow": 0,
+      "blue": 0,
+      "powerup": true
+    }
+  },
+  {
+    "quantity": 2,
+    "AmmoTile" : {
+      "red": 0,
       "yellow": 2,
       "blue": 0,
+      "powerup": true
+    }
+  },
+  {
+    "quantity": 2,
+    "AmmoTile" : {
       "red": 0,
-      "powerup": true
-    }
-  },
-  {
-    "quantity": 2,
-    "AmmoTile" : {
-      "yellow": 0,
-      "blue": 0,
-      "red": 2,
-      "powerup": true
-    }
-  },
-  {
-    "quantity": 2,
-    "AmmoTile" : {
       "yellow": 0,
       "blue": 2,
-      "red": 0,
       "powerup": true
     }
   },
   {
     "quantity": 4,
     "AmmoTile" : {
+      "red": 0,
+      "yellow": 1,
+      "blue": 1,
+      "powerup": true
+    }
+  },
+  {
+    "quantity": 4,
+    "AmmoTile" : {
+      "red": 1,
       "yellow": 1,
       "blue": 0,
+      "powerup": true
+    }
+  },
+  {
+    "quantity": 4,
+    "AmmoTile" : {
       "red": 1,
-      "powerup": true
-    }
-  },
-  {
-    "quantity": 4,
-    "AmmoTile" : {
-      "yellow": 1,
-      "blue": 1,
-      "red": 0,
-      "powerup": true
-    }
-  },
-  {
-    "quantity": 4,
-    "AmmoTile" : {
       "yellow": 0,
       "blue": 1,
-      "red": 1,
       "powerup": true
     }
   }

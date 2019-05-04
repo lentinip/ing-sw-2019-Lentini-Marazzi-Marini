@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,7 +24,19 @@ public class Factory {
      */
     public Factory(){}
 
+    /* Attributes */
+
+    private Visibility visibilityClass; /* this attribute is given to every Weapon created */
+
     /* Methods */
+
+    public void setVisibilityClass(Visibility visibilityClass) {
+        this.visibilityClass = visibilityClass;
+    }
+
+    public Visibility getVisibilityClass() {
+        return visibilityClass;
+    }
 
     /**
      * This method creates the weapons deck by reading every weapon json file using the weaponsDictionary file
@@ -53,12 +66,21 @@ public class Factory {
      * @param fileName
      * @return
      */
-    public Weapon createWeapon(String fileName) {
+    public Weapon createWeapon(String fileName) throws FileNotFoundException{
 
-        Weapon weapon = new Weapon();
+        Weapon weapon;
 
+        Gson gson = new Gson();
+        File jsonFile = Paths.get(fileName).toFile();
 
-        //TODO implement here (ask about Effects ArrayList)
+        WeaponFactory weaponFactory = gson.fromJson(new FileReader(jsonFile), WeaponFactory.class);
+
+        weapon = weaponFactory.createWeapon();
+
+        for(Effect effect: weapon.getEffects()){
+
+            effect.setVisibilityClass(visibilityClass);
+        }
 
         return weapon;
     }
@@ -140,11 +162,23 @@ public class Factory {
      * @param fileName the name of the json file correspondent to the kind of board chosen by logged client
      * @return
      */
-    public Board createBoard(String fileName){
+    public Board createBoard(String fileName) throws FileNotFoundException{
 
         Board board = new Board();
 
-        //TODO implement here
+        List<AmmoTile> ammoDeck = createAmmoDeck();
+        Collections.shuffle(ammoDeck);
+        board.setAmmoDeck(ammoDeck);
+
+        List<Powerup> powerupsDeck = createPowerupDeck();
+        Collections.shuffle(powerupsDeck);
+        board.setPowerupsDeck(powerupsDeck);
+
+        List<Weapon> weaponsDeck = createWeaponDeck();
+        Collections.shuffle(weaponsDeck);
+        board.setWeaponsDeck(weaponsDeck);
+
+        //TODO implement the file reading part that set ups all the Cells
 
         return board;
     }

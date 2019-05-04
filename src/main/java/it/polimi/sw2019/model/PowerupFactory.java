@@ -8,6 +8,11 @@ import java.util.List;
  */
 public class PowerupFactory {
 
+    /**
+     * DefaultConstructor
+     */
+    public PowerupFactory(){}
+
     /* Attributes */
 
     private int quantity;

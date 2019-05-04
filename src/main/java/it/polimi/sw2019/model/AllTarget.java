@@ -8,10 +8,7 @@ public class AllTarget extends Effect {
     /**
      * Default Constructor
      */
-    public AllTarget(){
-
-        //TODO implement here
-    }
+    public AllTarget(){}
 
     /* Attributes */
 

@@ -1,0 +1,18 @@
+{
+  "name" : "Lock Rifle",
+  "Description" : "basic effect: Deal 2 damage and 1 mark to 1 target you can see. with second lock: Deal 1 mark to a different target you can see.",
+  "grabCost" : {
+    "red" : 0,
+    "yellow" : 0,
+    "blue" : 2
+  },
+  "reloadCost" : {
+    "red" : 0,
+    "yellow" : 0,
+    "blue" : 2
+  },
+  "type" : "OPTIONAL_EFFECTS",
+  "effects" : ["LockRifle_1.json", "LockRifle_2.json"],
+  "hasAnOrder" : false,
+  "hasAMoveTypeEffect" : false
+}

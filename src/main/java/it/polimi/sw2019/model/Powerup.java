@@ -93,13 +93,6 @@ public class Powerup {
         this.move = move;
     }
 
-    public void effect() {
-
-        //TODO implement
-
-        return;
-    }
-
     /**
      *
      * @param cost

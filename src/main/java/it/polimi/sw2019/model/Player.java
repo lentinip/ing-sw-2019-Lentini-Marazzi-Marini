@@ -28,7 +28,6 @@ public class Player {
 
     private List<Powerup> powerups = new ArrayList<>();
 
-
     private int numberOfActions = 2;
 
     private State state;
@@ -130,23 +129,16 @@ public class Player {
             throw new NullPointerException("'weapon' can't be null");
 
         //TODO implement exceptions
-
     }
 
     public void useWeapon(Weapon weapon){
 
         weapon.setIsLoaded(false);
-
-        //TODO implement exceptions
-
     }
 
     public void usePoweup(Powerup powerup){
 
         powerups.remove(powerup);
-
-        //TODO implement exceptions
-
     }
 
     public void addPowerup(Powerup powerup){
@@ -256,6 +248,49 @@ public class Player {
         }
 
         return availableWeapons;
+    }
+
+    /**
+     * if the player has one or two moves before the shoot
+     * @return the List of the cells where the player can move in order to be able to shoot someone
+     */
+    public List<Cell> allowedCells(){
+
+        List<Cell> reachableCells = new ArrayList<>();
+
+        Cell startingPosition = position; /* saving the starting position */
+
+        Player copy = new Player();
+
+        copy.setPosition(startingPosition);
+
+        if (state == State.ADRENALINIC2 || state == State.FRENZYBEFOREFIRST){
+
+            for (Cell reachableCell: startingPosition.reachableCells(1)){
+
+                copy.setPosition(reachableCell);
+
+                if (canIshootBeforeComplexAction()){
+
+                    reachableCells.add(reachableCell);
+                }
+            }
+        }
+
+        else if ( state == State.FRENZYAFTERFIRST){
+
+            for (Cell reachableCell: startingPosition.reachableCells(2)){
+
+                copy.setPosition(reachableCell);
+
+                if (canIshootBeforeComplexAction()){
+
+                   reachableCells.add(reachableCell);
+                }
+            }
+        }
+
+        return reachableCells;
     }
 
     public List<Cell> visibleCells(){

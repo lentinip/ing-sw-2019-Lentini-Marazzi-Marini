@@ -1,0 +1,18 @@
+{
+  "name": "with second lock",
+  "description": "Deal 2 damage and 1 mark to 1 target you can see and deal 1 mark to a different target you can see.",
+  "cost": {
+    "red": 1,
+    "yellow": 0,
+    "blue": 0
+  },
+  "type": "MULTIPLE_TARGET",
+  "visibility": "VISIBLE",
+  "movesAway": [0],
+  "exactly": false,
+  "sameDirection": false,
+  "damages": [2, 0],
+  "marks": [1, 1],
+  "differentSquares": false,
+  "maxTargets" : 2
+}

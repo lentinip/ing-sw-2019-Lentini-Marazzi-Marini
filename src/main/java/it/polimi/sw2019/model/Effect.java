@@ -3,7 +3,12 @@ package it.polimi.sw2019.model;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class Effect {
+public class Effect {
+
+    /**
+     * Default Constructor
+     */
+    public Effect(){}
 
     /* Attributes */
 
@@ -236,5 +241,33 @@ abstract class Effect {
         }
 
         return false;
+    }
+
+    /**
+     * if the player has chosen to do a shoot action this method method is called when the player wants to do a move before the shooting using the effect
+     * @param owner
+     * @return only the cells where he can move in order to be able to shoot someone
+     */
+    List<Cell> allowedCells(Player owner) {
+
+        List<Cell> allowedCells = new ArrayList<>();
+
+        Cell startingPosition = owner.getPosition(); /* saving my starting position */
+
+        Player copy = new Player();
+
+        copy.setPosition(startingPosition);
+
+        for (Cell reachableCell : startingPosition.reachableCells(move.getMoveYou())) {
+
+            copy.setPosition(reachableCell);
+
+            if (!shootableCells(copy).isEmpty()) {
+
+                allowedCells.add(reachableCell);
+            }
+        }
+
+        return allowedCells;
     }
 }

@@ -23,9 +23,9 @@ public class Weapon {
 
     private Ammo reloadCost;
 
-    private boolean isLoaded = true;
+    private boolean isLoaded;
 
-    private Player owner = null;
+    private Player owner;
 
     private WeaponsType type;
 
@@ -117,11 +117,9 @@ public class Weapon {
         this.hasAMoveTypeEffect = hasAMoveTypeEffect;
     }
 
-    public void effect() {  // use the weapon effect
+    public void addEffect(Effect effect){
 
-        //TODO implement
-
-        return;
+        effects.add(effect);
     }
 
     /**

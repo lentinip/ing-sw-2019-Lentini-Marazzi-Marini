@@ -1,0 +1,16 @@
+{
+  "name": "basic effect",
+  "description": "Deal 2 damage and 1 mark to 1 target you can see.",
+  "cost": {
+    "red": 0,
+    "yellow": 0,
+    "blue": 0
+  },
+  "type": "SINGLE_TARGET",
+  "visibility": "VISIBLE",
+  "movesAway": [0],
+  "exactly": false,
+  "sameDirection": false,
+  "damages": 2,
+  "marks": 1
+}

@@ -88,7 +88,10 @@ public class PlayerBoard {
         int points;
 
 
-        // TODO exception where the board has no damages (see endTurn() Match)
+        if (ranking.isEmpty()){
+
+            return;
+        }
 
         /* giving 1 point for the first blood */
         score.addPoints(1, damage.getDamageSequence().get(0) );
@@ -121,7 +124,10 @@ public class PlayerBoard {
         ArrayList<Character> ranking;
         ranking = damage.getRanking();
 
-        // TODO exception where the board has no damages (see endTurn() Match)
+        if (ranking.isEmpty()){
+
+            return;
+        }
 
         for (int i = 0; i < ranking.size(); i++){
 
