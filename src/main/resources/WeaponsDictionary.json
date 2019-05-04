@@ -1,0 +1,27 @@
+{
+  "WeaponsFiles": [
+
+    "LockRifle.json",
+    "MachineGun.json",
+    "Thor.json",
+    "PlasmaGun.json",
+    "Whisper.json",
+    "Electroscythe.json",
+    "TractorBeam.json",
+    "VortexCannon.json",
+    "Furnace.json",
+    "Heatseeker.json",
+    "Hellion.json",
+    "Flamethrower.json",
+    "GrenadeLauncher.json",
+    "RocketLauncher.json",
+    "Railgun.json",
+    "Cyberblade.json",
+    "Zx-2.json",
+    "Shotgun.json",
+    "PowerGlove.json",
+    "ShockWave.json",
+    "Sledgehammer.json"
+
+  ]
+}

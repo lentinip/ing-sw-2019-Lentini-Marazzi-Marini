@@ -1,0 +1,47 @@
+[
+  {
+    "quantity": 2,
+    "Powerup": {
+
+      "name" : "Tagback Granade",
+      "description" : "You may play this card when you receive damage from a player you can see. Give that player 1 mark.",
+      "TypeOfAction" : "MARK",
+      "value" : 1,
+      "duringYourTurn" : false,
+      "duringDamageAction" : true,
+      "move" : null,
+      "color" : "YELLOW"
+
+    }
+  },
+  {
+    "quantity": 2,
+    "Powerup": {
+
+      "name" : "Tagback Granade",
+      "description" : "You may play this card when you receive damage from a player you can see. Give that player 1 mark.",
+      "TypeOfAction" : "MARK",
+      "value" : 1,
+      "duringYourTurn" : false,
+      "duringDamageAction" : true,
+      "move" : null,
+      "color" : "BLUE"
+
+    }
+  },
+  {
+    "quantity": 2,
+    "Powerup": {
+
+      "name" : "Tagback Granade",
+      "description" : "You may play this card when you receive damage from a player you can see. Give that player 1 mark.",
+      "TypeOfAction" : "MARK",
+      "value" : 1,
+      "duringYourTurn" : false,
+      "duringDamageAction" : true,
+      "move" : null,
+      "color" : "RED"
+
+    }
+  }
+]

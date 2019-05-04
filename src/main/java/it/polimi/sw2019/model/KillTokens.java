@@ -5,12 +5,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class that represents the killTrack
+ */
 public class KillTokens extends Tokens{
 
     /**
      * Default constructor
      */
-
     public KillTokens(List<Character> charactersInGame) {
         super(charactersInGame);
     }
@@ -75,7 +77,28 @@ public class KillTokens extends Tokens{
      */
     public void updateScore(Score score){
 
-        //TODO implement
+        ArrayList<Character> ranking;
+        ranking = getRanking();
+        int points;
+
+
+        for (int i = 0; i < ranking.size(); i++){
+
+            /* points added to the player */
+
+            points = 8 -  2*i;
+
+            if (points <= 0) {
+
+                score.addPoints(1,ranking.get(i));
+            }
+
+            else {
+
+                score.addPoints(points, ranking.get(i));
+
+            }
+        }
 
     }
 

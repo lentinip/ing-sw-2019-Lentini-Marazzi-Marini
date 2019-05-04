@@ -16,17 +16,11 @@ public class Match {
 
     private int idPartita;
 
-    /**
-     * tells in what kind of board players are going to play
-     */
-    private int boardType;
+    private int boardType; /* tells in what kind of board players are going to play */
 
     private Board board;
 
-    /**
-     * max 5 players
-     */
-    private List<Player> players = new ArrayList<>();
+    private List<Player> players = new ArrayList<>(); /* max five players */
 
     private int numberOfPlayers;
 
@@ -38,16 +32,13 @@ public class Match {
 
     private AtomicActions atomicActions = new AtomicActions(this);
 
+    private Factory factory = new Factory();
 
-    /**
-     * set at the start of the game when you choose if you want to play frenzy
-     */
-    private boolean iWantFrenzyMode;
+    private boolean iWantFrenzyMode; /* set at the start of the game when you choose if you want to play frenzy */
 
-    /**
-     * set 'true' when last player dies only if iWantFrenzyMode is 'true'
-     */
-    private boolean frenzyMode;
+    private boolean frenzyMode; /* set 'true' when last player dies only if iWantFrenzyMode is 'true' */
+
+    private boolean isEnded = false; /* true when the game is ended */
 
     /* Methods */
 
@@ -131,6 +122,22 @@ public class Match {
         return lastPlayer;
     }
 
+    public Factory getFactory() {
+        return factory;
+    }
+
+    public void setFactory(Factory factory) {
+        this.factory = factory;
+    }
+
+    public boolean isEnded() {
+        return isEnded;
+    }
+
+    public void setEnded(boolean ended) {
+        isEnded = ended;
+    }
+
     public AtomicActions getAtomicActions() {
         return atomicActions;
     }
@@ -149,21 +156,59 @@ public class Match {
         return null;
     }
 
+    /**
+     * this method creates the board and everything it contains
+     */
     public void initializeMatch() {
 
       //TODO implement
 
     }
 
+    /**
+     * this method basically do the final update of the score that will be showned from the view to the client
+     */
     public void endMatch() {
 
-      //TODO implement
+      for(Player player: players){
 
+          if(player.getPlayerBoard().isFlipped()){
+
+              player.getPlayerBoard().updateFrenzyScore(score);
+          }
+
+          else {
+
+              player.getPlayerBoard().updateScore(score);
+          }
+      }
+
+      board.getKillTrack().updateScore(score);
+
+      setEnded(true);
     }
 
+    /**
+     * this method updates the current player
+     */
     public void setNextPlayer(){
 
-        //TODO implement
+        int i = players.indexOf(currentPlayer);
+
+        if (isEnded){
+
+            currentPlayer = null;
+        }
+
+        else if ( i < numberOfPlayers - 1){
+
+            currentPlayer = players.get(i+1);
+        }
+
+        else {
+
+            currentPlayer = players.get(0);
+        }
     }
 
     public void endTurn() {
@@ -176,7 +221,7 @@ public class Match {
         /*
          * verifies if players are dead or not (if true resets the damages)
          */
-        for(int i = 0; i<players.size(); i++) {
+        for(int i = 0; i < players.size(); i++) {
 
              if(this.players.get(i).isDead()) {
 
@@ -200,7 +245,7 @@ public class Match {
 
                  /* if a player dies during frenzy his board is flipped */
 
-                 if (killTokens.getTotalKills() >= 8) {
+                 if (killTokens.getTotalKills() >= 8 && iWantFrenzyMode) {
 
                      playerBoard.setFlipped(true);
 
@@ -209,7 +254,6 @@ public class Match {
                  respawn(this.players.get(i));
              }
          }
-        //TODO implement exceptions
 
         /*
          * calls endMatch at the end
@@ -219,11 +263,11 @@ public class Match {
               endMatch();
          }
 
+
         /*
          * initializes frenzy mode
          */
-
-        if(killTokens.getTotalKills() >= 8 && this.lastPlayer == null){
+        else if(killTokens.getTotalKills() >= 8 && this.lastPlayer == null && iWantFrenzyMode){
 
                  frenzyMode = true;
                  this.lastPlayer = this.currentPlayer;
@@ -241,10 +285,13 @@ public class Match {
 
         }
 
-        //TODO implement exceptions
+        else if (killTokens.getTotalKills() >= 8 && !iWantFrenzyMode){
+
+            endMatch();
+         }
+
 
          setNextPlayer();
-
     }
 
 
