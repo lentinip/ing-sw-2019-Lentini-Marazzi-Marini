@@ -1,5 +1,7 @@
 package it.polimi.sw2019.model;
 
+import it.polimi.sw2019.controller.AtomicActions;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +31,6 @@ public class Match {
     private Score score;
 
     private Player lastPlayer;
-
-    private AtomicActions atomicActions = new AtomicActions(this);
 
     private Factory factory = new Factory();
 
@@ -136,10 +136,6 @@ public class Match {
 
     public void setEnded(boolean ended) {
         isEnded = ended;
-    }
-
-    public AtomicActions getAtomicActions() {
-        return atomicActions;
     }
 
     /**

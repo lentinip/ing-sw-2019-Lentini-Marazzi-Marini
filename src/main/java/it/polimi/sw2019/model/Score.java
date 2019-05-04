@@ -1,9 +1,6 @@
 package it.polimi.sw2019.model;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Score extends Tokens {
 
@@ -53,9 +50,28 @@ public class Score extends Tokens {
     }
 
     /**
-     * Method that returns a descending array of Characters that represents the game LeaderBoard
+     * Method that returns a Map of Characters that represents the game LeaderBoard
      */
-    public ArrayList<Character> getRanking(){
-        return orderArrayByComparator(charactersMap, new RankingComparator());
+    public Map<Character, Integer> getRankingMap() {
+        Map<Character, Integer> sortedMap = sortByValues(charactersMap, Collections.reverseOrder(new RankingComparator()));
+
+        Map<Character, Integer> ranking = new LinkedHashMap<>();
+        List<Map.Entry<Character, Integer>> list = new LinkedList<>(sortedMap.entrySet());
+
+        int rank = 1;
+        int previousValue = list.get(0).getValue();
+
+        for (int i=0; i<list.size(); i++){
+            if (previousValue==list.get(i).getValue()){
+                ranking.put(list.get(i).getKey(), rank);
+            }
+            else {
+                previousValue = list.get(i).getValue();
+                rank++;
+                ranking.put(list.get(i).getKey(), rank);
+            }
+        }
+
+        return ranking;
     }
 }

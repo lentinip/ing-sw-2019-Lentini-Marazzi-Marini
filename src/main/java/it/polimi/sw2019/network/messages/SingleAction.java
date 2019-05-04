@@ -151,7 +151,7 @@ public class SingleAction implements Serializable {
         //Unused values (some with non sense values)
         this.selectedCellRow = 10;
         this.selectedCellColumn = 10;
-        this. selectedWeaponIndex = 5;
+        this.selectedWeaponIndex = 5;
     }
 
     /**
