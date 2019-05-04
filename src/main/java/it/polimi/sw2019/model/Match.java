@@ -1,6 +1,5 @@
 package it.polimi.sw2019.model;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +29,6 @@ public class Match {
     private Score score;
 
     private Player lastPlayer;
-
-    private AtomicActions atomicActions = new AtomicActions(this);
 
     private Factory factory = new Factory();
 
@@ -160,11 +157,9 @@ public class Match {
     /**
      * this method creates the board and everything it contains
      */
-    public void initializeMatch(String fileOfTheChosenBoard) throws FileNotFoundException {
+    public void initializeMatch() {
 
-      factory.createBoard(fileOfTheChosenBoard);
-
-      //TODO implement the rest
+      //TODO implement
 
     }
 

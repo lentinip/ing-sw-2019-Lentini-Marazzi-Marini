@@ -103,6 +103,10 @@ public class Board {
             //TODO implement IndexOutOfBoundException
     }
 
+    public boolean weaponsDeckIsEmpty(){
+        return weaponsDeck.isEmpty();
+    }
+
     public Weapon drawWeapon(){
         if (!weaponsDeck.isEmpty()){
             Weapon result = weaponsDeck.get(weaponsDeck.size()-1);

@@ -71,6 +71,7 @@ public class Player {
 
     public void setState(State state) {
         this.state = state;
+        //TODO this method needs to update the single client view ActionHandler
     }
 
     public State getState() {

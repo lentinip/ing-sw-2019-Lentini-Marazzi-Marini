@@ -1,9 +1,6 @@
 package it.polimi.sw2019.controller;
 
-import it.polimi.sw2019.model.CommonCell;
-import it.polimi.sw2019.model.Match;
-import it.polimi.sw2019.model.Player;
-import it.polimi.sw2019.model.SpawnCell;
+import it.polimi.sw2019.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,5 +38,39 @@ public class TurnManager {
 
     public List<SpawnCell> getEmptySpawnCells() {
         return emptySpawnCells;
+    }
+
+    public void endTurn(){
+
+        //Refils the CommonCells
+        if(!emptyCommonCells.isEmpty()){
+            for(CommonCell commonCell : emptyCommonCells){
+
+                AmmoTile newAmmoTile = match.getBoard().drawAmmo();
+                commonCell.setAmmo(newAmmoTile);
+                commonCell.setIsEmpty(false);
+                emptyCommonCells.remove(commonCell);
+            }
+        }
+
+        //Refills the SpawnCells
+        if(!emptySpawnCells.isEmpty()){
+
+            for(SpawnCell spawnCell : emptySpawnCells){
+               Weapon weapon = match.getBoard().drawWeapon();
+
+               if (!match.getBoard().weaponsDeckIsEmpty()){
+                   spawnCell.getWeapons().add(weapon);
+               }
+
+               if (match.getBoard().weaponsDeckIsEmpty() || spawnCell.getWeapons().size()==3){
+                   emptySpawnCells.remove(spawnCell);
+               }
+
+            }
+        }
+
+        //Calls endTurn of the Match in the model
+        match.endTurn();
     }
 }

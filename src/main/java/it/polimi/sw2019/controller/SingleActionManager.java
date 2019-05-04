@@ -21,7 +21,7 @@ public class SingleActionManager {
 
     private Match match;
 
-    private AtomicActions atomicActions = match.getAtomicActions();
+    private AtomicActions atomicActions = new AtomicActions(match);
 
     private TurnManager turnManager;
 
@@ -181,14 +181,30 @@ public class SingleActionManager {
     }
 
     public void handleSingleAction(){
-        //TODO implement
+        switch (typeOfAction){
+            case MOVE:
+                atomicActions.move(currentPlayer, selectedCell);
+                break;
+            case GRAB:
+                grab();
+                break;
+            case DEALDAMAGE:
+                break;
+            case MARK:
+                break;
+            case RELOAD:
+                break;
+            case ENDTURN:
+                break;
+            case USEPOWERUP:
+                break;
+            case SHOOT:
+                break;
+
+        }
     }
 
     //The following methods do the action calling the action function in the AtomicAction class
-
-    public void move(){
-        atomicActions.move(currentPlayer, selectedCell);
-    }
 
     public void grab(){
 

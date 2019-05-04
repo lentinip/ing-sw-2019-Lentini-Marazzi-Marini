@@ -1,4 +1,6 @@
-package it.polimi.sw2019.model;
+package it.polimi.sw2019.controller;
+
+import it.polimi.sw2019.model.*;
 
 import java.util.List;
 
@@ -103,17 +105,45 @@ public class  AtomicActions {
     }
 
     /**
-     * Deal a specific amount of damage to a Player
+     * Deal a specific amount of damage to a Player, plus his marks.
+     * Also changes the receiver's state and sets if he's dead.
      * @param shooter Player who shoots
      * @param receiver Player who receives the damage
      * @param damage Number of tokens that the shooter gives
      */
-    public void DealDamage(Player shooter, Player receiver, int damage){
+    public void dealDamage(Player shooter, Player receiver, int damage){
         DamageTokens receiverDamage = receiver.getPlayerBoard().getDamage();
-        receiverDamage.addDamage(damage, shooter.getCharacter());
+
+        //Adds the shooter's marks
+        int shooterMarks = receiver.getPlayerBoard().getMarks().removeMarks(shooter.getCharacter());
+
+        //Calculates the new damage
+        int newDamage = damage + shooterMarks;
+
+        //Finally adds the damage
+        receiverDamage.addDamage(newDamage, shooter.getCharacter());
+
+        int totalDamage = receiverDamage.getTotalDamage();
+
+        //If we're not in the frenzy mode and if the player is still alive, change his mode
+        if (!match.getFrenzyMode() && totalDamage<11) {
+
+            if (totalDamage>2 && totalDamage<6){
+                receiver.setState(State.ADRENALINIC1);
+            }
+
+            if (totalDamage>5){
+                receiver.setState(State.ADRENALINIC2);
+            }
+        }
+
+        //If the player has more than 10 damages he's dead
+        if (totalDamage>10){
+            receiver.setDead(true);
+        }
     }
 
-    public  void DealDamageAll(Player shooter, Cell selectedCell, boolean isRoom, int damage){
+    public  void dealDamageAll(Player shooter, Cell selectedCell, boolean isRoom, int damage){
         List<Player> receivers;
 
         //Manage if the damage goes to all the room or all the cell
@@ -126,16 +156,16 @@ public class  AtomicActions {
 
         //Iterate for all the players
         for (Player player : receivers){
-            DealDamage(shooter, player, damage);
+            dealDamage(shooter, player, damage);
         }
     }
 
-    public void Mark(Player shooter, Player receiver, int mark){
+    public void mark(Player shooter, Player receiver, int mark){
         Marks receiverMarks = receiver.getPlayerBoard().getMarks();
         receiverMarks.addMark(mark, shooter.getCharacter());
     }
 
-    public void MarkAll(Player shooter, Cell selectedCell, boolean isRoom, int mark){
+    public void markAll(Player shooter, Cell selectedCell, boolean isRoom, int mark){
         List<Player> receivers;
 
         //Manage if the damage goes to all the room or all the cell
@@ -148,7 +178,7 @@ public class  AtomicActions {
 
         //Iterate for all the players
         for (Player player: receivers){
-            Mark(shooter, player, mark);
+            mark(shooter, player, mark);
         }
     }
 

@@ -17,7 +17,7 @@ public class Tokens {
 
     /* Attributes */
 
-    protected EnumMap<Character, Integer> charactersMap = new EnumMap<>(Character.class);
+    protected Map<Character, Integer> charactersMap = new EnumMap<>(Character.class);
 
    /* Methods */
 
@@ -51,13 +51,13 @@ public class Tokens {
      * @param enumMapComparator Comparator<Map.Entry<Character, Integer>>
      * @return an ArrayList of Characters in decreasing order by the enumMapComparator
      */
-    protected ArrayList<Character> orderArrayByComparator(Map<Character, Integer> map, Comparator<Map.Entry<Character, Integer>> enumMapComparator) {
+    protected ArrayList<Character> orderArrayByComparator(Map<Character, Integer> map, Comparator<Map.Entry<Character, Integer>> mapComparator) {
 
         ArrayList<Character> result = new ArrayList<>();
 
-        EnumMap<Character, Integer> ranking;
+        Map<Character, Integer> ranking;
 
-        ranking = sortByValues(map, enumMapComparator);
+        ranking = sortByValues(map, Collections.reverseOrder(mapComparator));
 
         //This for sets the keys of the map in the Character array
         for(Map.Entry entry : ranking.entrySet()){
@@ -83,19 +83,19 @@ public class Tokens {
 
     /**
      * Sorts an EnumMap<Character, Integer> by values (Integer)
-     * @param map EnumMap that is going to be sorted
-     * @return an EnumMap sorted
+     * @param map Map that is going to be sorted
+     * @return an HashMap sorted
      */
-    private EnumMap<Character, Integer> sortByValues(Map<Character, Integer> map, Comparator<Map.Entry<Character,Integer>> enumMapComparator){
+    protected Map<Character, Integer> sortByValues(Map<Character, Integer> map, Comparator<Map.Entry<Character,Integer>> mapComparator){
 
         //This method first creates a list with the entries of the map (an entry contains the key and the value)
         List<Map.Entry<Character, Integer>> list = new LinkedList<>(map.entrySet());
 
         //Than sorts the list using the comparator implemented before
-        list.sort(Collections.reverseOrder(enumMapComparator));
+        list.sort(mapComparator);
 
         //Creates a new empty EnumMap
-        EnumMap<Character, Integer> sortedMap = new EnumMap<>(Character.class);
+        Map<Character, Integer> sortedMap = new LinkedHashMap<>();
 
         //For each entry in the list that now is ordered, it uses the method put() of the EnumMap to fill sortedMap
         for(Map.Entry entry : list){
