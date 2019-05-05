@@ -136,10 +136,6 @@ public class Match {
         isEnded = ended;
     }
 
-    public AtomicActions getAtomicActions() {
-        return atomicActions;
-    }
-
     /**
      * Returns the Player with a specific Character
      * @param character THe Character of the player
@@ -187,7 +183,7 @@ public class Match {
     }
 
     /**
-     * this method updates the current player
+     * This method updates the current player (when the match isEnded the currentPlayer is set to null)
      */
     public void setNextPlayer(){
 

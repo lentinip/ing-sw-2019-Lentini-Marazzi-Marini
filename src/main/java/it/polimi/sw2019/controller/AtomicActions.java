@@ -31,12 +31,15 @@ public class  AtomicActions {
     }
 
     /**
-     * Performs the grab in a CommonCell, adds the correct stuff to the Player and then discards the ammoTile.
+     * Moves the player to the selectedCell, performs the grab in a CommonCell, adds the correct stuff to the Player and then discards the ammoTile.
      * The cell at the end of the method is empty and with Ammo = null.
      * @param grabbingPlayer the grabbing Player
      * @param selectedCell the selected CommonCell
      */
     public void grab(Player grabbingPlayer, CommonCell selectedCell){
+
+        //First moves the player to the selected cell
+        move(grabbingPlayer, selectedCell);
 
         Ammo playerAmmo = grabbingPlayer.getPlayerBoard().getAmmo();
         AmmoTile cellTile = selectedCell.getAmmo();

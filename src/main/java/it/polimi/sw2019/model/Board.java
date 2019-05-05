@@ -95,6 +95,20 @@ public class Board {
     }
 
     /**
+     * Return a reference of Room giving a color (Colors)
+     * @param color color of the room
+     * @return the room with the input color
+     */
+    public Room getRoomByColor(Colors color){
+        for (Room room : rooms){
+            if (room.getColor()==color){
+                return room;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Set the game board
      * @param i index of the board wanted for the match
      */

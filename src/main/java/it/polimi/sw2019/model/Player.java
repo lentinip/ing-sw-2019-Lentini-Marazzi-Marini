@@ -69,6 +69,10 @@ public class Player {
         this.numberOfActions = numberOfActions;
     }
 
+    public void resetNumberOfActions(){
+        numberOfActions = 2;
+    }
+
     public void setState(State state) {
         this.state = state;
         //TODO this method needs to update the single client view ActionHandler
