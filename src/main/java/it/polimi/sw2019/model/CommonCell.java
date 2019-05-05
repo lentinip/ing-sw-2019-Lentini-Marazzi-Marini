@@ -22,7 +22,13 @@ public class CommonCell extends Cell {
         return ammo;
     }
 
-    public void setAmmo(AmmoTile ammoTile){ this.ammo = ammoTile; }
+    public void setAmmo(AmmoTile ammoTile){
+
+        if(ammoTile == null) {
+            throw new NullPointerException("ammoTile parameter can't be null");
+        }
+        this.ammo = ammoTile;
+    }
 
     public boolean isEmpty () {
         return isEmpty;

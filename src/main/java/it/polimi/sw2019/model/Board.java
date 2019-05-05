@@ -79,6 +79,8 @@ public class Board {
         this.weaponsDeck = weaponsDeck;
     }
 
+
+
     /**
      * Return a reference of Cell giving the row and the column
      * @param cellRow cell's row

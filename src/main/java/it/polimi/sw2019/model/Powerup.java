@@ -11,6 +11,13 @@ public class Powerup {
 
     }
 
+    public Powerup(String name, Colors color) {
+
+        setName(name);
+        setColor(color);
+    }
+
+
     /* Attributes */
 
     private String name;

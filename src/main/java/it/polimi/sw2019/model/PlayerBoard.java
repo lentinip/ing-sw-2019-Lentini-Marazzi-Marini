@@ -10,6 +10,9 @@ public class PlayerBoard {
      */
     public PlayerBoard(){
 
+        setFirstPlayer(false);
+        setFlipped(false);
+        setNumOfDeaths(0);
     }
 
     /* Attributes */

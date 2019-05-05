@@ -21,6 +21,10 @@ public class Tokens {
 
    /* Methods */
 
+    public Map<Character, Integer> getMap() {
+        return charactersMap;
+    }
+
     /**
      * Adds the number of the new tokens of a Character
      * @param numerOfTokens number of new tokens
@@ -48,7 +52,7 @@ public class Tokens {
 
     /**
      *
-     * @param enumMapComparator Comparator<Map.Entry<Character, Integer>>
+     * @param mapComparator Comparator<Map.Entry<Character, Integer>>
      * @return an ArrayList of Characters in decreasing order by the enumMapComparator
      */
     protected ArrayList<Character> orderArrayByComparator(Map<Character, Integer> map, Comparator<Map.Entry<Character, Integer>> mapComparator) {

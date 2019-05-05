@@ -12,7 +12,13 @@ public class Player {
 
     }
 
+    public Player(String name, Character character) {
 
+        setName(name);
+        setCharacter(character);
+        playerBoard = new PlayerBoard();
+        setDead(false);
+    }
 
     /* Attributes */
 
