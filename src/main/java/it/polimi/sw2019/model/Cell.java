@@ -14,6 +14,20 @@ public class Cell {
 
     }
 
+    public Cell(int i, int k, Cell up, Cell down, Cell left, Cell right, boolean isCommon) {
+
+        setRow(i);
+        setColumn(k);
+        setCellNeighbors(up, down, left, right);
+        setCommon(isCommon);
+    }
+
+    public Cell(int i, int k, Cell up, Cell down, Cell left, Cell right, boolean isCommon, Room room) {
+
+        setCellStructure(room, row, column, isCommon);
+        setCellNeighbors(up, down, left, right);
+    }
+
     /* Attributes */
 
     private Room room;
