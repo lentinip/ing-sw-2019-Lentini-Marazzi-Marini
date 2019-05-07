@@ -7,6 +7,9 @@ public class AmmoTile extends Ammo {
      */
     public AmmoTile(){
 
+        setBlue(0);
+        setRed(0);
+        setYellow(0);
     }
 
     /* Attributes */

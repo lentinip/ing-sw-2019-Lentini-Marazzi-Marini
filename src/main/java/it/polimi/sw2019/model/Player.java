@@ -12,7 +12,13 @@ public class Player {
 
     }
 
+    public Player(String name, Character character) {
 
+        setName(name);
+        setCharacter(character);
+        playerBoard = new PlayerBoard();
+        setDead(false);
+    }
 
     /* Attributes */
 
@@ -67,6 +73,10 @@ public class Player {
 
     public void setNumberOfActions(int numberOfActions) {
         this.numberOfActions = numberOfActions;
+    }
+
+    public void resetNumberOfActions(){
+        numberOfActions = 2;
     }
 
     public void setState(State state) {

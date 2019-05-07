@@ -63,6 +63,10 @@ public class SingleActionManager {
         return currentPlayer;
     }
 
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     public void setSelectedPowerup(Powerup selectedPowerup) {
         this.selectedPowerup = selectedPowerup;
     }
@@ -162,12 +166,6 @@ public class SingleActionManager {
         }
     }
 
-    public void endTurn() {
-
-        //TODO implement
-        return;
-    }
-
     public void timer()  {
 
         //TODO implement
@@ -184,23 +182,26 @@ public class SingleActionManager {
         switch (typeOfAction){
             case MOVE:
                 atomicActions.move(currentPlayer, selectedCell);
+                reducePlayerNumberOfActions();
                 break;
             case GRAB:
                 grab();
+                reducePlayerNumberOfActions();
                 break;
             case DEALDAMAGE:
                 break;
             case MARK:
                 break;
             case RELOAD:
+                turnManager.endTurn();
                 break;
             case ENDTURN:
+                turnManager.endTurn();
                 break;
             case USEPOWERUP:
                 break;
             case SHOOT:
                 break;
-
         }
     }
 
@@ -221,6 +222,12 @@ public class SingleActionManager {
             atomicActions.grabWeapon(currentPlayer,(SpawnCell) selectedCell, weaponIndex);
             //Add the cell to a list of empty cells (for the end of the turn)
             turnManager.getEmptySpawnCells().add((SpawnCell) selectedCell);
+        }
+    }
+
+    public void reducePlayerNumberOfActions(){
+        if(currentPlayer.getNumberOfActions()!=0){
+            currentPlayer.setNumberOfActions(currentPlayer.getNumberOfActions()-1);
         }
     }
 

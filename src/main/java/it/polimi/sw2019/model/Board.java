@@ -79,6 +79,8 @@ public class Board {
         this.weaponsDeck = weaponsDeck;
     }
 
+
+
     /**
      * Return a reference of Cell giving the row and the column
      * @param cellRow cell's row
@@ -89,6 +91,20 @@ public class Board {
         for(Cell cell: field){
             if(cell.getRow()==cellRow && cell.getColumn()==cellColumn){
                 return cell;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Return a reference of Room giving a color (Colors)
+     * @param color color of the room
+     * @return the room with the input color
+     */
+    public Room getRoomByColor(Colors color){
+        for (Room room : rooms){
+            if (room.getColor()==color){
+                return room;
             }
         }
         return null;

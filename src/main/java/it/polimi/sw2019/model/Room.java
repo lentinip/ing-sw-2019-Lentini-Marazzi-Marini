@@ -12,6 +12,13 @@ public class Room {
 
     }
 
+    public Room(Colors color, SpawnCell spawnCell, List<Cell> roomCells) {
+
+        setColor(color);
+        setSpawnCell(spawnCell);
+        setRoomCells(roomCells);
+    }
+
     /* Attributes */
 
     private Colors color;
@@ -21,8 +28,6 @@ public class Room {
     private List<Cell> roomCells = new ArrayList<>();
 
     private List<Player> players = new ArrayList<>(); /* added to use playersInside() */
-
-
 
 
     /* Methods */

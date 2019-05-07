@@ -26,4 +26,9 @@ public class SpawnCell extends Cell{
     public void setWeapons(List<Weapon> weapons) {
         this.weapons = weapons;
     }
+
+    public void addWeapon(Weapon weapon) {
+
+        weapons.add(weapon);
+    }
 }
