@@ -1,5 +1,8 @@
 package it.polimi.sw2019.model;
 
+import it.polimi.sw2019.controller.AtomicActions;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,10 +139,6 @@ public class Match {
         isEnded = ended;
     }
 
-    public AtomicActions getAtomicActions() {
-        return atomicActions;
-    }
-
     /**
      * Returns the Player with a specific Character
      * @param character THe Character of the player
@@ -157,9 +156,11 @@ public class Match {
     /**
      * this method creates the board and everything it contains
      */
-    public void initializeMatch() {
+    public void initializeMatch(String boardFileName) throws FileNotFoundException {
 
-      //TODO implement
+      this.board = factory.createBoard(boardFileName);
+
+      //TODO implement next part
 
     }
 
