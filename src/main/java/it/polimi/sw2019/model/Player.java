@@ -1,7 +1,6 @@
 package it.polimi.sw2019.model;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.LongSummaryStatistics;
 
 public class Player {
 
@@ -265,7 +264,7 @@ public class Player {
      * if the player has one or two moves before the shoot
      * @return the List of the cells where the player can move in order to be able to shoot someone
      */
-    public List<Cell> allowedCells(){
+    public List<Cell> allowedCellsShoot(){
 
         List<Cell> reachableCells = new ArrayList<>();
 
@@ -275,33 +274,27 @@ public class Player {
 
         copy.setPosition(startingPosition);
 
-        if (state == State.ADRENALINIC2 || state == State.FRENZYBEFOREFIRST){
+        for (Cell reachableCell: startingPosition.reachableCells(getMovesForShoot())) {
 
-            for (Cell reachableCell: startingPosition.reachableCells(1)){
+            copy.setPosition(reachableCell);
 
-                copy.setPosition(reachableCell);
+            if (canIshootBeforeComplexAction()) {
 
-                if (canIshootBeforeComplexAction()){
-
-                    reachableCells.add(reachableCell);
-                }
-            }
-        }
-
-        else if ( state == State.FRENZYAFTERFIRST){
-
-            for (Cell reachableCell: startingPosition.reachableCells(2)){
-
-                copy.setPosition(reachableCell);
-
-                if (canIshootBeforeComplexAction()){
-
-                   reachableCells.add(reachableCell);
-                }
+                reachableCells.add(reachableCell);
             }
         }
 
         return reachableCells;
+    }
+
+    public List<Cell> allowedCellsMove(){
+
+        return position.reachableCells(getMoves());
+    }
+
+    public List<Cell> allowedCellsGrab(){
+
+        return position.reachableCells(getMovesForGrab());
     }
 
     public List<Cell> visibleCells(){
@@ -412,4 +405,55 @@ public class Player {
 
         return payingPoweups;
     }
+
+    /**
+     * Called by method in player
+     * @return the number of moves you can do before a shoot based on your state
+     */
+    public int getMovesForShoot(){
+
+        if (state == State.NORMAL || state == State.ADRENALINIC1){
+
+            return 0;
+        }
+
+        else if (state == State.ADRENALINIC2 || state == State.FRENZYBEFOREFIRST){
+
+            return 1;
+        }
+
+        else { return 2; /* FRENZY AFTER FIRST */ }
+    }
+
+    public int getMovesForGrab(){
+
+        if (state == State.NORMAL){
+
+            return 1;
+        }
+
+        else if (state == State.ADRENALINIC1 || state == State.ADRENALINIC2 || state == State.FRENZYBEFOREFIRST){
+
+            return 2;
+        }
+
+        else { return 3; /* FRENZY AFTER FIRST */ }
+    }
+
+    public int getMoves(){
+
+        if ( state == State.NORMAL || state == State.ADRENALINIC1 || state == State.ADRENALINIC2 ){
+
+            return 3;
+        }
+
+        else if ( state == State.FRENZYBEFOREFIRST){
+
+            return 4;
+        }
+
+        return 0; /* this is the case of FRENZY AFTER FIRST, but in this case the move action is not available */
+    }
+
+
 }

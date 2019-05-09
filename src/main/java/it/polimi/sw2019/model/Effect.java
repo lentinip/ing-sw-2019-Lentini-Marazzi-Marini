@@ -180,7 +180,7 @@ public class Effect {
     }
 
     /**
-     * CALL ONLY IF YOU KNOW THE EFFECT IS NOT MOVE TYPE ONLY
+     * CALL ONLY IF YOU KNOW THE EFFECT IS NOT MOVE TYPE
      * @param allPlayers contains the list of all the players, it will be passed from the view to usableWeapon that calls this method
      * @param owner the player who is using the weapon
      * @return true if the player can actually pay and apply the effect
@@ -194,7 +194,7 @@ public class Effect {
             return false;
         }
 
-        if (!reachablePlayers(owner).isEmpty()){ /* can I shoot someone? */
+        if (!shootableCells(owner).isEmpty()){ /* can I shoot someone? */
 
             return true;
         }

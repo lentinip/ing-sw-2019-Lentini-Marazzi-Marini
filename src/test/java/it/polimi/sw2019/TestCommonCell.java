@@ -1,8 +1,6 @@
 package it.polimi.sw2019;
 
-import it.polimi.sw2019.model.Ammo;
 import it.polimi.sw2019.model.AmmoTile;
-import it.polimi.sw2019.model.CommonCell;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

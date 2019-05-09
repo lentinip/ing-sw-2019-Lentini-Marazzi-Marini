@@ -48,7 +48,7 @@ public class Factory {
         List<Weapon> weaponDeck = new ArrayList<>();
 
         Gson gson = new Gson();
-        File jsonFile = Paths.get("/src/main/resources/WeaponsDictionary").toFile();
+        File jsonFile = Paths.get("/src/main/resources/WeaponsDictionary.json").toFile();
 
         String[] fileNames = gson.fromJson(new FileReader(jsonFile), String[].class);
 
@@ -95,7 +95,7 @@ public class Factory {
         List<Powerup> powerupDeck = new ArrayList<>();
 
         Gson gson = new Gson();
-        File jsonFile = Paths.get("/src/main/resources/PoweupsDictionary").toFile();
+        File jsonFile = Paths.get("/src/main/resources/PoweupsDictionary.json").toFile();
 
         String[] fileNames = gson.fromJson(new FileReader(jsonFile), String[].class);
 
@@ -159,10 +159,12 @@ public class Factory {
 
     /**
      * this method is called by the initialize match and creates the board by reading its correspondent json file
+     * THIS METHOD DOES NOT SET THE "PLAYERS" ATTRIBUTE IN THE ROOMS, IT MUST BE DONE IN MATCH CLASS AND DOES NOT SET
+     * THE "KILLTRACK"
      * @param fileName the name of the json file correspondent to the kind of board chosen by logged client
      * @return
      */
-    public Board createBoard(String fileName) throws FileNotFoundException{
+    public Board createBoard(String fileName, List<Player> players) throws FileNotFoundException{
 
         Board board = new Board();
 
@@ -178,9 +180,115 @@ public class Factory {
         Collections.shuffle(weaponsDeck);
         board.setWeaponsDeck(weaponsDeck);
 
-        //TODO implement the file reading part that set ups all the Cells
+        Gson gson = new Gson();
+
+        File jsonFile = Paths.get(fileName).toFile();
+
+        Type foundListType = new TypeToken<ArrayList<CellFactory>>(){}.getType();
+
+        List<CellFactory> cells = gson.fromJson(new FileReader(jsonFile), foundListType);
+
+        List<Cell> field = new ArrayList<>();
+
+        for (int i = 0; i < cells.size(); i++){ /* creating the correct number of cells and putting them in field attribute */
+
+            field.add(new Cell());
+        }
+
+        List<Room> rooms = createRooms(cells, field, players);
+
+        board.setRooms(rooms);
+
+        for (CellFactory cell: cells){
+
+            cell.setCell(cells, field, cells.indexOf(cell), rooms);
+        }
+
+        board.setField(field);
+
+        for(Cell cell: field){
+
+            if (cell.isCommon()){
+
+                cell.setAmmo(board.drawAmmo());
+            }
+
+            else {
+
+                for (int i = 0; i < 3; i++){
+
+                    cell.addWeapon(board.drawWeapon());
+                }
+            }
+        }
+
+        createKillTrack(board, players);
 
         return board;
+    }
+
+    /**
+     * this method creates every room giving it the pointers to every cell it contains
+     * @param cells
+     * @param field
+     * @return
+     */
+    public List<Room> createRooms(List<CellFactory> cells, List<Cell> field, List<Player> players){
+
+        List<Room> rooms = new ArrayList<>();
+
+        List<Colors> colorsDone = new ArrayList<>(); /* I use this list to know if I have already created a room of a specific color */
+
+        for(CellFactory cellKind: cells){
+
+            if ( !colorsDone.contains(cellKind.getColor())){ /* new room if I have not already created a room of that color */
+
+                Room room = new Room();
+
+                Colors color = cellKind.getColor();
+
+                colorsDone.add(color);
+
+                room.setColor(color);
+
+                room.setPlayers(players);
+
+                for (CellFactory cell: cells){ /* adding to the room every Cell (not CellFactory) of the same color */
+
+                    if( cell.getColor() == color ){
+
+                        room.addCell(field.get(cells.indexOf(cell)));
+
+                        if (!cell.isCommon()){
+
+                            room.setSpawnCell(field.get(cells.indexOf(cell)));
+                        }
+                    }
+                }
+            }
+        }
+
+        return  rooms;
+    }
+
+    /**
+     * this method creates the killTrack by taking the characters from every player in the game
+     * and set the board "killTrack" attribute
+     * @param board
+     * @param players
+     */
+    public void createKillTrack(Board board, List<Player> players){
+
+        List<Character> charactersInGame = new ArrayList<>();
+
+        for (Player player: players){
+
+            charactersInGame.add(player.getCharacter());
+        }
+
+        KillTokens killTrack = new KillTokens(charactersInGame);
+
+        board.setKillTrack(killTrack);
     }
 
 }

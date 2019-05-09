@@ -26,34 +26,14 @@ public class Board {
 
     private List<Powerup> powerupsDiscarded = new ArrayList<>(); //Size: 24
 
-    private int powerupUsed = 0;
-
     private List<AmmoTile> ammoDeck = new ArrayList<>(); //Size: 36
 
     private List<AmmoTile> ammoDiscarded = new ArrayList<>(); //Size: 36
-
-    private int ammoTileUsed = 0;
 
     private List<Room> rooms = new ArrayList<>();
 
 
     /* Methods */
-
-    public int getPowerupUsed() {
-        return powerupUsed;
-    }
-
-    public void setPowerupUsed(int powerupUsed) {
-        this.powerupUsed = powerupUsed;
-    }
-
-    public int getAmmoTileUsed() {
-        return ammoTileUsed;
-    }
-
-    public void setAmmoTileUsed(int ammoTileUsed) {
-        this.ammoTileUsed = ammoTileUsed;
-    }
 
     public void setKillTrack(KillTokens killTrack) {
         this.killTrack = killTrack;
@@ -61,6 +41,10 @@ public class Board {
 
     public KillTokens getKillTrack() {
         return killTrack;
+    }
+
+    public void setField(List<Cell> field) {
+        this.field = field;
     }
 
     public List<Cell> getField() {
@@ -79,7 +63,13 @@ public class Board {
         this.weaponsDeck = weaponsDeck;
     }
 
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
 
+    public List<Room> getRooms() {
+        return rooms;
+    }
 
     /**
      * Return a reference of Cell giving the row and the column
@@ -108,15 +98,6 @@ public class Board {
             }
         }
         return null;
-    }
-
-    /**
-     * Set the game board
-     * @param i index of the board wanted for the match
-     */
-    public void setField(int i) {
-
-            //TODO implement IndexOutOfBoundException
     }
 
     public boolean weaponsDeckIsEmpty(){

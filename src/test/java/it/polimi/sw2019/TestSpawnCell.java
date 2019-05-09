@@ -1,6 +1,5 @@
 package it.polimi.sw2019;
 
-import it.polimi.sw2019.model.SpawnCell;
 import it.polimi.sw2019.model.Weapon;
 import org.junit.Test;
 

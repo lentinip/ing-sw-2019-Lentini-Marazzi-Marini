@@ -20,7 +20,7 @@
         "moveYouAfter" : false,
         "moveYouSameDirection" : false,
         "obligatoryYou" : false,
-        "obligatoryTarget" : true,
+        "obligatoryTarget" : true
 
       },
       "color" : "YELLOW"
@@ -47,7 +47,7 @@
         "moveYouAfter" : false,
         "moveYouSameDirection" : false,
         "obligatoryYou" : false,
-        "obligatoryTarget" : true,
+        "obligatoryTarget" : true
 
       },
       "color" : "BLUE"
@@ -74,7 +74,7 @@
         "moveYouAfter" : false,
         "moveYouSameDirection" : false,
         "obligatoryYou" : false,
-        "obligatoryTarget" : true,
+        "obligatoryTarget" : true
 
       },
       "color" : "RED"

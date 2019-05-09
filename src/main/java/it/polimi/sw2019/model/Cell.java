@@ -46,6 +46,12 @@ public class Cell {
 
     private boolean isCommon; //tell if the Cell is Common or Spawn
 
+    private boolean isEmpty = false; // at the beginning of the game every cell has a tile
+
+    private AmmoTile ammoTile;
+
+    private List<Weapon> weapons = new ArrayList<>(); /* max 3 weapons */
+
     /* Methods */
 
     public Room getRoom() {
@@ -104,12 +110,45 @@ public class Cell {
         this.right = right;
     }
 
-    public boolean getCommon(){
+    public boolean isCommon(){
         return this.isCommon;
     }
 
     public void setCommon(boolean common) {
         isCommon = common;
+    }
+
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+
+    public void setEmpty(boolean empty) {
+        isEmpty = empty;
+    }
+
+    public AmmoTile getAmmo() {
+        return ammoTile;
+    }
+
+    public void setAmmo(AmmoTile ammoTile){
+
+        if(ammoTile == null) {
+            throw new NullPointerException("ammoTile parameter can't be null");
+        }
+        this.ammoTile = ammoTile;
+    }
+
+    public List<Weapon> getWeapons() {
+        return weapons;
+    }
+
+    public void setWeapons(List<Weapon> weapons) {
+        this.weapons = weapons;
+    }
+
+    public void addWeapon(Weapon weapon) {
+
+        weapons.add(weapon);
     }
 
     /**

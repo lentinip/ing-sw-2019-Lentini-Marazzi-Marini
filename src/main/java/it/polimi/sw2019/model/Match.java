@@ -1,7 +1,5 @@
 package it.polimi.sw2019.model;
 
-import it.polimi.sw2019.controller.AtomicActions;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -158,9 +156,9 @@ public class Match {
      */
     public void initializeMatch(String boardFileName) throws FileNotFoundException {
 
-      this.board = factory.createBoard(boardFileName);
+      this.board = factory.createBoard(boardFileName, players);
 
-      //TODO implement next part
+      //TODO create the tokens class that are in PlayerBoard
 
     }
 

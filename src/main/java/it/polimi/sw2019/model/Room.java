@@ -12,7 +12,7 @@ public class Room {
 
     }
 
-    public Room(Colors color, SpawnCell spawnCell, List<Cell> roomCells) {
+    public Room(Colors color, Cell spawnCell, List<Cell> roomCells) {
 
         setColor(color);
         setSpawnCell(spawnCell);
@@ -23,7 +23,7 @@ public class Room {
 
     private Colors color;
 
-    private SpawnCell spawnCell;
+    private Cell spawnCell;
 
     private List<Cell> roomCells = new ArrayList<>();
 
@@ -40,11 +40,11 @@ public class Room {
         this.color = color;
     }
 
-    public SpawnCell getSpawnCell() {
+    public Cell getSpawnCell() {
         return spawnCell;
     }
 
-    public void setSpawnCell(SpawnCell spawnCell) {
+    public void setSpawnCell(Cell spawnCell) {
         this.spawnCell = spawnCell;
     }
 

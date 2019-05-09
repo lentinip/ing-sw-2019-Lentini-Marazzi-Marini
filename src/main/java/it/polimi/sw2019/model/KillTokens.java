@@ -86,7 +86,7 @@ public class KillTokens extends Tokens{
 
             /* points added to the player */
 
-            points = 8 -  2*i;
+            points = 8 - 2*i;
 
             if (points <= 0) {
 

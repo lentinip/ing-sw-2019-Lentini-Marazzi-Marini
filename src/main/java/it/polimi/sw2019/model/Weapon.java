@@ -31,7 +31,7 @@ public class Weapon {
 
     private List<Effect> effects = new ArrayList<>();
 
-    private boolean hasAnOrder;          /* weapon's effects must be executed in a precise order */
+    private boolean hasAnOrder;          /* there are some effects that upgrade the basic one */
 
     private boolean hasAMoveTypeEffect;  /* There is an only move optional effect */
 
@@ -101,7 +101,7 @@ public class Weapon {
         this.type = type;
     }
 
-    public boolean isOrdered() {
+    public boolean HasAnOrder() {
         return hasAnOrder;
     }
 
@@ -231,6 +231,26 @@ public class Weapon {
         }
 
         return false;
+    }
+
+    public List<Effect> usableEffects(List<Player> allPlayers){
+
+        List<Effect> usableEffects = new ArrayList<>();
+
+        for(Effect effect: effects){
+
+            if (effect.getType() != EffectsKind.MOVE) {
+
+                if (effect.usableEffect(owner, allPlayers)) {
+
+                    usableEffects.add(effect);
+                }
+            }
+
+            else usableEffects.add(effect);
+        }
+
+        return usableEffects;
     }
 
 

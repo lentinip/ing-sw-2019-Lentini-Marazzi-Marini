@@ -10,7 +10,8 @@
       "duringYourTurn" : true,
       "duringDamageAction" : true,
       "move" : null,
-      "color" : "YELLOW"
+      "color" : "YELLOW",
+      "iNeedToPay" : "true"
 
     }
   },
@@ -25,7 +26,8 @@
       "duringYourTurn" : true,
       "duringDamageAction" : true,
       "move" : null,
-      "color" : "BLUE"
+      "color" : "BLUE",
+      "iNeedToPay" : "true"
 
     }
   },
@@ -40,7 +42,8 @@
       "duringYourTurn" : true,
       "duringDamageAction" : true,
       "move" : null,
-      "color" : "RED"
+      "color" : "RED",
+      "iNeedToPay" : "true"
 
     }
   }

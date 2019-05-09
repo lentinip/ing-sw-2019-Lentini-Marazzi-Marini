@@ -36,6 +36,8 @@ public class Powerup {
 
     private Colors color;
 
+    private boolean iNeedToPay = false;
+
     /* Methods */
 
     public String getName(){
@@ -98,6 +100,14 @@ public class Powerup {
 
     public void setMove(MoveEffect move) {
         this.move = move;
+    }
+
+    public boolean isiNeedToPay() {
+        return iNeedToPay;
+    }
+
+    public void setiNeedToPay(boolean iNeedToPay) {
+        this.iNeedToPay = iNeedToPay;
     }
 
     /**
