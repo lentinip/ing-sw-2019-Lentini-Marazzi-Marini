@@ -139,7 +139,7 @@ public class Match {
 
     /**
      * Returns the Player with a specific Character
-     * @param character THe Character of the player
+     * @param character The Character of the player
      * @return the Player reference (Can be null)
      */
     public Player getPlayerFromCharacter(Character character){
