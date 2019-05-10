@@ -12,6 +12,14 @@ public class AmmoTile extends Ammo {
         setYellow(0);
     }
 
+    public AmmoTile(int blue, int red, int yellow, boolean powerup) {
+
+        setBlue(blue);
+        setRed(red);
+        setYellow(yellow);
+        setPowerup(powerup);
+    }
+
     /* Attributes */
     /**
      * Is true if there is a powerup in the ammo tile

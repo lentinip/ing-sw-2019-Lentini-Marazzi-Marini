@@ -8,6 +8,19 @@ import java.util.List;
  */
 public class AmmoTileFactory {
 
+    /**
+     * Default constructor
+     */
+    public AmmoTileFactory() {
+
+    }
+
+    public AmmoTileFactory(AmmoTile ammoTile, int quantity) {
+
+        setAmmoTile(ammoTile);
+        setQuantity(quantity);
+    }
+
     /* Attributes */
 
     private int quantity; /* number of copy of the single tile in the match, attribute used by constructor to create the correct number of ammotiles ( see Factory ) */

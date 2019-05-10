@@ -41,7 +41,7 @@ public class LineClient extends Thread implements ServerInterface {
 
     /* Methods */
 
-    //TODO verify if the connection as been established
+    //TODO verify if the connection has been established
     private void startLine(int port, String host, ClientActions clientActions) {
 
         try {

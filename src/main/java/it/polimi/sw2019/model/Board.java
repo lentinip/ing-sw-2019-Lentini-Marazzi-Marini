@@ -111,7 +111,6 @@ public class Board {
             return result;
         }
         else {
-            //TODO implement DeckEmptyException
             return null;
         }
     }
@@ -141,7 +140,6 @@ public class Board {
         }
 
         else {
-            //TODO implement DeckEmptyException
             return null;
         }
     }
@@ -171,7 +169,6 @@ public class Board {
         }
 
         else {
-            //TODO implement DeckEmptyException
             return null;
         }
     }
