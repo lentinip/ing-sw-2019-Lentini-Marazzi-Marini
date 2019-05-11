@@ -23,13 +23,13 @@ public class Match {
 
     private List<Player> players = new ArrayList<>(); /* max five players */
 
-    private int numberOfPlayers;
-
     private Player currentPlayer;
 
     private Score score;
 
-    private Player lastPlayer;
+    private int numberOfPlayers;
+
+    private Player lastPlayer = null; /* the player that takes the last turn and after it, the match is ended */
 
     private Factory factory = new Factory();
 
@@ -40,6 +40,15 @@ public class Match {
     private boolean isEnded = false; /* true when the game is ended */
 
     /* Methods */
+
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+    }
 
     public int getIdPartita() {
         return idPartita;
@@ -71,14 +80,6 @@ public class Match {
 
     public void setPlayers(List<Player> players) {
         this.players = players;
-    }
-
-    public int getNumberOfPlayers() {
-        return numberOfPlayers;
-    }
-
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
     }
 
     public Player getCurrentPlayer() {
@@ -156,9 +157,16 @@ public class Match {
      */
     public void initializeMatch(String boardFileName) throws FileNotFoundException {
 
+      Visibility visibilityClass = new Visibility();
+
+      factory.setVisibilityClass(visibilityClass);
+
       this.board = factory.createBoard(boardFileName, players);
 
-      //TODO create the tokens class that are in PlayerBoard
+      visibilityClass.setBoard(board);
+
+
+      //TODO create the tokens class that are in PlayerBoard and the score class
 
     }
 

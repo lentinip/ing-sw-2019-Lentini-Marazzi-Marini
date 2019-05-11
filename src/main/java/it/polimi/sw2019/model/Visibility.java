@@ -17,6 +17,14 @@ public class Visibility {
 
     /* Methods */
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
     /**
      * depending on the kindOfVisibility this method calls the correspondent method and give it the correct input
      * @param visibility
