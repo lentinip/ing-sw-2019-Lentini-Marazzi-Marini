@@ -8,5 +8,6 @@ public enum TypeOfAction {
     ENDTURN,
     USEPOWERUP,
     DEALDAMAGE,
-    MARK
+    MARK,
+    SPAWN
 }

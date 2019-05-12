@@ -1,5 +1,6 @@
 package it.polimi.sw2019;
 
+import it.polimi.sw2019.model.Cell;
 import it.polimi.sw2019.model.Weapon;
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ public class TestSpawnCell {
     @Test
     public void setWeaponsTest() {
 
-        SpawnCell spawnCell = new SpawnCell();
+        Cell spawnCell = new Cell();
 
         List<Weapon> weapons = new ArrayList<>();
         Weapon weapon1 = new Weapon();
@@ -29,7 +30,7 @@ public class TestSpawnCell {
     @Test
     public void addWeaponTest() {
 
-        SpawnCell spawnCell = new SpawnCell();
+        Cell spawnCell = new Cell();
 
         List<Weapon> resultWeapons = new ArrayList<>();
         Weapon weapon1 = new Weapon();

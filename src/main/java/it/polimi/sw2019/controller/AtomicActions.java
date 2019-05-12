@@ -31,12 +31,12 @@ public class  AtomicActions {
     }
 
     /**
-     * Moves the player to the selectedCell, performs the grab in a CommonCell, adds the correct stuff to the Player and then discards the ammoTile.
+     * Moves the player to the selectedCell, performs the grab in a common Cell, adds the correct stuff to the Player and then discards the ammoTile.
      * The cell at the end of the method is empty and with Ammo = null.
      * @param grabbingPlayer the grabbing Player
-     * @param selectedCell the selected CommonCell
+     * @param selectedCell the selected common Cell
      */
-    public void grab(Player grabbingPlayer, CommonCell selectedCell){
+    public void grab(Player grabbingPlayer, Cell selectedCell){
 
         //First moves the player to the selected cell
         move(grabbingPlayer, selectedCell);
@@ -66,12 +66,12 @@ public class  AtomicActions {
     }
 
     /**
-     * Performs the grab of a Weapon in a SpawnCell, adds it to the player and removes it from the cell
+     * Performs the grab of a Weapon in a spawn Cell, adds it to the player and removes it from the cell
      * @param grabbingPlayer the grabbing Player
-     * @param selectedCell the selected SpawnCell
-     * @param weaponIndex the weapon index in the SpawnCell
+     * @param selectedCell the selected spawn Cell
+     * @param weaponIndex the weapon index in the spawn Cell
      */
-    public void grabWeapon(Player grabbingPlayer, SpawnCell selectedCell, int weaponIndex){
+    public void grabWeapon(Player grabbingPlayer, Cell selectedCell, int weaponIndex){
 
         Weapon grabbedWeapon = selectedCell.getWeapons().get(weaponIndex);
 
@@ -86,11 +86,11 @@ public class  AtomicActions {
     /**
      * Performs the grab of a Weapon in a SpawnCell when the Player needs to replace one of his weapons
      * @param grabbingPlayer the grabbing Player
-     * @param selectedCell the selected SpawnCell
-     * @param cellWeaponIndex the weapon index in the SpawnCell
+     * @param selectedCell the selected spawn Cell
+     * @param cellWeaponIndex the weapon index in the spawn Cell
      * @param playerWeaponIndex the weapon index in the Player
      */
-    public void grabWeaponAndReplace(Player grabbingPlayer, SpawnCell selectedCell, int cellWeaponIndex, int playerWeaponIndex){
+    public void grabWeaponAndReplace(Player grabbingPlayer, Cell selectedCell, int cellWeaponIndex, int playerWeaponIndex){
 
         Weapon weaponToReplace = grabbingPlayer.getWeapons().get(playerWeaponIndex);
 
@@ -200,6 +200,7 @@ public class  AtomicActions {
 
         //Set the ammo to the player
         switch (powerupToDiscard.getColor()){
+            //TODO change to set and get
             case RED:
                 playerAmmo.addRed(1);
                 break;

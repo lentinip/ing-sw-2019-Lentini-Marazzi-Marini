@@ -1,6 +1,7 @@
 package it.polimi.sw2019;
 
 import it.polimi.sw2019.model.AmmoTile;
+import it.polimi.sw2019.model.Cell;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -10,7 +11,7 @@ public class TestCommonCell {
     @Test
     public void setAmmoTest() {
 
-        CommonCell commonCell = new CommonCell();
+        Cell commonCell = new Cell();
 
         AmmoTile ammoTile = null;
         try{
@@ -30,7 +31,7 @@ public class TestCommonCell {
     @Test
     public void setIsEmptyTest() {
 
-        CommonCell commonCell = new CommonCell();
+        Cell commonCell = new Cell();
 
         commonCell.setIsEmpty(false);
         assertFalse(commonCell.isEmpty());
