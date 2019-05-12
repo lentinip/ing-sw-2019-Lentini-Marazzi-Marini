@@ -32,6 +32,8 @@ public class Effect {
 
     private MoveEffect move;
 
+    private Target targets;
+
     /* methods */
 
     public String getName() {
@@ -114,6 +116,13 @@ public class Effect {
         this.move = move;
     }
 
+    public void setTargets(Target targets) {
+        this.targets = targets;
+    }
+
+    public Target getTargets() {
+        return targets;
+    }
 
     /**
      *

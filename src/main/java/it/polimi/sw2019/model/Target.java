@@ -3,12 +3,12 @@ package it.polimi.sw2019.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultipleTarget extends Effect{
+public class Target extends Effect{
 
     /**
      * Default Constructor
      */
-    public MultipleTarget(){}
+    public Target(){}
 
     /* Attributes */
 

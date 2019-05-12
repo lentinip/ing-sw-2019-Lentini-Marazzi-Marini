@@ -11,6 +11,11 @@
   "movesAway": [0],
   "exactly": false,
   "sameDirection": false,
-  "damages": 2,
-  "marks": 1
+  "targets": {
+    "damages": [2],
+    "marks": [1],
+    "differentSquare": false,
+    "differentPlayers": false,
+    "maxTargets": 1
+  }
 }

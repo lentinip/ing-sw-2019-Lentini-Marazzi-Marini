@@ -142,7 +142,7 @@ public class WeaponFactory {
 
             else if (generalEffect.getType() == EffectsKind.MULTIPLE_TARGET){
 
-                MultipleTarget multipleTarget = gson.fromJson(new FileReader(jsonFile), MultipleTarget.class);
+                Target multipleTarget = gson.fromJson(new FileReader(jsonFile), Target.class);
                 weapon.addEffect(multipleTarget);
             }
 
