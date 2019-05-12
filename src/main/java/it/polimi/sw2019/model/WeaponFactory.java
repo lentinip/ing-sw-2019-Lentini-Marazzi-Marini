@@ -36,6 +36,8 @@ public class WeaponFactory {
 
     private boolean hasAMoveTypeEffect;
 
+    private Target targets;
+
     /* Methods */
 
     public void setName(String name) {
@@ -102,6 +104,14 @@ public class WeaponFactory {
         return hasAMoveTypeEffect;
     }
 
+    public Target getTargets() {
+        return targets;
+    }
+
+    public void setTargets(Target targets) {
+        this.targets = targets;
+    }
+
     /**
      * Method that creates the Weapon Class and reads the json file to create also the effects class
      * @return
@@ -127,31 +137,8 @@ public class WeaponFactory {
             Gson gson = new Gson();
             File jsonFile = Paths.get(fileName).toFile();
 
-            Effect generalEffect = gson.fromJson(new FileReader(jsonFile), Effect.class);
-
-            if (generalEffect.getType() == EffectsKind.MOVE){
-
-                weapon.addEffect(generalEffect);
-            }
-
-            else if (generalEffect.getType() == EffectsKind.SINGLE_TARGET){
-
-                SingleTarget singleTarget = gson.fromJson(new FileReader(jsonFile), SingleTarget.class);
-                weapon.addEffect(singleTarget);
-            }
-
-            else if (generalEffect.getType() == EffectsKind.MULTIPLE_TARGET){
-
-                Target multipleTarget = gson.fromJson(new FileReader(jsonFile), Target.class);
-                weapon.addEffect(multipleTarget);
-            }
-
-            else { /* ALL_TARGET  effect case */
-
-                AllTarget allTarget = gson.fromJson(new FileReader(jsonFile), AllTarget.class);
-                weapon.addEffect(allTarget);
-            }
-
+            Effect effect = gson.fromJson(new FileReader(jsonFile), Effect.class);
+            weapon.addEffect(effect);
         }
 
         return weapon;

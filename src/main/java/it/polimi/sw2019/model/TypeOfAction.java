@@ -9,5 +9,6 @@ public enum TypeOfAction {
     USEPOWERUP,
     DEALDAMAGE,
     MARK,
-    SPAWN
+    SPAWN,
+    MOVEBEFORESHOOT
 }

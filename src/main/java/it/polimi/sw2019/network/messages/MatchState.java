@@ -79,4 +79,5 @@ public class MatchState {
     public void setWeaponsDeckSize(int weaponsDeckSize) {
         this.weaponsDeckSize = weaponsDeckSize;
     }
+
 }

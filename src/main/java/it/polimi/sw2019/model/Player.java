@@ -261,7 +261,8 @@ public class Player {
     }
 
     /**
-     * if the player has one or two moves before the shoot
+     * if the player has one or two moves before the shoot,
+     * CONTROLLER HAS TO CHECK IF THE LIST IS EMPTY OR NOT
      * @return the List of the cells where the player can move in order to be able to shoot someone
      */
     public List<Cell> allowedCellsShoot(){
@@ -273,6 +274,11 @@ public class Player {
         Player copy = new Player();
 
         copy.setPosition(startingPosition);
+
+        if (state == State.NORMAL || state == State.ADRENALINIC1){
+
+            return reachableCells;
+        }
 
         for (Cell reachableCell: startingPosition.reachableCells(getMovesForShoot())) {
 
@@ -453,6 +459,21 @@ public class Player {
         }
 
         return 0; /* this is the case of FRENZY AFTER FIRST, but in this case the move action is not available */
+    }
+
+    public List<Powerup> usablePowerups(){
+
+        List<Powerup> usablePowerups = new ArrayList<>();
+
+        for (Powerup powerup: powerups){
+
+            if (!powerup.isDuringDamageAction() && powerup.isDuringYourTurn()){
+
+                usablePowerups.add(powerup);
+            }
+        }
+
+        return usablePowerups;
     }
 
 
