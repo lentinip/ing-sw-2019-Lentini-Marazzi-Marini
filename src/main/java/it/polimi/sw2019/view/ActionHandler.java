@@ -42,18 +42,15 @@ public class ActionHandler {
     }
 
     public void moveAction(){
-
-        //TODO implement
+        stateAction.moveAction();
     }
 
     public void moveAndGrab(){
-
-        //TODO implement
+        stateAction.moveAndGrab();
     }
 
     public void shoot(){
-
-        //TODO implement
+        stateAction.shoot();
     }
 
     /**

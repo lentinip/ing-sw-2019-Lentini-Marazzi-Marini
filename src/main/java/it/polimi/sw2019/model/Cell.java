@@ -122,7 +122,7 @@ public class Cell {
         return isEmpty;
     }
 
-    public void setEmpty(boolean empty) {
+    public void setIsEmpty(boolean empty) {
         isEmpty = empty;
     }
 

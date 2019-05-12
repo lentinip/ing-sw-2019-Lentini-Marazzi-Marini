@@ -24,22 +24,42 @@ public class TurnManager {
 
     private Player currentPlayer;
 
+    private Player firstPlayer;
+
+    private boolean isFirstRound = true;
+
     private SingleActionManager singleActionManager = new SingleActionManager(match, this);
 
     //Cells without AmmoTiles
-    private List<CommonCell> emptyCommonCells = new ArrayList<>();
+    private List<Cell> emptyCommonCells = new ArrayList<>();
 
     //SpawnCells where the player took the Weapon
-    private List<SpawnCell> emptySpawnCells = new ArrayList<>();
+    private List<Cell> emptySpawnCells = new ArrayList<>();
 
     /* Methods */
 
-    public List<CommonCell> getEmptyCommonCells() {
+    public List<Cell> getEmptyCommonCells() {
         return emptyCommonCells;
     }
 
-    public List<SpawnCell> getEmptySpawnCells() {
+    public List<Cell> getEmptySpawnCells() {
         return emptySpawnCells;
+    }
+
+    public Player getFirstPlayer() {
+        return firstPlayer;
+    }
+
+    public void setFirstPlayer(Player firstPlayer) {
+        this.firstPlayer = firstPlayer;
+    }
+
+    public boolean isFirstRound() {
+        return isFirstRound;
+    }
+
+    public void setFirstRound(boolean firstRound) {
+        isFirstRound = firstRound;
     }
 
     public void endTurn(){
@@ -49,7 +69,7 @@ public class TurnManager {
 
         //Refills the CommonCells
         if(!emptyCommonCells.isEmpty()){
-            for(CommonCell commonCell : emptyCommonCells){
+            for(Cell commonCell : emptyCommonCells){
 
                 AmmoTile newAmmoTile = match.getBoard().drawAmmo();
                 commonCell.setAmmo(newAmmoTile);
@@ -61,7 +81,7 @@ public class TurnManager {
         //Refills the SpawnCells
         if(!emptySpawnCells.isEmpty()){
 
-            for(SpawnCell spawnCell : emptySpawnCells){
+            for(Cell spawnCell : emptySpawnCells){
                Weapon weapon = match.getBoard().drawWeapon();
 
                if (!match.getBoard().weaponsDeckIsEmpty()){
@@ -83,22 +103,22 @@ public class TurnManager {
         singleActionManager.setCurrentPlayer(currentPlayer);
     }
 
-    public void respawn(Character deadCharacter, int powerupIndex){
-        Player deadPlayer = match.getPlayerFromCharacter(deadCharacter);
+    public void spawn(Character character, int powerupIndex){
+        Player player = match.getPlayerFromCharacter(character);
 
         //Gets the powerup selected
-        Powerup powerup = deadPlayer.getPowerups().get(powerupIndex);
+        Powerup powerup = player.getPowerups().get(powerupIndex);
 
         //Gets the room with the color of the powerup
         Room room = match.getBoard().getRoomByColor(powerup.getColor());
 
         //Removes the powerup from the player
-        deadPlayer.getPowerups().remove(powerupIndex);
+        player.getPowerups().remove(powerupIndex);
 
         //Discards the powerup
         match.getBoard().discardPowerup(powerup);
 
         //The player is moved to the SpawnCell of the room
-        deadPlayer.setPosition(room.getSpawnCell());
+        player.setPosition(room.getSpawnCell());
     }
 }

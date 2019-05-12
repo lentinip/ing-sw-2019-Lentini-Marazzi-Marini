@@ -15,13 +15,14 @@ public class SingleActionManager {
         this.match = match;
         this.currentPlayer = match.getCurrentPlayer();
         this.turnManager = turnManager;
+        this.atomicActions = new AtomicActions(match);
     }
 
     /* Attributes */
 
     private Match match;
 
-    private AtomicActions atomicActions = new AtomicActions(match);
+    private AtomicActions atomicActions;
 
     private TurnManager turnManager;
 
@@ -40,8 +41,6 @@ public class SingleActionManager {
     private Player selectedPlayer;
 
     private TypeOfAction typeOfAction;
-
-    private int powerupPaid;
 
     private ShootingChoices shootingChoices;
 
@@ -109,14 +108,6 @@ public class SingleActionManager {
 
     public Player getSelectedPlayer() {
         return selectedPlayer;
-    }
-
-    public void setPowerupPaid(int powerupPaid) {
-        this.powerupPaid = powerupPaid;
-    }
-
-    public int getPowerupPaid() {
-        return powerupPaid;
     }
 
     public void setShootingChoices(ShootingChoices shootingChoices) {
@@ -209,19 +200,19 @@ public class SingleActionManager {
 
     public void grab(){
 
-        if (selectedCell instanceof CommonCell){
+        if (selectedCell.isCommon()){
             //Grab
-            atomicActions.grab(currentPlayer, (CommonCell) selectedCell);
+            atomicActions.grab(currentPlayer, selectedCell);
             //Add the cell to a list of empty cells (for the end of the turn)
-            turnManager.getEmptyCommonCells().add((CommonCell) selectedCell);
+            turnManager.getEmptyCommonCells().add(selectedCell);
         }
 
-        if (selectedCell instanceof SpawnCell){
+        else {
             //TODO manage if the player has to replace a weapon
             //Grab
-            atomicActions.grabWeapon(currentPlayer,(SpawnCell) selectedCell, weaponIndex);
+            atomicActions.grabWeapon(currentPlayer, selectedCell, weaponIndex);
             //Add the cell to a list of empty cells (for the end of the turn)
-            turnManager.getEmptySpawnCells().add((SpawnCell) selectedCell);
+            turnManager.getEmptySpawnCells().add(selectedCell);
         }
     }
 
