@@ -10,6 +10,14 @@ public class IndexMessage {
      */
     public IndexMessage(){}
 
+    /**
+     * customize constructor
+     */
+    public IndexMessage(int selectionIndex){
+
+        setSelectionIndex(selectionIndex);
+    }
+
     /* Attributes */
 
     private int selectionIndex;

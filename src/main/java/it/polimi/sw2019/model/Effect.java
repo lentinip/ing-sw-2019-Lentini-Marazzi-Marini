@@ -254,7 +254,7 @@ public class Effect {
 
     /**
      * if the player has chosen to do a shoot action this method method is called when the player wants to do a move before the shooting using the effect
-     * @param owner
+     * @param owner of the weapon
      * @return only the cells where he can move in order to be able to shoot someone
      */
     List<Cell> allowedCells(Player owner) {

@@ -1,9 +1,9 @@
 package it.polimi.sw2019.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Target extends Effect{
+/**
+ * this class contains information about the target choices that the weapon user can make
+ */
+public class Target {
 
     /**
      * Default Constructor
@@ -18,9 +18,15 @@ public class Target extends Effect{
 
     private boolean differentSquares; /* true if the targets have to be on different squares */
 
+    private boolean sameSquare; /* true if the targets have to be on the same square SEE HELLION */
+
+    private boolean isRoom; /* true if you have to choose a room SEE FURNACE */
+
     private boolean differentPlayers = false;
 
     private int maxTargets; /* max number of targets you can hit */
+
+    private boolean forcedChoice; /* if the player can't choose the targets SEE SHOCKWAVE tsunami mode */
 
     /* methods */
 
@@ -64,4 +70,19 @@ public class Target extends Effect{
         this.maxTargets = maxTargets;
     }
 
+    public void setSameSquare(boolean sameSquare) {
+        this.sameSquare = sameSquare;
+    }
+
+    public boolean isSameSquare() {
+        return sameSquare;
+    }
+
+    public void setForcedChoice(boolean forcedChoice) {
+        this.forcedChoice = forcedChoice;
+    }
+
+    public boolean isForcedChoice() {
+        return forcedChoice;
+    }
 }

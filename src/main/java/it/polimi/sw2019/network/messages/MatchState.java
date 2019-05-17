@@ -3,7 +3,6 @@ package it.polimi.sw2019.network.messages;
 import it.polimi.sw2019.model.KillTokens;
 import it.polimi.sw2019.model.PlayerBoard;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,13 +15,26 @@ public class MatchState {
      */
     public MatchState(){}
 
+    /**
+     * customize constructor
+     */
+    public MatchState(List<MessageCell> cells, List<PlayerBoard> playerBoards, List<PlayerHand> playerHands, KillTokens killTrack, int weaponsDeckSize, int powerupsDeckSize){
+
+        setCells(cells);
+        setKillTrack(killTrack);
+        setPlayerBoards(playerBoards);
+        setPlayerHands(playerHands);
+        setPowerupsDeckSize(powerupsDeckSize);
+        setWeaponsDeckSize(weaponsDeckSize);
+    }
+
     /* Attributes */
 
-    private List<MessageCell> cells = new ArrayList<>();
+    private List<MessageCell> cells;
 
-    private List<PlayerBoard> playerBoards = new ArrayList<>();
+    private List<PlayerBoard> playerBoards;
 
-    private List<PlayerHand> playerHands = new ArrayList<>();
+    private List<PlayerHand> playerHands;
 
     private KillTokens killTrack;
 

@@ -9,6 +9,14 @@ public class AvailableCells {
      */
     public  AvailableCells(){}
 
+    /**
+     * customizeConstructors
+     */
+    public AvailableCells(List<BoardCoord> availableCells){
+
+        setAvailableCells(availableCells);
+    }
+
     /* Attributes */
 
     private List<BoardCoord> availableCells;

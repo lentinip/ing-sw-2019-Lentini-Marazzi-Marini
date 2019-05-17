@@ -9,18 +9,36 @@ public class AvailableCards {
      */
     public AvailableCards(){}
 
+    /**
+     *  Customize constructor
+     */
+    public AvailableCards(List<IndexMessage> availableCards, boolean areWeapons){
+
+        setAvailableCards(availableCards);
+        setAreWeapons(areWeapons);
+    }
+
     /* Attributes */
 
-    private List<Card> availableCards;
+    private List<IndexMessage> availableCards;
+
+    private boolean areWeapons;
 
     /* Methods */
 
-    public List<Card> getAvailableCards() {
+    public List<IndexMessage> getAvailableCards() {
         return availableCards;
     }
 
-    public void setAvailableCards(List<Card> availableCards) {
+    public void setAvailableCards(List<IndexMessage> availableCards) {
         this.availableCards = availableCards;
     }
 
+    public boolean areWeapons() {
+        return areWeapons;
+    }
+
+    public void setAreWeapons(boolean areWeapons) {
+        this.areWeapons = areWeapons;
+    }
 }

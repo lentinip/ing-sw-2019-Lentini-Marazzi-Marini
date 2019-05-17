@@ -10,6 +10,19 @@ public class MessageCell {
      */
     public MessageCell(){}
 
+    /**
+     * Default Constructor
+     */
+    public MessageCell(int row, int column, List<Character> characters, boolean isEmpty, String ammoTile, List<String> weapons){
+
+        setRow(row);
+        setColumn(column);
+        setCharacters(characters);
+        setEmpty(isEmpty);
+        setAmmoTile(ammoTile);
+        setWeapons(weapons);
+    }
+
     /* Attributes */
 
     private int row;

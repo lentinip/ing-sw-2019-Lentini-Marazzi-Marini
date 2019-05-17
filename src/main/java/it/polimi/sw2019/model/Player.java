@@ -293,11 +293,20 @@ public class Player {
         return reachableCells;
     }
 
+
+    /**
+     * called by controller
+     * @return the list of cells where the player can move in a move action based on its state
+     */
     public List<Cell> allowedCellsMove(){
 
         return position.reachableCells(getMoves());
     }
 
+    /**
+     * called by controller
+     * @return the list of cells where the player can move in a grab action based on its state
+     */
     public List<Cell> allowedCellsGrab(){
 
         return position.reachableCells(getMovesForGrab());

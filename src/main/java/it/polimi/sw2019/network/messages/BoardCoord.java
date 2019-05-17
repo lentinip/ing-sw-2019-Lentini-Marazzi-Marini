@@ -9,6 +9,15 @@ public class BoardCoord {
      */
     public BoardCoord(){}
 
+    /**
+     * customize Constructor
+     */
+    public BoardCoord(int row, int column){
+
+        setColumn(column);
+        setRow(row);
+    }
+
     /* Attributes */
 
     private int row;

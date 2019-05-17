@@ -9,6 +9,14 @@ public class Players {
      */
     public Players(){}
 
+    /**
+     * customize constructor
+     */
+    public Players(List<Character> characters){
+
+        setCharacters(characters);
+    }
+
     /* Attributes */
 
     private List<Character> characters;

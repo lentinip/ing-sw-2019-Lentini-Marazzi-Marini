@@ -233,6 +233,11 @@ public class Weapon {
         return false;
     }
 
+    /**
+     * this method is called by controller
+     * @param allPlayers all the players in the game
+     * @return all effects that are usable
+     */
     public List<Effect> usableEffects(List<Player> allPlayers){
 
         List<Effect> usableEffects = new ArrayList<>();

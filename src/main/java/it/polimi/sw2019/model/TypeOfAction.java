@@ -3,6 +3,7 @@ package it.polimi.sw2019.model;
 public enum TypeOfAction {
     MOVE,
     GRAB,
+    GRABWEAPON,
     SHOOT,
     RELOAD,
     ENDTURN,
@@ -10,5 +11,7 @@ public enum TypeOfAction {
     DEALDAMAGE,
     MARK,
     SPAWN,
-    MOVEBEFORESHOOT
+    MOVEBEFORESHOOT,
+    MOVEAFTERSHOOT,
+    NONE
 }

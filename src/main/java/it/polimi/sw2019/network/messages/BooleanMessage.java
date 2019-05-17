@@ -10,6 +10,14 @@ public class BooleanMessage {
      */
     public BooleanMessage(){}
 
+    /**
+     * customize constructor
+     */
+    public BooleanMessage(boolean answer){
+
+        setAnswer(answer);
+    }
+
     /* Attributes */
 
     private boolean answer;

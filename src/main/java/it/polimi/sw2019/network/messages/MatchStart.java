@@ -1,5 +1,7 @@
 package it.polimi.sw2019.network.messages;
 
+import it.polimi.sw2019.model.Match;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +15,21 @@ public class MatchStart {
      */
     public MatchStart(){}
 
+    /**
+     * customize constructor
+     */
+    public MatchStart(String boardType, List<String> usernames, List<Character> characters, boolean eightSkulls, boolean frenzy){
+
+        setBoardType(boardType);
+        setUsernames(usernames);
+        setCharacters(characters);
+        setEightSkulls(eightSkulls);
+        setFrenzy(frenzy);
+    }
+
     /* Attributes */
 
-    private int boardType;
+    private String boardType;
 
     private List<String> usernames = new ArrayList<>();
 
@@ -27,11 +41,11 @@ public class MatchStart {
 
     /* Methods */
 
-    public void setBoardType(int boardType) {
+    public void setBoardType(String boardType) {
         this.boardType = boardType;
     }
 
-    public int getBoardType() {
+    public String getBoardType() {
         return boardType;
     }
 

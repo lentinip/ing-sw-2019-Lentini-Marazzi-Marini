@@ -7,6 +7,15 @@ public class GrabWeapon {
      */
     public GrabWeapon(){}
 
+    /**
+     * customize constructor
+     */
+    public GrabWeapon(int grabbedWeapon, int discardedWeapon){
+
+        setDiscardedWeapon(discardedWeapon);
+        setGrabbedWeapon(grabbedWeapon);
+    }
+
     /* Attributes */
 
     private int grabbedWeapon;

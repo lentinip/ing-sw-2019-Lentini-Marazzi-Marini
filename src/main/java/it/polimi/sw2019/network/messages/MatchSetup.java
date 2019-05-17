@@ -10,6 +10,16 @@ public class MatchSetup {
      */
     public MatchSetup(){}
 
+    /**
+     * customize constructor
+     */
+    public MatchSetup(boolean frenzy, boolean eightSkulls, String boardJsonName){
+
+        setFrenzy(frenzy);
+        setEightSkulls(eightSkulls);
+        setBoardJsonName(boardJsonName);
+    }
+
     /* Attributes */
 
     private boolean frenzy;

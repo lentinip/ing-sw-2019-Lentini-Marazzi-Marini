@@ -14,6 +14,8 @@ public class MoveEffect {
 
     private int moveTargets; /* how many spaces you can move every target chosen */
 
+    private int maxTargets; /* number of targets you can move */
+
     private boolean moveTargetBefore; /* true if you have to move the target before the shoot*/
 
     private boolean moveTargetAfter; /* true if you have to move the target after the shoot */
@@ -22,7 +24,7 @@ public class MoveEffect {
 
     private boolean moveYouBefore; /* true if you have to move before the shoot action */
 
-    private boolean moveYouAfter; /* true if you have to move after the shoot action */
+    private boolean moveYouAfter; /* true if you have to move after the shoot action for POWER GLOVE (in last target square)*/
 
     private boolean moveYouSameDirection; /* true if you have to move in the same direction */
 
@@ -32,6 +34,14 @@ public class MoveEffect {
 
 
     /* Methods */
+
+    public void setMaxTargets(int maxTargets) {
+        this.maxTargets = maxTargets;
+    }
+
+    public int getMaxTargets() {
+        return maxTargets;
+    }
 
     public int getMoveYou() {
         return moveYou;
