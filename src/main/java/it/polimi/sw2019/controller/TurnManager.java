@@ -2,6 +2,7 @@ package it.polimi.sw2019.controller;
 
 import it.polimi.sw2019.model.*;
 import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +12,11 @@ public class TurnManager {
     /**
      * Default constructor
      */
-    public TurnManager(Match match){
+    public TurnManager(Match match, VirtualView view){
         this.match = match;
+        this.view = view;
         this.currentPlayer = match.getCurrentPlayer();
+        this.singleActionManager = new SingleActionManager(match, view, this);
     }
 
     /* Attributes */
@@ -22,13 +25,15 @@ public class TurnManager {
 
     private Match match;
 
+    private VirtualView view;
+
     private Player currentPlayer;
 
     private Player firstPlayer;
 
     private boolean isFirstRound = true;
 
-    private SingleActionManager singleActionManager = new SingleActionManager(match, this);
+    private SingleActionManager singleActionManager;
 
     //Cells without AmmoTiles
     private List<Cell> emptyCommonCells = new ArrayList<>();
@@ -44,6 +49,14 @@ public class TurnManager {
 
     public List<Cell> getEmptySpawnCells() {
         return emptySpawnCells;
+    }
+
+    public SingleActionManager getSingleActionManager() {
+        return singleActionManager;
+    }
+
+    public void setSingleActionManager(SingleActionManager singleActionManager) {
+        this.singleActionManager = singleActionManager;
     }
 
     public Player getFirstPlayer() {
@@ -64,9 +77,6 @@ public class TurnManager {
 
     public void endTurn(){
 
-        //Resets the player's numberOfActions
-        currentPlayer.resetNumberOfActions();
-
         //Refills the CommonCells
         if(!emptyCommonCells.isEmpty()){
             for(Cell commonCell : emptyCommonCells){
@@ -82,9 +92,9 @@ public class TurnManager {
         if(!emptySpawnCells.isEmpty()){
 
             for(Cell spawnCell : emptySpawnCells){
-               Weapon weapon = match.getBoard().drawWeapon();
 
                if (!match.getBoard().weaponsDeckIsEmpty()){
+                   Weapon weapon = match.getBoard().drawWeapon();
                    spawnCell.getWeapons().add(weapon);
                }
 
@@ -100,7 +110,6 @@ public class TurnManager {
 
         //Changes the parameters here
         currentPlayer = match.getCurrentPlayer();
-        singleActionManager.setCurrentPlayer(currentPlayer);
     }
 
     public void spawn(Character character, int powerupIndex){

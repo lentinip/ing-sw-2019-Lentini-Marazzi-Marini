@@ -1,9 +1,11 @@
 package it.polimi.sw2019.network.messages;
 
 import com.google.gson.Gson;
+import it.polimi.sw2019.model.Board;
 import it.polimi.sw2019.model.TypeOfAction;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * generic class used from view and controller to send information
@@ -13,7 +15,9 @@ public class Message implements Serializable {
     /**
      * Default Constructor
      */
-    public Message(){}
+    public Message(String username){
+        this.username = username;
+    }
 
     /* Attributes */
 
@@ -133,27 +137,30 @@ public class Message implements Serializable {
         return gson.toJson(boardCoord);
     }
 
+    public BoardCoord deserializeBoardCoord(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, BoardCoord.class);
+    }
+
     /* the following methods are called to create different types of Message Class */
 
     public void createMessageMatchState(MatchState matchState){
 
-        setUsername(null); /* sent to all */
         setTypeOfMessage(TypeOfMessage.MATCH_STATE);
         setTypeOfAction(TypeOfAction.NONE);
         setJsonFile(serializeMatchState(matchState));
     }
 
-    public void createMessagePrivateHand(PrivateHand privateHand, String username){
+    public void createMessagePrivateHand(PrivateHand privateHand){
 
-        setUsername(username);
         setTypeOfMessage(TypeOfMessage.PRIVATE_HAND);
         setTypeOfAction(TypeOfAction.NONE);
         setJsonFile(serializePrivateHand(privateHand));
     }
 
-    public void createMessageMatchSetup(MatchSetup matchSetup, String username){
+    public void createMessageMatchSetup(MatchSetup matchSetup){
 
-        setUsername(username);
         setTypeOfMessage(TypeOfMessage.MATCH_SETUP);
         setTypeOfAction(TypeOfAction.NONE);
         setJsonFile(serializeMatchSetup(matchSetup));
@@ -161,34 +168,42 @@ public class Message implements Serializable {
 
     public void createMessageMatchStart(MatchStart matchStart){
 
-        setUsername(null); /* this message is sent to all clients */
         setTypeOfAction(TypeOfAction.NONE);
         setTypeOfMessage(TypeOfMessage.MATCH_START);
         setJsonFile(serializeMatchStart(matchStart));
     }
 
-    public void createMessageCanIShoot(BooleanMessage booleanMessage, String username){
+    public void createMessageCanIShoot(boolean canIShoot){
 
-        setUsername(username);
         setTypeOfAction(TypeOfAction.NONE);
         setTypeOfMessage(TypeOfMessage.CAN_I_SHOOT);
+
+        BooleanMessage booleanMessage = new BooleanMessage(canIShoot);
         setJsonFile(serializeBooleanMessage(booleanMessage));
+
     }
 
-    public void createAskMessage(TypeOfAction typeOfAction, String username){
+    public void createAskMessage(TypeOfAction typeOfAction){
 
-        setUsername(username);
         setTypeOfAction(typeOfAction);
         setTypeOfMessage(TypeOfMessage.ASK);
         setJsonFile(null);                        /* no content */
     }
 
-    public void createAvailableCellsMessage(TypeOfAction typeOfAction, AvailableCells availableCells, String username){
+    public void createAvailableCellsMessage(TypeOfAction typeOfAction, List<BoardCoord> cells){
 
-        setUsername(username);
         setTypeOfMessage(TypeOfMessage.AVAILABLE_CELLS);
         setTypeOfAction(typeOfAction);
+        AvailableCells availableCells = new AvailableCells(cells);
         setJsonFile(serializeAvailableCells(availableCells));
+    }
+
+    public void createAvailableCardsMessage(TypeOfAction typeOfAction, List<IndexMessage> indexMessageList, boolean areWeapons){
+
+        setTypeOfMessage(TypeOfMessage.AVAILABLE_CARDS);
+        setTypeOfAction(typeOfAction);
+        AvailableCards availableCards = new AvailableCards(indexMessageList, areWeapons);
+        setJsonFile(serializeAvailableCards(availableCards));
     }
 
 

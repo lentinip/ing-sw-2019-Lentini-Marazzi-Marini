@@ -1,5 +1,7 @@
 package it.polimi.sw2019.model;
 
+import it.polimi.sw2019.network.messages.BoardCoord;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -84,6 +86,12 @@ public class Board {
             }
         }
         return null;
+    }
+
+    public Cell getCell(BoardCoord boardCoord){
+        int cellRow = boardCoord.getRow();
+        int cellColumn = boardCoord.getColumn();
+        return getCell(cellRow,cellColumn);
     }
 
     /**

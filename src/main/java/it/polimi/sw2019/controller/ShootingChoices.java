@@ -1,92 +1,57 @@
 package it.polimi.sw2019.controller;
 import it.polimi.sw2019.model.*;
+import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.network.server.VirtualView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShootingChoices {
 
     /**
      * Default constructor
      */
-    public ShootingChoices() {
-
+    public ShootingChoices(Match match, VirtualView view) {
+        this.match = match;
+        this.view = view;
     }
 
     /* Attributes */
-    private boolean effect1;
 
-    private boolean effect2;
+    private Match match;
 
-    private boolean effect3;
+    private VirtualView view;
 
     private Weapon selectedWeapon;
 
-    private Player[] targets;
+    private Powerup selectedPowerup;
 
-    private Room roomTarget;
+    private Effect currentEffect;
 
-    private Cell cellTarget;
+    private List<Effect> usedEffect = new ArrayList<>();
+
+    private Cell moveCell;
+
+    private List<Player> movedPlayers = new ArrayList<>();
+
+    private List<Player> shootedPlayers = new ArrayList<>();
+
+    private List<Player> damagedPlayers = new ArrayList<>(); //Useful for powerups
+
+    private List<Cell> shootedCells = new ArrayList<>();
 
     /* Methods */
 
-    public void setEffect1(boolean effect1) {
-        this.effect1 = effect1;
-    }
 
-    public boolean getEffect1() {
-        return effect1;
-    }
-
-    public void setEffect2(boolean effect2) {
-        this.effect2 = effect2;
-    }
-
-    public boolean getEffect2() {
-        return effect2;
-    }
-
-    public void setEffect3(boolean effect3) {
-        this.effect3 = effect3;
-    }
-
-    public boolean getEffect3() {
-        return effect3;
-    }
-
-    public void setSelectedWeapon(Weapon selectedWeapon) {
-        this.selectedWeapon = selectedWeapon;
-    }
-
-    public Weapon getSelectedWeapon() {
-        return selectedWeapon;
-    }
-
-    public void setTargets(Player[] targets) {
-        this.targets = targets;
-    }
-
-    public Player[] getTargets() {
-        return targets;
-    }
-
-    public void setRoomTarget(Room roomTarget) {
-        this.roomTarget = roomTarget;
-    }
-
-    public Room getRoomTarget() {
-        return roomTarget;
-    }
-
-    public void setCellTarget(Cell cellTarget) {
-        this.cellTarget = cellTarget;
-    }
-
-    public Cell getCellTarget() {
-        return cellTarget;
-    }
 
     public void reset() {
 
         //TODO implement
         return;
+    }
+
+    public void selectionHandler(Message message){
+        //TODO implement
     }
 
 }

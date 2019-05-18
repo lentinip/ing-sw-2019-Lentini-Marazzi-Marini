@@ -10,18 +10,28 @@ public class GrabWeapon {
     /**
      * customize constructor
      */
-    public GrabWeapon(int grabbedWeapon, int discardedWeapon){
+    public GrabWeapon(int grabbedWeapon, int discardedWeapon, BoardCoord spawnCell){
 
+        setSpawnCell(spawnCell);
         setDiscardedWeapon(discardedWeapon);
         setGrabbedWeapon(grabbedWeapon);
     }
 
     /* Attributes */
 
+    private BoardCoord spawnCell;
     private int grabbedWeapon;
     private int discardedWeapon;
 
     /* Methods */
+
+    public BoardCoord getSpawnCell() {
+        return spawnCell;
+    }
+
+    public void setSpawnCell(BoardCoord spawnCell) {
+        this.spawnCell = spawnCell;
+    }
 
     public int getDiscardedWeapon() {
         return discardedWeapon;

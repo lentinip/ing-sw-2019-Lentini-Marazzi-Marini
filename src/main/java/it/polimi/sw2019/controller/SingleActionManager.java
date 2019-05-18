@@ -1,7 +1,10 @@
 package it.polimi.sw2019.controller;
 
 import it.polimi.sw2019.model.*;
-import it.polimi.sw2019.network.messages.SingleAction;
+import it.polimi.sw2019.network.messages.BoardCoord;
+import it.polimi.sw2019.network.messages.GrabWeapon;
+import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.network.server.VirtualView;
 
 /**
  * This class handles a single action
@@ -11,36 +14,23 @@ public class SingleActionManager {
     /**
      * Default Constructor
      */
-    public SingleActionManager(Match match, TurnManager turnManager) {
+    public SingleActionManager(Match match, VirtualView view, TurnManager turnManager) {
         this.match = match;
-        this.currentPlayer = match.getCurrentPlayer();
+        this.view = view;
         this.turnManager = turnManager;
         this.atomicActions = new AtomicActions(match);
+        this.shootingChoices = new ShootingChoices(match, view);
     }
 
     /* Attributes */
 
     private Match match;
 
+    private VirtualView view;
+
     private AtomicActions atomicActions;
 
     private TurnManager turnManager;
-
-    private Player currentPlayer;
-
-    private Cell selectedCell;
-
-    private Powerup selectedPowerup;
-
-    private int powerupIndex;
-
-    private Weapon selectedWeapon;
-
-    private int weaponIndex;
-
-    private Player selectedPlayer;
-
-    private TypeOfAction typeOfAction;
 
     private ShootingChoices shootingChoices;
 
@@ -50,111 +40,8 @@ public class SingleActionManager {
         return match;
     }
 
-    public void setSelectedCell(Cell selectedCell) {
-        this.selectedCell = selectedCell;
-    }
-
-    public Cell getSelectedCell() {
-        return selectedCell;
-    }
-
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
-    public void setSelectedPowerup(Powerup selectedPowerup) {
-        this.selectedPowerup = selectedPowerup;
-    }
-
-    public Powerup getSelectedPowerup() {
-        return selectedPowerup;
-    }
-
-    public int getPowerupIndex() {
-        return powerupIndex;
-    }
-
-    public void setSelectedWeapon(Weapon selectedWeapon) {
-        this.selectedWeapon = selectedWeapon;
-    }
-
-    public Weapon getSelectedWeapon() {
-        return selectedWeapon;
-    }
-
-    public void setWeaponIndex(int weaponIndex) {
-        this.weaponIndex = weaponIndex;
-    }
-
-    public int getWeaponIndex() {
-        return weaponIndex;
-    }
-
-    public void setTypeOfAction(TypeOfAction typeOfAction) {
-        this.typeOfAction = typeOfAction;
-    }
-
-    public TypeOfAction getTypeOfAction() {
-        return typeOfAction;
-    }
-
-    public void setSelectedPlayer(Player selectedPlayer) {
-        this.selectedPlayer = selectedPlayer;
-    }
-
-    public Player getSelectedPlayer() {
-        return selectedPlayer;
-    }
-
-    public void setShootingChoices(ShootingChoices shootingChoices) {
-        this.shootingChoices = shootingChoices;
-    }
-
     public ShootingChoices getShootingChoices() {
         return shootingChoices;
-    }
-
-    public void getSingleAction(SingleAction singleAction){
-
-        if (currentPlayer != match.getPlayerFromCharacter(singleAction.getCurrentCharacter())){
-            //TODO implement exception, note: Powerup Granade
-        };
-        typeOfAction = singleAction.getType();
-
-        /*
-        NOTE:
-        From now on I'm going to use some values for the attributes that means that the value is not going to be considered.
-
-        Here's the list:
-        selectedCellRow = 10
-        selectedCellColumn = 10
-        selectedPowerupIndex = 5
-        selectedWeaponIndex = 5
-        selectedCharacter = null
-         */
-
-        //A list of safe accesses
-        if(singleAction.getSelectedCellRow()!=10 && singleAction.getSelectedCellColumn()!=10){
-            selectedCell = match.getBoard().getCell(singleAction.getSelectedCellRow(), singleAction.getSelectedCellColumn());
-        }
-
-        if(singleAction.getSelectedPowerupIndex()!=5){
-            powerupIndex = singleAction.getSelectedPowerupIndex();
-            selectedPowerup = currentPlayer.getPowerups().get(singleAction.getSelectedPowerupIndex());
-        }
-
-        if(singleAction.getSelectedWeaponIndex()!=5){
-            weaponIndex = singleAction.getSelectedWeaponIndex();
-            selectedWeapon = currentPlayer.getWeapons().get(singleAction.getSelectedWeaponIndex());
-        }
-
-        if(singleAction.getSelectedCharacter()!=null){
-            selectedPlayer = match.getPlayerFromCharacter(singleAction.getSelectedCharacter());
-        }
     }
 
     public void timer()  {
@@ -169,35 +56,71 @@ public class SingleActionManager {
         return;
     }
 
-    public void handleSingleAction(){
-        switch (typeOfAction){
+    public void singleActionHandler(Message message){
+
+        switch (message.getTypeOfAction()){
             case MOVE:
-                atomicActions.move(currentPlayer, selectedCell);
-                reducePlayerNumberOfActions();
+                moveHandler(message);
                 break;
             case GRAB:
-                grab();
-                reducePlayerNumberOfActions();
+                grabHandler(message);
                 break;
-            case DEALDAMAGE:
+            case GRABWEAPON:
+                grabWeaponHandler(message);
                 break;
-            case MARK:
+            case MOVEBEFORESHOOT:
+                moveBeforeShootHandler(message);
                 break;
-            case RELOAD:
-                turnManager.endTurn();
-                break;
-            case ENDTURN:
-                turnManager.endTurn();
+            case MOVEAFTERSHOOT:
+                moveAfterShootHandler(message);
                 break;
             case USEPOWERUP:
                 break;
-            case SHOOT:
-                break;
+            default:
         }
     }
 
+    /**
+     * Handles the move and reduces the number of the player actions (handles the message too)
+     * @param message
+     */
+    public void moveHandler(Message message){
+
+        Player player = match.getPlayerByUsername(message.getUsername());
+        BoardCoord selection = message.deserializeBoardCoord();
+        atomicActions.move(player, match.getBoard().getCell(selection));
+
+        reducePlayerNumberOfActions();
+    }
+
+    public void grabHandler(Message message){
+
+        Player player = match.getPlayerByUsername(message.getUsername());
+        BoardCoord selection = message.deserializeBoardCoord();
+        atomicActions.grab(player, match.getBoard().getCell(selection));
+
+        reducePlayerNumberOfActions();
+    }
+
+    public void grabWeaponHandler(Message message){
+        Player player = match.getPlayerByUsername(message.getUsername());
+        //TODO implement
+
+    }
+
+    public void moveBeforeShootHandler(Message message){
+        //TODO implement
+    }
+
+    public void moveAfterShootHandler(Message message){
+        //TODO implement
+    }
+
+
+
     //The following methods do the action calling the action function in the AtomicAction class
 
+    /*
     public void grab(){
 
         if (selectedCell.isCommon()){
@@ -216,10 +139,28 @@ public class SingleActionManager {
         }
     }
 
+
+     */
+
+    /**
+     * This method reduces the current player left actions and display if the player can shoot
+     */
     public void reducePlayerNumberOfActions(){
-        if(currentPlayer.getNumberOfActions()!=0){
-            currentPlayer.setNumberOfActions(currentPlayer.getNumberOfActions()-1);
+
+        Player player = match.getCurrentPlayer();
+
+        match.setCurrentPlayerLeftActions(match.getCurrentPlayerLeftActions()-1);
+
+        Message message = new Message(player.getName());
+
+        if(match.getCurrentPlayerLeftActions()>0){
+            message.createMessageCanIShoot(player.canIshootBeforeComplexAction());
         }
+        else {
+            message.createMessageCanIShoot(false);
+        }
+
+        view.display(message);
     }
 
 }

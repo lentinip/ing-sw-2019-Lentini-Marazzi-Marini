@@ -1,8 +1,9 @@
 package it.polimi.sw2019.model;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Player {
+public class Player extends Observable {
 
     /**
      *  Default constructor
@@ -33,8 +34,6 @@ public class Player {
 
     private List<Powerup> powerups = new ArrayList<>();
 
-    private int numberOfActions = 2;
-
     private State state;
 
     private Boolean isDead;
@@ -64,18 +63,6 @@ public class Player {
 
     public void setPosition(Cell position) {
         this.position = position;
-    }
-
-    public int getNumberOfActions() {
-        return numberOfActions;
-    }
-
-    public void setNumberOfActions(int numberOfActions) {
-        this.numberOfActions = numberOfActions;
-    }
-
-    public void resetNumberOfActions(){
-        numberOfActions = 2;
     }
 
     public void setState(State state) {
@@ -111,6 +98,9 @@ public class Player {
         return playerBoard;
     }
 
+    public int getWeaponIndex(Weapon weapon){
+        return weapons.indexOf(weapon);
+    }
 
 
     /**
@@ -483,6 +473,10 @@ public class Player {
         }
 
         return usablePowerups;
+    }
+
+    public void notifyPrivateHand(){
+        //TODO implementation
     }
 
 

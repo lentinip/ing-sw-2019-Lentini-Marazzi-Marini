@@ -15,7 +15,7 @@ public class  AtomicActions {
 
     /* Attributes */
 
-    Match match;
+    private Match match;
 
     /* Methods */
 
@@ -66,7 +66,7 @@ public class  AtomicActions {
     }
 
     /**
-     * Performs the grab of a Weapon in a spawn Cell, adds it to the player and removes it from the cell
+     * Performs the grab of a Weapon in a spawn Cell, adds it to the player and removes it from the cell (moves also the player)
      * @param grabbingPlayer the grabbing Player
      * @param selectedCell the selected spawn Cell
      * @param weaponIndex the weapon index in the spawn Cell
@@ -75,8 +75,11 @@ public class  AtomicActions {
 
         Weapon grabbedWeapon = selectedCell.getWeapons().get(weaponIndex);
 
+        //Moves the player
+        move(grabbingPlayer, selectedCell);
+
         //Adds the weapon to the Players weapon
-        grabbingPlayer.getWeapons().add(grabbedWeapon);
+        grabbingPlayer.addWeapon(grabbedWeapon);
 
         //Removes it from the cell
         selectedCell.getWeapons().remove(grabbedWeapon);
@@ -84,7 +87,7 @@ public class  AtomicActions {
     }
 
     /**
-     * Performs the grab of a Weapon in a SpawnCell when the Player needs to replace one of his weapons
+     * Performs the grab of a Weapon in a SpawnCell when the Player needs to replace one of his weapons (moves also the player)
      * @param grabbingPlayer the grabbing Player
      * @param selectedCell the selected spawn Cell
      * @param cellWeaponIndex the weapon index in the spawn Cell
@@ -95,7 +98,7 @@ public class  AtomicActions {
         Weapon weaponToReplace = grabbingPlayer.getWeapons().get(playerWeaponIndex);
 
         //Removes the weapon from the player
-        grabbingPlayer.getWeapons().remove(weaponToReplace);
+        grabbingPlayer.discardWeapon(playerWeaponIndex);
 
         //Performs the normal grabWeapon
         grabWeapon(grabbingPlayer, selectedCell, cellWeaponIndex);

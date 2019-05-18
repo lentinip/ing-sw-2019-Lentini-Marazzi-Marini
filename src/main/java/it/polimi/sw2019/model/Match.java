@@ -1,10 +1,13 @@
 package it.polimi.sw2019.model;
 
+import it.polimi.sw2019.network.messages.Message;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Match {
+public class Match extends Observable {
 
     /**
      * Default constructor
@@ -24,6 +27,8 @@ public class Match {
     private List<Player> players = new ArrayList<>(); /* max five players */
 
     private Player currentPlayer;
+
+    private int currentPlayerLeftActions = 2;
 
     private Score score;
 
@@ -90,6 +95,15 @@ public class Match {
         this.currentPlayer = currentPlayer;
     }
 
+    public int getCurrentPlayerLeftActions() {
+        return currentPlayerLeftActions;
+    }
+
+    public void setCurrentPlayerLeftActions(int currentPlayerLeftActions) {
+        this.currentPlayerLeftActions = currentPlayerLeftActions;
+        notifyMatchState();
+    }
+
     public Score getScore() {
         return score;
     }
@@ -128,6 +142,20 @@ public class Match {
 
     public void setFactory(Factory factory) {
         this.factory = factory;
+    }
+
+    /**
+     * Get Player by username (if there is no player with that username returns null)
+     * @param username
+     * @return
+     */
+    public Player getPlayerByUsername(String username){
+        for (Player player : players){
+            if (player.getName()==username){
+                return player;
+            }
+        }
+        return null;
     }
 
     public boolean isEnded() {
@@ -214,6 +242,9 @@ public class Match {
 
             currentPlayer = players.get(0);
         }
+
+        //Resets the player's numberOfActions
+        setCurrentPlayerLeftActions(2);
     }
 
     public void endTurn() {
@@ -303,6 +334,16 @@ public class Match {
     public void respawn(Player deadPlayer){
 
         //TODO implement
+    }
+
+
+    public void notifyMatchState(){
+        Message message = new Message("All");
+
+        //TODO implementation - send the MatchState
+
+        setChanged();
+        notifyObservers(message);
     }
 
 }

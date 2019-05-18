@@ -3,9 +3,6 @@ package it.polimi.sw2019.network.server;
 import it.polimi.sw2019.network.server.rmi.RmiServer;
 import it.polimi.sw2019.network.server.socket.SocketServer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Server {
 
     /**
@@ -13,7 +10,7 @@ public class Server {
      */
     public Server() {
 
-        waitingRoom = new WaitingRoom();
+        waitingRoom = new VirtualView();
         socketServer = new SocketServer(this);
         rmiServer = new RmiServer(this);
     }
@@ -21,7 +18,7 @@ public class Server {
     /* Attributes */
     private int rmiPort;
     private int socketPort;
-    private WaitingRoom waitingRoom;
+    private VirtualView waitingRoom;
     private SocketServer socketServer;
     private RmiServer rmiServer;
 

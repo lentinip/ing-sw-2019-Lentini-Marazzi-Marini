@@ -1,14 +1,16 @@
 package it.polimi.sw2019.network.server;
 
+import it.polimi.sw2019.network.messages.Message;
+
 import java.util.Map;
 
-public class WaitingRoom {
+public class VirtualView {
 
     /**
      * Default constructor
      */
 
-    public WaitingRoom() {
+    public VirtualView() {
 
     }
 
@@ -32,6 +34,10 @@ public class WaitingRoom {
     public void removeWaitingPlayer(String username) {
 
         waitingPlayers.remove(username);
+    }
+
+    public void display(Message message){
+        //TODO implement
     }
 
 }

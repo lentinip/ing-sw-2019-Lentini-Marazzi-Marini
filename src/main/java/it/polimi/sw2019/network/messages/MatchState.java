@@ -18,11 +18,12 @@ public class MatchState {
     /**
      * customize constructor
      */
-    public MatchState(List<MessageCell> cells, List<PlayerBoard> playerBoards, List<PlayerHand> playerHands, KillTokens killTrack, int weaponsDeckSize, int powerupsDeckSize){
+    public MatchState(List<MessageCell> cells, List<PlayerBoard> playerBoards, int currentPlayerLeftActions, List<PlayerHand> playerHands, KillTokens killTrack, int weaponsDeckSize, int powerupsDeckSize){
 
         setCells(cells);
         setKillTrack(killTrack);
         setPlayerBoards(playerBoards);
+        setCurrentPlayerLeftActions(currentPlayerLeftActions);
         setPlayerHands(playerHands);
         setPowerupsDeckSize(powerupsDeckSize);
         setWeaponsDeckSize(weaponsDeckSize);
@@ -33,6 +34,8 @@ public class MatchState {
     private List<MessageCell> cells;
 
     private List<PlayerBoard> playerBoards;
+
+    private int currentPlayerLeftActions;
 
     private List<PlayerHand> playerHands;
 
@@ -78,6 +81,14 @@ public class MatchState {
 
     public List<PlayerBoard> getPlayerBoards() {
         return playerBoards;
+    }
+
+    public int getCurrentPlayerLeftActions() {
+        return currentPlayerLeftActions;
+    }
+
+    public void setCurrentPlayerLeftActions(int currentPlayerLeftActions) {
+        this.currentPlayerLeftActions = currentPlayerLeftActions;
     }
 
     public void setPowerupsDeckSize(int powerupsDeckSize) {

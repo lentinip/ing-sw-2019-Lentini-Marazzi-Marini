@@ -1,6 +1,8 @@
 package it.polimi.sw2019.model;
 
 
+import it.polimi.sw2019.network.messages.BoardCoord;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -259,5 +261,9 @@ public class Cell {
         }
 
         return reachableCells;
+    }
+
+    public BoardCoord getCoord(){
+        return new BoardCoord(row, column);
     }
 }

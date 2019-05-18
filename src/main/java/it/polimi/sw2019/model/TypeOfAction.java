@@ -8,8 +8,6 @@ public enum TypeOfAction {
     RELOAD,
     ENDTURN,
     USEPOWERUP,
-    DEALDAMAGE,
-    MARK,
     SPAWN,
     MOVEBEFORESHOOT,
     MOVEAFTERSHOOT,
