@@ -2,10 +2,17 @@ package it.polimi.sw2019.network.client;
 
 import it.polimi.sw2019.network.messages.Message;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface ClientActions extends Remote {
+/**
+ * implemented by SocketClientConnection
+ */
+public interface ClientActions {
 
-    public void notify(Message message) throws RemoteException;
+    /**
+     * send message to server
+     * @param message to be sent
+     * @throws RemoteException connection fail
+     */
+    public void send(Message message) throws RemoteException;
 }

@@ -9,7 +9,11 @@ public class Visibility {
      * Default Constructor
      */
 
-    public Visibility(){};
+    public Visibility(){}
+
+    public Visibility(Board board) {
+        setBoard(board);
+    }
 
     /* Attributes */
 
@@ -38,27 +42,27 @@ public class Visibility {
 
         List<Cell> reachableCells = new ArrayList<>();
 
-        if (visibility == visibility.VISIBLE) {
+        if (visibility == KindOfVisibility.VISIBLE) {
 
             reachableCells = visible(player, movesAway, exactly);
         }
 
-        else if (visibility == visibility.NONVISIBLE){
+        else if (visibility == KindOfVisibility.NONVISIBLE){
 
             reachableCells = nonVisible(player);
         }
 
-        else if (visibility == visibility.RAILGUN){
+        else if (visibility == KindOfVisibility.RAILGUN){
 
             reachableCells = railGun(player);
         }
 
-        else if (visibility == visibility.DIFF_ROOM){
+        else if (visibility == KindOfVisibility.DIFF_ROOM){
 
             reachableCells = diffRoom(player);
         }
 
-        else if (visibility == visibility.MOVE){
+        else if (visibility == KindOfVisibility.MOVE){
 
             reachableCells = move(player, moves);
         }
@@ -85,8 +89,8 @@ public class Visibility {
 
            for (int i = 0; i < visibleCells.size(); i++){
 
-               int row = reachableCells.get(i).getRow();
-               int column = reachableCells.get(i).getColumn();
+               int row = visibleCells.get(i).getRow();
+               int column = visibleCells.get(i).getColumn();
 
                /* check if the cell is exactly movesAway from player position */
                if(Math.abs(playerRow - row) + Math.abs(playerColumn-column) == movesAway){
@@ -100,8 +104,8 @@ public class Visibility {
 
            for (int i = 0; i < visibleCells.size(); i++) {
 
-               int row = reachableCells.get(i).getRow();
-               int column = reachableCells.get(i).getColumn();
+               int row = visibleCells.get(i).getRow();
+               int column = visibleCells.get(i).getColumn();
 
                /* check if the cell is at least movesAway from the player position */
                if (Math.abs(playerRow - row) + Math.abs(playerColumn - column) >= movesAway) {
@@ -120,9 +124,13 @@ public class Visibility {
      */
     public List<Cell> nonVisible(Player player){
 
-        List<Cell> reachableCells = board.getField();
+        List<Cell> reachableCells = new ArrayList<>();
         List<Cell> visibleCells = player.visibleCells();
 
+        for(int i = 0; i < board.getField().size(); i++) {
+
+            reachableCells.add(board.getField().get(i));
+        }
 
         /* Removes from the reachableCells every cell the player can see */
         for (int i = 0; i < visibleCells.size(); i++ ){

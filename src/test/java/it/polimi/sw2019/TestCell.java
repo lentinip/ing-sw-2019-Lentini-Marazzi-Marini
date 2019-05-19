@@ -147,7 +147,7 @@ public class TestCell {
 
         cell5.setRight(cell4);
         cell5.setDown(cell1);
-        cell5.setRight(cell6);
+        cell5.setLeft(cell6);
 
         cell6.setRight(cell5);
         cell6.setDown(cell7);

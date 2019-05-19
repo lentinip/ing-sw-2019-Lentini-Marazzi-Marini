@@ -1,19 +1,18 @@
 package it.polimi.sw2019.network.server.socket;
 
-import it.polimi.sw2019.network.client.ClientActions;
+import it.polimi.sw2019.network.client.ClientInterface;
 import it.polimi.sw2019.network.messages.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
 
 /**
- * This class manages the communication with the client mathed with the socket assigned
+ * This class manages the communication with the client matched with the socket assigned.
+ * It uses the ClientAction methods to communicate with the client
  */
-public class SocketServerClientHandler extends Thread implements ClientActions {
+public class SocketServerClientHandler extends Thread implements ClientInterface {
 
     /**
      * Default constructor
@@ -47,6 +46,9 @@ public class SocketServerClientHandler extends Thread implements ClientActions {
 
     /* Methods */
 
+    /**
+     * this method is used to receive a message from the client
+     */
     @Override
     public void run() {
 
@@ -62,14 +64,18 @@ public class SocketServerClientHandler extends Thread implements ClientActions {
                 }
             }
         } catch (IOException e) {
-            //TODO manage exception
+            //TODO manage exception, DISCONNECTION
         }
         catch(ClassNotFoundException e) {
-            //TODO manage exception
+            //TODO manage exception, DISCONNECTION
         }
 
     }
 
+    /**
+     * this method is used to notify something to the client
+     * @param message is the message sent by the server to the client
+     */
     @Override
     public void notify(Message message) {
         try{

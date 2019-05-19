@@ -132,9 +132,12 @@ public class Effect {
     public List<Cell> reachableCells(Player owner){
 
         List<Cell> reachableCells = new ArrayList<>();
-
-        reachableCells = visibilityClass.visibility(visibility, owner, movesAway[0], exactly, move.getMoveYou());
-
+        if(move == null) {
+            reachableCells = visibilityClass.visibility(visibility, owner, movesAway[0], exactly, 0);
+        }
+        else {
+            reachableCells = visibilityClass.visibility(visibility, owner, movesAway[0], exactly, move.getMoveYou());
+        }
         return reachableCells;
     }
 
@@ -257,7 +260,7 @@ public class Effect {
      * @param owner of the weapon
      * @return only the cells where he can move in order to be able to shoot someone
      */
-    List<Cell> allowedCells(Player owner) {
+    public List<Cell> allowedCells(Player owner) {
 
         List<Cell> allowedCells = new ArrayList<>();
 

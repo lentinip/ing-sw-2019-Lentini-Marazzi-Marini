@@ -18,6 +18,7 @@ public class Player extends Observable {
         setCharacter(character);
         playerBoard = new PlayerBoard();
         setDead(false);
+        setState(State.NORMAL);
     }
 
     /* Attributes */
@@ -133,10 +134,11 @@ public class Player extends Observable {
      */
     public void addWeapon(Weapon weapon) { //Adds a weapon into the weapons array
 
-        if (weapons.size() < 3)
-
-           { weapons.add(weapon); }
-
+        if(weapon != null) {
+            if (weapons.size() < 3) {
+                weapons.add(weapon);
+            }
+        }
         if(weapon == null)
             throw new NullPointerException("'weapon' can't be null");
 
@@ -155,7 +157,7 @@ public class Player extends Observable {
 
     public void addPowerup(Powerup powerup){
 
-        if (powerups.size() < 3)
+        if (powerups.size() < 3 && powerup != null)
 
            { powerups.add(powerup); }
 
@@ -351,27 +353,26 @@ public class Player extends Observable {
          * if the answer is "yes", I'm adding to visibleCells the cells inside the rooms he can watch in.
          */
 
-        if (position.getUp().getRoom().getColor() != positionColor ) {
+        if (position.getUp() != null && position.getUp().getRoom().getColor() != positionColor ) {
 
             visibleCells.addAll(position.getUp().getRoom().getRoomCells());
         }
 
-        if (position.getLeft().getRoom().getColor() != positionColor ) {
+        if (position.getLeft() != null && position.getLeft().getRoom().getColor() != positionColor ) {
 
             visibleCells.addAll(position.getLeft().getRoom().getRoomCells());
         }
 
-        if (position.getDown().getRoom().getColor() != positionColor ) {
+        if (position.getDown() != null && position.getDown().getRoom().getColor() != positionColor ) {
 
             visibleCells.addAll(position.getDown().getRoom().getRoomCells());
         }
 
-        if (position.getRight().getRoom().getColor() != positionColor ) {
+        if (position.getRight() != null && position.getRight().getRoom().getColor() != positionColor ) {
 
             visibleCells.addAll(position.getRight().getRoom().getRoomCells());
         }
 
-        //TODO case where at up, down, left, right there is a wall and then Cell is null
         return visibleCells;
     }
 

@@ -6,11 +6,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Socket server runned by the server
+ */
 public class SocketServer extends Thread {
-
-    /**
-     * Socket server runned by the server
-     */
 
     /**
      * Default constructor
@@ -38,6 +37,10 @@ public class SocketServer extends Thread {
         this.server = server;
     }
 
+    /**
+     * creates the serverSocket and binds the port parameter to it
+     * @param port
+     */
     public void startServer(int port) {
 
         try {
@@ -49,6 +52,9 @@ public class SocketServer extends Thread {
 
     }
 
+    /**
+     * with this method the server is ready to accept a connection
+     */
     @Override
     public void run() {
 
