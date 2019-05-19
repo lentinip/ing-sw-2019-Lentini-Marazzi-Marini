@@ -2,6 +2,7 @@ package it.polimi.sw2019.controller;
 import it.polimi.sw2019.model.*;
 import it.polimi.sw2019.network.messages.*;
 import it.polimi.sw2019.network.server.VirtualView;
+import static it.polimi.sw2019.network.messages.TypeOfMessage.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,20 +63,24 @@ public class Controller implements Observer {
 
         TypeOfMessage typeOfMessage = message.getTypeOfMessage();
 
-        if (typeOfMessage==TypeOfMessage.MATCH_SETUP){
+        if (typeOfMessage==MATCH_SETUP){
             initializeMatch();
         }
 
-        else if (typeOfMessage==TypeOfMessage.SINGLE_ACTION){
+        else if (typeOfMessage==SINGLE_ACTION){
             turnManager.getSingleActionManager().singleActionHandler(message);
         }
 
-        else if (typeOfMessage==TypeOfMessage.ASK){
+        else if (typeOfMessage==ASK){
             askManager(message);
         }
 
-        else if (typeOfMessage==TypeOfMessage.SELECTED_CARD || typeOfMessage == TypeOfMessage.SELECTED_PLAYER || typeOfMessage == TypeOfMessage.SELECTED_CELL || typeOfMessage == TypeOfMessage.SELECTED_EFFECT) {
-            turnManager.getSingleActionManager().getShootingChoices().selectionHandler(message);
+        else if (typeOfMessage==SELECTED_CARD || typeOfMessage == SELECTED_PLAYER || typeOfMessage == SELECTED_CELL || typeOfMessage == SELECTED_EFFECT || typeOfMessage == SELECTED_COLOR) {
+            turnManager.getSingleActionManager().getChoices().selectionHandler(message);
+        }
+
+        else if (typeOfMessage==PAYMENT){
+            turnManager.getSingleActionManager().getPayment().paymentHandler(message);
         }
 
         else {
@@ -111,15 +116,11 @@ public class Controller implements Observer {
                 break;
             case SHOOT:
                 if (currentPlayer.getState()==State.NORMAL || currentPlayer.getState()==State.ADRENALINIC1){
-                    List<Weapon> usableWeapon = currentPlayer.availableWeapons();
-                    List<IndexMessage> indexMessageList = new ArrayList<>();
-
-                    for (Weapon weapon : usableWeapon){
-                        indexMessageList.add(new IndexMessage(currentPlayer.getWeaponIndex(weapon)));
-                    }
+                    List<IndexMessage> indexMessageList = turnManager.getSingleActionManager().createShootMessage(currentPlayer);
                     answer.createAvailableCardsMessage(TypeOfAction.SHOOT, indexMessageList, true);
                 }
 
+                //Otherwise send the available cells
                 else {
                     List<Cell> shootingCells = currentPlayer.allowedCellsShoot();
                     List<BoardCoord> shootCoord = new ArrayList<>();
@@ -131,7 +132,23 @@ public class Controller implements Observer {
                 }
                 break;
             case USEPOWERUP:
-                //TODO implementation
+                List<Powerup> powerups = currentPlayer.usablePowerups();
+                List<IndexMessage> powerupsIndex = new ArrayList<>();
+
+                for (Powerup powerup : powerups){
+                    powerupsIndex.add(new IndexMessage(currentPlayer.getPowerupIndex(powerup)));
+                }
+
+                answer.createAvailableCardsMessage(TypeOfAction.USEPOWERUP, powerupsIndex, false);
+                break;
+            case RELOAD:
+                //If the player asks for a reload, can't do other actions
+                match.setCurrentPlayerLeftActions(0);
+
+                List<IndexMessage> indexMessageList = turnManager.getSingleActionManager().createReloadMessage(currentPlayer);
+                //The view checks if the indexMessageList is empty
+                answer.createAvailableCardsMessage(TypeOfAction.RELOAD, indexMessageList, true);
+                break;
             default:
                 //TODO exception
         }

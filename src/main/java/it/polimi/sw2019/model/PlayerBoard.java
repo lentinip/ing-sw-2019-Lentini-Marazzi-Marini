@@ -80,6 +80,15 @@ public class PlayerBoard {
         return ammo;
     }
 
+    public boolean hasAtLeastOneAmmo(){
+        if (ammo.getRed()>0||ammo.getYellow()>0||ammo.getBlue()>0){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     /**
      * update the score when the board is not flipped
      * @param score

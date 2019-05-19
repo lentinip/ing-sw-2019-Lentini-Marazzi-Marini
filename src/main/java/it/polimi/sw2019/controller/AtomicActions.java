@@ -27,6 +27,9 @@ public class  AtomicActions {
     public void move(Player player, Cell selectedCell){
         if(player!= null && selectedCell!=null){
             player.setPosition(selectedCell);
+
+            //Sets the match as changed
+            match.notifyMatchState();
         }
     }
 
@@ -63,6 +66,9 @@ public class  AtomicActions {
 
         //Addss the AmmoTile to the discarded ones in the Board
         match.getBoard().discardAmmo(cellTile);
+
+        //Sets the match as changed
+        match.notifyMatchState();
     }
 
     /**
@@ -84,6 +90,8 @@ public class  AtomicActions {
         //Removes it from the cell
         selectedCell.getWeapons().remove(grabbedWeapon);
 
+        //Sets the match as changed
+        match.notifyMatchState();
     }
 
     /**
@@ -108,6 +116,9 @@ public class  AtomicActions {
 
         //Adds the Player's weapon to the SpawnCell
         selectedCell.getWeapons().add(weaponToReplace);
+
+        //Sets the match as changed
+        match.notifyMatchState();
     }
 
     /**
@@ -147,6 +158,9 @@ public class  AtomicActions {
         if (totalDamage>10){
             receiver.setDead(true);
         }
+
+        //Sets the match as changed
+        match.notifyMatchState();
     }
 
     public  void dealDamageAll(Player shooter, Cell selectedCell, boolean isRoom, int damage){
@@ -169,6 +183,9 @@ public class  AtomicActions {
     public void mark(Player shooter, Player receiver, int mark){
         Marks receiverMarks = receiver.getPlayerBoard().getMarks();
         receiverMarks.addMark(mark, shooter.getCharacter());
+
+        //Sets the match as changed
+        match.notifyMatchState();
     }
 
     public void markAll(Player shooter, Cell selectedCell, boolean isRoom, int mark){
@@ -190,6 +207,9 @@ public class  AtomicActions {
 
     public void reload(Player reloader, Weapon reloadedWeapon){
         payAmmo(reloader, reloadedWeapon.getReloadCost());
+
+        //Sets the match as changed
+        match.notifyMatchState();
     }
 
     /**
@@ -203,15 +223,14 @@ public class  AtomicActions {
 
         //Set the ammo to the player
         switch (powerupToDiscard.getColor()){
-            //TODO change to set and get
             case RED:
-                playerAmmo.addRed(1);
+                playerAmmo.setRed(playerAmmo.getRed()+1);
                 break;
             case BLUE:
-                playerAmmo.addBlue(1);
+                playerAmmo.setBlue(playerAmmo.getBlue()+1);
                 break;
             case YELLOW:
-                playerAmmo.addYellow(1);
+                playerAmmo.setYellow(playerAmmo.getYellow()+1);
                 break;
             default:
                 //It should never come here
@@ -230,6 +249,9 @@ public class  AtomicActions {
      */
     public void payAmmo(Player owner, Ammo cost){
         owner.getPlayerBoard().getAmmo().ammoSubtraction(cost);
+
+        //Sets the match as changed
+        match.notifyMatchState();
     }
 
     /**

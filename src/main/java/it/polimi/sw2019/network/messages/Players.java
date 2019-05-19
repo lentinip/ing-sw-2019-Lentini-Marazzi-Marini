@@ -1,5 +1,7 @@
 package it.polimi.sw2019.network.messages;
 
+import it.polimi.sw2019.model.Character;
+
 import java.util.List;
 
 public class Players {

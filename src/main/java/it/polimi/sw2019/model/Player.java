@@ -102,6 +102,18 @@ public class Player extends Observable {
         return weapons.indexOf(weapon);
     }
 
+    public Weapon getWeaponFromIndex(int weaponIndex){
+        return weapons.get(weaponIndex);
+    }
+
+    public int getPowerupIndex(Powerup powerup) {
+        return  powerups.indexOf(powerup);
+    }
+
+    public Powerup getPowerupFromIndex(int powerupIndex) {
+        return powerups.get(powerupIndex);
+    }
+
 
     /**
      * Removes a weapon from the weapons array
@@ -232,13 +244,25 @@ public class Player extends Observable {
     public List<Weapon> availableWeapons(){
 
         List<Weapon> availableWeapons = new ArrayList<>();
-        List<Weapon> loadedWeapons = loadedWeapons();
+        List<Weapon> weapons;
 
-        for (int i = 0; i < loadedWeapons.size(); i++ ) {
+        if (state == State.FRENZYAFTERFIRST || state == State.FRENZYBEFOREFIRST){
+            weapons = new ArrayList<>(this.weapons);
+            for (Weapon weapon : weapons){
+                if (!weapon.getIsLoaded() && !canIPay(weapon.getReloadCost())){
+                    weapons.remove(weapon);
+                }
+            }
+        }
+        else {
+            weapons = loadedWeapons();
+        }
 
-            if (loadedWeapons.get(i).usableWeapon(position.getRoom().getPlayers())) {
+        for (int i = 0; i < weapons.size(); i++ ) {
 
-                availableWeapons.add(loadedWeapons.get(i));
+            if (weapons.get(i).usableWeapon(position.getRoom().getPlayers())) {
+
+                availableWeapons.add(weapons.get(i));
             }
         }
 
@@ -248,6 +272,19 @@ public class Player extends Observable {
         }
 
         return availableWeapons;
+    }
+
+    public List<Weapon> reloadableWeapons(){
+        List<Weapon> unloadedWeapons = new ArrayList<>(weapons);
+        List<Weapon> reloadableWeapons = new ArrayList<>();
+        unloadedWeapons.removeAll(loadedWeapons());
+
+        for (Weapon weapon : unloadedWeapons){
+            if (canIPay(weapon.getReloadCost())){
+                reloadableWeapons.add(weapon);
+            }
+        }
+        return reloadableWeapons;
     }
 
     /**
@@ -389,6 +426,21 @@ public class Player extends Observable {
       }
 
       else return false;
+    }
+
+    /**
+     * Called only if canIPay is true
+     * @param cost cost to pay in Ammo
+     * @return true if I have to pay with powerups
+     */
+    public boolean mustPayWithPowerup(Ammo cost){
+        Ammo playerAmmo = playerBoard.getAmmo();
+        if (playerAmmo.getRed() < cost.getRed() || playerAmmo.getBlue() < cost.getBlue() || playerAmmo.getYellow() < cost.getYellow()){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**

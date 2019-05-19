@@ -19,5 +19,7 @@ public enum TypeOfMessage {
     SELECTED_CARD,
     SELECTED_CELL,
     SELECTED_EFFECT,
-    ASK
+    SELECTED_COLOR,
+    ASK,
+    PAYMENT
 }

@@ -1,6 +1,6 @@
 package it.polimi.sw2019.model;
 
-public class Ammo {
+public class Ammo implements Cloneable{
 
     /**
      * Default constructor
@@ -10,6 +10,25 @@ public class Ammo {
         setRed(0);
         setYellow(0);
         setBlue(0);
+    }
+
+    public Ammo(Colors color){
+        setRed(0);
+        setYellow(0);
+        setBlue(0);
+        switch (color){
+            case RED:
+                addRed(1);
+                break;
+            case BLUE:
+                addBlue(1);
+                break;
+            case YELLOW:
+                addYellow(1);
+                break;
+            default:
+                //TODO implement exception
+        }
     }
 
     /* Attributes */
@@ -91,5 +110,14 @@ public class Ammo {
         red = red - toSubtract.getRed();
         yellow = yellow - toSubtract.getYellow();
         blue = blue - toSubtract.getBlue();
+    }
+
+    @Override
+    public Ammo clone(){
+        Ammo result = new Ammo();
+        result.setRed(red);
+        result.setBlue(blue);
+        result.setYellow(yellow);
+        return result;
     }
 }

@@ -2,6 +2,7 @@ package it.polimi.sw2019.network.messages;
 
 import com.google.gson.Gson;
 import it.polimi.sw2019.model.Board;
+import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.model.TypeOfAction;
 
 import java.io.Serializable;
@@ -137,11 +138,42 @@ public class Message implements Serializable {
         return gson.toJson(boardCoord);
     }
 
+    public String serializePaymentMessage(PaymentMessage paymentMessage){
+
+        Gson gson = new Gson();
+        return gson.toJson(paymentMessage);
+    }
+
+    public String serializeSelectedColor(SelectedColor selectedColor){
+
+        Gson gson = new Gson();
+        return gson.toJson(selectedColor);
+    }
+
     public BoardCoord deserializeBoardCoord(){
 
         Gson gson = new Gson();
         return gson.fromJson(jsonFile, BoardCoord.class);
     }
+
+    public GrabWeapon deserializeGrabWeapon(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, GrabWeapon.class);
+    }
+
+    public IndexMessage deserializeIndexMessage(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, IndexMessage.class);
+    }
+
+    public SelectedColor deserializeSelectedColor(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, SelectedColor.class);
+    }
+
 
     /* the following methods are called to create different types of Message Class */
 
@@ -204,6 +236,22 @@ public class Message implements Serializable {
         setTypeOfAction(typeOfAction);
         AvailableCards availableCards = new AvailableCards(indexMessageList, areWeapons);
         setJsonFile(serializeAvailableCards(availableCards));
+    }
+
+    public void createPaymentMessage(List<IndexMessage> powerups, boolean mustPay){
+
+        setTypeOfMessage(TypeOfMessage.PAYMENT);
+        setTypeOfAction(TypeOfAction.PAY);
+        PaymentMessage paymentMessage = new PaymentMessage(mustPay, powerups);
+        setJsonFile(serializePaymentMessage(paymentMessage));
+
+    }
+
+    public void createAvailablePlayers(TypeOfAction typeOfAction, List<Character> players){
+        setTypeOfMessage(TypeOfMessage.AVAILABLE_PLAYERS);
+        setTypeOfAction(typeOfAction);
+        Players playersMessage = new Players(players);
+        setJsonFile(serializePlayers(playersMessage));
     }
 
 

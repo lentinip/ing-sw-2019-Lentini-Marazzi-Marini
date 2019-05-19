@@ -11,5 +11,6 @@ public enum TypeOfAction {
     SPAWN,
     MOVEBEFORESHOOT,
     MOVEAFTERSHOOT,
+    PAY,
     NONE
 }
