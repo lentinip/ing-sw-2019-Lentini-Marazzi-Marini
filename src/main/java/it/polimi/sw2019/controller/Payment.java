@@ -35,7 +35,7 @@ public class Payment {
 
     private List<Powerup> selectedPowerups = new ArrayList<>();
 
-    private Powerup usablePowerup;
+    private Powerup usablePowerup; // this attribute is here to know if we are paying the cost of a powerup effect
 
     /* Methods */
 
@@ -71,6 +71,11 @@ public class Payment {
         this.selectedPowerups = selectedPowerups;
     }
 
+    /**
+     * This method reset all the attributes to avoid errors the next time I receive a new payment message
+     * I don't need to reset the pendingMessage or the payingPlayer cause they are overwritten every time
+     * in the paymentStarter method
+     */
     public void reset(){
         //TODO implement
     }
@@ -82,6 +87,8 @@ public class Payment {
         //First pays
         singleActionManager.getAtomicActions().payAmmoWithPowerups(payingPlayer, initialCost, selectedPowerups);
 
+        reset();
+
         switch (pendingMessage.getTypeOfAction()){
             case GRABWEAPON:
                 singleActionManager.grabWeaponHandler(pendingMessage);
@@ -90,25 +97,41 @@ public class Payment {
                 singleActionManager.reloadHandler(pendingMessage);
                 break;
             case SHOOT:
+                singleActionManager.getChoices().effectAnalizer();
                 break;
             default:
                 break;
                 //TODO implement
         }
+
     }
 
+    /**
+     * Pay the Ammo cost with Ammo  and continue the pending action based on the pendingMessage.
+     * used to pay targeting scope
+     */
     public void payAndThanUsePowerup(Colors color){
         Ammo toPay = new Ammo(color);
 
         singleActionManager.getAtomicActions().payAmmo(payingPlayer, toPay);
-
-        //TODO go to handler
-
+        reset();
+        singleActionManager.getChoices().targetingScopeTargets();
     }
 
+    /**
+     * pay the Ammo cost with powerup
+     * used to pay targeting scope
+     * @param powerupIndex index of the powerup discarded to pay the cost
+     */
     public void payAndThanUsePowerup(int powerupIndex){
         Powerup powerup = payingPlayer.getPowerupFromIndex(powerupIndex);
-        payAndThanUsePowerup(powerup.getColor());
+        Ammo toPay = new Ammo(powerup.getColor());
+        List<Powerup> powerups = new ArrayList<>();
+        powerups.add(powerup);
+
+        singleActionManager.getAtomicActions().payAmmoWithPowerups(payingPlayer, toPay, powerups);
+        reset();
+        singleActionManager.getChoices().targetingScopeTargets();
     }
 
     /**
@@ -206,8 +229,7 @@ public class Payment {
                 break;
             case USEPOWERUP:
                 IndexMessage indexMessage = message.deserializeIndexMessage();
-                Powerup powerup = payingPlayer.getPowerupFromIndex(indexMessage.getSelectionIndex());
-                usablePowerup = powerup;
+                usablePowerup = payingPlayer.getPowerupFromIndex(indexMessage.getSelectionIndex());
                 break;
             case RELOAD:
                 IndexMessage reloadCardMessage = message.deserializeIndexMessage();

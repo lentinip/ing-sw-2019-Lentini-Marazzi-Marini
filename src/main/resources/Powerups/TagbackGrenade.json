@@ -3,7 +3,7 @@
     "quantity": 2,
     "Powerup": {
 
-      "name" : "Tagback Granade",
+      "name" : "Tagback Grenade",
       "description" : "You may play this card when you receive damage from a player you can see. Give that player 1 mark.",
       "TypeOfAction" : "MARK",
       "value" : 1,
@@ -18,7 +18,7 @@
     "quantity": 2,
     "Powerup": {
 
-      "name" : "Tagback Granade",
+      "name" : "Tagback Grenade",
       "description" : "You may play this card when you receive damage from a player you can see. Give that player 1 mark.",
       "TypeOfAction" : "MARK",
       "value" : 1,
@@ -33,7 +33,7 @@
     "quantity": 2,
     "Powerup": {
 
-      "name" : "Tagback Granade",
+      "name" : "Tagback Grenade",
       "description" : "You may play this card when you receive damage from a player you can see. Give that player 1 mark.",
       "TypeOfAction" : "MARK",
       "value" : 1,

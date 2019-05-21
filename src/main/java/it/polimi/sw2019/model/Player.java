@@ -153,6 +153,7 @@ public class Player extends Observable {
     public void usePoweup(Powerup powerup){
 
         powerups.remove(powerup);
+
     }
 
     public void addPowerup(Powerup powerup){
