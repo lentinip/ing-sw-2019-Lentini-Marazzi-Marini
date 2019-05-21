@@ -115,7 +115,7 @@ public class Payment {
 
         singleActionManager.getAtomicActions().payAmmo(payingPlayer, toPay);
         reset();
-        singleActionManager.getChoices().targetingScopeTargets();
+        singleActionManager.getChoices().damagedTargets();
     }
 
     /**
@@ -131,7 +131,7 @@ public class Payment {
 
         singleActionManager.getAtomicActions().payAmmoWithPowerups(payingPlayer, toPay, powerups);
         reset();
-        singleActionManager.getChoices().targetingScopeTargets();
+        singleActionManager.getChoices().damagedTargets();
     }
 
     /**

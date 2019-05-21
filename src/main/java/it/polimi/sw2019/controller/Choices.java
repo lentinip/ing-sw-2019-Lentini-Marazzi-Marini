@@ -6,6 +6,7 @@ import it.polimi.sw2019.network.messages.BoardCoord;
 import it.polimi.sw2019.network.messages.IndexMessage;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.server.VirtualView;
+import it.polimi.sw2019.view.ViewInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,9 +96,9 @@ public class Choices {
     }
 
     /**
-     * This method reset all the attributes to avoid errors the next time I receive a new payment message
+     * This method resets all the attributes to avoid errors the next time I receive a new payment message
      * I have to reset everything when a new effect is used, but I don't have to reset the selectedWeapon, cause
-     * it is overwritten every time a player select one
+     * it is overwritten every time a player select one (selectedWeapon has to be set to null after the player ends the shoot action
      */
     public void reset() {
 
@@ -208,6 +209,7 @@ public class Choices {
         if (selectedPowerup.isiNeedToPay()){
             payment.paymentStarter(message);
         }
+
         // if I'm using teleporter
         else if (selectedPowerup.isDuringYourTurn() && selectedPowerup.getMove() == null) {
             List<BoardCoord> availableCells = new ArrayList<>();
@@ -220,7 +222,7 @@ public class Choices {
         }
 
         // if I'm using newton
-        else if (selectedPowerup.getMove() != null){
+        else if (selectedPowerup.getMove() != null && selectedPowerup.getMove().getVisibility() == KindOfVisibility.ALL){
 
            List<Player> availablePlayers = match.getPlayers();
            availablePlayers.remove(player);
@@ -247,7 +249,7 @@ public class Choices {
             match.getBoard().discardPowerup(selectedPowerup);
 
             damagedPlayers.remove(player);
-            List<Player> nextPlayers = playersWithTagback();
+            List<Player> nextPlayers = playersWithCounterAttackPowerup();
 
             // no more players can use tagback grenade
             if (nextPlayers.isEmpty()){
@@ -261,7 +263,7 @@ public class Choices {
                 List<IndexMessage> usablePowerups = new ArrayList<>();
                 for (Powerup powerup: nextPlayers.get(0).getPowerups()){
 
-                    if (powerup.getName().equals("Tagback Grenade")){
+                    if (powerup.isDuringDamageAction() && !powerup.isDuringYourTurn()){
 
                         usablePowerups.add(new IndexMessage(nextPlayers.get(0).getPowerups().indexOf(powerup)));
                     }
@@ -278,7 +280,7 @@ public class Choices {
     /**
      * this method send to the view the list of the available players that can be targeted by Targeting Scope powerup
      */
-    public void targetingScopeTargets(){
+    public void damagedTargets(){
 
         List<Character> targets = new ArrayList<>();
 
@@ -344,33 +346,69 @@ public class Choices {
      */
     public void effectAnalizer(){
 
+        Message options = new Message(match.getCurrentPlayer().getName());
+
         // if the effect contains a moveBefore I have to show to the client the available choices
         if (currentEffect.getMove() != null && currentEffect.getMove().iHaveAMoveBefore()){
-
-            Message options = new Message(match.getCurrentPlayer().getName());
 
             // if I have to choose to move a target then I'll show the targets available
             if (currentEffect.getMove().isMoveTargetBefore()){
 
-                //TODO implement the method to show the targets
+                List<Character> availablePlayers = currentEffect.getMove().availablePlayersToMove(match.getPlayers(), match.getCurrentPlayer());
+                options.createAvailablePlayers(TypeOfAction.SHOOT, availablePlayers);
+                view.display(options);
             }
-
-            // I can move myself before, then I'll show the available cells
-            else {
-
-                //TODO implement the method that shows the cells
-                //there are no effects like that at the moment
-
-            }
-
-            view.display(options);
         }
 
-
         else if (currentEffect.getType() == EffectsKind.MOVE){
-            //TODO implement the method that shows the cells
-            //remember that if the player has not already shooted I'll have to show only the cells where he can shoot in
 
+            List<Cell> reachableCells = match.getCurrentPlayer().getPosition().reachableCells(currentEffect.getMove().getMoveYou());
+
+            // the player must move
+            reachableCells.remove(match.getCurrentPlayer().getPosition());
+
+            List<BoardCoord> cells = new ArrayList<>();
+
+            // after the effect is executed (case move effect) it is added to the usedEffects
+            usedEffect.add(currentEffect);
+
+            //remember that if the player has not already shooted I'll have to show only the cells where he can shoot in
+            //in this if I can move wherever I want (respecting the number of moves allowed by the effect)
+            if (!shootedPlayers.isEmpty()){
+
+                for (Cell cell: reachableCells){
+
+                    cells.add(cell.getCoord());
+                }
+            }
+
+            //in this if, I can move only in the cells where I can shoot someone from
+            else if (shootedPlayers.isEmpty()){
+
+                List<Effect> weaponsEffect = new ArrayList<>(selectedWeapon.getEffects());
+                weaponsEffect.removeAll(usedEffect);
+
+                Player copy = new Player();
+                copy.setPosition(match.getCurrentPlayer().getPosition());
+
+                // I put a copy of the player in every reachable cell and if he can use one of his effects from there I'll add te cell to the list
+                for (Cell cell: reachableCells){
+
+                    copy.setPosition(cell);
+
+                    for (Effect effect: weaponsEffect){
+
+                        // && condition is to avoid duplicates in the list
+                        if (effect.usableEffect(copy, match.getPlayers()) && !cells.contains(cell.getCoord())){
+
+                                cells.add(cell.getCoord());
+                        }
+                    }
+                }
+            }
+
+            options.createAvailableCellsMessage(TypeOfAction.SHOOT, cells);
+            view.display(options);
         }
 
         // if I can't move before I go to effectHandler
@@ -403,7 +441,7 @@ public class Choices {
      * them if they want to use it
      * @return
      */
-    public List<Player> playersWithTagback(){
+    public List<Player> playersWithCounterAttackPowerup(){
 
         List<Player> nextPlayers = new ArrayList<>();
 
@@ -411,7 +449,7 @@ public class Choices {
 
             for (Powerup powerup: player.getPowerups()){
 
-                if (powerup.getName().equals("Tagback Grenade")){
+                if (powerup.isDuringDamageAction() && !powerup.isDuringYourTurn()){
 
                     nextPlayers.add(player);
                 }

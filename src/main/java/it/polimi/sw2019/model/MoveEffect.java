@@ -1,5 +1,6 @@
 package it.polimi.sw2019.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MoveEffect {
@@ -23,6 +24,10 @@ public class MoveEffect {
     private boolean moveTargetAfter; /* true if you have to move the target after the shoot */
 
     private boolean moveTargetSameDirection; /* true if you have to move the target in the same direction */
+
+    private boolean moveTargetOnYourSquare; /* useful for tractorBeam second effect, tells if you have to move the target on your square */
+
+    private KindOfVisibility visibility;  /* used to know which targets you can move */
 
     private boolean moveYouBefore; /* true if you have to move before the shoot action */
 
@@ -125,6 +130,22 @@ public class MoveEffect {
         this.obligatoryTarget = obligatoryTarget;
     }
 
+    public KindOfVisibility getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(KindOfVisibility visibility) {
+        this.visibility = visibility;
+    }
+
+    public boolean isMoveTargetOnYourSquare() {
+        return moveTargetOnYourSquare;
+    }
+
+    public void setMoveTargetOnYourSquare(boolean moveTargetOnYourSquare) {
+        this.moveTargetOnYourSquare = moveTargetOnYourSquare;
+    }
+
     /**
      * Method that tells you if you can choose when to move the targets
      */
@@ -200,7 +221,54 @@ public class MoveEffect {
         }
 
         return availableCells;
+    }
 
+    /**
+     * this method is called by controller (Choices)
+     * used for the moveBeforeShoot
+     * @param allPlayers all Players
+     * @param  owner the owner of the weapon
+     * @return a list of characters that can be moved applying the move effect
+     */
+    public List<Character> availablePlayersToMove(List<Player> allPlayers, Player owner){
+
+        List<Character> availablePlayers = new ArrayList<>();
+
+        /* removing the owner from the player in a new list */
+        List<Player> targets = new ArrayList<>(allPlayers);
+        targets.remove(owner);
+
+        for (Player player: targets){
+
+            List<Cell> reachableCells = player.getPosition().reachableCells(moveTargets);
+
+            /* returning all the characters that can be moved on a cell you can see */
+            if (visibility == KindOfVisibility.VISIBLE && !moveTargetOnYourSquare){
+
+                for (Cell cell: reachableCells){
+
+                    if (player.visibleCells().contains(cell)){
+
+                        availablePlayers.add(player.getCharacter());
+                    }
+                }
+            }
+
+            /* returning all the characters that can be moved on your square */
+            else if (moveTargetOnYourSquare){
+
+                for (Cell cell: reachableCells){
+
+                    if (cell == owner.getPosition()){
+
+                        availablePlayers.add(player.getCharacter());
+                    }
+                }
+            }
+
+        }
+
+        return availablePlayers;
     }
 }
 
