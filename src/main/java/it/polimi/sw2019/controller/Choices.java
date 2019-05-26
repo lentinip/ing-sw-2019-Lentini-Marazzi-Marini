@@ -6,7 +6,6 @@ import it.polimi.sw2019.network.messages.BoardCoord;
 import it.polimi.sw2019.network.messages.IndexMessage;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.server.VirtualView;
-import it.polimi.sw2019.view.ViewInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +15,12 @@ public class Choices {
     /**
      * Default constructor
      */
-    public Choices(Match match, VirtualView view, Payment payment, AtomicActions atomicActions) {
+    public Choices(Match match, VirtualView view, Payment payment, AtomicActions atomicActions, SingleActionManager singleActionManager) {
         this.match = match;
         this.view = view;
         this.payment = payment;
         this.atomicActions = atomicActions;
+        this.singleActionManager = singleActionManager;
     }
 
     /* Attributes */
@@ -32,6 +32,8 @@ public class Choices {
     private Payment payment;
 
     private AtomicActions atomicActions;
+
+    private SingleActionManager singleActionManager;
 
     private Weapon selectedWeapon;
 
@@ -51,7 +53,7 @@ public class Choices {
 
     private List<Cell> shootedCells = new ArrayList<>(); // here I save the list of the cells already selected
 
-    private Player selectedPlayer;
+    private Player selectedPlayer; // here I save the player that I'm going to move
 
     /* Methods */
 
@@ -95,10 +97,14 @@ public class Choices {
         this.movedPlayers = movedPlayers;
     }
 
+    public Powerup getSelectedPowerup() {
+        return selectedPowerup;
+    }
+
     /**
      * This method resets all the attributes to avoid errors the next time I receive a new payment message
      * I have to reset everything when a new effect is used, but I don't have to reset the selectedWeapon, cause
-     * it is overwritten every time a player select one (selectedWeapon has to be set to null after the player ends the shoot action
+     * it is overwritten every time a player select one (selectedWeapon has to be set to null after the player ends the shoot action)
      */
     public void reset() {
 
@@ -106,6 +112,27 @@ public class Choices {
         return;
     }
 
+    /**
+     * this method reset all the choices attributes in the class
+     */
+    public void resetEverything(){
+
+        selectedWeapon = null;
+        selectedPowerup = null;
+        currentEffect = null;
+        usedEffect = null;
+        moveCell = null;
+        movedPlayers = null;
+        shootedPlayers = null;
+        damagedPlayers = null;
+        shootedCells = null;
+        selectedPlayer = null;
+    }
+
+    /**
+     * this method filters all the selection kind messages
+     * @param message sent to the method that reads the message
+     */
     public void selectionHandler(Message message){
 
         switch (message.getTypeOfMessage()){
@@ -120,15 +147,26 @@ public class Choices {
                 // clearing all the selections
                 reset();
                 IndexMessage effectIndex = message.deserializeIndexMessage();
-                currentEffect = selectedWeapon.getEffects().get(effectIndex.getSelectionIndex());
+
+                // case he does not want to use an effect because he wants to stop
+                if (effectIndex.getSelectionIndex() < 0){
+
+                    // the shoot action is ended
+                    singleActionManager.reducePlayerNumberOfActions();
+                }
+
+                if ( effectIndex.getSelectionIndex() >= 0){
+
+                    currentEffect = selectedWeapon.getEffects().get(effectIndex.getSelectionIndex());
+                }
 
                 // effect is free and I analyze it
-                if ( currentEffect.getCost() == null){
+                if ( currentEffect != null && currentEffect.getCost() == null){
                     effectAnalizer();
                 }
 
                 // the effect has a cost and I enter the payment session
-                else {
+                else if (currentEffect != null) {
                     payment.paymentStarter(message);
                 }
 
@@ -141,7 +179,16 @@ public class Choices {
                 // when I'm shooting with an ALL_TARGET effect
                 if ( currentEffect.getType() != EffectsKind.MOVE) {
                     shootedCells.add(selectedCell);
-                    effectHandler();
+
+                    //checking if I can choose a new cell
+                    if (shootedCells.size() < currentEffect.getTargets().getMaxTargets()){
+
+                        updateVisibilityAllTarget();
+                    }
+
+                    else {
+                        applyAllTargetEffect();
+                    }
                 }
 
                 // the current effect is a move type effect
@@ -158,6 +205,10 @@ public class Choices {
         }
     }
 
+    /**
+     * method that filters the card selection messages
+     * @param message sent to the method that read the message
+     */
     public void selectionCardHandler(Message message){
 
         switch (message.getTypeOfAction()){
@@ -166,7 +217,25 @@ public class Choices {
                 //TODO implement the call to the spawn method
                 break;
             case USEPOWERUP:
-                powerupEffectHandler(message);
+                // the player has actually selected a real powerup
+                if (message.deserializeIndexMessage().getSelectionIndex() >= 0){
+
+                    powerupEffectHandler(message);
+                }
+                // the player does not want to use a powerup anymore (index < 0)
+                else {
+                    // I now watch who has sent me the message
+                    Player sender = match.getPlayerByUsername(message.getUsername());
+
+                    // if the sender is not the current player it means that I asked a player if he wants to use tagback and he answered "no" so I have to remove him from the list
+                    if (sender != match.getCurrentPlayer()) {
+
+                        damagedPlayers.remove(sender);
+                    }
+
+                    // now I check if other players have tagback and continue the turn
+                    playersWithCounterAttackPowerup();
+                }
                 break;
             case SHOOT:
                 weaponHandler(message);
@@ -177,13 +246,19 @@ public class Choices {
         }
     }
 
+    /**
+     * method that filters the player selection
+     * @param message sent to the method that reads the message
+     */
     public void selectionPlayerHandler(Message message){
 
         switch (message.getTypeOfAction()){
 
             case USEPOWERUP:
+                usePowerupHandler(message);
                 break;
             case MOVEBEFORESHOOT:
+                moveBeforeShootHandler(message);
                 break;
             case SHOOT:
                 break;
@@ -191,6 +266,156 @@ public class Choices {
                 break;
         }
 
+    }
+
+    /**
+     * this method handles the selection of a player in an use powerup action
+     * @param message
+     */
+    public  void usePowerupHandler(Message message){
+
+        Message answer = new Message(message.getUsername());
+        selectedPlayer = match.getPlayerByCharacter(message.deserializePlayersMessage().getCharacters().get(0));
+
+        // if newton I'll return the cells where I can move the selected player
+        if (selectedPowerup.isDuringYourTurn() && !selectedPowerup.isDuringDamageAction() && selectedPowerup.getMove() != null){
+
+            List<Cell> availableCells = selectedPowerup.getMove().availableCellsMoveTarget(selectedPlayer);
+            List<BoardCoord> options = new ArrayList<>();
+            for (Cell cell: availableCells){
+
+                options.add(cell.getCoord());
+            }
+            answer.createAvailableCellsMessage(TypeOfAction.USEPOWERUP, options);
+            view.display(answer);
+        }
+
+        // if targeting scope I'll have to add the damage and show him if he can use another targeting scope
+        else if (selectedPowerup.isDuringDamageAction()){
+
+            atomicActions.dealDamage(match.getCurrentPlayer(), selectedPlayer, selectedPowerup.getValue());
+
+            // removing the powerup from the player hand and putting it into the discarded pile
+            match.getCurrentPlayer().usePoweup(selectedPowerup);
+            match.getBoard().discardPowerup(selectedPowerup);
+
+            // checking if the player has other targeting scope powerups
+            List<Powerup> availablePowerups = match.getCurrentPlayer().getPowerupsAfterShoot();
+
+            // case where he does not have targeting scope I ask to the damaged players for the tagback use
+            if (availablePowerups.isEmpty()){
+
+                playersWithCounterAttackPowerup();
+            }
+
+            //if he has targeting scope I'll show him the options
+            else {
+
+                List<IndexMessage> options = new ArrayList<>();
+                for (Powerup powerup: availablePowerups){
+
+                    options.add(new IndexMessage(match.getCurrentPlayer().getPowerupIndex(powerup)));
+                }
+                answer.createAvailableCardsMessage(TypeOfAction.USEPOWERUP, options, false);
+                view.display(answer);
+            }
+
+        }
+
+    }
+
+    /**
+     * this method handles the selection of a player in a move before shoot action
+     * @param message
+     */
+    public void moveBeforeShootHandler(Message message){
+
+        // see if the index is < 0 and then show him the available cells
+        IndexMessage selection = message.deserializeIndexMessage();
+
+        //case the player does not want to move anymore
+        if (selection.getSelectionIndex() < 0){
+
+            effectHandler();
+        }
+
+        // I'll have to give him options or move the player if it is not the first one (case vortex)
+        else{
+
+            selectedPlayer = match.getPlayers().get(selection.getSelectionIndex());
+            MoveEffect move = currentEffect.getMove();
+
+            //if is the first player to be moved
+            if (movedPlayers.isEmpty()){
+
+                // case tractor beam second effect
+                if (move.isMoveTargetOnYourSquare()){
+
+                    atomicActions.move(selectedPlayer, match.getCurrentPlayer().getPosition());
+                    movedPlayers.add(selectedPlayer);
+                    effectHandler();
+                }
+
+                // case vortex or tractor beam first effect
+                else {
+
+                    //showing only the cells that the shooter can see and where the target can be moved in
+                    List<BoardCoord> availableCells = new ArrayList<>();
+                    List<Cell> options = selectedPlayer.getPosition().reachableCells(move.getMoveTargets());
+                    List<Cell> visibleCells = match.getCurrentPlayer().visibleCells();
+
+                    for (Cell cell: options){
+
+                        if (visibleCells.contains(cell)){
+
+                            availableCells.add(cell.getCoord());
+                        }
+                    }
+
+                    message.createAvailableCellsMessage(TypeOfAction.MOVEBEFORESHOOT, availableCells);
+                    view.display(message);
+                }
+
+            }
+
+            //case moved players is not empty vortex second effect
+            else {
+
+                atomicActions.move(selectedPlayer, moveCell);
+                movedPlayers.add(selectedPlayer);
+
+                // I can move someone else
+                if (movedPlayers.size() < move.getMaxTargets()){
+
+                    //giving the players he can move into the move cell
+                    List<Character> options = new ArrayList<>();
+                    List<Player> availablePlayers = new ArrayList<>();
+                    List<Cell> cells = moveCell.reachableCells(move.getMoveTargets());
+
+                    for (Cell cell: cells){
+
+                        availablePlayers.addAll(cell.playersInCell());
+                    }
+
+                    availablePlayers.remove(match.getCurrentPlayer());
+                    availablePlayers.removeAll(movedPlayers);
+
+                    for (Player player: availablePlayers){
+
+                        options.add(player.getCharacter());
+                    }
+
+                    message.createAvailablePlayers(TypeOfAction.MOVEBEFORESHOOT, options);
+                    view.display(message);
+                }
+
+                // I cannot move anymore
+                 else {
+
+                     effectHandler();
+                 }
+            }
+        }
     }
 
 
@@ -215,7 +440,7 @@ public class Choices {
             List<BoardCoord> availableCells = new ArrayList<>();
             List<Cell> cells = match.getBoard().getField();
             for (Cell cell : cells) {
-                availableCells.add(new BoardCoord(cell.getRow(), cell.getColumn()));
+                availableCells.add(cell.getCoord());
             }
             answer.createAvailableCellsMessage(TypeOfAction.USEPOWERUP, availableCells);
             view.display(answer);
@@ -249,30 +474,8 @@ public class Choices {
             match.getBoard().discardPowerup(selectedPowerup);
 
             damagedPlayers.remove(player);
-            List<Player> nextPlayers = playersWithCounterAttackPowerup();
 
-            // no more players can use tagback grenade
-            if (nextPlayers.isEmpty()){
-                afterEffectHandler();
-            }
-
-            // I ask to the first player of the list if he wants to use tagback
-            else {
-
-                message.setUsername(nextPlayers.get(0).getName());
-                List<IndexMessage> usablePowerups = new ArrayList<>();
-                for (Powerup powerup: nextPlayers.get(0).getPowerups()){
-
-                    if (powerup.isDuringDamageAction() && !powerup.isDuringYourTurn()){
-
-                        usablePowerups.add(new IndexMessage(nextPlayers.get(0).getPowerups().indexOf(powerup)));
-                    }
-                }
-
-                message.createAvailableCardsMessage(TypeOfAction.USEPOWERUP, usablePowerups, false);
-                view.display(message);
-            }
-
+            playersWithCounterAttackPowerup();
         }
 
     }
@@ -294,7 +497,7 @@ public class Choices {
     }
 
     /**
-     *
+     * Method that receive the weapon and analyze it to send options to the view
      */
     public void weaponHandler(Message message){
 
@@ -334,10 +537,263 @@ public class Choices {
     }
 
     /**
-     * called by moveBeforeShoot after the move send to the view the possible selections
+     * apply the effect and continue the turn
+     * called by moveBeforeShoot after the move,
+     * by SingleActionManager, by effectAnalyzer
+     * send to the view the possible selections
      */
     public void effectHandler(){
-        //TODO implement
+
+        // if I moved someone I have to apply the effect to the moved players see vortex or tractor beam
+        if (movedPlayers != null){
+
+            shootedPlayers = movedPlayers;
+            applyEffect();
+        }
+
+        // case where the player don't have to choose
+        else if (currentEffect.getTargets().isForcedChoice()){
+
+            applyForcedChoiceEffect();
+        }
+
+        // if the player has not selected a target yet
+        else if (shootedPlayers.isEmpty() && shootedCells.isEmpty()){
+
+            Message options = new Message(match.getCurrentPlayer().getName());
+
+            //showing cells if it is an all target effect
+            if (currentEffect.getType() == EffectsKind.ALL_TARGET) {
+
+                List<Cell> targets = currentEffect.shootableCells(match.getCurrentPlayer());
+                List<BoardCoord> reachableCells = new ArrayList<>();
+
+                for (Cell cell: targets){
+
+                    reachableCells.add(cell.getCoord());
+                }
+                options.createAvailableCellsMessage(TypeOfAction.SHOOT, reachableCells);
+            }
+
+            else {
+                //calling the method that returns the targets you can shoot
+                List<Player> targets = currentEffect.reachablePlayers(match.getCurrentPlayer());
+                List<Character> reachableCharacters = new ArrayList<>();
+
+                for (Player player : targets) {
+
+                    reachableCharacters.add(player.getCharacter());
+                }
+
+                options.createAvailablePlayers(TypeOfAction.SHOOT, reachableCharacters);
+            }
+            view.display(options);
+        }
+
+        // a player is already selected, PROBABLY THIS PART OF CODE IS NOT NECESSARY, WE HAVE TO CHECK
+        else {
+
+            // sending new options for a multiple target effect
+            if (currentEffect.getType() == EffectsKind.MULTIPLE_TARGET){
+
+                updateVisibilityMultiple();
+            }
+
+            // sending new options for an all target effect
+            else if (currentEffect.getType() == EffectsKind.ALL_TARGET){
+
+                updateVisibilityAllTarget();
+            }
+        }
+    }
+
+    /**
+     * this method sends new options to the player by watching the other players chosen and the effect that is being executed
+     * done for multiple target effect (options are players)
+     */
+    public void updateVisibilityMultiple(){
+
+        List<Player> newTargets;
+        List<Character> updatedOptions = new ArrayList<>();
+
+        //updating the options for VISIBLE multi targets effects
+        if (currentEffect.getVisibility() == KindOfVisibility.VISIBLE){
+
+            newTargets = currentEffect.reachablePlayers(match.getCurrentPlayer());
+            newTargets.removeAll(shootedPlayers);
+
+            // removing the players on the same squares of the shooted Players
+            if (currentEffect.getTargets().isDifferentSquares()){
+
+                for (Player player: newTargets){
+
+                    for (Player shootedPlayer: shootedPlayers){
+
+                        if ( player.getPosition() == shootedPlayer.getPosition()){
+
+                            newTargets.remove(player);
+                            break; //exit from the second for
+                        }
+                    }
+                }
+            }
+
+            // newTargets become the target in the same direction adjacent square of the shooted player
+            if (currentEffect.isSameDirection()){
+
+                newTargets.clear();
+                newTargets.addAll(currentEffect.getVisibilityClass().cellInSameDirection(match.getCurrentPlayer().getPosition(), shootedPlayers.get(0).getPosition()).playersInCell());
+            }
+        }
+
+        else if (currentEffect.getVisibility() == KindOfVisibility.THOR){
+
+            //players that can see the last shooted player
+            newTargets = shootedPlayers.get(shootedPlayers.size() -1).visibilePlayer();
+            newTargets.removeAll(shootedPlayers);
+        }
+
+        else if (currentEffect.getVisibility() == KindOfVisibility.RAILGUN){
+
+            newTargets = currentEffect.getVisibilityClass().railgunUpdate(shootedPlayers.get(0), match.getCurrentPlayer());
+        }
+
+        // case for exceptions
+        else {
+
+            newTargets = new ArrayList<>();
+        }
+
+        // no targets available then I apply the effect
+        if (newTargets.isEmpty()){
+
+            applyEffect();
+        }
+
+        else {
+
+            for (Player player : newTargets) {
+
+                updatedOptions.add(player.getCharacter());
+            }
+
+            Message options = new Message(match.getCurrentPlayer().getName());
+            options.createAvailablePlayers(TypeOfAction.SHOOT, updatedOptions);
+            view.display(options);
+        }
+
+
+    }
+
+    /**
+     * this method sends new options to the player by watching the other players chosen and the effect that is being executed
+     * done for all target effect (options are Cell)
+     */
+    public void updateVisibilityAllTarget(){
+
+        // the only all target effect that needs this method is flamethrower second effect
+        if (currentEffect.isSameDirection()){
+
+
+            //adding the adjacent cell in the same direction to the shooted cells and applying the effect
+            Cell shooterCell = match.getCurrentPlayer().getPosition();
+            Cell nextCell;
+            nextCell = currentEffect.getVisibilityClass().cellInSameDirection(shooterCell, shootedCells.get(0));
+
+            if (nextCell != null) {
+                shootedCells.add(nextCell);
+            }
+            applyAllTargetEffect();
+        }
+    }
+
+    /**
+     * apply the demage in cells chosen for all target effects
+     */
+    public void applyAllTargetEffect(){
+
+        Target targets = currentEffect.getTargets();
+
+        // case furnace effect 1, I'm dealing damage to all targets in the room
+        if ( targets.isRoom()){
+
+             damagedPlayers = shootedCells.get(0).getRoom().playersInside();
+
+             for (Player player: damagedPlayers){
+
+                 atomicActions.dealDamage(match.getCurrentPlayer(), player, targets.getDamages()[0]);
+                 atomicActions.mark(match.getCurrentPlayer(), player, targets.getMarks()[0]);
+             }
+        }
+
+        // normal all target effect
+        else {
+
+            for (Cell shootedCell: shootedCells){
+
+                // removing the current player in case he is dealing damage to all players on his square
+                List<Player> hittedPlayers = shootedCell.playersInCell();
+                hittedPlayers.remove(match.getCurrentPlayer());
+
+                for (Player shootedPlayer: hittedPlayers){
+
+                    shootedPlayers.add(shootedPlayer);
+
+                    if ( targets.getDamages()[shootedCells.indexOf(shootedCell)] > 0){
+
+                        damagedPlayers.add(shootedPlayer);
+                        atomicActions.dealDamage(match.getCurrentPlayer(), shootedPlayer, targets.getDamages()[shootedCells.indexOf(shootedCell)]);
+                    }
+
+                    atomicActions.mark(match.getCurrentPlayer(), shootedPlayer, targets.getMarks()[shootedCells.indexOf(shootedCell)]);
+                }
+            }
+        }
+
+        afterEffectHandler();
+    }
+
+    /**
+     * apply the damage to the players for weapon effects that don't need the user to choose someone
+     */
+    public void applyForcedChoiceEffect(){
+
+        Target targets = currentEffect.getTargets();
+        shootedPlayers.addAll(currentEffect.reachablePlayers(match.getCurrentPlayer()));
+
+        // dealing damage to all the targets available
+        for (Player shootedPlayer: shootedPlayers){
+
+            if (targets.getDamages()[0] > 0){
+
+                atomicActions.dealDamage(match.getCurrentPlayer(), shootedPlayer, targets.getDamages()[0]);
+                damagedPlayers.add(shootedPlayer);
+            }
+
+            atomicActions.mark(match.getCurrentPlayer(), shootedPlayer, targets.getMarks()[0]);
+        }
+
+        afterEffectHandler();
+    }
+
+    /**
+     * by reading the target class this method apply the exact number of damage and mark to every target
+     */
+    public void applyEffect(){
+
+        Target targets = currentEffect.getTargets();
+
+        for (int i = 0; i < shootedPlayers.size(); i++){
+
+            if ( targets.getDamages()[i] > 0) {
+                atomicActions.dealDamage(match.getCurrentPlayer(), shootedPlayers.get(i), targets.getDamages()[i]);
+                damagedPlayers.add(shootedPlayers.get(i));
+            }
+
+            atomicActions.mark(match.getCurrentPlayer(), shootedPlayers.get(i), targets.getMarks()[i]);
+        }
+
+        afterEffectHandler();
     }
 
     /**
@@ -372,7 +828,7 @@ public class Choices {
             // after the effect is executed (case move effect) it is added to the usedEffects
             usedEffect.add(currentEffect);
 
-            //remember that if the player has not already shooted I'll have to show only the cells where he can shoot in
+            //remember that if the player has not already shooted I'll have to show only the cells where he can shoot from
             //in this if I can move wherever I want (respecting the number of moves allowed by the effect)
             if (!shootedPlayers.isEmpty()){
 
@@ -398,10 +854,10 @@ public class Choices {
 
                     for (Effect effect: weaponsEffect){
 
-                        // && condition is to avoid duplicates in the list
-                        if (effect.usableEffect(copy, match.getPlayers()) && !cells.contains(cell.getCoord())){
+                        if ( effect.getType() != EffectsKind.MOVE && effect.usableEffect(copy, match.getPlayers())){
 
                                 cells.add(cell.getCoord());
+                                break; // to avoid duplicates
                         }
                     }
                 }
@@ -437,11 +893,10 @@ public class Choices {
     }
 
     /**
-     * this method check the damaged players and returns the ones that have tagback grenade powerup to ask
+     * this method check the damaged players and sends a message to the view with the ones that have tagback grenade powerup to ask
      * them if they want to use it
-     * @return
      */
-    public List<Player> playersWithCounterAttackPowerup(){
+    public void playersWithCounterAttackPowerup(){
 
         List<Player> nextPlayers = new ArrayList<>();
 
@@ -452,10 +907,48 @@ public class Choices {
                 if (powerup.isDuringDamageAction() && !powerup.isDuringYourTurn()){
 
                     nextPlayers.add(player);
+                    break; // to avoid duplicates
                 }
             }
         }
-        return nextPlayers;
+
+        // no more players can use tagback grenade
+        if (nextPlayers.isEmpty()){
+            afterEffectHandler();
+        }
+
+        // I ask to the first player of the list if he wants to use tagback
+        else {
+
+            Message message = new Message(nextPlayers.get(0).getName());
+            List<IndexMessage> usablePowerups = new ArrayList<>();
+            for (Powerup powerup: nextPlayers.get(0).getPowerups()){
+
+                if (powerup.isDuringDamageAction() && !powerup.isDuringYourTurn()){
+
+                    usablePowerups.add(new IndexMessage(nextPlayers.get(0).getPowerups().indexOf(powerup)));
+                }
+            }
+
+            message.createAvailableCardsMessage(TypeOfAction.USEPOWERUP, usablePowerups, false);
+            view.display(message);
+        }
+    }
+
+    /**
+     * tells if the player can do a shoot action, useful after a player uses a powerup
+     * @return boolean
+     */
+    public  Boolean canIshoot(){
+
+        Player currentPlayer = match.getCurrentPlayer();
+        if(match.getCurrentPlayerLeftActions()>0){
+            return currentPlayer.canIshootBeforeComplexAction();
+        }
+
+        else {
+            return false;
+        }
     }
 
 }

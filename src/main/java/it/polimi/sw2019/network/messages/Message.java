@@ -174,6 +174,12 @@ public class Message implements Serializable {
         return gson.fromJson(jsonFile, SelectedColor.class);
     }
 
+    public Players deserializePlayersMessage(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, Players.class);
+    }
+
 
     /* the following methods are called to create different types of Message Class */
 

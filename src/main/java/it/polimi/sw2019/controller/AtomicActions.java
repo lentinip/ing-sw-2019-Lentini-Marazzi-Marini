@@ -163,22 +163,6 @@ public class  AtomicActions {
         match.notifyMatchState();
     }
 
-    public  void dealDamageAll(Player shooter, Cell selectedCell, boolean isRoom, int damage){
-        List<Player> receivers;
-
-        //Manage if the damage goes to all the room or all the cell
-        if (isRoom){
-            receivers = selectedCell.getRoom().playersInside();
-        }
-        else{
-            receivers = selectedCell.playersInCell();
-        }
-
-        //Iterate for all the players
-        for (Player player : receivers){
-            dealDamage(shooter, player, damage);
-        }
-    }
 
     public void mark(Player shooter, Player receiver, int mark){
         Marks receiverMarks = receiver.getPlayerBoard().getMarks();
@@ -186,23 +170,6 @@ public class  AtomicActions {
 
         //Sets the match as changed
         match.notifyMatchState();
-    }
-
-    public void markAll(Player shooter, Cell selectedCell, boolean isRoom, int mark){
-        List<Player> receivers;
-
-        //Manage if the damage goes to all the room or all the cell
-        if (isRoom){
-            receivers = selectedCell.getRoom().playersInside();
-        }
-        else{
-            receivers = selectedCell.playersInCell();
-        }
-
-        //Iterate for all the players
-        for (Player player: receivers){
-            mark(shooter, player, mark);
-        }
     }
 
     public void reload(Player reloader, Weapon reloadedWeapon){

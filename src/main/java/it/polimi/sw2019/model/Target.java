@@ -12,9 +12,9 @@ public class Target {
 
     /* Attributes */
 
-    private int[] damages = new int[4];
+    private int[] damages;
 
-    private int[] marks = new int[4];
+    private int[] marks;
 
     private boolean differentSquares; /* true if the targets have to be on different squares */
 
@@ -22,7 +22,7 @@ public class Target {
 
     private boolean isRoom; /* true if you have to choose a room SEE FURNACE */
 
-    private boolean differentPlayers = false;
+    private boolean differentPlayers = false; /* true if you have to shoot to a different player */
 
     private int maxTargets; /* max number of targets you can hit */
 
@@ -84,5 +84,13 @@ public class Target {
 
     public boolean isForcedChoice() {
         return forcedChoice;
+    }
+
+    public boolean isRoom() {
+        return isRoom;
+    }
+
+    public void setRoom(boolean room) {
+        isRoom = room;
     }
 }

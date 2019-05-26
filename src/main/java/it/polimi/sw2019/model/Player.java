@@ -115,6 +115,26 @@ public class Player extends Observable {
         return powerups.get(powerupIndex);
     }
 
+    /**
+     * called by controller
+     * @return the list with the targeting scope powerups the player owns, empty list if does not own any
+     */
+    public List<Powerup> getPowerupsAfterShoot(){
+
+        List<Powerup> availablePowerups = new ArrayList<>(powerups);
+
+        for (Powerup powerup: availablePowerups){
+
+            // checking if it is a targeting scope
+            if ( !powerup.isDuringYourTurn() && !powerup.isDuringDamageAction()){
+
+                availablePowerups.remove(powerup);
+            }
+        }
+
+        return availablePowerups;
+    }
+
 
     /**
      * Removes a weapon from the weapons array
@@ -139,10 +159,10 @@ public class Player extends Observable {
                 weapons.add(weapon);
             }
         }
-        if(weapon == null)
-            throw new NullPointerException("'weapon' can't be null");
+        if(weapon == null) {
 
-        //TODO implement exceptions
+            throw new NullPointerException("'weapon' can't be null");
+        }
     }
 
     public void useWeapon(Weapon weapon){
@@ -153,7 +173,6 @@ public class Player extends Observable {
     public void usePoweup(Powerup powerup){
 
         powerups.remove(powerup);
-
     }
 
     public void addPowerup(Powerup powerup){
@@ -161,9 +180,6 @@ public class Player extends Observable {
         if (powerups.size() < 3 && powerup != null)
 
            { powerups.add(powerup); }
-
-        //TODO implements exceptions
-
     }
 
     /**
@@ -191,8 +207,6 @@ public class Player extends Observable {
           }
       }
       return loadedWeapons;
-
-      //TODO implement exceptions
     }
 
     /**
@@ -342,6 +356,9 @@ public class Player extends Observable {
         return position.reachableCells(getMovesForGrab());
     }
 
+    /**
+     * @return the cells that the player can see
+     */
     public List<Cell> visibleCells(){
 
         List<Cell> visibleCells = new ArrayList<>();
@@ -375,6 +392,26 @@ public class Player extends Observable {
         }
 
         return visibleCells;
+    }
+
+    /**
+     * useful to update thor visibility
+     * @return the players that the player can see (excluding himself)
+     */
+    public List<Player> visibilePlayer(){
+
+        List<Player> targets = new ArrayList<>();
+
+        List<Cell> visibleCells = visibleCells();
+
+        for (Cell cell: visibleCells){
+
+            targets.addAll(cell.playersInCell());
+        }
+
+        /* removing the player himself */
+        targets.remove(this);
+        return targets;
     }
 
     /**

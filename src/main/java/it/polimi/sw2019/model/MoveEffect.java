@@ -195,7 +195,7 @@ public class MoveEffect {
     }
 
     /**
-     * called by Choices
+     * called by Choices used for newton powerup
      * @param selectedPlayer the player to move
      * @return the list of cells where you can move the selected player
      */
@@ -250,6 +250,7 @@ public class MoveEffect {
                     if (player.visibleCells().contains(cell)){
 
                         availablePlayers.add(player.getCharacter());
+                        break; // to avoid duplicates
                     }
                 }
             }
@@ -262,6 +263,7 @@ public class MoveEffect {
                     if (cell == owner.getPosition()){
 
                         availablePlayers.add(player.getCharacter());
+                        break; // to avoid duplicates
                     }
                 }
             }

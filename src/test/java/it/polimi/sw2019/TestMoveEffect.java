@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 public class TestMoveEffect {
 
+
     @Test
     public void iCanChooseWhenMoveTargetTest() {
 
@@ -17,6 +18,7 @@ public class TestMoveEffect {
         moveEffect.setMoveTargetAfter(false);
         moveEffect.setMoveYouAfter(false);
         moveEffect.setMoveYouSameDirection(true);
+        moveEffect.setMoveTargets(2);
 
         assertTrue(moveEffect.iCanChooseWhenMoveTarget());
 
@@ -61,6 +63,7 @@ public class TestMoveEffect {
         assertFalse(moveEffect.iCanMoveBefore());
     }
 
+
     @Test
     public void iCanMoveTargetBeforeTest() {
 
@@ -71,6 +74,7 @@ public class TestMoveEffect {
         moveEffect.setMoveYouAfter(false);
         moveEffect.setMoveYouSameDirection(true);
         moveEffect.setMoveYouBefore(false);
+        moveEffect.setMoveTargets(2);
 
         assertTrue(moveEffect.iCanMoveTargetBefore());
 

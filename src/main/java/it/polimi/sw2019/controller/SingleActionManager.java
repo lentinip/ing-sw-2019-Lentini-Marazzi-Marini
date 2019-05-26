@@ -24,7 +24,7 @@ public class SingleActionManager {
         this.view = view;
         this.turnManager = turnManager;
         this.atomicActions = new AtomicActions(match);
-        this.choices = new Choices(match, view, payment, atomicActions);
+        this.choices = new Choices(match, view, payment, atomicActions, this);
         this.payment = new Payment(match, view, this);
     }
 
@@ -58,12 +58,6 @@ public class SingleActionManager {
 
     public Payment getPayment() {
         return payment;
-    }
-
-    public void timer()  {
-
-        //TODO implement
-        return;
     }
 
     public void reset()  {
@@ -167,7 +161,6 @@ public class SingleActionManager {
         // check if I have to move myself
         else if (choices.getCurrentEffect().getMove().isMoveYouBefore()){
             atomicActions.move(player, selectedCell);
-            //TODO check after implementation of effectHandler
             choices.effectHandler();
         }
 
@@ -189,7 +182,7 @@ public class SingleActionManager {
                 view.display(answer);
             }
             else {
-                //TODO check after implementation of effectHandler
+
                 choices.effectHandler();
             }
         }
@@ -201,7 +194,30 @@ public class SingleActionManager {
     }
 
     public void usePowerupHandler(Message message){
-        //TODO implement
+
+        Cell selectedCell = match.getBoard().getCell(message.deserializeBoardCoord());
+
+        // case I'm using newton
+        if (choices.getSelectedPlayer() != null){
+
+            atomicActions.move(choices.getSelectedPlayer(), selectedCell);
+        }
+
+        // case where I use teleporter
+        else {
+
+            atomicActions.move(match.getCurrentPlayer(), selectedCell);
+        }
+
+        //Discarding the powerup from the player hand
+        match.getPlayerByUsername(message.getUsername()).usePoweup(choices.getSelectedPowerup());
+        match.getBoard().discardPowerup(choices.getSelectedPowerup());
+
+        //resetting the powerup choices
+        choices.resetEverything();
+
+        Message next = new Message(match.getCurrentPlayer().getName());
+        next.createMessageCanIShoot(choices.canIshoot());
     }
 
     /**
@@ -262,6 +278,13 @@ public class SingleActionManager {
         answer.createAvailableCardsMessage(TypeOfAction.RELOAD, indexMessageList, true);
 
         view.display(answer);
+    }
+
+    /**
+     *  this method executes the effect of a weapon basing on the user choices
+     */
+    public void doEffect(){
+
     }
 
 }

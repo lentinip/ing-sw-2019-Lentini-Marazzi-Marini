@@ -144,6 +144,19 @@ public class Match extends Observable {
         this.factory = factory;
     }
 
+    public Player getPlayerByCharacter(Character character){
+
+        for (Player player: players){
+
+            if (player.getCharacter() == character){
+
+               return player;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Get Player by username (if there is no player with that username returns null)
      * @param username
