@@ -131,7 +131,7 @@ public class Effect {
      */
     public List<Cell> reachableCells(Player owner){
 
-        List<Cell> reachableCells = new ArrayList<>();
+        List<Cell> reachableCells;
         if(move == null) {
             reachableCells = visibilityClass.visibility(visibility, owner, movesAway[0], exactly, 0);
         }

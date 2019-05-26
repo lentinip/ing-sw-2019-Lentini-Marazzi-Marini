@@ -12,5 +12,7 @@ public enum TypeOfAction {
     MOVEBEFORESHOOT,
     MOVEAFTERSHOOT,
     PAY,
+    DEALDAMAGE,
+    MARK,
     NONE
 }

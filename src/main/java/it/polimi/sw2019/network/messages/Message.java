@@ -254,6 +254,14 @@ public class Message implements Serializable {
         setJsonFile(serializePlayers(playersMessage));
     }
 
+    public void createAvailableEffects(List<IndexMessage> availableEffects){
+
+        setTypeOfMessage(TypeOfMessage.AVAILABLE_EFFECTS);
+        setTypeOfAction(TypeOfAction.SHOOT);
+        AvailableEffects effects = new AvailableEffects(availableEffects);
+        setJsonFile(serializeAvailableEffects(effects));
+    }
+
 
 
 

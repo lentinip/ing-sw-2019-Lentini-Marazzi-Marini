@@ -139,6 +139,16 @@ public class Weapon {
         throw new NullPointerException("This Weapon has no Move type effect");
     }
 
+
+    /**
+     * called by controller to send info to the view
+     * @param effect the selected effect
+     * @return the index
+     */
+    public int getIndexByEffect(Effect effect){
+        return effects.indexOf(effect);
+    }
+
     /**
      * Call this method before showing the possibility to do a shooting action
      * @param allPlayers
@@ -276,7 +286,5 @@ public class Weapon {
 
         return false;
     }
-
-
 
 }

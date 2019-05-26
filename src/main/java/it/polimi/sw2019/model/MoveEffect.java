@@ -1,5 +1,7 @@
 package it.polimi.sw2019.model;
 
+import java.util.List;
+
 public class MoveEffect {
 
 
@@ -124,15 +126,18 @@ public class MoveEffect {
     }
 
     /**
-     * Method that tells you if you can choose when to do the move
+     * Method that tells you if you can choose when to move the targets
      */
     public boolean iCanChooseWhenMoveTarget(){
 
-        if (!moveTargetBefore && !moveTargetAfter ) { return true; }
+        if (!moveTargetBefore && !moveTargetAfter && moveTargets > 0 ) { return true; }
 
         else { return false; }
     }
 
+    /**
+     * Method that tells you if you can choose when to do the move
+     */
     public boolean iCanChooseWhenMove(){
 
         if (!moveYouBefore && !moveYouAfter) { return true; }
@@ -152,6 +157,50 @@ public class MoveEffect {
         if (moveTargetBefore || iCanChooseWhenMoveTarget()) { return true; }
 
         else { return false; }
+    }
+
+    /**
+     * tells if the class contains a moveBefore effect
+     * @return boolean
+     */
+    public boolean iHaveAMoveBefore(){
+
+        if (moveTargetBefore || moveYouBefore){
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * called by Choices
+     * @param selectedPlayer the player to move
+     * @return the list of cells where you can move the selected player
+     */
+    public List<Cell> availableCellsMoveTarget(Player selectedPlayer){
+
+        Cell playerPosition = selectedPlayer.getPosition();
+        List<Cell> availableCells = playerPosition.reachableCells(moveTargets);
+
+        // if I have to move the target of at least one spot I remove the target starting position from the list
+        if (obligatoryTarget){
+            availableCells.remove(playerPosition);
+        }
+
+        // if I have to move the player in the same direction I accept only the cells that have the same column or the same row of the starting position cell
+        if (moveTargetSameDirection){
+
+            for (Cell cell: availableCells){
+
+                if ( cell.getRow() != playerPosition.getRow() && cell.getColumn() != playerPosition.getColumn()){
+                    availableCells.remove(cell);
+                }
+            }
+        }
+
+        return availableCells;
+
     }
 }
 

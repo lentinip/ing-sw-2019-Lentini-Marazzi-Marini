@@ -24,7 +24,7 @@ public class SingleActionManager {
         this.view = view;
         this.turnManager = turnManager;
         this.atomicActions = new AtomicActions(match);
-        this.choices = new Choices(match, view);
+        this.choices = new Choices(match, view, payment, atomicActions);
         this.payment = new Payment(match, view, this);
     }
 
@@ -164,12 +164,14 @@ public class SingleActionManager {
             view.display(answer);
         }
 
+        // check if I have to move myself
         else if (choices.getCurrentEffect().getMove().isMoveYouBefore()){
             atomicActions.move(player, selectedCell);
             //TODO check after implementation of effectHandler
             choices.effectHandler();
         }
 
+        // check if I have to move other players
         else if (choices.getCurrentEffect().getMove().isMoveTargetBefore()){
             //Sets the moveCell in Choices
             choices.setMoveCell(selectedCell);

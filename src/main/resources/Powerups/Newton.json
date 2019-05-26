@@ -13,6 +13,7 @@
 
         "moveYou" : 0,
         "moveTargets" : 2,
+        "maxTargets" : 1,
         "moveTargetBefore" : false,
         "moveTargetAfter" : false,
         "moveTargetSameDirection" : true,
@@ -40,6 +41,7 @@
 
         "moveYou" : 0,
         "moveTargets" : 2,
+        "maxTargets" : 1,
         "moveTargetBefore" : false,
         "moveTargetAfter" : false,
         "moveTargetSameDirection" : true,
@@ -67,6 +69,7 @@
 
         "moveYou" : 0,
         "moveTargets" : 2,
+        "maxTargets" : 1,
         "moveTargetBefore" : false,
         "moveTargetAfter" : false,
         "moveTargetSameDirection" : true,
