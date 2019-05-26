@@ -11,7 +11,11 @@ public class PrivateHand {
     /**
      * Default constructor
      */
-    public PrivateHand(){}
+    public PrivateHand(List<String> weaponsLoaded, List<String> weaponsUnloaded, List<String> powerups){
+        setWeaponsLoaded(weaponsLoaded);
+        setWeaponsUnloaded(weaponsUnloaded);
+        setPowerups(powerups);
+    }
 
     /* Attributes */
 
