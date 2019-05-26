@@ -1,4 +1,7 @@
 package it.polimi.sw2019.model;
+import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.network.messages.PrivateHand;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -566,9 +569,39 @@ public class Player extends Observable {
         return usablePowerups;
     }
 
-    public void notifyPrivateHand(){
-        //TODO implementation
+    public Message notifyPrivateHand(){
+
+        //First creates the message
+        Message message = new Message(name);
+
+        List<String> weaponsLoaded = new ArrayList<>();
+        List<String> weaponsUnloaded = new ArrayList<>();
+
+        //Then serializes the weapons
+        for (Weapon weapon : this.weapons){
+            if (weapon.getIsLoaded()){
+                weaponsLoaded.add(weapon.getName());
+            }
+            else {
+                weaponsUnloaded.add(weapon.getName());
+            }
+        }
+
+        //Than the powerups
+        List<String> powerupsSerialized = new ArrayList<>();
+
+        for (Powerup powerup : powerups){
+            powerupsSerialized.add(powerup.getName());
+        }
+
+        PrivateHand privateHand = new PrivateHand(weaponsLoaded, weaponsUnloaded, powerupsSerialized);
+
+        //And at the end creates the message
+        message.createMessagePrivateHand(privateHand);
+
+        return message;
     }
+
 
 
 }

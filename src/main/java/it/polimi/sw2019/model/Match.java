@@ -359,5 +359,14 @@ public class Match extends Observable {
         notifyObservers(message);
     }
 
+    public void notifyPrivateHand(Player player){
+        Message message = player.notifyPrivateHand();
+
+        setChanged();
+        notifyObservers(message);
+
+        notifyMatchState();
+    }
+
 }
 
