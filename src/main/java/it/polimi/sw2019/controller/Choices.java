@@ -5,6 +5,7 @@ import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.network.messages.BoardCoord;
 import it.polimi.sw2019.network.messages.IndexMessage;
 import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.network.messages.Players;
 import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
@@ -57,6 +58,22 @@ public class Choices {
 
     /* Methods */
 
+    public void setShootedPlayers(List<Player> shootedPlayers) {
+        this.shootedPlayers = shootedPlayers;
+    }
+
+    public List<Player> getShootedPlayers() {
+        return shootedPlayers;
+    }
+
+    public void setUsedEffect(List<Effect> usedEffect) {
+        this.usedEffect = usedEffect;
+    }
+
+    public List<Effect> getUsedEffect() {
+        return usedEffect;
+    }
+
     public Weapon getSelectedWeapon() {
         return selectedWeapon;
     }
@@ -108,8 +125,15 @@ public class Choices {
      */
     public void reset() {
 
-        //TODO implement
-        return;
+        selectedPowerup = null;
+        currentEffect = null;
+        usedEffect.clear();
+        moveCell = null;
+        movedPlayers.clear();
+        shootedPlayers.clear();
+        damagedPlayers.clear();
+        shootedCells.clear();
+        selectedPlayer = null;
     }
 
     /**
@@ -118,15 +142,7 @@ public class Choices {
     public void resetEverything(){
 
         selectedWeapon = null;
-        selectedPowerup = null;
-        currentEffect = null;
-        usedEffect = null;
-        moveCell = null;
-        movedPlayers = null;
-        shootedPlayers = null;
-        damagedPlayers = null;
-        shootedCells = null;
-        selectedPlayer = null;
+        reset();
     }
 
     /**
@@ -151,11 +167,13 @@ public class Choices {
                 // case he does not want to use an effect because he wants to stop
                 if (effectIndex.getSelectionIndex() < 0){
 
-                    // the shoot action is ended
+                    // the shoot action is ended, unloading the weapon and setting it to null
+                    selectedWeapon.unloadWeapon();
+                    selectedWeapon = null;
                     singleActionManager.reducePlayerNumberOfActions();
                 }
 
-                if ( effectIndex.getSelectionIndex() >= 0){
+                else if ( effectIndex.getSelectionIndex() >= 0){
 
                     currentEffect = selectedWeapon.getEffects().get(effectIndex.getSelectionIndex());
                 }
@@ -214,7 +232,8 @@ public class Choices {
         switch (message.getTypeOfAction()){
 
             case SPAWN:
-                //TODO implement the call to the spawn method
+                IndexMessage index = message.deserializeIndexMessage();
+                singleActionManager.getTurnManager().spawn(match.getPlayerByUsername(message.getUsername()), index.getSelectionIndex());
                 break;
             case USEPOWERUP:
                 // the player has actually selected a real powerup
@@ -261,6 +280,21 @@ public class Choices {
                 moveBeforeShootHandler(message);
                 break;
             case SHOOT:
+                Players selectedCharacter = message.deserializePlayersMessage();
+                shootedPlayers.add(match.getPlayerByCharacter(selectedCharacter.getCharacters().get(0)));
+
+                //case he can choose other players
+                if ( shootedPlayers.size() < currentEffect.getTargets().getMaxTargets() ){
+
+                    updateVisibilityMultiple();
+                }
+
+                // if he can't choose another target we apply the effect
+                else {
+
+                    applyEffect();
+                }
+
                 break;
             default:
                 break;
@@ -529,11 +563,82 @@ public class Choices {
     }
 
     /**
+     * handles moves after shoot and powerups options
      * called after the effect execution, it shows the other effects available or continue the turn if the player cannot
      * perform any other effect
      */
     public void afterEffectHandler(){
 
+        usedEffect.add(currentEffect);
+        MoveEffect move = currentEffect.getMove();
+        Message options = new Message(match.getCurrentPlayer().getName());
+
+        // check if there is a move after
+        if ( move != null && move.iHaveAMoveAfter()){
+
+            //if I have to move targets after
+            if (move.isMoveTargetAfter()){
+
+                List<Cell> moveOptions = move.availableCellsMoveTarget(shootedPlayers.get(0));
+                List<BoardCoord> coord = new ArrayList<>();
+
+                for (Cell cell: moveOptions){
+
+                    coord.add(cell.getCoord());
+                }
+
+                // sending the message to the view
+                options.createAvailableCellsMessage(TypeOfAction.MOVEAFTERSHOOT, coord);
+                view.display(options);
+            }
+
+            // this case is actually used only for power glove movement
+            if (move.isMoveYouAfter() && move.isObligatoryYou()){
+
+                //moving the player in the cell of the last shooted targets
+                atomicActions.move(match.getCurrentPlayer(), shootedPlayers.get(shootedPlayers.size()-1).getPosition());
+
+                //showing the powerups option
+                powerupsAfterShoot();
+            }
+        }
+
+        else {
+            powerupsAfterShoot();
+        }
+    }
+
+    /**
+     * this method handle the possible use of powerups after a shooting action
+     */
+    public void powerupsAfterShoot(){
+
+        List<Powerup> afterShootPowerups = match.getCurrentPlayer().getPowerupsAfterShoot();
+        List<IndexMessage> powerupIndexes = new ArrayList<>();
+        Message options = new Message(match.getCurrentPlayer().getName());
+
+        // if the shooter can use targeting scope
+        if ( !afterShootPowerups.isEmpty()){
+
+            for (Powerup powerup: afterShootPowerups){
+
+                powerupIndexes.add(new IndexMessage(match.getCurrentPlayer().getPowerupIndex(powerup)));
+            }
+
+            options.createAvailableCardsMessage(TypeOfAction.USEPOWERUP, powerupIndexes, false);
+            view.display(options);
+        }
+
+        // if the damaged players can use tag back grenade
+        else if( !damagedPlayers.isEmpty() ){
+
+            playersWithCounterAttackPowerup();
+        }
+
+        else {
+
+            singleActionManager.endShootingAction();
+        }
     }
 
     /**
@@ -793,6 +898,22 @@ public class Choices {
             atomicActions.mark(match.getCurrentPlayer(), shootedPlayers.get(i), targets.getMarks()[i]);
         }
 
+        //this case is to deal an all target damage/mark like in hellion or rocket launcher second effect
+        if (targets.isSameSquare()){
+
+            List<Player> newTargets = shootedPlayers.get(0).getPosition().playersInCell();
+
+            for (Player player: newTargets){
+
+                if ( targets.getDamages()[1] > 0) {
+                    atomicActions.dealDamage(match.getCurrentPlayer(), player, targets.getDamages()[1]);
+                    damagedPlayers.add(player);
+                }
+
+                atomicActions.mark(match.getCurrentPlayer(), player, targets.getMarks()[1]);
+            }
+        }
+
         afterEffectHandler();
     }
 
@@ -914,7 +1035,7 @@ public class Choices {
 
         // no more players can use tagback grenade
         if (nextPlayers.isEmpty()){
-            afterEffectHandler();
+            singleActionManager.endShootingAction();
         }
 
         // I ask to the first player of the list if he wants to use tagback
@@ -950,5 +1071,4 @@ public class Choices {
             return false;
         }
     }
-
 }

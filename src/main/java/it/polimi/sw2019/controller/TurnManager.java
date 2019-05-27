@@ -2,6 +2,8 @@ package it.polimi.sw2019.controller;
 
 import it.polimi.sw2019.model.*;
 import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.network.messages.IndexMessage;
+import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
@@ -79,30 +81,12 @@ public class TurnManager {
 
         //Refills the CommonCells
         if(!emptyCommonCells.isEmpty()){
-            for(Cell commonCell : emptyCommonCells){
-
-                AmmoTile newAmmoTile = match.getBoard().drawAmmo();
-                commonCell.setAmmo(newAmmoTile);
-                commonCell.setIsEmpty(false);
-                emptyCommonCells.remove(commonCell);
-            }
+            refillCommonCell();
         }
 
         //Refills the SpawnCells
         if(!emptySpawnCells.isEmpty()){
-
-            for(Cell spawnCell : emptySpawnCells){
-
-               if (!match.getBoard().weaponsDeckIsEmpty()){
-                   Weapon weapon = match.getBoard().drawWeapon();
-                   spawnCell.getWeapons().add(weapon);
-               }
-
-               if (match.getBoard().weaponsDeckIsEmpty() || spawnCell.getWeapons().size()==3){
-                   emptySpawnCells.remove(spawnCell);
-               }
-
-            }
+            refillSpawnCell();
         }
 
         //Calls endTurn of the Match in the model
@@ -110,24 +94,135 @@ public class TurnManager {
 
         //Changes the parameters here
         currentPlayer = match.getCurrentPlayer();
+
+        //sending the winner message if the match is ended
+        if (match.isEnded()){
+
+            //TODO implement which message send
+        }
+
+        else {
+            view.display(spawningHandler());
+        }
     }
 
-    public void spawn(Character character, int powerupIndex){
-        Player player = match.getPlayerFromCharacter(character);
+    /**
+     * refills the empty spawn cell
+     */
+    public void refillSpawnCell(){
+
+        for(Cell spawnCell : emptySpawnCells){
+
+            if (!match.getBoard().weaponsDeckIsEmpty()){
+                Weapon weapon = match.getBoard().drawWeapon();
+                spawnCell.getWeapons().add(weapon);
+            }
+
+            if (match.getBoard().weaponsDeckIsEmpty() || spawnCell.getWeapons().size()==3){
+                emptySpawnCells.remove(spawnCell);
+            }
+
+        }
+    }
+
+    /**
+     * refills the empty common cells
+     */
+    public void refillCommonCell(){
+
+        for(Cell commonCell : emptyCommonCells){
+
+            AmmoTile newAmmoTile = match.getBoard().drawAmmo();
+            commonCell.setAmmo(newAmmoTile);
+            commonCell.setIsEmpty(false);
+            emptyCommonCells.remove(commonCell);
+        }
+    }
+
+    /**
+     * this method respawns the player and continues the game flow by sending the correct message to the next player
+     * @param spawningPlayer player who is spawning
+     * @param powerupIndex powerup discarded
+     */
+    public void spawn(Player spawningPlayer, int powerupIndex){
+
+        Message message = new Message();
 
         //Gets the powerup selected
-        Powerup powerup = player.getPowerups().get(powerupIndex);
+        Powerup powerup = spawningPlayer.getPowerups().get(powerupIndex);
 
         //Gets the room with the color of the powerup
         Room room = match.getBoard().getRoomByColor(powerup.getColor());
 
         //Removes the powerup from the player
-        player.getPowerups().remove(powerupIndex);
+        spawningPlayer.getPowerups().remove(powerupIndex);
 
         //Discards the powerup
         match.getBoard().discardPowerup(powerup);
 
         //The player is moved to the SpawnCell of the room
-        player.setPosition(room.getSpawnCell());
+        spawningPlayer.setPosition(room.getSpawnCell());
+
+        // checking if it is the first spawn or not
+        if (isFirstRound){
+
+            // if it is the last player that has his first turn I set first round to false
+            if (match.getPlayers().indexOf(match.getCurrentPlayer()) == match.getPlayers().size()-1){
+
+                isFirstRound = false;
+            }
+
+            message.setUsername(spawningPlayer.getName());
+
+            //sending the canIshootMessage to start the turn
+            message.createMessageCanIShoot(spawningPlayer.canIshootBeforeComplexAction());
+        }
+
+        // updating the model and the player attribute isDead
+        else {
+
+            spawningPlayer.setDead(false);
+            match.getDeadPlayers().remove(spawningPlayer);
+
+            // sending the spawn message to the next player with the available Powerups to discard
+            message = spawningHandler();
+
+        }
+
+        view.display(message);
+    }
+
+    /**
+     * see if there are other players to spawn, if not send the message to continue the turn to the current player
+     * @return
+     */
+    public Message spawningHandler(){
+
+        Message message = new Message();
+        Player receiver;
+
+        if (!match.getDeadPlayers().isEmpty()){
+
+            receiver = match.getDeadPlayers().get(0);
+            singleActionManager.getAtomicActions().drawPowerup(receiver);
+
+            message.setUsername(receiver.getName());
+
+            List<Powerup> powerups = receiver.getPowerups();
+            List<IndexMessage> options = new ArrayList<>();
+            for (Powerup card: powerups){
+
+                options.add(new IndexMessage(receiver.getPowerupIndex(card)));
+            }
+            message.createAvailableCardsMessage(TypeOfAction.SPAWN, options, false);
+        }
+
+        //sending the can I shoot message to the new current player
+        else {
+            message.setUsername(currentPlayer.getName());
+            message.createMessageCanIShoot(currentPlayer.canIshootBeforeComplexAction());
+        }
+
+        return message;
     }
 }

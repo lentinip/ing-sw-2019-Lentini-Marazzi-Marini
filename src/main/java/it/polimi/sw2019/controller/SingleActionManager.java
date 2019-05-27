@@ -24,8 +24,9 @@ public class SingleActionManager {
         this.view = view;
         this.turnManager = turnManager;
         this.atomicActions = new AtomicActions(match);
-        this.choices = new Choices(match, view, payment, atomicActions, this);
         this.payment = new Payment(match, view, this);
+        this.choices = new Choices(match, view, payment, atomicActions, this);
+
     }
 
     /* Attributes */
@@ -60,10 +61,8 @@ public class SingleActionManager {
         return payment;
     }
 
-    public void reset()  {
-
-        //TODO implement
-        return;
+    public TurnManager getTurnManager() {
+        return turnManager;
     }
 
     public void singleActionHandler(Message message){
@@ -87,6 +86,9 @@ public class SingleActionManager {
                 break;
             case USEPOWERUP:
                 usePowerupHandler(message);
+                break;
+            case ENDTURN:
+                turnManager.endTurn();
                 break;
             default:
         }
@@ -190,7 +192,13 @@ public class SingleActionManager {
     }
 
     public void moveAfterShootHandler(Message message){
-        //TODO implement
+
+        Cell selectedCell = match.getBoard().getCell(message.deserializeBoardCoord());
+
+        //moving first player shooted to the selected cell
+        atomicActions.move(choices.getShootedPlayers().get(0), selectedCell);
+
+        choices.powerupsAfterShoot();
     }
 
     public void usePowerupHandler(Message message){
@@ -281,10 +289,38 @@ public class SingleActionManager {
     }
 
     /**
-     *  this method executes the effect of a weapon basing on the user choices
+     * this method see if the player can use another effect, if he can it shows him the options, otherwise
+     * continue the turn
      */
-    public void doEffect(){
+    public void endShootingAction(){
 
+        List<Effect> usableEffects = choices.getSelectedWeapon().usableEffects(match.getPlayers());
+
+        // removing the already executed effects
+        usableEffects.removeAll(choices.getUsedEffect());
+
+        // I don't have any effect to execute
+        if ( usableEffects.isEmpty() ){
+
+            //setting the weapon to null after having unloaded it
+            choices.getSelectedWeapon().unloadWeapon();
+            choices.setSelectedWeapon(null);
+            reducePlayerNumberOfActions();
+        }
+
+        // showing him the possible effects
+        else {
+
+            List<IndexMessage> effects = new ArrayList<>();
+
+            for (Effect effect: usableEffects){
+
+                effects.add(new IndexMessage(choices.getSelectedWeapon().getIndexByEffect(effect)));
+            }
+
+            Message options = new Message(match.getCurrentPlayer().getName());
+            options.createAvailableEffects(effects);
+            view.display(options);
+        }
     }
-
 }

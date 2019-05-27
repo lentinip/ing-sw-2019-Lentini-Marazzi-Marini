@@ -195,7 +195,20 @@ public class MoveEffect {
     }
 
     /**
-     * called by Choices used for newton powerup
+     * tells if class contains a move after effect
+     */
+    public boolean iHaveAMoveAfter(){
+
+        if ( moveTargetAfter || moveYouAfter){
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * called by Choices used for newton powerup and moveAfter effects
      * @param selectedPlayer the player to move
      * @return the list of cells where you can move the selected player
      */

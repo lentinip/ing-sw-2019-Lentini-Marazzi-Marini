@@ -30,6 +30,8 @@ public class Match extends Observable {
 
     private int currentPlayerLeftActions = 2;
 
+    private List<Player> deadPlayers = new ArrayList<>();
+
     private Score score;
 
     private int numberOfPlayers;
@@ -144,6 +146,19 @@ public class Match extends Observable {
         this.factory = factory;
     }
 
+    public List<Player> getDeadPlayers() {
+        return deadPlayers;
+    }
+
+    public void setDeadPlayers(List<Player> deadPlayers) {
+        this.deadPlayers = deadPlayers;
+    }
+
+    /**
+     * Returns the Player with a specific Character
+     * @param character The Character of the player
+     * @return the Player reference (Can be null)
+     */
     public Player getPlayerByCharacter(Character character){
 
         for (Player player: players){
@@ -159,7 +174,7 @@ public class Match extends Observable {
 
     /**
      * Get Player by username (if there is no player with that username returns null)
-     * @param username
+     * @param username user of the player
      * @return
      */
     public Player getPlayerByUsername(String username){
@@ -179,19 +194,6 @@ public class Match extends Observable {
         isEnded = ended;
     }
 
-    /**
-     * Returns the Player with a specific Character
-     * @param character The Character of the player
-     * @return the Player reference (Can be null)
-     */
-    public Player getPlayerFromCharacter(Character character){
-        for(Player player : players){
-            if (player.getCharacter()==character){
-                return player;
-            }
-        }
-        return null;
-    }
 
     /**
      * this method creates the board and everything it contains
@@ -272,19 +274,19 @@ public class Match extends Observable {
          */
         for(int i = 0; i < players.size(); i++) {
 
-             if(this.players.get(i).isDead()) {
+             if(players.get(i).isDead()) {
 
-                 playerBoard = this.players.get(i).getPlayerBoard();
+                 playerBoard = players.get(i).getPlayerBoard();
 
                  if (playerBoard.isFlipped()) {
 
-                     playerBoard.updateFrenzyScore(this.score);
+                     playerBoard.updateFrenzyScore(score);
 
                  }
 
                  else {
 
-                     playerBoard.updateScore(this.score);
+                     playerBoard.updateScore(score);
 
                  }
 
@@ -300,7 +302,7 @@ public class Match extends Observable {
 
                  }
 
-                 respawn(this.players.get(i));
+                 deadPlayers.add(players.get(i));
              }
          }
 
@@ -341,12 +343,6 @@ public class Match extends Observable {
 
 
          setNextPlayer();
-    }
-
-
-    public void respawn(Player deadPlayer){
-
-        //TODO implement
     }
 
 

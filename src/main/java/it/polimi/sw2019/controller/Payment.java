@@ -77,7 +77,10 @@ public class Payment {
      * in the paymentStarter method
      */
     public void reset(){
-        //TODO implement
+        leftCost = null;
+        initialCost = null;
+        selectedPowerups.clear();
+        usablePowerup = null;
     }
 
     /**
@@ -101,7 +104,6 @@ public class Payment {
                 break;
             default:
                 break;
-                //TODO implement
         }
 
     }
@@ -245,7 +247,6 @@ public class Payment {
                 leftCost = initialCost.clone();
                 break;
             default:
-                //TODO exception
                 break;
         }
 

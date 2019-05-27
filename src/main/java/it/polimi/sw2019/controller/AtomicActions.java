@@ -237,4 +237,17 @@ public class  AtomicActions {
         //Then removes the cost
         payAmmo(owner, cost);
     }
+
+    /**
+     * this method is used to add a powerup to the player and removing it from the powerups deck
+     * @param drawer who draws
+     */
+    public void drawPowerup(Player drawer){
+
+        if ( drawer.getPowerups().size() < 3){
+
+            Powerup drawn = match.getBoard().drawPowerup();
+            drawer.addPowerup(drawn);
+        }
+    }
 }

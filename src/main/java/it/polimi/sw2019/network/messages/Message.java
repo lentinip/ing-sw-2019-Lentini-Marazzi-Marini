@@ -16,6 +16,12 @@ public class Message implements Serializable {
     /**
      * Default Constructor
      */
+    public Message(){}
+
+    /**
+     * customize constructor
+     * @param username name of the receiver
+     */
     public Message(String username){
         this.username = username;
     }
@@ -178,6 +184,12 @@ public class Message implements Serializable {
 
         Gson gson = new Gson();
         return gson.fromJson(jsonFile, Players.class);
+    }
+
+    public MatchSetup deserializeMatchSetup(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, MatchSetup.class);
     }
 
 

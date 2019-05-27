@@ -149,6 +149,11 @@ public class Weapon {
         return effects.indexOf(effect);
     }
 
+    public void unloadWeapon(){
+
+        setIsLoaded(false);
+    }
+
     /**
      * Call this method before showing the possibility to do a shooting action
      * @param allPlayers

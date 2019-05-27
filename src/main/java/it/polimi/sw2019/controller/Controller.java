@@ -46,10 +46,13 @@ public class Controller implements Observer {
         return turnManager;
     }
 
-    public void initializeMatch() {
+    public void initializeMatch(Message message) {
+
+        MatchSetup setupInfo = message.deserializeMatchSetup();
+
+        match = new Match();
 
         //TODO implement
-        return;
     }
 
     /**
@@ -64,7 +67,7 @@ public class Controller implements Observer {
         TypeOfMessage typeOfMessage = message.getTypeOfMessage();
 
         if (typeOfMessage==MATCH_SETUP){
-            initializeMatch();
+            initializeMatch(message);
         }
 
         else if (typeOfMessage==SINGLE_ACTION){
@@ -150,7 +153,6 @@ public class Controller implements Observer {
                 answer.createAvailableCardsMessage(TypeOfAction.RELOAD, indexMessageList, true);
                 break;
             default:
-                //TODO exception
         }
 
         view.display(answer);
