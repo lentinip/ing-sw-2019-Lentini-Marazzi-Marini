@@ -12,9 +12,7 @@ public class Board {
      * Default constructor
      */
 
-    public Board(){
-
-    }
+    public Board(){}
 
     /* Attributes */
 

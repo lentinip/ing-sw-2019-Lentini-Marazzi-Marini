@@ -15,11 +15,11 @@ public class Player extends Observable {
 
     }
 
-    public Player(String name, Character character) {
+    public Player(String name, Character character, List<Character> charactersInGame) {
 
         setName(name);
         setCharacter(character);
-        playerBoard = new PlayerBoard();
+        playerBoard = new PlayerBoard(charactersInGame);
         setDead(false);
         setState(State.NORMAL);
     }

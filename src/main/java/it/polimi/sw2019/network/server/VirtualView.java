@@ -2,6 +2,8 @@ package it.polimi.sw2019.network.server;
 
 import it.polimi.sw2019.network.messages.Message;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class VirtualView {
@@ -17,8 +19,17 @@ public class VirtualView {
     /* Attributes */
 
     private Map<String, Client> waitingPlayers;
+    private List<String> userNames = new ArrayList<>();
 
     /* Methods */
+
+    public void setUsernames(List<String> usernames) {
+        this.userNames = usernames;
+    }
+
+    public List<String> getUsernames() {
+        return userNames;
+    }
 
     public void timer() {
 

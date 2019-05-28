@@ -12,6 +12,8 @@ public class Effect {
 
     /* Attributes */
 
+    private Visibility visibilityClass;
+
     private String name;
 
     private String description;
@@ -20,11 +22,9 @@ public class Effect {
 
     private EffectsKind type;
 
-    private Visibility visibilityClass;
-
     private KindOfVisibility visibility;
 
-    private int[] movesAway = new int[4]; /* number of moves everyCharacter has to be away from you to allow you  to shoot him */
+    private int[] movesAway; /* number of moves everyCharacter has to be away from you to allow you  to shoot him */
 
     private boolean exactly;  /* true if it has to be exactly tot moves away */
 

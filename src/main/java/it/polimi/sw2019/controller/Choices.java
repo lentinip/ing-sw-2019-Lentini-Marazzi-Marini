@@ -127,7 +127,6 @@ public class Choices {
 
         selectedPowerup = null;
         currentEffect = null;
-        usedEffect.clear();
         moveCell = null;
         movedPlayers.clear();
         shootedPlayers.clear();
@@ -142,6 +141,7 @@ public class Choices {
     public void resetEverything(){
 
         selectedWeapon = null;
+        usedEffect.clear();
         reset();
     }
 
@@ -160,9 +160,14 @@ public class Choices {
                 break;
             case SELECTED_EFFECT:
 
+                IndexMessage effectIndex = message.deserializeIndexMessage();
+
+                //useful for effect that need to shoot different players see cyberblade optional effect
+                Player alreadyShooted = shootedPlayers.get(0);
+
                 // clearing all the selections
                 reset();
-                IndexMessage effectIndex = message.deserializeIndexMessage();
+
 
                 // case he does not want to use an effect because he wants to stop
                 if (effectIndex.getSelectionIndex() < 0){
@@ -176,6 +181,12 @@ public class Choices {
                 else if ( effectIndex.getSelectionIndex() >= 0){
 
                     currentEffect = selectedWeapon.getEffects().get(effectIndex.getSelectionIndex());
+
+                    // adding the already shooted player to shootedPlayers, saved before the reset, if it is needed
+                    if ( currentEffect.getTargets().isDifferentPlayers() ){
+
+                        shootedPlayers.add(alreadyShooted);
+                    }
                 }
 
                 // effect is free and I analyze it
@@ -212,7 +223,7 @@ public class Choices {
                 // the current effect is a move type effect
                 else {
                     atomicActions.move(match.getCurrentPlayer(), selectedCell);
-                    afterEffectHandler();
+                    singleActionManager.endShootingAction();
                 }
                 break;
             case SELECTED_PLAYER:
@@ -280,19 +291,27 @@ public class Choices {
                 moveBeforeShootHandler(message);
                 break;
             case SHOOT:
-                Players selectedCharacter = message.deserializePlayersMessage();
-                shootedPlayers.add(match.getPlayerByCharacter(selectedCharacter.getCharacters().get(0)));
+                IndexMessage playerChosen = message.deserializeIndexMessage();
 
-                //case he can choose other players
-                if ( shootedPlayers.size() < currentEffect.getTargets().getMaxTargets() ){
+                // he does not want to shoot anymore
+                if (playerChosen.getSelectionIndex() < 0){
 
-                    updateVisibilityMultiple();
+                    afterEffectHandler();
                 }
 
-                // if he can't choose another target we apply the effect
                 else {
 
-                    applyEffect();
+                    shootedPlayers.add(match.getPlayers().get(playerChosen.getSelectionIndex()));
+                    //case he can choose other players
+                    if (shootedPlayers.size() < currentEffect.getTargets().getMaxTargets()) {
+
+                        updateVisibilityMultiple();
+                    }
+
+                    // if he can't choose another target we apply the effect
+                    else {
+                        applyEffect();
+                    }
                 }
 
                 break;
@@ -695,11 +714,11 @@ public class Choices {
             view.display(options);
         }
 
-        // a player is already selected, PROBABLY THIS PART OF CODE IS NOT NECESSARY, WE HAVE TO CHECK
+        // a player is already selected
         else {
 
             // sending new options for a multiple target effect
-            if (currentEffect.getType() == EffectsKind.MULTIPLE_TARGET){
+            if (currentEffect.getType() == EffectsKind.MULTIPLE_TARGET || currentEffect.getType() == EffectsKind.SINGLE_TARGET){
 
                 updateVisibilityMultiple();
             }
@@ -951,7 +970,7 @@ public class Choices {
 
             //remember that if the player has not already shooted I'll have to show only the cells where he can shoot from
             //in this if I can move wherever I want (respecting the number of moves allowed by the effect)
-            if (!shootedPlayers.isEmpty()){
+            if (!usedEffect.isEmpty()){
 
                 for (Cell cell: reachableCells){
 
@@ -960,7 +979,7 @@ public class Choices {
             }
 
             //in this if, I can move only in the cells where I can shoot someone from
-            else if (shootedPlayers.isEmpty()){
+            else if (usedEffect.isEmpty()){
 
                 List<Effect> weaponsEffect = new ArrayList<>(selectedWeapon.getEffects());
                 weaponsEffect.removeAll(usedEffect);
@@ -968,7 +987,7 @@ public class Choices {
                 Player copy = new Player();
                 copy.setPosition(match.getCurrentPlayer().getPosition());
 
-                // I put a copy of the player in every reachable cell and if he can use one of his effects from there I'll add te cell to the list
+                // I put a copy of the player in every reachable cell and if he can use one of his effects from there I'll add the cell to the list
                 for (Cell cell: reachableCells){
 
                     copy.setPosition(cell);

@@ -1,6 +1,7 @@
 package it.polimi.sw2019.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class PlayerBoard {
@@ -8,11 +9,10 @@ public class PlayerBoard {
     /**
      * Default constructor
      */
-    public PlayerBoard(){
+    public PlayerBoard(List<Character> charactersInGame){
 
-        setFirstPlayer(false);
-        setFlipped(false);
-        setNumOfDeaths(0);
+        damage = new DamageTokens(charactersInGame);
+        marks = new Marks(charactersInGame);
     }
 
     /* Attributes */
@@ -27,7 +27,7 @@ public class PlayerBoard {
 
     private int numOfDeaths = 0;
 
-    private Ammo ammo;
+    private Ammo ammo = new Ammo();
 
 
     /* Methods */

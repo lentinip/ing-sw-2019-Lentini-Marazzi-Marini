@@ -12,15 +12,44 @@ public class Match extends Observable {
     /**
      * Default constructor
      */
-    public Match() {
+    public Match(){}
 
+    /**
+     * customized constructor
+     */
+    public Match(boolean iWantFrenzyMode, boolean easyMode, List<String> usernames, String boardJsonName) throws FileNotFoundException{
+
+        List<Character> charactersInGame = new ArrayList<>();
+        int counter = 3; /* set to 3 because the smaller number of player allowed is 3 */
+
+        charactersInGame.add(Character.DISTRUCTOR);
+        charactersInGame.add(Character.BANSHEE);
+        charactersInGame.add(Character.DOZER);
+
+        if (counter < usernames.size()) {           /* if there are 4 players adding violet */
+            charactersInGame.add(Character.VIOLET);
+            counter++;
+        }
+        if (counter < usernames.size()) {          /* if there are 5 players adding also sprog */
+            charactersInGame.add(Character.SPROG);
+        }
+
+        for (counter = 0; counter < usernames.size(); counter++){
+
+            players.add(new Player(usernames.get(counter), charactersInGame.get(counter), charactersInGame));
+        }
+
+        initializeMatch(boardJsonName);
+        score = new Score(charactersInGame, board.getKillTrack());
+        setIWantFrenzyMode(iWantFrenzyMode);
+        setEasyMode(easyMode);
+        setNumberOfPlayers(usernames.size());
+        currentPlayer = players.get(0);
     }
 
     /* Attributes */
 
     private int idPartita;
-
-    private int boardType; /* tells in what kind of board players are going to play */
 
     private Board board;
 
@@ -42,9 +71,12 @@ public class Match extends Observable {
 
     private boolean iWantFrenzyMode; /* set at the start of the game when you choose if you want to play frenzy */
 
-    private boolean frenzyMode; /* set 'true' when last player dies only if iWantFrenzyMode is 'true' */
+    private boolean easyMode; /* 5 skulls */
+
+    private boolean frenzyMode = false; /* set 'true' when last player dies only if iWantFrenzyMode is 'true' */
 
     private boolean isEnded = false; /* true when the game is ended */
+
 
     /* Methods */
 
@@ -63,14 +95,6 @@ public class Match extends Observable {
 
     public void setIdPartita(int idPartita) {
         this.idPartita = idPartita;
-    }
-
-    public int getBoardType() {
-        return boardType;
-    }
-
-    public void setBoardType(int boardType) {
-        this.boardType = boardType;
     }
 
     public Board getBoard() {
@@ -154,6 +178,14 @@ public class Match extends Observable {
         this.deadPlayers = deadPlayers;
     }
 
+    public boolean isEasyMode() {
+        return easyMode;
+    }
+
+    public void setEasyMode(boolean easyMode) {
+        this.easyMode = easyMode;
+    }
+
     /**
      * Returns the Player with a specific Character
      * @param character The Character of the player
@@ -198,7 +230,7 @@ public class Match extends Observable {
     /**
      * this method creates the board and everything it contains
      */
-    public void initializeMatch(String boardFileName) throws FileNotFoundException {
+    public void initializeMatch(String boardFileName) throws FileNotFoundException{
 
       Visibility visibilityClass = new Visibility();
 
@@ -207,9 +239,6 @@ public class Match extends Observable {
       this.board = factory.createBoard(boardFileName, players);
 
       visibilityClass.setBoard(board);
-
-
-      //TODO create the tokens class that are in PlayerBoard and the score class
 
     }
 
@@ -296,7 +325,7 @@ public class Match extends Observable {
 
                  /* if a player dies during frenzy his board is flipped */
 
-                 if (killTokens.getTotalKills() >= 8 && iWantFrenzyMode) {
+                 if ((killTokens.getTotalKills() >= 8 && iWantFrenzyMode && !easyMode) || (easyMode && killTokens.getTotalKills() >= 5 && iWantFrenzyMode )) {
 
                      playerBoard.setFlipped(true);
 
@@ -318,25 +347,29 @@ public class Match extends Observable {
         /*
          * initializes frenzy mode
          */
-        else if(killTokens.getTotalKills() >= 8 && this.lastPlayer == null && iWantFrenzyMode){
+        else if((killTokens.getTotalKills() >= 8 && this.lastPlayer == null && iWantFrenzyMode && !easyMode) || (killTokens.getTotalKills() >= 5 && this.lastPlayer == null && iWantFrenzyMode && easyMode)){
 
                  frenzyMode = true;
                  this.lastPlayer = this.currentPlayer;
 
                  for (int i = 0; i < players.size(); i++){
 
-                     while(players.get(i) != currentPlayer){
+                     /* the player with index 0 is the first player, the players between the first player and who triggered
+                        the frenzy mode are set as FRENZYAFTERFIRST, the others as FRENZYBEFOREFIRST */
+                     if (i <= players.indexOf(currentPlayer)){
 
                          players.get(i).setState(State.FRENZYAFTERFIRST);
-                         i++;
                      }
 
-                     players.get(i).setState(State.FRENZYBEFOREFIRST);
+                     else {
+
+                         players.get(i).setState(State.FRENZYBEFOREFIRST);
+                     }
                  }
 
         }
 
-        else if (killTokens.getTotalKills() >= 8 && !iWantFrenzyMode){
+        else if ((killTokens.getTotalKills() >= 8 && !iWantFrenzyMode && !easyMode) || (killTokens.getTotalKills() >= 5 && !iWantFrenzyMode && easyMode) ){
 
             endMatch();
          }

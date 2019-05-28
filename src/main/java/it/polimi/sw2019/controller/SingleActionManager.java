@@ -305,6 +305,7 @@ public class SingleActionManager {
             //setting the weapon to null after having unloaded it
             choices.getSelectedWeapon().unloadWeapon();
             choices.setSelectedWeapon(null);
+            choices.getUsedEffect().clear();
             reducePlayerNumberOfActions();
         }
 
