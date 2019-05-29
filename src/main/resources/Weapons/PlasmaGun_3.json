@@ -1,7 +1,11 @@
 {
-  "name": "basic effect",
+  "name": "with charged shot",
   "description": null,
-  "cost": null,
+  "cost":{
+    "red": 0,
+    "yellow": 0,
+    "blue": 1
+  },
   "type": "SINGLE_TARGET",
   "visibility": "VISIBLE",
   "movesAway": [0],
@@ -10,9 +14,9 @@
   "additionalEffect": true,
   "move": null,
   "targets": {
-    "damages": [2],
-    "marks": [1],
-    "differentSquare": false,
+    "damages": [3],
+    "marks": [0],
+    "differentSquares": false,
     "sameSquare": false,
     "isRoom": false,
     "differentPlayers": false,

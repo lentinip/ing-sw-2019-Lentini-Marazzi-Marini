@@ -299,6 +299,25 @@ public class SingleActionManager {
         // removing the already executed effects
         usableEffects.removeAll(choices.getUsedEffect());
 
+        // if I just used an additional effect then I can't use any other effect except for move type effects
+        if ( choices.getCurrentEffect().isAdditionalEffect() ){
+
+            for (Effect effect: usableEffects){
+
+                if (effect.getType() != EffectsKind.MOVE){
+
+                    usableEffects.remove(effect);
+                }
+            }
+        }
+
+        // this if is to make sure that I don't give the possibility to the player to choose again an effect that he has already chosen
+        // I may have this problem for every weapon with a move effect (except for cyberblade, the only weapon with hasAnOrder)
+        if (choices.getCurrentEffect().getType() == EffectsKind.MOVE && !choices.getSelectedWeapon().hasAnOrder() && !usableEffects.isEmpty()){
+
+            usableEffects.clear();
+        }
+
         // I don't have any effect to execute
         if ( usableEffects.isEmpty() ){
 

@@ -1,21 +1,25 @@
 {
-  "name": "basic effect",
+  "name": "with slice and dice",
   "description": null,
-  "cost": null,
+  "cost":{
+    "red": 0,
+    "yellow": 1,
+    "blue": 0
+  },
   "type": "SINGLE_TARGET",
   "visibility": "VISIBLE",
   "movesAway": [0],
-  "exactly": false,
+  "exactly": true,
   "sameDirection": false,
-  "additionalEffect": true,
+  "additionalEffect": false,
   "move": null,
   "targets": {
     "damages": [2],
-    "marks": [1],
-    "differentSquare": false,
+    "marks": [0],
+    "differentSquares": false,
     "sameSquare": false,
     "isRoom": false,
-    "differentPlayers": false,
+    "differentPlayers": true,
     "maxTargets": 1,
     "forcedChoice": false
   }

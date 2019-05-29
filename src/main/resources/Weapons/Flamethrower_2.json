@@ -1,21 +1,21 @@
 {
-  "name": "with second lock",
+  "name": "in barbecue mode",
   "description": null,
-  "cost": {
-    "red": 1,
-    "yellow": 0,
+  "cost":{
+    "red": 0,
+    "yellow": 2,
     "blue": 0
   },
-  "type": "MULTIPLE_TARGET",
+  "type": "ALL_TARGET",
   "visibility": "VISIBLE",
-  "movesAway": [0],
-  "exactly": false,
-  "sameDirection": false,
+  "movesAway": [1],
+  "exactly": true,
+  "sameDirection": true,
   "additionalEffect": true,
   "move": null,
   "targets": {
-    "damages": [2, 0],
-    "marks": [1, 1],
+    "damages": [2, 1],
+    "marks": [0, 0],
     "differentSquares": false,
     "sameSquare": false,
     "isRoom": false,

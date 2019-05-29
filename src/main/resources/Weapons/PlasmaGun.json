@@ -1,0 +1,18 @@
+{
+  "name" : "PLASMA GUN",
+  "Description" : "basic effect: Deal 2 damage to 1 target you can see. with phase glide: Move 1 or 2 squares. This effect can beused either before or after the basic effect.with charged shot: Deal 1 additional damage to your target.Notes: The two moves have no ammo cost. You don't have to be able to see your target when you play the card.For example, you can move 2 squares and shoot a target you now see. You cannot use 1 move before shooting and 1 move after",
+  "grabCost" : {
+    "red" : 0,
+    "yellow" : 1,
+    "blue" : 0
+  },
+  "reloadCost" : {
+    "red" : 0,
+    "yellow" : 1,
+    "blue" : 1
+  },
+  "type" : "OPTIONAL_EFFECTS",
+  "effects" : ["PlasmaGun_1.json", "PlasmaGun_2.json", "PlasmaGun_3.json"],
+  "hasAnOrder" : false,
+  "hasAMoveTypeEffect" : true
+}

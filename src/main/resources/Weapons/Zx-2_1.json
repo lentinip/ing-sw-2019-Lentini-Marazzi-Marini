@@ -1,7 +1,7 @@
 {
-  "name": "basic effect",
+  "name": "basic mode",
   "description": null,
-  "cost": null,
+  "cost":null,
   "type": "SINGLE_TARGET",
   "visibility": "VISIBLE",
   "movesAway": [0],
@@ -10,9 +10,9 @@
   "additionalEffect": true,
   "move": null,
   "targets": {
-    "damages": [2],
-    "marks": [1],
-    "differentSquare": false,
+    "damages": [1],
+    "marks": [2],
+    "differentSquares": false,
     "sameSquare": false,
     "isRoom": false,
     "differentPlayers": false,

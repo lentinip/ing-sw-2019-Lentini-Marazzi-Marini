@@ -1,0 +1,18 @@
+{
+  "name" : "SLEDGEHAMMER",
+  "Description" : "basic mode: Deal 2 damage to 1 target on your square.in pulverize mode: Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.Notes: Remember that moves go through doors, but not walls.",
+  "grabCost" : {
+    "red" : 0,
+    "yellow" : 0,
+    "blue" : 0
+  },
+  "reloadCost" : {
+    "red" : 0,
+    "yellow" : 1,
+    "blue" : 0
+  },
+  "type" : "MODES",
+  "effects" : ["Sledgehammer_1.json", "Sledgehammer_2.json"],
+  "hasAnOrder" : false,
+  "hasAMoveTypeEffect" : false
+}

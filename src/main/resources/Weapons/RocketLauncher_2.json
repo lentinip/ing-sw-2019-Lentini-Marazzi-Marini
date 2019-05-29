@@ -1,0 +1,40 @@
+{
+  "name": "with rocket jump",
+  "description": null,
+  "cost":{
+    "red": 0,
+    "yellow": 0,
+    "blue": 1
+  },
+  "type": "MOVE",
+  "visibility": "MOVE",
+  "movesAway": [0],
+  "exactly": false,
+  "sameDirection": false,
+  "additionalEffect": false,
+  "move": {
+    "moveYou" : 2,
+    "moveTargets" : 0,
+    "maxTargets" : 0,
+    "moveTargetBefore" : false,
+    "moveTargetAfter" : false,
+    "moveTargetSameDirection" : false,
+    "moveTargetOnYourSquare" : false,
+    "visibility" : "MOVE",
+    "moveYouBefore" : false,
+    "moveYouAfter" : false,
+    "moveYouSameDirection" : false,
+    "obligatoryYou" : true,
+    "obligatoryTarget" : false
+  },
+  "targets": {
+    "damages": [0],
+    "marks": [0],
+    "differentSquares": false,
+    "sameSquare": false,
+    "isRoom": false,
+    "differentPlayers": false,
+    "maxTargets": false,
+    "forcedChoice": false
+  }
+}

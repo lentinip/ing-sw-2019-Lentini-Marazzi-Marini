@@ -1,8 +1,12 @@
 {
-  "name": "basic effect",
+  "name": "with focus shot:",
   "description": null,
-  "cost": null,
-  "type": "SINGLE_TARGET",
+  "cost": {
+    "red": 0,
+    "yellow": 1,
+    "blue": 0
+  },
+  "type": "MULTIPLE_TARGET",
   "visibility": "VISIBLE",
   "movesAway": [0],
   "exactly": false,
@@ -10,13 +14,13 @@
   "additionalEffect": true,
   "move": null,
   "targets": {
-    "damages": [2],
-    "marks": [1],
-    "differentSquare": false,
+    "damages": [2, 1],
+    "marks": [0, 0],
+    "differentSquares": false,
     "sameSquare": false,
     "isRoom": false,
     "differentPlayers": false,
-    "maxTargets": 1,
+    "maxTargets": 2,
     "forcedChoice": false
   }
 }

@@ -1,0 +1,18 @@
+{
+  "name" : "SHOTGUN",
+  "Description" : "basic mode: Deal 3 damage to 1 target on your square. If you want, you may then move the target 1 square.in long barrel mode: Deal 2 damage to1 target on any square exactly one move away.",
+  "grabCost" : {
+    "red" : 0,
+    "yellow" : 1,
+    "blue" : 0
+  },
+  "reloadCost" : {
+    "red" : 0,
+    "yellow" : 2,
+    "blue" :0
+  },
+  "type" : "MODES",
+  "effects" : ["Shotgun_1.json", "Shotgun_2.json"],
+  "hasAnOrder" : false,
+  "hasAMoveTypeEffect" : false
+}

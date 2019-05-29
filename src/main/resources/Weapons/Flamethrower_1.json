@@ -1,21 +1,17 @@
 {
-  "name": "with second lock",
+  "name": "basic mode",
   "description": null,
-  "cost": {
-    "red": 1,
-    "yellow": 0,
-    "blue": 0
-  },
+  "cost":null,
   "type": "MULTIPLE_TARGET",
   "visibility": "VISIBLE",
-  "movesAway": [0],
-  "exactly": false,
-  "sameDirection": false,
+  "movesAway": [1, 2],
+  "exactly": true,
+  "sameDirection": true,
   "additionalEffect": true,
   "move": null,
   "targets": {
-    "damages": [2, 0],
-    "marks": [1, 1],
+    "damages": [1, 1],
+    "marks": [0, 0],
     "differentSquares": false,
     "sameSquare": false,
     "isRoom": false,

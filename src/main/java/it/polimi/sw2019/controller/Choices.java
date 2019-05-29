@@ -5,7 +5,6 @@ import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.network.messages.BoardCoord;
 import it.polimi.sw2019.network.messages.IndexMessage;
 import it.polimi.sw2019.network.messages.Message;
-import it.polimi.sw2019.network.messages.Players;
 import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
@@ -569,6 +568,12 @@ public class Choices {
 
             List<Effect> availableEffects = selectedWeapon.usableEffects(match.getPlayers());
             List<IndexMessage> effectIndex = new ArrayList<>();
+
+            // for cyberblade (only weapon that has an order for the moment) I want to remove the last effect beacuse I need to show only the free one and the move
+            if (selectedWeapon.hasAnOrder()){
+
+                availableEffects.remove(2);
+            }
 
             for (Effect effect: availableEffects){
 

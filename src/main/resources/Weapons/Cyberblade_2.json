@@ -1,0 +1,36 @@
+{
+  "name": "with shadowstep",
+  "description": null,
+  "cost": null,
+  "type": "MOVE",
+  "visibility": "MOVE",
+  "movesAway": [0],
+  "exactly": false,
+  "sameDirection": false,
+  "additionalEffect": false,
+  "move": {
+    "moveYou" : 1,
+    "moveTargets" : 0,
+    "maxTargets" : 0,
+    "moveTargetBefore" : false,
+    "moveTargetAfter" : false,
+    "moveTargetSameDirection" : false,
+    "moveTargetOnYourSquare" : false,
+    "visibility" : "MOVE",
+    "moveYouBefore" : false,
+    "moveYouAfter" : false,
+    "moveYouSameDirection" : false,
+    "obligatoryYou" : true,
+    "obligatoryTarget" : false
+  },
+  "targets": {
+    "damages": [0],
+    "marks": [0],
+    "differentSquares": false,
+    "sameSquare": false,
+    "isRoom":false ,
+    "differentPlayers": false,
+    "maxTargets": 0,
+    "forcedChoice": false
+  }
+}

@@ -30,6 +30,8 @@ public class Effect {
 
     private boolean sameDirection; /* true if the moves away have to be in the same direction */
 
+    private boolean additionalEffect; /* true if we can't choose another effect (except for move types) after this effect is executed */
+
     private MoveEffect move;
 
     private Target targets;
@@ -122,6 +124,14 @@ public class Effect {
 
     public Target getTargets() {
         return targets;
+    }
+
+    public boolean isAdditionalEffect() {
+        return additionalEffect;
+    }
+
+    public void setAdditionalEffect(boolean additionalEffect) {
+        this.additionalEffect = additionalEffect;
     }
 
     /**

@@ -23,7 +23,7 @@ public class Weapon {
 
     private Ammo reloadCost;
 
-    private boolean isLoaded;
+    private boolean isLoaded = true;
 
     private Player owner;
 
@@ -101,7 +101,7 @@ public class Weapon {
         this.type = type;
     }
 
-    public boolean HasAnOrder() {
+    public boolean hasAnOrder() {
         return hasAnOrder;
     }
 
