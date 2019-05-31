@@ -163,6 +163,12 @@ public class Message implements Serializable {
         return gson.toJson(leaderBoard);
     }
 
+    public String serializeLoginReport(LoginReport loginReport) {
+
+        Gson gson = new Gson();
+        return gson.toJson(loginReport);
+    }
+
     public BoardCoord deserializeBoardCoord(){
 
         Gson gson = new Gson();
@@ -342,7 +348,11 @@ public class Message implements Serializable {
         setJsonFile(serializeLeaderBoard(leaderBoard));
     }
 
+    public void createLoginReport(Boolean connected) {
 
-
-
+        setTypeOfMessage(TypeOfMessage.LOGIN_REPORT);
+        setTypeOfAction(TypeOfAction.NONE);
+        LoginReport loginReport = new LoginReport(connected);
+        setJsonFile(serializeLoginReport(loginReport));
+    }
 }

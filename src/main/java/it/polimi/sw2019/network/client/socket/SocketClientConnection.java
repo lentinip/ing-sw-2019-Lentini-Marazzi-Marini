@@ -43,7 +43,7 @@ public class SocketClientConnection implements ClientInterface, ClientActions {
     @Override
     public  void notify(Message message) {
 
-        //TODO implement
+        client.handleMessage(message);
     }
 
     @Override
@@ -52,7 +52,9 @@ public class SocketClientConnection implements ClientInterface, ClientActions {
         serverInterface.send(message);
     }
 
-
-
+    @Override
+    public void register(String username) {
+        /* Does nothing here */
+    }
 
 }

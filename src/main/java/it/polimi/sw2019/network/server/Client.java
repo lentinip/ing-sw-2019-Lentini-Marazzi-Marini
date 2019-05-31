@@ -1,164 +1,46 @@
-package it.polimi.sw2019.network.server;
-
-import it.polimi.sw2019.model.TypeOfAction;
-import it.polimi.sw2019.network.messages.Message;
-import it.polimi.sw2019.network.messages.TypeOfMessage;
-import it.polimi.sw2019.view.ViewInterface;
+import it.polimi.sw2019.network.client.ClientActions;
+import it.polimi.sw2019.network.client.ClientInterface;
 
 public class Client {
 
     /**
-     *  Default constructor
+     * Constructor
      */
-    public Client(ViewInterface view){
+    public Client(String username, ClientInterface clientInterface) {
 
-        setView(view);
+        setUsername(username);
+        setClientInterface(clientInterface);
+        setConnected(true);
     }
 
     /* Attributes */
 
-    private ViewInterface view;  // abstract class useful to show objects both on the gui and on the cli
+    private String username;
 
-    private Message lastMessage;  // here I save the last message received
+    private ClientInterface clientInterface;
+
+    private Boolean connected;
 
     /* Methods */
 
-    public Message getLastMessage() {
-        return lastMessage;
+    public void setConnected(Boolean connected) {
+        this.connected = connected;
     }
 
-    public void setLastMessage(Message lastMessage) {
-        this.lastMessage = lastMessage;
+    public Boolean getConnected() {
+        return connected;
     }
 
-    public ViewInterface getView() {
-        return view;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setView(ViewInterface view) {
-        this.view = view;
+    public String getUsername() {
+        return username;
     }
 
-    /**
-     * this method analyzes the message received and calls the correct method of the view interface to display
-     * the correct information on the cli/gui
-     * @param message received from the server
-     */
-    public void handleMessage(Message message){
-
-
-        switch (message.getTypeOfMessage()){
-
-            case MATCH_START:
-                //TODO implement
-                break;
-            case CAN_I_SHOOT:
-                view.displayCanIShoot(message.deserializeBooleanMessage().isAnswer());
-                break;
-            case AVAILABLE_CELLS:
-                view.displayAvailableCells(message.deserializeAvailableCells().getAvailableCells(), message.getTypeOfAction());
-                break;
-            case AVAILABLE_CARDS:
-                availableCardsHandler(message);
-                break;
-            case AVAILABLE_PLAYERS:
-                availablePlayersHandler(message);
-                break;
-            case AVAILABLE_EFFECTS:
-                availableEffectsHandler(message);
-                break;
-            case PAYMENT:
-                view.displayPayment(message.deserializePaymentMessage());
-                break;
-            case ASK:
-                view.displayPaymentForPowerupsCost(message.deserializePaymentMessage());
-                break;
-            case MATCH_STATE:
-                view.updateMatchState(message.deserializeMatchState());
-                break;
-            case PRIVATE_HAND:
-                view.updatePrivateHand(message.deserializePrivateHand());
-                break;
-            case END_MATCH:
-                view.displayEndMatchLeaderBoard(message.deserializeLeaderBoard());
-                break;
-            default:
-                System.console().printf("TYPE OF MESSAGE UNKNOWN");
-                break;
-
-        }
-
-        if (message.getTypeOfMessage() != TypeOfMessage.MATCH_STATE || message.getTypeOfMessage() != TypeOfMessage.PRIVATE_HAND) {
-            lastMessage = message;
-        }
-
+    public void setClientInterface(ClientInterface clientInterface) {
+        this.clientInterface = clientInterface;
     }
-
-    /**
-     * shows the correct info on the gui, cli, by analyzing the last message received
-     * @param message contains the info to send to gui/cli
-     */
-    public void availableCardsHandler(Message message){
-
-        TypeOfAction action = message.getTypeOfAction();
-
-        //possible no answer (index selected < 0 )
-        if (action == TypeOfAction.RELOAD ||  action == TypeOfAction.USEPOWERUP ){
-
-            view.displayAvailableCardsWithNoOption(message.deserializeAvailableCards(), message.getTypeOfAction());
-        }
-
-        else {
-
-            view.displayAvailableCards(message.deserializeAvailableCards(), message.getTypeOfAction());
-        }
-    }
-
-    /**
-     * shows the correct info on the gui, cli, by analyzing the last message received
-     * @param message contains the info to send to gui/cli
-     */
-    public void availablePlayersHandler(Message message){
-
-        TypeOfAction action = message.getTypeOfAction();
-
-        // I can answer no (see the tree of messages to understand why)
-        if (action == TypeOfAction.MOVEBEFORESHOOT && lastMessage.getTypeOfMessage() == TypeOfMessage.AVAILABLE_CELLS){
-
-            view.displayAvailablePlayersWithNoOption(message.deserializePlayersMessage().getCharacters(), action);
-        }
-
-        // I can answer no (see the tree of messages to understand why)
-        else if (action == TypeOfAction.SHOOT && lastMessage.getTypeOfMessage() == TypeOfMessage.AVAILABLE_PLAYERS){
-
-            view.displayAvailablePlayersWithNoOption(message.deserializePlayersMessage().getCharacters(), action);
-        }
-
-        else {
-
-            view.displayAvailablePlayers(message.deserializePlayersMessage().getCharacters(), action);
-        }
-    }
-
-    /**
-     * shows the correct info on the gui, cli, by analyzing the last message received
-     * @param message contains the info to send to gui/cli
-     */
-    public void availableEffectsHandler(Message message){
-
-        // must choose one
-        if (lastMessage.getTypeOfMessage() == TypeOfMessage.AVAILABLE_CARDS){
-
-            view.displayAvailableEffects(message.deserializeAvailableEffects().getIndexes());
-        }
-
-        // I can answer no
-        else {
-
-            view.displayAvailableEffectsWithNoOption(message.deserializeAvailableEffects().getIndexes());
-        }
-    }
-
-
 
 }

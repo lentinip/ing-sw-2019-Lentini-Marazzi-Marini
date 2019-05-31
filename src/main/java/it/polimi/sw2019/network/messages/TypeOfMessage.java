@@ -23,5 +23,6 @@ public enum TypeOfMessage {
     SELECTED_COLOR,
     ASK,
     PAYMENT,
-    END_MATCH
+    END_MATCH,
+    LOGIN_REPORT
 }

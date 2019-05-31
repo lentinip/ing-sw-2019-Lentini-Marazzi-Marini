@@ -12,6 +12,13 @@ public class Ammo implements Cloneable{
         setBlue(0);
     }
 
+    public Ammo(int red, int yellow, int blue){
+
+        setRed(red);
+        setYellow(yellow);
+        setBlue(blue);
+    }
+
     public Ammo(Colors color){
         setRed(0);
         setYellow(0);
