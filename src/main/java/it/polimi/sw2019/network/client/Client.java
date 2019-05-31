@@ -10,6 +10,10 @@ public class Client {
     /**
      *  Default constructor
      */
+    public Client() {
+
+    }
+
     public Client(ViewInterface view){
 
         setView(view);

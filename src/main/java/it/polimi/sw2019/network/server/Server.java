@@ -5,6 +5,7 @@ import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.TypeOfMessage;
 import it.polimi.sw2019.network.server.rmi.RmiServer;
 import it.polimi.sw2019.network.server.socket.SocketServer;
+import it.polimi.sw2019.network.server.Client;
 
 import java.rmi.RemoteException;
 import java.security.InvalidParameterException;
@@ -155,7 +156,7 @@ public class Server {
 
     public void handleMessage() {
 
-        
+
     }
 
     public void removeWaitingPlayer(String username) {
