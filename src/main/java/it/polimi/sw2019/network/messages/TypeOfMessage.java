@@ -22,5 +22,6 @@ public enum TypeOfMessage {
     SELECTED_EFFECT,
     SELECTED_COLOR,
     ASK,
-    PAYMENT
+    PAYMENT,
+    END_MATCH
 }

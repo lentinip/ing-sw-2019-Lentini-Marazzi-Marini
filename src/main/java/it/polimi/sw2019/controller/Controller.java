@@ -80,7 +80,7 @@ public class Controller implements Observer {
 
             catch (FileNotFoundException e){
 
-                System.out.println("File not found");
+                System.console().printf("JSON FILE NOT FOUND");
             }
         }
 
@@ -166,6 +166,8 @@ public class Controller implements Observer {
                 answer.createAvailableCardsMessage(TypeOfAction.RELOAD, indexMessageList, true);
                 break;
             default:
+                System.console().printf("TYPE OF MESSAGE UNKNOWN");
+                break;
         }
 
         view.display(answer);

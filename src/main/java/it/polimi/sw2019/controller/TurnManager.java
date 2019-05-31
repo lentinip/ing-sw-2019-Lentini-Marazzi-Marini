@@ -8,6 +8,7 @@ import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TurnManager {
 
@@ -98,7 +99,11 @@ public class TurnManager {
         //sending the winner message if the match is ended
         if (match.isEnded()){
 
-            //TODO implement which message send
+            Map<Character, Integer> leaderboard = match.getScore().getRankingMap();
+
+            Message endMessage = new Message("All");
+            endMessage.createLeaderBoard(leaderboard);
+            view.display(endMessage);
         }
 
         else {

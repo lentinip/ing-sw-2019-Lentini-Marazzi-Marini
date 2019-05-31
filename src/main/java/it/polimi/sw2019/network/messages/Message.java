@@ -7,6 +7,7 @@ import it.polimi.sw2019.model.TypeOfAction;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * generic class used from view and controller to send information
@@ -156,6 +157,12 @@ public class Message implements Serializable {
         return gson.toJson(selectedColor);
     }
 
+    public String serializeLeaderBoard(LeaderBoard leaderBoard){
+
+        Gson gson = new Gson();
+        return gson.toJson(leaderBoard);
+    }
+
     public BoardCoord deserializeBoardCoord(){
 
         Gson gson = new Gson();
@@ -192,6 +199,53 @@ public class Message implements Serializable {
         return gson.fromJson(jsonFile, MatchSetup.class);
     }
 
+    public LeaderBoard deserializeLeaderBoard(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, LeaderBoard.class);
+    }
+
+    public BooleanMessage deserializeBooleanMessage(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, BooleanMessage.class);
+    }
+
+    public AvailableCells deserializeAvailableCells(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, AvailableCells.class);
+    }
+
+    public PaymentMessage deserializePaymentMessage(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, PaymentMessage.class);
+    }
+
+    public MatchState deserializeMatchState(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, MatchState.class);
+    }
+
+    public PrivateHand deserializePrivateHand(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, PrivateHand.class);
+    }
+
+    public AvailableCards deserializeAvailableCards(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, AvailableCards.class);
+    }
+
+    public AvailableEffects deserializeAvailableEffects(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, AvailableEffects.class);
+    }
 
     /* the following methods are called to create different types of Message Class */
 
@@ -278,6 +332,14 @@ public class Message implements Serializable {
         setTypeOfAction(TypeOfAction.SHOOT);
         AvailableEffects effects = new AvailableEffects(availableEffects);
         setJsonFile(serializeAvailableEffects(effects));
+    }
+
+    public void createLeaderBoard(Map<Character, Integer> map){
+
+        setTypeOfMessage(TypeOfMessage.END_MATCH);
+        setTypeOfAction(TypeOfAction.NONE);
+        LeaderBoard leaderBoard = new LeaderBoard(map);
+        setJsonFile(serializeLeaderBoard(leaderBoard));
     }
 
 

@@ -15,6 +15,19 @@ public class Player extends Observable {
 
     }
 
+    /**
+     * used for test
+     * @param name player name
+     * @param character character
+     */
+    public Player(String name, Character character){
+
+        setName(name);
+        setCharacter(character);
+        setDead(false);
+        setState(State.NORMAL);
+    }
+
     public Player(String name, Character character, List<Character> charactersInGame) {
 
         setName(name);

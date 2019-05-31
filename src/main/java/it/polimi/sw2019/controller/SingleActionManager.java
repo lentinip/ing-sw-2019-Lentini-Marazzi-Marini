@@ -91,6 +91,8 @@ public class SingleActionManager {
                 turnManager.endTurn();
                 break;
             default:
+                System.console().printf("TYPE OF ACTION UNKNOWN");
+                break;
         }
     }
 

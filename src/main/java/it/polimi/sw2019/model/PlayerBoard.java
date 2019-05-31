@@ -9,6 +9,12 @@ public class PlayerBoard {
     /**
      * Default constructor
      */
+    public PlayerBoard(){}
+
+    /**
+     * customized constructor
+     * @param charactersInGame players
+     */
     public PlayerBoard(List<Character> charactersInGame){
 
         damage = new DamageTokens(charactersInGame);

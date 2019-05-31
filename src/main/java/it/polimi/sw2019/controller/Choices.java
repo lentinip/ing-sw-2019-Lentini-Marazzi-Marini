@@ -229,6 +229,7 @@ public class Choices {
                 selectionPlayerHandler(message);
                 break;
             default:
+                System.console().printf("TYPE OF MESSAGE UNKNOWN");
                 break;
         }
     }
@@ -270,6 +271,7 @@ public class Choices {
                 weaponHandler(message);
                 break;
             default:
+                System.console().printf("TYPE OF ACTION UNKNOWN");
                 break;
 
         }
@@ -315,6 +317,7 @@ public class Choices {
 
                 break;
             default:
+                System.console().printf("TYPE OF ACTION UNKNOWN");
                 break;
         }
 
