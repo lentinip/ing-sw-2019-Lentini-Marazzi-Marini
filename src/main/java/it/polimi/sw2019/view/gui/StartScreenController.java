@@ -2,10 +2,7 @@ package it.polimi.sw2019.view.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Button;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
@@ -56,7 +53,19 @@ public class StartScreenController {
 
     @FXML
     public void setUsername(ActionEvent actionEvent) {
-        this.username = usernameTextField.getText();
+
+        if (usernameTextField.getText().equals("all") || usernameTextField.getText().equals("")){
+            username = null;
+            String whatToShow = String.format("You can't use <%s> as username.",usernameTextField.getText());
+            Alert a = new Alert(Alert.AlertType.WARNING);
+            a.setContentText(whatToShow);
+            a.show();
+        }
+
+        else {
+            this.username = usernameTextField.getText();
+        }
+
         ableStartButton();
     }
 
@@ -74,6 +83,11 @@ public class StartScreenController {
         if (typeOfConnection!=null && username!=null){
             startGameButton.setDisable(false);
         }
+        else {
+            startGameButton.setDisable(true);
+        }
     }
 
 }
+
+//TODO implement alert for wrong username

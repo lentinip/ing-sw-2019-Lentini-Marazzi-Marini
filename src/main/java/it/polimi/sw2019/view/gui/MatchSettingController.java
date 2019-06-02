@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 
@@ -32,12 +33,16 @@ public class MatchSettingController {
     @FXML
     private ToggleGroup boardGroup;
 
+    @FXML
+    private Label labelNumberOfPlayers;
 
     private boolean frenzy;
 
     private boolean easyMode;
 
-    private String selectedBoard;
+    private String selectedBoard = "boardAll";
+
+    private Integer numberOfPlayers = 0;
 
     /* Methods */
 
@@ -53,9 +58,13 @@ public class MatchSettingController {
         return selectedBoard;
     }
 
-    public void initialize(){
-        selectedBoard = "boardAll";
+    public void setNumberOfPlayers(Integer numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+    }
 
+    public void initialize(){
+
+        //Setting the toggles
         boardAll.setUserData("boardAll");
         board3players.setUserData("board3players");
         board4players.setUserData("board4players");
@@ -69,6 +78,11 @@ public class MatchSettingController {
                 }
             }
         });
+
+        //Setting the number of players in the label
+        labelNumberOfPlayers.setText(numberOfPlayers.toString());
+
+
     }
 
     @FXML
