@@ -1,0 +1,26 @@
+{
+  "name": "in barbecue mode",
+  "description": null,
+  "cost":{
+    "red": 0,
+    "yellow": 2,
+    "blue": 0
+  },
+  "type": "ALL_TARGET",
+  "visibility": "VISIBLE",
+  "movesAway": [1],
+  "exactly": true,
+  "sameDirection": true,
+  "additionalEffect": true,
+  "move": null,
+  "targets": {
+    "damages": [2, 1],
+    "marks": [0, 0],
+    "differentSquares": false,
+    "sameSquare": false,
+    "isRoom": false,
+    "differentPlayers": false,
+    "maxTargets": 2,
+    "forcedChoice": false
+  }
+}

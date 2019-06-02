@@ -1,0 +1,22 @@
+{
+  "name": "basic mode",
+  "description": null,
+  "cost": null,
+  "type": "ALL_TARGET",
+  "visibility": "DIFF_ROOM",
+  "movesAway": [0],
+  "exactly": false,
+  "sameDirection": false,
+  "additionalEffect": true,
+  "move": null,
+  "targets": {
+    "damages": [1],
+    "marks": [0],
+    "differentSquares": false,
+    "sameSquare": false,
+    "isRoom": true,
+    "differentPlayers": false,
+    "maxTargets": 1,
+    "forcedChoice": false
+  }
+}

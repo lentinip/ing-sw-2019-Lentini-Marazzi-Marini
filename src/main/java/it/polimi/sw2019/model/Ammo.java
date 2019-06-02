@@ -12,6 +12,13 @@ public class Ammo implements Cloneable{
         setBlue(0);
     }
 
+    public Ammo(int red, int yellow, int blue){
+
+        setRed(red);
+        setYellow(yellow);
+        setBlue(blue);
+    }
+
     public Ammo(Colors color){
         setRed(0);
         setYellow(0);
@@ -27,7 +34,7 @@ public class Ammo implements Cloneable{
                 addYellow(1);
                 break;
             default:
-                //TODO implement exception
+                System.console().printf("Error in switch of Ammo class");
         }
     }
 

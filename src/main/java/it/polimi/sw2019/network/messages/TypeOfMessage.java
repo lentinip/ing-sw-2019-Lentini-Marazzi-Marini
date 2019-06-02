@@ -3,7 +3,6 @@ package it.polimi.sw2019.network.messages;
 public enum TypeOfMessage {
     SINGLEACTION,
     SHOOTINGMESSAGE,
-    RESPAWN,
     MATCH_SETUP,
     MESSAGE_CELL,
     PLAYER_HAND,
@@ -22,5 +21,8 @@ public enum TypeOfMessage {
     SELECTED_EFFECT,
     SELECTED_COLOR,
     ASK,
-    PAYMENT
+    PAYMENT,
+    END_MATCH,
+    LOGIN_REPORT,
+    DISCONNECTED
 }

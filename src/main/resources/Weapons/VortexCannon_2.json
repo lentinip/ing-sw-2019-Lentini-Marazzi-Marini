@@ -1,0 +1,40 @@
+{
+  "name": "with black hole",
+  "description": null,
+  "cost":{
+    "red": 1,
+    "yellow": 0,
+    "blue": 0
+  },
+  "type": "MULTIPLE_TARGET",
+  "visibility": "VISIBLE",
+  "movesAway": [1],
+  "exactly": false,
+  "sameDirection": false,
+  "additionalEffect": true,
+  "move": {
+    "moveYou" : 0,
+    "moveTargets" : 1,
+    "maxTargets" : 3,
+    "moveTargetBefore" : true,
+    "moveTargetAfter" : false,
+    "moveTargetSameDirection" : false,
+    "moveTargetOnYourSquare" : false,
+    "visibility" : "VISIBLE",
+    "moveYouBefore" : false,
+    "moveYouAfter" : false,
+    "moveYouSameDirection" : false,
+    "obligatoryYou" : false,
+    "obligatoryTarget" : false
+  },
+  "targets": {
+    "damages": [2, 1, 1],
+    "marks": [0, 0, 0],
+    "differentSquares": false,
+    "sameSquare": false,
+    "isRoom": false,
+    "differentPlayers": false,
+    "maxTargets": 3,
+    "forcedChoice": false
+  }
+}

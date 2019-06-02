@@ -1,0 +1,26 @@
+{
+  "name": " in tsunami mode",
+  "description": null,
+  "cost":{
+    "red": 0,
+    "yellow": 1,
+    "blue": 0
+  },
+  "type": "ALL_TARGET",
+  "visibility": "VISIBLE",
+  "movesAway": [1],
+  "exactly": true,
+  "sameDirection": false,
+  "additionalEffect": true,
+  "move": null,
+  "targets": {
+    "damages": [1],
+    "marks": [0],
+    "differentSquares": false,
+    "sameSquare": false,
+    "isRoom": false,
+    "differentPlayers": false,
+    "maxTargets": 1,
+    "forcedChoice": true
+  }
+}

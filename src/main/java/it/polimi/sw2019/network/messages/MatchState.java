@@ -1,12 +1,13 @@
 package it.polimi.sw2019.network.messages;
 
-import it.polimi.sw2019.model.KillTokens;
-import it.polimi.sw2019.model.PlayerBoard;
+
+
+import it.polimi.sw2019.model.Character;
 
 import java.util.List;
 
 /**
- * this class is send to the client to update the gui or the cli
+ * this class is sent to the client to update the gui or the cli
  */
 public class MatchState {
 
@@ -15,35 +16,25 @@ public class MatchState {
      */
     public MatchState(){}
 
-    /**
-     * customize constructor
-     */
-    public MatchState(List<MessageCell> cells, List<PlayerBoard> playerBoards, int currentPlayerLeftActions, List<PlayerHand> playerHands, KillTokens killTrack, int weaponsDeckSize, int powerupsDeckSize){
-
-        setCells(cells);
-        setKillTrack(killTrack);
-        setPlayerBoards(playerBoards);
-        setCurrentPlayerLeftActions(currentPlayerLeftActions);
-        setPlayerHands(playerHands);
-        setPowerupsDeckSize(powerupsDeckSize);
-        setWeaponsDeckSize(weaponsDeckSize);
-    }
-
     /* Attributes */
 
     private List<MessageCell> cells;
 
-    private List<PlayerBoard> playerBoards;
+    private List<PlayerBoardMessage> playerBoardMessages;
 
     private int currentPlayerLeftActions;
 
     private List<PlayerHand> playerHands;
 
-    private KillTokens killTrack;
+    private List<Character> killSequence;
+
+    private List<Boolean> overkillSequence;
 
     private int weaponsDeckSize;
 
     private int powerupsDeckSize;
+
+    private Character currentPlayer;
 
     /* Methods */
 
@@ -59,16 +50,8 @@ public class MatchState {
         return weaponsDeckSize;
     }
 
-    public void setKillTrack(KillTokens killTrack) {
-        this.killTrack = killTrack;
-    }
-
-    public KillTokens getKillTrack() {
-        return killTrack;
-    }
-
-    public void setPlayerBoards(List<PlayerBoard> playerBoards) {
-        this.playerBoards = playerBoards;
+    public void setPlayerBoardMessages(List<PlayerBoardMessage> playerBoardMessages) {
+        this.playerBoardMessages = playerBoardMessages;
     }
 
     public List<MessageCell> getCells() {
@@ -79,8 +62,8 @@ public class MatchState {
         this.playerHands = playerHands;
     }
 
-    public List<PlayerBoard> getPlayerBoards() {
-        return playerBoards;
+    public List<PlayerBoardMessage> getPlayerBoardMessages() {
+        return playerBoardMessages;
     }
 
     public int getCurrentPlayerLeftActions() {
@@ -103,4 +86,27 @@ public class MatchState {
         this.weaponsDeckSize = weaponsDeckSize;
     }
 
+    public List<Boolean> getOverkillSequence() {
+        return overkillSequence;
+    }
+
+    public void setOverkillSequence(List<Boolean> overkillSequence) {
+        this.overkillSequence = overkillSequence;
+    }
+
+    public List<Character> getKillSequence() {
+        return killSequence;
+    }
+
+    public void setKillSequence(List<Character> killSequence) {
+        this.killSequence = killSequence;
+    }
+
+    public void setCurrentPlayer(Character currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public Character getCurrentPlayer() {
+        return currentPlayer;
+    }
 }

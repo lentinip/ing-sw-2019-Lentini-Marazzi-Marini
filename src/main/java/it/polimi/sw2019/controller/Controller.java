@@ -4,20 +4,21 @@ import it.polimi.sw2019.network.messages.*;
 import it.polimi.sw2019.network.server.VirtualView;
 import static it.polimi.sw2019.network.messages.TypeOfMessage.*;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Logger;
 
 public class Controller implements Observer {
 
     /**
-     * Default constructor
+     * Customized constructor
      */
-    public Controller(Match match, VirtualView view) {
-        this.match = match;
+    public Controller(VirtualView view) {
+
         this.view = view;
-        turnManager = new TurnManager(match, view);
     }
 
     /* Attributes */
@@ -46,19 +47,23 @@ public class Controller implements Observer {
         return turnManager;
     }
 
-    public void initializeMatch(Message message) {
+    /**
+     * this method creates the match and all the data structures useful in the game
+     * @param message with the setup info
+     * @throws FileNotFoundException I'm using a json file to create the board chosen by the client
+     */
+    public void initializeMatch(Message message) throws FileNotFoundException{
 
         MatchSetup setupInfo = message.deserializeMatchSetup();
 
-        match = new Match();
-
-        //TODO implement
+        match = new Match(setupInfo.isFrenzy(), setupInfo.isEightSkulls(), view.getUsernames(), setupInfo.getBoardJsonName());
+        turnManager = new TurnManager(match, view);
     }
 
     /**
      * Receives Message from the virtual view and calls different methods checking Message's attributes
-     * @param virtualView
-     * @param mes
+     * @param virtualView class that does the notify
+     * @param mes message received
      */
     @Override
     public void update(Observable virtualView, Object mes){
@@ -67,7 +72,16 @@ public class Controller implements Observer {
         TypeOfMessage typeOfMessage = message.getTypeOfMessage();
 
         if (typeOfMessage==MATCH_SETUP){
-            initializeMatch(message);
+
+            try {
+
+                initializeMatch(message);
+            }
+
+            catch (FileNotFoundException e){
+
+                System.console().printf("JSON FILE NOT FOUND");
+            }
         }
 
         else if (typeOfMessage==SINGLE_ACTION){
@@ -86,10 +100,17 @@ public class Controller implements Observer {
             turnManager.getSingleActionManager().getPayment().paymentHandler(message);
         }
 
+        //case match is ended for disconnected players
+        else if (typeOfMessage == END_MATCH){
+
+            //calling the end match method of the model
+            match.endMatch();
+            turnManager.endTurn();
+        }
+
         else {
 
-            //TODO implement exception for tests
-            //If you arrive here there's a problem
+            System.out.println("type of message attribute not initialized");
         }
 
     }
@@ -153,10 +174,10 @@ public class Controller implements Observer {
                 answer.createAvailableCardsMessage(TypeOfAction.RELOAD, indexMessageList, true);
                 break;
             default:
+                System.console().printf("TYPE OF MESSAGE UNKNOWN");
+                break;
         }
 
         view.display(answer);
     }
-
-
 }

@@ -2,7 +2,15 @@ package it.polimi.sw2019.network.server.rmi;
 
 import it.polimi.sw2019.network.server.Server;
 
-public class RmiServer implements RmiInterface{
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+/**
+ * RMIserver runned by the server
+ */
+public class RmiServer implements Remote {
 
     /**
      * Default  constructor
@@ -25,8 +33,15 @@ public class RmiServer implements RmiInterface{
         this.server = server;
     }
 
-    public void startServer(int port) {
+    public void startServer(int port) throws RemoteException {
 
-        //TODO implement
+        Registry registry = LocateRegistry.createRegistry(port);
+        ServerImplementation serverImplementation = new ServerImplementation();
+        try {
+            registry.rebind("Server", serverImplementation);
+        } catch (RemoteException e) {
+
+            //TODO implement exception
+        }
     }
 }

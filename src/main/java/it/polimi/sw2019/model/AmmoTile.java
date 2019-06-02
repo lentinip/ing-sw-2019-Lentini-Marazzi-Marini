@@ -26,6 +26,8 @@ public class AmmoTile extends Ammo {
      */
     private boolean powerup = false;
 
+    private String ammoTileImg;
+
     /* Methods */
 
     public boolean isPowerup(){
@@ -36,6 +38,13 @@ public class AmmoTile extends Ammo {
         this.powerup = powerup;
     }
 
+    public String getAmmoTileImg() {
+        return ammoTileImg;
+    }
+
+    public void setAmmoTileImg(String ammoTileImg) {
+        this.ammoTileImg = ammoTileImg;
+    }
 
     /**
      * used by the constructor class Factory

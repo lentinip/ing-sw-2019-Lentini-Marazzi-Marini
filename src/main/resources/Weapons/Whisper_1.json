@@ -1,0 +1,22 @@
+{
+  "name": "effect",
+  "description": null,
+  "cost":null,
+  "type": "SINGLE_TARGET",
+  "visibility": "VISIBLE",
+  "movesAway": [2],
+  "exactly": false,
+  "sameDirection": false,
+  "additionalEffect": false,
+  "move": null,
+  "targets": {
+    "damages": [3],
+    "marks": [1],
+    "differentSquares": false,
+    "sameSquare": false,
+    "isRoom": false,
+    "differentPlayers": false,
+    "maxTargets": 1,
+    "forcedChoice": false
+  }
+}

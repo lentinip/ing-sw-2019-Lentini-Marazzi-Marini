@@ -103,6 +103,7 @@ public class Payment {
                 singleActionManager.getChoices().effectAnalizer();
                 break;
             default:
+                System.console().printf("TYPE OF ACTION UNKNOWN");
                 break;
         }
 
@@ -247,6 +248,7 @@ public class Payment {
                 leftCost = initialCost.clone();
                 break;
             default:
+                System.console().printf("TYPE OF ACTION UNKNOWN");
                 break;
         }
 

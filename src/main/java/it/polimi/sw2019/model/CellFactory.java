@@ -10,7 +10,14 @@ public class CellFactory {
     /**
      * Default Constructor
      */
-    public CellFactory(){}
+    public CellFactory(){
+
+        //I apply bigger values to check if the near cells are null or not
+        setUp(500);
+        setDown(500);
+        setRight(500);
+        setLeft(500);
+    }
 
     /* Attributes */
 
@@ -104,10 +111,18 @@ public class CellFactory {
         cell.setRow(this.row);
         cell.setColumn(this.column);
         cell.setCommon(this.isCommon);
-        cell.setUp(field.get(this.up));
-        cell.setDown(field.get(this.down));
-        cell.setLeft(field.get(this.left));
-        cell.setRight(field.get(this.right));
+        if(this.up != 500) {
+            cell.setUp(field.get(this.up));
+        }
+        if(this.down != 500) {
+            cell.setDown(field.get(this.down));
+        }
+        if(this.left != 500) {
+            cell.setLeft(field.get(this.left));
+        }
+        if(this.right != 500) {
+            cell.setRight(field.get(this.right));
+        }
     }
 
 }

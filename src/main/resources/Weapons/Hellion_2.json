@@ -1,0 +1,26 @@
+{
+  "name": "in nano-tracer mode",
+  "description": null,
+  "cost":{
+    "red": 1,
+    "yellow": 0,
+    "blue": 0
+  },
+  "type": "SINGLE_TARGET",
+  "visibility": "VISIBLE",
+  "movesAway": [1],
+  "exactly": false,
+  "sameDirection": false,
+  "additionalEffect": true,
+  "move": null,
+  "targets": {
+    "damages": [1, 0],
+    "marks": [0, 2],
+    "differentSquares": false,
+    "sameSquare": true,
+    "isRoom": false,
+    "differentPlayers": false,
+    "maxTargets": 1,
+    "forcedChoice": false
+  }
+}

@@ -1,5 +1,6 @@
 package it.polimi.sw2019.model;
 import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.network.messages.PlayerHand;
 import it.polimi.sw2019.network.messages.PrivateHand;
 
 import java.util.ArrayList;
@@ -15,11 +16,24 @@ public class Player extends Observable {
 
     }
 
-    public Player(String name, Character character) {
+    /**
+     * used for test
+     * @param name player name
+     * @param character character
+     */
+    public Player(String name, Character character){
 
         setName(name);
         setCharacter(character);
-        playerBoard = new PlayerBoard();
+        setDead(false);
+        setState(State.NORMAL);
+    }
+
+    public Player(String name, Character character, List<Character> charactersInGame) {
+
+        setName(name);
+        setCharacter(character);
+        playerBoard = new PlayerBoard(charactersInGame);
         setDead(false);
         setState(State.NORMAL);
     }
@@ -71,7 +85,6 @@ public class Player extends Observable {
 
     public void setState(State state) {
         this.state = state;
-        //TODO this method needs to update the single client view ActionHandler
     }
 
     public State getState() {
@@ -197,6 +210,10 @@ public class Player extends Observable {
 
     }
 
+    /**
+     * returns the loaded weapons of the player
+     * @return a list containing the weapons
+     */
     public List<Weapon> loadedWeapons(){
 
       List<Weapon> loadedWeapons = new ArrayList<>();
@@ -600,6 +617,28 @@ public class Player extends Observable {
         message.createMessagePrivateHand(privateHand);
 
         return message;
+    }
+
+    /**
+     * this method creates the class player hand to send to the view in the match state
+     * @return the class created
+     */
+    public PlayerHand createPlayerHand(){
+
+        PlayerHand playerHand = new PlayerHand();
+
+        playerHand.setWeaponsHidden(loadedWeapons().size());
+
+        List <Weapon> weaponsUnloaded = new ArrayList<>(weapons);
+        weaponsUnloaded.removeAll(loadedWeapons());
+        List<String> unloaded = new ArrayList<>();
+        for (Weapon weapon: weaponsUnloaded){
+
+            unloaded.add(weapon.getName());
+        }
+        playerHand.setWeaponsUnloaded(unloaded);
+        playerHand.setPowerups(powerups.size());
+        return playerHand;
     }
 
 

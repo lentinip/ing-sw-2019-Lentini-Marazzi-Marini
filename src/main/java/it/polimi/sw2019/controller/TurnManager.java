@@ -8,6 +8,7 @@ import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TurnManager {
 
@@ -79,6 +80,9 @@ public class TurnManager {
 
     public void endTurn(){
 
+        //stopping the timer because the player ended his turn
+        view.getTurn().cancel();
+
         //Refills the CommonCells
         if(!emptyCommonCells.isEmpty()){
             refillCommonCell();
@@ -94,11 +98,16 @@ public class TurnManager {
 
         //Changes the parameters here
         currentPlayer = match.getCurrentPlayer();
+        view.setMessageSender(currentPlayer.getName());
 
         //sending the winner message if the match is ended
         if (match.isEnded()){
 
-            //TODO implement which message send
+            Map<Character, Integer> leaderboard = match.getScore().getRankingMap();
+
+            Message endMessage = new Message("All");
+            endMessage.createLeaderBoard(leaderboard);
+            view.display(endMessage);
         }
 
         else {
@@ -122,6 +131,7 @@ public class TurnManager {
                 emptySpawnCells.remove(spawnCell);
             }
 
+            match.notifyMatchState();
         }
     }
 
@@ -136,6 +146,7 @@ public class TurnManager {
             commonCell.setAmmo(newAmmoTile);
             commonCell.setIsEmpty(false);
             emptyCommonCells.remove(commonCell);
+            match.notifyMatchState();
         }
     }
 
@@ -189,6 +200,7 @@ public class TurnManager {
 
         }
 
+        match.notifyPrivateHand(spawningPlayer);
         view.display(message);
     }
 
@@ -221,6 +233,9 @@ public class TurnManager {
         else {
             message.setUsername(currentPlayer.getName());
             message.createMessageCanIShoot(currentPlayer.canIshootBeforeComplexAction());
+
+            //restarting the time beacuse a new player is having his turn
+            view.startTurnTimer(currentPlayer.getName());
         }
 
         return message;

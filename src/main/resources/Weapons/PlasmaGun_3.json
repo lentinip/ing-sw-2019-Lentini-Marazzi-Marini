@@ -1,0 +1,26 @@
+{
+  "name": "with charged shot",
+  "description": null,
+  "cost":{
+    "red": 0,
+    "yellow": 0,
+    "blue": 1
+  },
+  "type": "SINGLE_TARGET",
+  "visibility": "VISIBLE",
+  "movesAway": [0],
+  "exactly": false,
+  "sameDirection": false,
+  "additionalEffect": true,
+  "move": null,
+  "targets": {
+    "damages": [3],
+    "marks": [0],
+    "differentSquares": false,
+    "sameSquare": false,
+    "isRoom": false,
+    "differentPlayers": false,
+    "maxTargets": 1,
+    "forcedChoice": false
+  }
+}

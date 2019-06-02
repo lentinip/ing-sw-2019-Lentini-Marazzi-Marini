@@ -1,0 +1,18 @@
+{
+  "name" : "HEATSEEKER",
+  "Description" : "effect: Choose 1 target you cannot see and deal 3 damage to it.Notes: Yes, this can only hit targets you cannot see.",
+  "grabCost" : {
+    "red" : 1,
+    "yellow" : 1,
+    "blue" : 0
+  },
+  "reloadCost" : {
+    "red" : 2,
+    "yellow" : 1,
+    "blue" : 0
+  },
+  "type" : "SINGLE:EFFECT",
+  "effects" : ["Heatseeker_1.json"],
+  "hasAnOrder" : false,
+  "hasAMoveTypeEffect" : false
+}

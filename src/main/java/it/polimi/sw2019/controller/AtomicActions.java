@@ -91,7 +91,7 @@ public class  AtomicActions {
         selectedCell.getWeapons().remove(grabbedWeapon);
 
         //Sets the match as changed
-        match.notifyMatchState();
+        match.notifyPrivateHand(match.getCurrentPlayer());
     }
 
     /**
@@ -176,7 +176,7 @@ public class  AtomicActions {
         payAmmo(reloader, reloadedWeapon.getReloadCost());
 
         //Sets the match as changed
-        match.notifyMatchState();
+        match.notifyPrivateHand(reloader);
     }
 
     /**
@@ -207,6 +207,7 @@ public class  AtomicActions {
         owner.discardPowerup(powerupIndex);
         //Adds it to the discarded ones in the Board
         match.getBoard().discardPowerup(powerupToDiscard);
+        match.notifyPrivateHand(match.getCurrentPlayer());
     }
 
     /**
@@ -249,5 +250,6 @@ public class  AtomicActions {
             Powerup drawn = match.getBoard().drawPowerup();
             drawer.addPowerup(drawn);
         }
+        match.notifyPrivateHand(match.getCurrentPlayer());
     }
 }

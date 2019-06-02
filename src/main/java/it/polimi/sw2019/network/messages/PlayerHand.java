@@ -10,16 +10,6 @@ public class PlayerHand {
      */
     public PlayerHand(){}
 
-    /**
-     * default Constructor
-     */
-    public PlayerHand(int weaponsHidden, List<String> weaponsUnloaded, int powerups){
-
-        setPowerups(powerups);
-        setWeaponsHidden(weaponsHidden);
-        setWeaponsUnloaded(weaponsUnloaded);
-    }
-
     /* Attributes */
 
     private int weaponsHidden;

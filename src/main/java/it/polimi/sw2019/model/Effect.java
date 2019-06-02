@@ -12,6 +12,8 @@ public class Effect {
 
     /* Attributes */
 
+    private Visibility visibilityClass;
+
     private String name;
 
     private String description;
@@ -20,15 +22,15 @@ public class Effect {
 
     private EffectsKind type;
 
-    private Visibility visibilityClass;
-
     private KindOfVisibility visibility;
 
-    private int[] movesAway = new int[4]; /* number of moves everyCharacter has to be away from you to allow you  to shoot him */
+    private int[] movesAway; /* number of moves everyCharacter has to be away from you to allow you  to shoot him */
 
     private boolean exactly;  /* true if it has to be exactly tot moves away */
 
     private boolean sameDirection; /* true if the moves away have to be in the same direction */
+
+    private boolean additionalEffect; /* true if we can't choose another effect (except for move types) after this effect is executed */
 
     private MoveEffect move;
 
@@ -122,6 +124,14 @@ public class Effect {
 
     public Target getTargets() {
         return targets;
+    }
+
+    public boolean isAdditionalEffect() {
+        return additionalEffect;
+    }
+
+    public void setAdditionalEffect(boolean additionalEffect) {
+        this.additionalEffect = additionalEffect;
     }
 
     /**

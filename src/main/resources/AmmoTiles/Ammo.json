@@ -5,7 +5,9 @@
       "red": 0,
       "yellow": 1,
       "blue": 2,
-      "powerup": false
+      "powerup": false,
+      "ammoTileImg": "AD_ammo_042.png"
+
     }
   },
   {
@@ -14,7 +16,8 @@
       "red": 2,
       "yellow": 1,
       "blue": 0,
-      "powerup": false
+      "powerup": false,
+      "ammoTileImg": "AD_ammo_043.png"
     }
   },
   {
@@ -23,7 +26,8 @@
       "red": 1,
       "yellow": 2,
       "blue": 0,
-      "powerup": false
+      "powerup": false,
+      "ammoTileImg": "AD_ammo_045.png"
     }
   },
   {
@@ -32,7 +36,8 @@
       "red": 2,
       "yellow": 0,
       "blue": 1,
-      "powerup": false
+      "powerup": false,
+      "ammoTileImg": "AD_ammo_047.png"
     }
   },
   {
@@ -41,7 +46,8 @@
       "red": 0,
       "yellow": 2,
       "blue": 1,
-      "powerup": false
+      "powerup": false,
+      "ammoTileImg": "AD_ammo_046.png"
     }
   },
   {
@@ -50,7 +56,8 @@
       "red": 1,
       "yellow": 0,
       "blue": 2,
-      "powerup": false
+      "powerup": false,
+      "ammoTileImg": "AD_ammo_044.png"
     }
   },
   {
@@ -59,7 +66,8 @@
       "red": 2,
       "yellow": 0,
       "blue": 0,
-      "powerup": true
+      "powerup": true,
+      "ammoTileImg": "AD_ammo_0421.png"
     }
   },
   {
@@ -68,7 +76,8 @@
       "red": 0,
       "yellow": 2,
       "blue": 0,
-      "powerup": true
+      "powerup": true,
+      "ammoTileImg": "AD_ammo_0429.png"
     }
   },
   {
@@ -77,7 +86,8 @@
       "red": 0,
       "yellow": 0,
       "blue": 2,
-      "powerup": true
+      "powerup": true,
+      "ammoTileImg": "AD_ammo_0422.png"
     }
   },
   {
@@ -86,7 +96,8 @@
       "red": 0,
       "yellow": 1,
       "blue": 1,
-      "powerup": true
+      "powerup": true,
+      "ammoTileImg": "AD_ammo_0424.png"
     }
   },
   {
@@ -95,7 +106,8 @@
       "red": 1,
       "yellow": 1,
       "blue": 0,
-      "powerup": true
+      "powerup": true,
+      "ammoTileImg": "AD_ammo_0423.png"
     }
   },
   {
@@ -104,7 +116,8 @@
       "red": 1,
       "yellow": 0,
       "blue": 1,
-      "powerup": true
+      "powerup": true,
+      "ammoTileImg": "AD_ammo_0428.png"
     }
   }
 ]

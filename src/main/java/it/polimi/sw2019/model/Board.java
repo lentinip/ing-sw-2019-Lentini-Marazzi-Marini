@@ -12,9 +12,7 @@ public class Board {
      * Default constructor
      */
 
-    public Board(){
-
-    }
+    public Board(){}
 
     /* Attributes */
 
@@ -67,6 +65,14 @@ public class Board {
 
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
+    }
+
+    public List<Weapon> getWeaponsDeck() {
+        return weaponsDeck;
+    }
+
+    public List<Powerup> getPowerupsDeck() {
+        return powerupsDeck;
     }
 
     public List<Room> getRooms() {

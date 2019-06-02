@@ -2,6 +2,7 @@ package it.polimi.sw2019.model;
 
 
 import it.polimi.sw2019.network.messages.BoardCoord;
+import it.polimi.sw2019.network.messages.MessageCell;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -265,5 +266,43 @@ public class Cell {
 
     public BoardCoord getCoord(){
         return new BoardCoord(row, column);
+    }
+
+    /**
+     * this method create a class messageCell containing the useful info about the cell to be
+     * sent to the view
+     * @return the class created
+     */
+    public MessageCell createMessageCell(){
+
+      MessageCell messageCell = new MessageCell();
+
+      messageCell.setRow(row);
+      messageCell.setColumn(column);
+
+      List<Character> playersInside = new ArrayList<>();
+
+      for (Player player: playersInCell()){
+
+          playersInside.add(player.getCharacter());
+      }
+
+      messageCell.setCharacters(playersInside);
+      messageCell.setEmpty(isEmpty);
+      messageCell.setAmmoTile(ammoTile.getAmmoTileImg());
+
+      List<String> weapons = new ArrayList<>();
+
+      if (!isCommon){
+
+          for (Weapon weapon: this.weapons){
+
+              weapons.add(weapon.getName());
+          }
+      }
+
+      messageCell.setWeapons(weapons);
+
+      return messageCell;
     }
 }

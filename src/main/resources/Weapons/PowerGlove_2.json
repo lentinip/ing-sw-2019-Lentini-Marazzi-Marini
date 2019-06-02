@@ -1,0 +1,40 @@
+{
+  "name": "in rocket fist mode",
+  "description": null,
+  "cost":{
+    "red": 0,
+    "yellow": 0,
+    "blue": 1
+  },
+  "type": "MULTIPLE_TARGET",
+  "visibility": "VISIBLE",
+  "movesAway": [1, 2],
+  "exactly": true,
+  "sameDirection": true,
+  "additionalEffect": true,
+  "move": {
+    "moveYou" : 2,
+    "moveTargets" : 0,
+    "maxTargets" : 0,
+    "moveTargetBefore" : false,
+    "moveTargetAfter" : false,
+    "moveTargetSameDirection" : false,
+    "moveTargetOnYourSquare" : false,
+    "visibility" : "MOVE",
+    "moveYouBefore" : false,
+    "moveYouAfter" : true,
+    "moveYouSameDirection" : true,
+    "obligatoryYou" : true,
+    "obligatoryTarget" : false
+  },
+  "targets": {
+    "damages": [2, 2],
+    "marks": [0, 0],
+    "differentSquares": false,
+    "sameSquare": false,
+    "isRoom": false,
+    "differentPlayers": false,
+    "maxTargets": 2,
+    "forcedChoice": false
+  }
+}

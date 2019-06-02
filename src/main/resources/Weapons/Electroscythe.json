@@ -1,0 +1,18 @@
+{
+  "name" : "ELECTROSCYTHE",
+  "Description" : "basic mode: Deal 1 damage to every other player on your square. in reaper mode: Deal 2 damage to every other player on your square.",
+  "grabCost" : {
+    "red" : 0,
+    "yellow" : 0,
+    "blue" : 0
+  },
+  "reloadCost" : {
+    "red" : 0,
+    "yellow" : 0,
+    "blue" : 1
+  },
+  "type" : "MODES",
+  "effects" : ["Electroscythe_1.json", "Elechtroscythe_2.json"],
+  "hasAnOrder" : false,
+  "hasAMoveTypeEffect" : false
+}

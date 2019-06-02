@@ -1,21 +1,22 @@
 {
   "name": "basic effect",
-  "description": "Deal 2 damage and 1 mark to 1 target you can see.",
-  "cost": {
-    "red": 0,
-    "yellow": 0,
-    "blue": 0
-  },
+  "description": null,
+  "cost": null,
   "type": "SINGLE_TARGET",
   "visibility": "VISIBLE",
   "movesAway": [0],
   "exactly": false,
   "sameDirection": false,
+  "additionalEffect": true,
+  "move": null,
   "targets": {
     "damages": [2],
     "marks": [1],
     "differentSquare": false,
+    "sameSquare": false,
+    "isRoom": false,
     "differentPlayers": false,
-    "maxTargets": 1
+    "maxTargets": 1,
+    "forcedChoice": false
   }
 }

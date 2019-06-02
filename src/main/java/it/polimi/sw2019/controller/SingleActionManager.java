@@ -91,6 +91,8 @@ public class SingleActionManager {
                 turnManager.endTurn();
                 break;
             default:
+                System.console().printf("TYPE OF ACTION UNKNOWN");
+                break;
         }
     }
 
@@ -220,6 +222,7 @@ public class SingleActionManager {
         //Discarding the powerup from the player hand
         match.getPlayerByUsername(message.getUsername()).usePoweup(choices.getSelectedPowerup());
         match.getBoard().discardPowerup(choices.getSelectedPowerup());
+        match.notifyPrivateHand(match.getPlayerByUsername(message.getUsername()));
 
         //resetting the powerup choices
         choices.resetEverything();
@@ -299,12 +302,33 @@ public class SingleActionManager {
         // removing the already executed effects
         usableEffects.removeAll(choices.getUsedEffect());
 
+        // if I just used an additional effect then I can't use any other effect except for move type effects
+        if ( choices.getCurrentEffect().isAdditionalEffect() ){
+
+            for (Effect effect: usableEffects){
+
+                if (effect.getType() != EffectsKind.MOVE){
+
+                    usableEffects.remove(effect);
+                }
+            }
+        }
+
+        // this if is to make sure that I don't give the possibility to the player to choose again an effect that he has already chosen
+        // I may have this problem for every weapon with a move effect (except for cyberblade, the only weapon with hasAnOrder)
+        if (choices.getCurrentEffect().getType() == EffectsKind.MOVE && !choices.getSelectedWeapon().hasAnOrder() && !usableEffects.isEmpty()){
+
+            usableEffects.clear();
+        }
+
         // I don't have any effect to execute
         if ( usableEffects.isEmpty() ){
 
             //setting the weapon to null after having unloaded it
             choices.getSelectedWeapon().unloadWeapon();
+            match.notifyPrivateHand(match.getCurrentPlayer());
             choices.setSelectedWeapon(null);
+            choices.getUsedEffect().clear();
             reducePlayerNumberOfActions();
         }
 

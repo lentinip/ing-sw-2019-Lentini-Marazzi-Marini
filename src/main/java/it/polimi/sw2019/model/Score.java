@@ -5,9 +5,8 @@ import java.util.*;
 public class Score extends Tokens {
 
     /**
-     * Default constructor
+     * Customized constructor
      */
-
     public Score(List<Character> charactersInGame, KillTokens killTrack) {
         super(charactersInGame);
         this.killTrack = killTrack;

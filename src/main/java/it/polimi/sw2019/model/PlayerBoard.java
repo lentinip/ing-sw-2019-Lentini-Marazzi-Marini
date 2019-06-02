@@ -1,6 +1,9 @@
 package it.polimi.sw2019.model;
 
+import it.polimi.sw2019.network.messages.PlayerBoardMessage;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class PlayerBoard {
@@ -8,11 +11,16 @@ public class PlayerBoard {
     /**
      * Default constructor
      */
-    public PlayerBoard(){
+    public PlayerBoard(){}
 
-        setFirstPlayer(false);
-        setFlipped(false);
-        setNumOfDeaths(0);
+    /**
+     * customized constructor
+     * @param charactersInGame players
+     */
+    public PlayerBoard(List<Character> charactersInGame){
+
+        damage = new DamageTokens(charactersInGame);
+        marks = new Marks(charactersInGame);
     }
 
     /* Attributes */
@@ -27,7 +35,7 @@ public class PlayerBoard {
 
     private int numOfDeaths = 0;
 
-    private Ammo ammo;
+    private Ammo ammo = new Ammo();
 
 
     /* Methods */
@@ -155,6 +163,22 @@ public class PlayerBoard {
             }
         }
 
+    }
+
+    public PlayerBoardMessage createPlayerBoard(){
+
+        PlayerBoardMessage playerBoardMessage = new PlayerBoardMessage();
+
+        playerBoardMessage.setDamageSequence(damage.getDamageSequence());
+        playerBoardMessage.setMarkSequence(marks.getMarkSequence());
+        playerBoardMessage.setFirstPlayer(isFirstPlayer());
+        playerBoardMessage.setFlipped(isFlipped());
+        playerBoardMessage.setNumOfDeaths(numOfDeaths);
+        playerBoardMessage.setRedAmmo(ammo.getRed());
+        playerBoardMessage.setBlueAmmo(ammo.getBlue());
+        playerBoardMessage.setYellowAmmo(ammo.getYellow());
+
+        return playerBoardMessage;
     }
 
 }

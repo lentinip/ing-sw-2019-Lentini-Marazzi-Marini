@@ -1,0 +1,22 @@
+{
+  "name": "in piercing mode",
+  "description": null,
+  "cost":null,
+  "type": "MULTIPLE_TARGET",
+  "visibility": "RAILGUN",
+  "movesAway": [0],
+  "exactly": false,
+  "sameDirection": false,
+  "additionalEffect": true,
+  "move": null,
+  "targets": {
+    "damages": [2, 2],
+    "marks": [0, 0],
+    "differentSquares": false,
+    "sameSquare": false,
+    "isRoom": false,
+    "differentPlayers":false,
+    "maxTargets": 2,
+    "forcedChoice": false
+  }
+}

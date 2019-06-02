@@ -36,8 +36,6 @@ public class WeaponFactory {
 
     private boolean hasAMoveTypeEffect;
 
-    private Target targets;
-
     /* Methods */
 
     public void setName(String name) {
@@ -102,14 +100,6 @@ public class WeaponFactory {
 
     public boolean isHasAMoveTypeEffect() {
         return hasAMoveTypeEffect;
-    }
-
-    public Target getTargets() {
-        return targets;
-    }
-
-    public void setTargets(Target targets) {
-        this.targets = targets;
     }
 
     /**
