@@ -67,6 +67,14 @@ public class Board {
         this.rooms = rooms;
     }
 
+    public List<Weapon> getWeaponsDeck() {
+        return weaponsDeck;
+    }
+
+    public List<Powerup> getPowerupsDeck() {
+        return powerupsDeck;
+    }
+
     public List<Room> getRooms() {
         return rooms;
     }

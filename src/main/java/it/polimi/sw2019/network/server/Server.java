@@ -5,11 +5,9 @@ import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.TypeOfMessage;
 import it.polimi.sw2019.network.server.rmi.RmiServer;
 import it.polimi.sw2019.network.server.socket.SocketServer;
-import it.polimi.sw2019.network.server.Client;
 
 import java.rmi.RemoteException;
 import java.security.InvalidParameterException;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,6 +41,7 @@ public class Server {
 
     private static Logger LOGGER = Logger.getLogger("server");
 
+
     /* Methods */
 
     public static void main(String[] args) {
@@ -54,15 +53,6 @@ public class Server {
 
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
-            server.getWaitingRoom().getTimer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-
-                    server.startMatch();
-                }
-            }, 2*60*1000);  //time is in milliseconds
-            //after 2 minutes the main server tries to start the match, if the number of players is 2 or less, the timer will be restarted
-
     }
 
     public void setRmiPort(int rmiPort) {
@@ -77,25 +67,11 @@ public class Server {
         return waitingRoom;
     }
 
-
     public void startMatch() {
 
-        //if the players aren't enough to start the match, the timer will be reset and the method ends
-        if(waitingRoom.getNumOfWaitingPlayers() < 3) {
+        // a message with the match set up has to be sent to the first player of the waitingPLayers
+        //TODO implement
 
-            waitingRoom.getTimer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-
-                    startMatch();
-                }
-            }, 2*60*1000);
-        }
-        else {
-
-            //TODO implement
-
-        }
     }
 
     public void addPlayer(String username, ClientInterface clientInterface) {
@@ -146,7 +122,12 @@ public class Server {
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
 
-            if(waitingRoom.getNumOfWaitingPlayers() == 5) {
+            if(waitingRoom.getNumOfWaitingPlayers() == 3){
+
+                waitingRoom.startTimer();
+            }
+
+            if (waitingRoom.getNumOfWaitingPlayers() == 5){
 
                 waitingRoom.getTimer().cancel();
                 startMatch();
@@ -156,10 +137,17 @@ public class Server {
 
     public void handleMessage() {
 
+        //TODO implement
 
     }
 
     public void removeWaitingPlayer(String username) {
+
+        //I have to reset the timer if I don't have 3 players anymore
+        if (waitingRoom.getNumOfWaitingPlayers() == 3){
+
+            waitingRoom.getTimer().cancel();
+        }
 
         waitingRoom.removeWaitingPlayer(username);
     }

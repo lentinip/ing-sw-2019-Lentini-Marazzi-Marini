@@ -27,6 +27,8 @@ public class AmmoTileFactory {
 
     private AmmoTile ammoTileKind;
 
+    /* Methods */
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
@@ -42,8 +44,6 @@ public class AmmoTileFactory {
     public AmmoTile getAmmoTile() {
         return ammoTileKind;
     }
-
-    /* Methods */
 
     public List<AmmoTile> createAmmoTiles(){
 

@@ -8,16 +8,9 @@ import it.polimi.sw2019.view.ViewInterface;
 public class Client {
 
     /**
-     *  Default constructor
+     * default constructor
      */
-    public Client() {
-
-    }
-
-    public Client(ViewInterface view){
-
-        setView(view);
-    }
+    public Client(){}
 
     /* Attributes */
 
@@ -28,6 +21,8 @@ public class Client {
     private String ipAddress;
 
     private String username;
+
+    private boolean rmi; //tells what kind of connection he is using
 
     /* Methods */
 
@@ -63,6 +58,33 @@ public class Client {
         this.view = view;
     }
 
+    public boolean isRmi() {
+        return rmi;
+    }
+
+    public void setRmi(boolean rmi) {
+        this.rmi = rmi;
+    }
+
+
+    public static void main(String[] args){
+
+        if (args[0].equals("cli")){
+
+            //TODO run cli
+        }
+
+        else if (args[0].equals("gui")){
+
+            //TODO run gui
+        }
+
+        else {
+
+            System.console().printf("After the name of the program write 'cli' if you want to use the console, 'gui' if you want to use the gui interface");
+        }
+    }
+
     /**
      * this method analyzes the message received and calls the correct method of the view interface to display
      * the correct information on the cli/gui
@@ -73,8 +95,16 @@ public class Client {
 
         switch (message.getTypeOfMessage()){
 
+            case LOGIN_REPORT:
+                if (message.deserializeLoginReport().getLoginSuccessful()){
+                    view.displayLoginSuccesful();
+                }
+                else {
+                    view.displayUsernameNotAvailable();
+                }
+                break;
             case MATCH_START:
-                //TODO implement
+                view.displayMatchStart(message.deserializeMatchStart());
                 break;
             case CAN_I_SHOOT:
                 view.displayCanIShoot(message.deserializeBooleanMessage().isAnswer());
@@ -105,6 +135,9 @@ public class Client {
                 break;
             case END_MATCH:
                 view.displayEndMatchLeaderBoard(message.deserializeLeaderBoard());
+                break;
+            case DISCONNECTED:
+                view.displayPlayerDisconnectedWindow(message.deserializeIndexMessage().getSelectionIndex());
                 break;
             default:
                 System.console().printf("TYPE OF MESSAGE UNKNOWN");
@@ -183,6 +216,19 @@ public class Client {
         }
     }
 
+
+    public void send(Message messageToSend){
+
+        if (rmi){
+
+            //TODO call the send message of RMI
+        }
+
+        else {
+
+            //TODO call the send message of socket (param always messageToSend
+        }
+    }
 
 
 }

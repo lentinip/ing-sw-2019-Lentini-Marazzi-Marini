@@ -1,6 +1,6 @@
 package it.polimi.sw2019.model;
 
-import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.network.messages.*;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -45,6 +45,7 @@ public class Match extends Observable {
         setEasyMode(easyMode);
         setNumberOfPlayers(usernames.size());
         currentPlayer = players.get(0);
+        notifyMatchState();
     }
 
     /* Attributes */
@@ -321,14 +322,18 @@ public class Match extends Observable {
 
                  board.updateKillTrack(players.get(i));
 
+                 notifyMatchState();
+
                  playerBoard.getDamage().reset();
+
+                 notifyMatchState();
 
                  /* if a player dies during frenzy his board is flipped */
 
                  if ((killTokens.getTotalKills() >= 8 && iWantFrenzyMode && !easyMode) || (easyMode && killTokens.getTotalKills() >= 5 && iWantFrenzyMode )) {
 
                      playerBoard.setFlipped(true);
-
+                     notifyMatchState();
                  }
 
                  deadPlayers.add(players.get(i));
@@ -369,6 +374,12 @@ public class Match extends Observable {
 
         }
 
+        // if the player has done a multiple kill he gets one extra point
+        if (deadPlayers.size() > 1){
+
+            score.addPoints(1, currentPlayer.getCharacter());
+        }
+
         else if ((killTokens.getTotalKills() >= 8 && !iWantFrenzyMode && !easyMode) || (killTokens.getTotalKills() >= 5 && !iWantFrenzyMode && easyMode) ){
 
             endMatch();
@@ -381,20 +392,53 @@ public class Match extends Observable {
 
     public void notifyMatchState(){
         Message message = new Message("All");
-
-        //TODO implementation - send the MatchState
-
+        message.createMessageMatchState(createMatchState());
         setChanged();
         notifyObservers(message);
     }
 
     public void notifyPrivateHand(Player player){
         Message message = player.notifyPrivateHand();
-
         setChanged();
         notifyObservers(message);
-
         notifyMatchState();
+    }
+
+    public MatchState createMatchState(){
+
+        MatchState currentMatchState = new MatchState();
+        List<Cell> allCells = board.getField();
+        List<MessageCell> messageCells = new ArrayList<>();
+
+        for (Cell cell: allCells){
+
+            messageCells.add(cell.createMessageCell());
+        }
+
+        currentMatchState.setCells(messageCells);
+
+        List<PlayerBoardMessage> playerBoardMessages = new ArrayList<>();
+
+        for (Player player: players){
+
+            playerBoardMessages.add(player.getPlayerBoard().createPlayerBoard());
+        }
+
+        currentMatchState.setPlayerBoardMessages(playerBoardMessages);
+        currentMatchState.setCurrentPlayerLeftActions(currentPlayerLeftActions);
+        List<PlayerHand> playerHands = new ArrayList<>();
+
+        for (Player player: players){
+
+            playerHands.add(player.createPlayerHand());
+        }
+        currentMatchState.setPlayerHands(playerHands);
+        currentMatchState.setKillSequence(board.getKillTrack().getKillSequence());
+        currentMatchState.setOverkillSequence(board.getKillTrack().getOverkillSequence());
+        currentMatchState.setWeaponsDeckSize(board.getWeaponsDeck().size());
+        currentMatchState.setPowerupsDeckSize(board.getPowerupsDeck().size());
+        currentMatchState.setCurrentPlayer(currentPlayer.getCharacter());
+        return currentMatchState;
     }
 
 }

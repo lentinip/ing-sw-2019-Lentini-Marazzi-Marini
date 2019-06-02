@@ -100,6 +100,14 @@ public class Controller implements Observer {
             turnManager.getSingleActionManager().getPayment().paymentHandler(message);
         }
 
+        //case match is ended for disconnected players
+        else if (typeOfMessage == END_MATCH){
+
+            //calling the end match method of the model
+            match.endMatch();
+            turnManager.endTurn();
+        }
+
         else {
 
             System.out.println("type of message attribute not initialized");

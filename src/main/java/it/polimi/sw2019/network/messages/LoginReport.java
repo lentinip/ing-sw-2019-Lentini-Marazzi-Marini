@@ -2,12 +2,6 @@ package it.polimi.sw2019.network.messages;
 
 public class LoginReport {
 
-    /**
-     * Default constructor
-     */
-    public LoginReport() {
-
-    }
 
     public LoginReport(Boolean loginSuccessful) {
 

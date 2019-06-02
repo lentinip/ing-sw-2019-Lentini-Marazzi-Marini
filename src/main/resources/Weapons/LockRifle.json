@@ -1,5 +1,5 @@
 {
-  "name" : "LOCK RIFLE",
+  "name" : "LOCKRIFLE",
   "Description" : "basic effect: Deal 2 damage and 1 mark to 1 target you can see. with second lock: Deal 1 mark to a different target you can see.",
   "grabCost" : {
     "red" : 0,

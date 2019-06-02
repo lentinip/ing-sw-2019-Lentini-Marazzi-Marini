@@ -222,6 +222,7 @@ public class SingleActionManager {
         //Discarding the powerup from the player hand
         match.getPlayerByUsername(message.getUsername()).usePoweup(choices.getSelectedPowerup());
         match.getBoard().discardPowerup(choices.getSelectedPowerup());
+        match.notifyPrivateHand(match.getPlayerByUsername(message.getUsername()));
 
         //resetting the powerup choices
         choices.resetEverything();
@@ -325,6 +326,7 @@ public class SingleActionManager {
 
             //setting the weapon to null after having unloaded it
             choices.getSelectedWeapon().unloadWeapon();
+            match.notifyPrivateHand(match.getCurrentPlayer());
             choices.setSelectedWeapon(null);
             choices.getUsedEffect().clear();
             reducePlayerNumberOfActions();

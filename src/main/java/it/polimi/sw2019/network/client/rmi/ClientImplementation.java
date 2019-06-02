@@ -17,7 +17,8 @@ public class ClientImplementation implements ClientInterface {
 
     /* Attributes */
 
-    Client client = new Client();
+    private Client client;
+
 
     /* Methods */
 

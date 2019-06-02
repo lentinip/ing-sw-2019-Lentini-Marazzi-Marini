@@ -10,6 +10,29 @@ public abstract class ViewInterface {
 
     /* Methods */
 
+
+    /**
+     * shows an allert to tell that a player is disconnected
+     * @param indexOfTheDisconnected index
+     */
+    public abstract void displayPlayerDisconnectedWindow(int indexOfTheDisconnected);
+
+    /**
+     * shows a window that tells if the username is not available
+     */
+    public abstract void displayUsernameNotAvailable();
+
+    /**
+     * shows the window after the login one
+     */
+    public abstract void displayLoginSuccesful();
+
+    /**
+     * displays for the first time the board with all setting chosen
+     * @param matchStart info about the match setting
+     */
+    public abstract void displayMatchStart(MatchStart matchStart);
+
     /**
      * show the window with the possible actions
      * @param answer if answer is false player can't click on shoot action

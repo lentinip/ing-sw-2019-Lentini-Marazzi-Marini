@@ -100,19 +100,4 @@ public class TestWeaponFactory {
         assertTrue(weaponFactory.isHasAMoveTypeEffect());
     }
 
-    @Test
-    public void testSetTargets() {
-
-        WeaponFactory weaponFactory = new WeaponFactory();
-
-        Target target = new Target();
-        target.setDifferentSquares(true);
-        target.setSameSquare(true);
-        target.setSameSquare(false);
-        target.setMaxTargets(5);
-
-        weaponFactory.setTargets(target);
-
-        assertEquals(target, weaponFactory.getTargets());
-    }
 }

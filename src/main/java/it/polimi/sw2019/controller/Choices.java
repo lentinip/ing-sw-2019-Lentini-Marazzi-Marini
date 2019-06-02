@@ -247,6 +247,10 @@ public class Choices {
                 singleActionManager.getTurnManager().spawn(match.getPlayerByUsername(message.getUsername()), index.getSelectionIndex());
                 break;
             case USEPOWERUP:
+
+                //stopping the timer because we got a response
+                view.getResponseTimer().cancel();
+
                 // the player has actually selected a real powerup
                 if (message.deserializeIndexMessage().getSelectionIndex() >= 0){
 
@@ -330,7 +334,7 @@ public class Choices {
     public  void usePowerupHandler(Message message){
 
         Message answer = new Message(message.getUsername());
-        selectedPlayer = match.getPlayerByCharacter(message.deserializePlayersMessage().getCharacters().get(0));
+        selectedPlayer = match.getPlayers().get(message.deserializeIndexMessage().getSelectionIndex());
 
         // if newton I'll return the cells where I can move the selected player
         if (selectedPowerup.isDuringYourTurn() && !selectedPowerup.isDuringDamageAction() && selectedPowerup.getMove() != null){
@@ -353,6 +357,7 @@ public class Choices {
             // removing the powerup from the player hand and putting it into the discarded pile
             match.getCurrentPlayer().usePoweup(selectedPowerup);
             match.getBoard().discardPowerup(selectedPowerup);
+            match.notifyPrivateHand(match.getCurrentPlayer());
 
             // checking if the player has other targeting scope powerups
             List<Powerup> availablePowerups = match.getCurrentPlayer().getPowerupsAfterShoot();
@@ -527,6 +532,8 @@ public class Choices {
 
             // adding that powerup to the discarded pile
             match.getBoard().discardPowerup(selectedPowerup);
+
+            match.notifyPrivateHand(player);
 
             damagedPlayers.remove(player);
 
@@ -1062,6 +1069,8 @@ public class Choices {
 
         // no more players can use tagback grenade
         if (nextPlayers.isEmpty()){
+
+            view.setMessageSender(match.getCurrentPlayer().getName());
             singleActionManager.endShootingAction();
         }
 
@@ -1078,6 +1087,9 @@ public class Choices {
                 }
             }
 
+            //updating the message sender in the view so we can manage the case he does not reply and starting the timer
+            view.setMessageSender(message.getUsername());
+            view.startResponseMessage();
             message.createAvailableCardsMessage(TypeOfAction.USEPOWERUP, usablePowerups, false);
             view.display(message);
         }

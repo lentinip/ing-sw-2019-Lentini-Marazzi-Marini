@@ -1,7 +1,6 @@
 package it.polimi.sw2019.network.messages;
 
 import com.google.gson.Gson;
-import it.polimi.sw2019.model.Board;
 import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.model.TypeOfAction;
 
@@ -169,6 +168,18 @@ public class Message implements Serializable {
         return gson.toJson(loginReport);
     }
 
+    public String  serializeLoginMessage(LoginMessage loginMessage){
+
+        Gson gson = new Gson();
+        return gson.toJson(loginMessage);
+    }
+
+    public MatchStart deserializeMatchStart(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, MatchStart.class);
+    }
+
     public BoardCoord deserializeBoardCoord(){
 
         Gson gson = new Gson();
@@ -253,7 +264,26 @@ public class Message implements Serializable {
         return gson.fromJson(jsonFile, AvailableEffects.class);
     }
 
+    public LoginReport deserializeLoginReport(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, LoginReport.class);
+    }
+
+    public LoginMessage deserializeLoginMessage(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, LoginMessage.class);
+    }
+
     /* the following methods are called to create different types of Message Class */
+
+    public void createLoginMessage(String username, boolean rmi){
+
+        setTypeOfMessage(TypeOfMessage.LOGIN_REPORT);
+        setTypeOfAction(TypeOfAction.NONE);
+        setJsonFile(serializeLoginMessage(new LoginMessage(username,rmi)));
+    }
 
     public void createMessageMatchState(MatchState matchState){
 
@@ -355,4 +385,61 @@ public class Message implements Serializable {
         LoginReport loginReport = new LoginReport(connected);
         setJsonFile(serializeLoginReport(loginReport));
     }
+
+    public void createSelectedCellMessage(BoardCoord cellSelected, TypeOfAction typeOfAction, TypeOfMessage typeOfMessage){
+
+        setTypeOfMessage(typeOfMessage);
+        setTypeOfAction(typeOfAction);
+        setJsonFile(serializeBoardCoord(cellSelected));
+    }
+
+    public void createSingleActionGrabWeapon(GrabWeapon grabWeapon){
+
+        setTypeOfMessage(TypeOfMessage.SINGLE_ACTION);
+        setTypeOfAction(TypeOfAction.GRABWEAPON);
+        setJsonFile(serializeGrabWeapon(grabWeapon));
+    }
+
+    public void createSingleActionReload(int weaponReloaded){
+
+        setTypeOfMessage(TypeOfMessage.SINGLE_ACTION);
+        setTypeOfAction(TypeOfAction.RELOAD);
+        setJsonFile(serializeIndexMessage(new IndexMessage(weaponReloaded)));
+    }
+
+    public void createSelectionForShoot(int selectedWeapon, TypeOfMessage typeOfMessage){
+
+        setTypeOfMessage(typeOfMessage);
+        setTypeOfAction(TypeOfAction.SHOOT);
+        setJsonFile(serializeIndexMessage(new IndexMessage(selectedWeapon)));
+    }
+
+    public void createSelectionForUsePowerup(int selectedPowerup){
+
+        setTypeOfMessage(TypeOfMessage.SELECTED_CARD);
+        setTypeOfAction(TypeOfAction.USEPOWERUP);
+        setJsonFile(serializeIndexMessage(new IndexMessage(selectedPowerup)));
+    }
+
+    public void createSelectedPlayer(int selectedCharacter, TypeOfAction typeOfAction){
+
+        setTypeOfMessage(TypeOfMessage.SELECTED_PLAYER);
+        setTypeOfAction(typeOfAction);
+        setJsonFile(serializeIndexMessage(new IndexMessage(selectedCharacter)));
+    }
+
+    public void createEndTurnMessage(){
+
+        setTypeOfMessage(TypeOfMessage.SINGLE_ACTION);
+        setTypeOfAction(TypeOfAction.ENDTURN);
+        setJsonFile(null);
+    }
+
+    public void createDisconnectionMessage(int userDisconnected){
+
+        setTypeOfMessage(TypeOfMessage.DISCONNECTED);
+        setTypeOfAction(TypeOfAction.NONE);
+        setJsonFile(serializeIndexMessage(new IndexMessage(userDisconnected)));
+    }
+
 }
