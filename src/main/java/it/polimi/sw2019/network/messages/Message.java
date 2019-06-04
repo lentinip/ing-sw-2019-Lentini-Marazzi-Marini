@@ -386,6 +386,14 @@ public class Message implements Serializable {
         setJsonFile(serializeLoginReport(loginReport));
     }
 
+    public void createLoginReport(int numOfPlayers) {
+
+        setTypeOfMessage(TypeOfMessage.LOGIN_REPORT);
+        setTypeOfAction(TypeOfAction.NONE);
+        LoginReport loginReport = new LoginReport(numOfPlayers);
+        setJsonFile(serializeLoginReport(loginReport));
+    }
+
     public void createSelectedCellMessage(BoardCoord cellSelected, TypeOfAction typeOfAction, TypeOfMessage typeOfMessage){
 
         setTypeOfMessage(typeOfMessage);

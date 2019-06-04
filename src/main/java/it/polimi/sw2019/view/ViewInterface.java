@@ -6,13 +6,22 @@ import it.polimi.sw2019.network.messages.*;
 
 import java.util.List;
 
-public abstract class ViewInterface {
+public interface ViewInterface {
 
     /* Methods */
 
+    /**
+     * first window the user see when he starts the application
+     */
+    public abstract void displayLoginWindow();
 
     /**
-     * shows an allert to tell that a player is disconnected
+     * when the turn timer elapses a reconnection window appears to ask to the player if he wants to reconnect
+     */
+    public abstract void displayReconnectionWindow();
+
+    /**
+     * shows an alert to tell that a player is disconnected
      * @param indexOfTheDisconnected index
      */
     public abstract void displayPlayerDisconnectedWindow(int indexOfTheDisconnected);
@@ -23,9 +32,9 @@ public abstract class ViewInterface {
     public abstract void displayUsernameNotAvailable();
 
     /**
-     * shows the window after the login one
+     * shows the window after the login the one with match setups
      */
-    public abstract void displayLoginSuccesful();
+    public abstract void displayLoginSuccessful(LoginReport loginReport);
 
     /**
      * displays for the first time the board with all setting chosen
