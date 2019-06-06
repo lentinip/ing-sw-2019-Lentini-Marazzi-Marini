@@ -1,5 +1,6 @@
 package it.polimi.sw2019.network.messages;
 
+import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.model.Match;
 
 import java.util.ArrayList;
@@ -18,13 +19,14 @@ public class MatchStart {
     /**
      * customize constructor
      */
-    public MatchStart(String boardType, List<String> usernames, List<Character> characters, boolean eightSkulls, boolean frenzy){
+    public MatchStart(Message matchSetUpMessage, List<String> usernames, List<Character> characters){
 
-        setBoardType(boardType);
+        MatchSetup matchSetup = matchSetUpMessage.deserializeMatchSetup();
+        setBoardType(matchSetup.getBoardJsonName());
+        setFrenzy(matchSetup.isFrenzy());
+        setEightSkulls(matchSetup.isEightSkulls());
         setUsernames(usernames);
         setCharacters(characters);
-        setEightSkulls(eightSkulls);
-        setFrenzy(frenzy);
     }
 
     /* Attributes */

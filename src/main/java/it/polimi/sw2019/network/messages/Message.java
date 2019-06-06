@@ -279,11 +279,11 @@ public class Message implements Serializable {
 
     /* the following methods are called to create different types of Message Class */
 
-    public void createLoginMessage(String username, boolean rmi, ClientInterface clientInterface){
+    public void createLoginMessage(String username, boolean rmi){
 
         setTypeOfMessage(TypeOfMessage.LOGIN_REPORT);
         setTypeOfAction(TypeOfAction.NONE);
-        setJsonFile(serializeLoginMessage(new LoginMessage(username,rmi, clientInterface)));
+        setJsonFile(serializeLoginMessage(new LoginMessage(username,rmi)));
     }
 
     public void createMessageMatchState(MatchState matchState){
@@ -384,6 +384,14 @@ public class Message implements Serializable {
         setTypeOfMessage(TypeOfMessage.LOGIN_REPORT);
         setTypeOfAction(TypeOfAction.NONE);
         LoginReport loginReport = new LoginReport(connected);
+        setJsonFile(serializeLoginReport(loginReport));
+    }
+
+    public void createLoginReport(int numOfPlayers) {
+
+        setTypeOfMessage(TypeOfMessage.LOGIN_REPORT);
+        setTypeOfAction(TypeOfAction.NONE);
+        LoginReport loginReport = new LoginReport(numOfPlayers);
         setJsonFile(serializeLoginReport(loginReport));
     }
 

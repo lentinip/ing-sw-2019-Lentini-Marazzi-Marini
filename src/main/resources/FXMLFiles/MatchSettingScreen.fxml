@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1125.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1125.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.MatchSettingController">
    <children>
       <ImageView fitHeight="750.0" fitWidth="1125.0" opacity="0.2">
          <image>
@@ -43,6 +43,16 @@
                               <Insets top="10.0" />
                            </HBox.margin>
                         </CheckBox>
+                        <Label text="Number of players in the match:">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="500.0" right="10.0" top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="labelNumberOfPlayers" text="#">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </HBox.margin>
+                        </Label>
                      </children>
                   </HBox>
                   <HBox prefHeight="35.0" prefWidth="200.0">
@@ -83,7 +93,7 @@
                                  <children>
                                     <ImageView fitHeight="150.0" fitWidth="200.0">
                                        <image>
-                                          <Image url="@../images/goodForAnyNumberOfPlayers.png" />
+                                          <Image url="@../images/Board1.png" />
                                        </image>
                                        <VBox.margin>
                                           <Insets />
@@ -110,7 +120,7 @@
                                  <children>
                                     <ImageView fitHeight="150.0" fitWidth="200.0">
                                        <image>
-                                          <Image url="@../images/goodFor3Or4Players.png" />
+                                          <Image url="@../images/Board4.png" />
                                        </image>
                                     </ImageView>
                                     <RadioButton fx:id="board3players" mnemonicParsing="false" text="good for 3 or 4 players" toggleGroup="$boardGroup">
@@ -131,7 +141,7 @@
                                  <children>
                                     <ImageView fitHeight="150.0" fitWidth="200.0">
                                        <image>
-                                          <Image url="@../images/goodFor4Or5Players.png" />
+                                          <Image url="@../images/Board2.png" />
                                        </image>
                                     </ImageView>
                                     <RadioButton fx:id="board4players" mnemonicParsing="false" text="good for 4 or 5 players" toggleGroup="$boardGroup">
@@ -145,7 +155,19 @@
                         </Pane>
                         <Pane GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <VBox prefHeight="200.0" prefWidth="450.0" />
+                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="450.0">
+                                 <children>
+                                    <ImageView fitHeight="150.0" fitWidth="200.0">
+                                       <image>
+                                          <Image url="@../images/Board4.png" />
+                                       </image>
+                                    </ImageView>
+                                    <RadioButton fx:id="board3players1" mnemonicParsing="false" text="generic" toggleGroup="$boardGroup">
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </RadioButton>
+                                 </children></VBox>
                            </children>
                         </Pane>
                      </children>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="533.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.OtherPlayerHandController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#000203" height="533.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
+      <ImageView fitHeight="533.0" fitWidth="800.0" layoutY="-1.0" opacity="0.5">
+         <image>
+            <Image url="@../images/StartScreenLogo.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="-1.0" layoutY="-1.0" prefHeight="129.0" prefWidth="800.0" style="-fx-background-color: #404040; -fx-alignment: center;" text="Username" textFill="#ddd2d2" wrapText="true">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="263.0" layoutX="-7.0" layoutY="198.0" opacity="0.4" stroke="WHITE" strokeType="INSIDE" width="807.0" />
+      <ImageView fitHeight="238.0" fitWidth="177.0" layoutX="27.0" layoutY="207.0" preserveRatio="true">
+         <image>
+            <Image url="@../images/cards/AD_weapons_IT_02.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="139.0" fitWidth="77.0" layoutX="540.0" layoutY="324.0" preserveRatio="true">
+         <image>
+            <Image url="@../images/cards/AD_powerups_IT_02.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="238.0" fitWidth="177.0" layoutX="195.0" layoutY="207.0" preserveRatio="true">
+         <image>
+            <Image url="@../images/cards/AD_weapons_IT_02.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="238.0" fitWidth="177.0" layoutX="359.0" layoutY="207.0" preserveRatio="true">
+         <image>
+            <Image url="@../images/cards/AD_weapons_IT_02.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="139.0" fitWidth="77.0" layoutX="625.0" layoutY="324.0" preserveRatio="true">
+         <image>
+            <Image url="@../images/cards/AD_powerups_IT_02.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="139.0" fitWidth="77.0" layoutX="709.0" layoutY="324.0" preserveRatio="true">
+         <image>
+            <Image url="@../images/cards/AD_powerups_IT_02.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

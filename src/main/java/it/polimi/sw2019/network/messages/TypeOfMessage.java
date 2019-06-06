@@ -24,5 +24,6 @@ public enum TypeOfMessage {
     PAYMENT,
     END_MATCH,
     LOGIN_REPORT,
-    DISCONNECTED
+    DISCONNECTED,
+    RECONNECTION_REQUEST
 }

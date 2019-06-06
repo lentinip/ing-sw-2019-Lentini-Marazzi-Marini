@@ -67,7 +67,7 @@ public class SocketClientConnection implements ClientInterface, ClientActions {
     @Override
     public void register(String username) {
 
-        loginMessage.createLoginMessage(username, false, this);
+        //loginMessage.createLoginMessage(username, false, this);
         doSomething(loginMessage);
     }
 

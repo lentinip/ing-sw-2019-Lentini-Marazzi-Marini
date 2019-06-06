@@ -8,9 +8,17 @@ public class LoginReport {
         setLoginSuccessful(loginSuccessful);
     }
 
+    public LoginReport(int numberOfPlayers){
+
+        setNumberOfPlayers(numberOfPlayers);
+        setLoginSuccessful(true);
+    }
+
     /* Attributes */
 
     private Boolean loginSuccessful;
+
+    private int numberOfPlayers;
 
     /* Methods */
 
@@ -20,5 +28,13 @@ public class LoginReport {
 
     public Boolean getLoginSuccessful() {
         return loginSuccessful;
+    }
+
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+    }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
     }
 }

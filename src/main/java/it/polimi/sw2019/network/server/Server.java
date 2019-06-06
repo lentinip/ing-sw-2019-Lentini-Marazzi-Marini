@@ -1,6 +1,9 @@
 package it.polimi.sw2019.network.server;
 
+import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.network.client.ClientInterface;
+import it.polimi.sw2019.network.messages.MatchSetup;
+import it.polimi.sw2019.network.messages.MatchStart;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.TypeOfMessage;
 import it.polimi.sw2019.network.server.rmi.RmiServer;
@@ -10,6 +13,8 @@ import java.rmi.RemoteException;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -73,9 +78,9 @@ public class Server {
 
     public void startMatch() {
 
-        // a message with the match set up has to be sent to the first player of the waitingPLayers
-        //TODO implement
-
+        Message loginReport = new Message(waitingRoom.getUserNames().get(0));
+        loginReport.createLoginReport(waitingRoom.getUserNames().size());
+        sendMessage(loginReport);
     }
 
     /**
@@ -136,7 +141,7 @@ public class Server {
                 waitingRoom.startTimer();
             }
 
-            if (waitingRoom.getNumOfWaitingPlayers() == 5){
+            else if (waitingRoom.getNumOfWaitingPlayers() == 5){
 
                 waitingRoom.getTimer().cancel();
                 startMatch();
@@ -150,22 +155,69 @@ public class Server {
      */
     public void handleMessage(Message message) {
 
-        if(waitingRoom.getWaitingPlayers().containsKey(message.getUsername()) && !waitingRoom.getWaitingPlayers().get(message.getUsername()).getConnected()) {
+        if (waitingRoom.getWaitingPlayers().containsKey(message.getUsername()) && !waitingRoom.getWaitingPlayers().get(message.getUsername()).getConnected()) {
+            if (message.getTypeOfMessage() == TypeOfMessage.LOGIN_REPORT) {
 
-            if(message.getTypeOfMessage() == TypeOfMessage.LOGIN_REPORT) {
-
-                addPlayer(message.deserializeLoginMessage().getUsername(), message.deserializeLoginMessage().getClientInterface());
-            } else
-            {
+                //addPlayer(message.deserializeLoginMessage().getUsername(), message.deserializeLoginMessage().getClientInterface());
+            } else {
                 //do nothing
             }
-        }
-        else{
+        } else {
 
             waitingRoom.notify(message);
         }
         //TODO implement
+    }
+    /**
+     * send a message to the specific client in the username field of the message
+     * @param message to be sent
+     */
+    public void sendMessage(Message message){
 
+    }
+
+    /**
+     * send a message to all clients (except for disconnected ones)
+     * @param message to be sent
+     */
+    public void sendAll(Message message){
+
+        //TODO implement
+
+    }
+
+    /**
+     * this method receive messages from clients and send them to the VirtualView, also check the message received
+     * and do stuff based on the type of message
+     * @param message
+     */
+    public void receiveMessage(Message message){
+
+        //when the first player chooses the setup options we send to everyOne a message with the choices that the player has taken
+        if (message.getTypeOfMessage() == TypeOfMessage.MATCH_SETUP){
+
+            Message matchStart = new Message("All");
+
+            List<Character> charactersInGame = new ArrayList<>();
+            int counter = 3; /* set to 3 because the smaller number of player allowed is 3 */
+
+            charactersInGame.add(Character.DISTRUCTOR);
+            charactersInGame.add(Character.BANSHEE);
+            charactersInGame.add(Character.DOZER);
+
+            if (counter < waitingRoom.getNumOfWaitingPlayers()) {           /* if there are 4 players adding violet */
+                charactersInGame.add(Character.VIOLET);
+                counter++;
+            }
+            if (counter < waitingRoom.getNumOfWaitingPlayers()) {          /* if there are 5 players adding also sprog */
+                charactersInGame.add(Character.SPROG);
+            }
+            MatchStart matchStartClass = new MatchStart(message, waitingRoom.getUsernames(), charactersInGame);
+            matchStart.createMessageMatchStart(matchStartClass);
+            sendAll(matchStart);
+        }
+
+        waitingRoom.notify(message);
     }
 
     /**

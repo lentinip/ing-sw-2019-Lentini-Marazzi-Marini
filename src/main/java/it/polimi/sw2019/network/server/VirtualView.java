@@ -46,6 +46,8 @@ public class VirtualView extends Observable implements Observer {
 
     private String messageSender; //who has sent me last message, used to manage timer elapsed cases
 
+    private String currentPlayer; //the player that is taking the turn
+
     private static long matchCreationTimer;
 
     private static long turnTimer;  //used for the duration of the turn
@@ -60,6 +62,14 @@ public class VirtualView extends Observable implements Observer {
 
 
     /* Methods */
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(String currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
 
     public Timer getTimer() {
         return timer;
@@ -209,6 +219,7 @@ public class VirtualView extends Observable implements Observer {
             public void run() {
 
                 addDisconnectedPlayer(currentPlayer);
+                sendReconnectionRequest(currentPlayer);
                 sendEndTurnMessage();
             }
         }, turnTimer);
@@ -223,6 +234,13 @@ public class VirtualView extends Observable implements Observer {
         Message endTurnMessage = new Message(messageSender);
         endTurnMessage.createEndTurnMessage();
         notify(endTurnMessage);
+    }
+
+    public void sendReconnectionRequest(String currentPlayer){
+
+       Message reconnectionRequest = new Message(currentPlayer);
+       reconnectionRequest.setTypeOfMessage(TypeOfMessage.RECONNECTION_REQUEST);
+       display(reconnectionRequest);
     }
 
     public void startResponseMessage(){
@@ -248,30 +266,22 @@ public class VirtualView extends Observable implements Observer {
         notify(noMessage);
     }
 
+    /**
+     * send the message to the client, if username is "All", send the message to all the clients,
+     * otherwise send it to the specific client
+     * consider if the client is disconnected and send an automatic response to the controller
+     * @param message to be sent
+     */
     public void display(Message message){
 
         if (message.getUsername().equals("All")){
 
-            for(String username : waitingPlayers.keySet()) {
 
-                try {
-
-                    waitingPlayers.get(username).getClientInterface().notify(message);
-                } catch (RemoteException e) {
-
-                    waitingPlayers.get(username).setConnected(false);
-                    addDisconnectedPlayer(username);
-                }
-            }
         }
 
         else {
-            try {
-                waitingPlayers.get(message.getUsername()).getClientInterface().notify(message);
-            } catch (RemoteException e) {
 
-                //TODO manage exception
-            }
+
         }
     }
 

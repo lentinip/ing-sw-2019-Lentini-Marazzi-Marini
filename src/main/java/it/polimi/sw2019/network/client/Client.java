@@ -5,6 +5,7 @@ import it.polimi.sw2019.network.client.rmi.RmiClient;
 import it.polimi.sw2019.network.client.socket.SocketClientConnection;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.TypeOfMessage;
+import it.polimi.sw2019.view.CLI;
 import it.polimi.sw2019.view.ViewInterface;
 
 import java.rmi.NotBoundException;
@@ -21,7 +22,7 @@ public class Client {
 
     /* Attributes */
 
-    private ViewInterface view;  // abstract class useful to show objects both on the gui and on the cli
+    private static ViewInterface view;  // abstract class useful to show objects both on the gui and on the cli
 
     private Message lastMessage;  // here I save the last message received
 
@@ -80,9 +81,13 @@ public class Client {
 
     public static void main(String[] args){
 
+        Client client = new Client();
+
         if (args[0].equals("cli")){
 
-            //TODO run cli
+            CLI cli = new CLI(client);
+
+            cli.displayLoginWindow();
         }
 
         else if (args[0].equals("gui")){
@@ -127,7 +132,7 @@ public class Client {
 
             case LOGIN_REPORT:
                 if (message.deserializeLoginReport().getLoginSuccessful()){
-                    view.displayLoginSuccesful();
+                    view.displayLoginSuccessful(message.deserializeLoginReport());
                 }
                 else {
                     view.displayUsernameNotAvailable();
@@ -168,6 +173,9 @@ public class Client {
                 break;
             case DISCONNECTED:
                 view.displayPlayerDisconnectedWindow(message.deserializeIndexMessage().getSelectionIndex());
+                break;
+            case RECONNECTION_REQUEST:
+                view.displayReconnectionWindow();
                 break;
             default:
                 System.console().printf("TYPE OF MESSAGE UNKNOWN");

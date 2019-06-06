@@ -3,6 +3,7 @@ package it.polimi.sw2019.view.gui;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +29,7 @@ public class GUI extends Application {
         //TODO implementation
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/Board.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/BoardScreen.fxml"));
 
         Parent board = fxmlLoader.load();
 
@@ -68,6 +69,33 @@ public class GUI extends Application {
         newWindow.setScene(scene);
         newWindow.show();
     }
+
+    public void alertAlreadyUsedUsername() {
+        createAlertWarning("The username you chose is already in use. Please choose another one.");
+    }
+
+    public void alertPlayerLeft(String username){
+        String whatToShow = String.format("%s left the game.", username);
+        createAlertInfo(whatToShow);
+    }
+
+    public void alertPlayerIsBack(String username){
+        String whatToShow = String.format("%s is back.", username);
+        createAlertInfo(whatToShow);
+    }
+
+    public void createAlertWarning(String whatToShow){
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setContentText(whatToShow);
+        a.show();
+    }
+
+    public void createAlertInfo(String whatToShow){
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setContentText(whatToShow);
+        a.show();
+    }
+
 
     @Override
     public void start(Stage primaryStage) throws IOException {

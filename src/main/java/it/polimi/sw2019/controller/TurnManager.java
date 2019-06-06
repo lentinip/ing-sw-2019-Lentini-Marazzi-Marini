@@ -99,6 +99,7 @@ public class TurnManager {
         //Changes the parameters here
         currentPlayer = match.getCurrentPlayer();
         view.setMessageSender(currentPlayer.getName());
+        view.setCurrentPlayer(currentPlayer.getName());
 
         //sending the winner message if the match is ended
         if (match.isEnded()){
