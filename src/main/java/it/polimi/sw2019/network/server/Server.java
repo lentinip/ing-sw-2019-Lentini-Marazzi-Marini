@@ -8,6 +8,8 @@ import it.polimi.sw2019.network.server.socket.SocketServer;
 
 import java.rmi.RemoteException;
 import java.security.InvalidParameterException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +40,8 @@ public class Server {
     private RmiServer rmiServer;
 
     private Message loginMessage;
+
+    private Map<String, VirtualView> playersInGame;
 
     private static Logger LOGGER = Logger.getLogger("server");
 
@@ -74,6 +78,11 @@ public class Server {
 
     }
 
+    /**
+     * this method is used both to manage first login and reconnection of the client
+     * @param username to add
+     * @param clientInterface connection methods
+     */
     public void addPlayer(String username, ClientInterface clientInterface) {
 
         if(waitingRoom.getWaitingPlayers().containsKey(username) && waitingRoom.getWaitingPlayers().get(username).getConnected()) {
@@ -81,7 +90,7 @@ public class Server {
             try {
                 loginMessage.createLoginReport(false);
                 clientInterface.notify(loginMessage);
-                //TODO implement a text message that tell the user he's connected yet
+                LOGGER.log(Level.INFO, "You are connected yet");
             } catch (RemoteException e) {
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
@@ -135,12 +144,34 @@ public class Server {
         }
     }
 
-    public void handleMessage() {
+    /**
+     * if the message is a login message, the player will be registered, else will be handled by controller
+     * @param message
+     */
+    public void handleMessage(Message message) {
 
+        if(waitingRoom.getWaitingPlayers().containsKey(message.getUsername()) && !waitingRoom.getWaitingPlayers().get(message.getUsername()).getConnected()) {
+
+            if(message.getTypeOfMessage() == TypeOfMessage.LOGIN_REPORT) {
+
+                addPlayer(message.deserializeLoginMessage().getUsername(), message.deserializeLoginMessage().getClientInterface());
+            } else
+            {
+                //do nothing
+            }
+        }
+        else{
+
+            waitingRoom.notify(message);
+        }
         //TODO implement
 
     }
 
+    /**
+     * removes the waiting player (without a disconnection) when he disconnects during the game creation phase
+     * @param username
+     */
     public void removeWaitingPlayer(String username) {
 
         //I have to reset the timer if I don't have 3 players anymore

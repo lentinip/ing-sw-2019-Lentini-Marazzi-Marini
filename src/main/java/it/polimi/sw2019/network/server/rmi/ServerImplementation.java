@@ -12,11 +12,12 @@ import java.rmi.server.UnicastRemoteObject;
 public class ServerImplementation extends UnicastRemoteObject implements ServerInterface{
 
     /**
-     * Default constructor
+     * Constructor
      */
 
-    public ServerImplementation() throws RemoteException {
+    public ServerImplementation(Server server) throws RemoteException {
 
+        setServer(server);
     }
 
     /* Attributes */
@@ -24,6 +25,14 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     Server server = new Server();
 
     /* Methods */
+
+    public void setServer(Server server) {
+        this.server = server;
+    }
+
+    public Server getServer() {
+        return server;
+    }
 
     @Override
     public void register(String username, ClientInterface clientInterface) {
@@ -35,7 +44,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     @Override
     public void messageHandler(Message message) {
 
-        //TODO implement on the server the function that gets the message and use them
+        server.handleMessage(message);
     }
 
 }

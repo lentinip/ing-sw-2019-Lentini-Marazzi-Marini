@@ -3,13 +3,14 @@ package it.polimi.sw2019.network.messages;
 import com.google.gson.Gson;
 import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.model.TypeOfAction;
+import it.polimi.sw2019.network.client.ClientInterface;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 /**
- * generic class used from view and controller to send information
+ * generic class used from view and controller to doSomething information
  */
 public class Message implements Serializable {
 
@@ -278,11 +279,11 @@ public class Message implements Serializable {
 
     /* the following methods are called to create different types of Message Class */
 
-    public void createLoginMessage(String username, boolean rmi){
+    public void createLoginMessage(String username, boolean rmi, ClientInterface clientInterface){
 
         setTypeOfMessage(TypeOfMessage.LOGIN_REPORT);
         setTypeOfAction(TypeOfAction.NONE);
-        setJsonFile(serializeLoginMessage(new LoginMessage(username,rmi)));
+        setJsonFile(serializeLoginMessage(new LoginMessage(username,rmi, clientInterface)));
     }
 
     public void createMessageMatchState(MatchState matchState){

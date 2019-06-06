@@ -141,7 +141,7 @@ public class Weapon {
 
 
     /**
-     * called by controller to send info to the view
+     * called by controller to doSomething info to the view
      * @param effect the selected effect
      * @return the index
      */

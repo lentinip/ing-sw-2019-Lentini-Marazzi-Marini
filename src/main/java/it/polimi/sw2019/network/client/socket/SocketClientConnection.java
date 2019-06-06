@@ -3,6 +3,7 @@ package it.polimi.sw2019.network.client.socket;
 import it.polimi.sw2019.network.client.ClientActions;
 import it.polimi.sw2019.network.client.ClientInterface;
 import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.network.messages.TypeOfMessage;
 import it.polimi.sw2019.network.server.socket.ServerInterface;
 import it.polimi.sw2019.network.client.Client;
 
@@ -12,18 +13,16 @@ import it.polimi.sw2019.network.client.Client;
 public class SocketClientConnection implements ClientInterface, ClientActions {
 
     /**
-     * Default constructor
+     * Constructor
      */
-    public SocketClientConnection() {
-
-    }
-
     public SocketClientConnection(Client client) {
 
         this.client = client;
         LineClient lineClient = new LineClient(port, client.getIpAddress(), this);
         lineClient.start();
         this.serverInterface = lineClient;
+        loginMessage = new Message();
+        loginMessage.setTypeOfMessage(TypeOfMessage.LOGIN_REPORT);
     }
 
 
@@ -37,24 +36,39 @@ public class SocketClientConnection implements ClientInterface, ClientActions {
 
     private ServerInterface serverInterface;
 
+    private Message loginMessage;
 
     /* Methods */
 
+    /**
+     * notify message to client
+     * @param message to be notified
+     */
     @Override
     public  void notify(Message message) {
 
         client.handleMessage(message);
     }
 
+    /**
+     * doSomething message to server
+     * @param message to be sent
+     */
     @Override
-    public void send(Message message) {
+    public void doSomething(Message message) {
 
         serverInterface.send(message);
     }
 
+    /**
+     * register the client by Socket connection
+     * @param username nickname chose by the player
+     */
     @Override
     public void register(String username) {
-        /* Does nothing here */
+
+        loginMessage.createLoginMessage(username, false, this);
+        doSomething(loginMessage);
     }
 
 }

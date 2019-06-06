@@ -3,6 +3,9 @@ package it.polimi.sw2019.network.server;
 import it.polimi.sw2019.network.client.ClientActions;
 import it.polimi.sw2019.network.client.ClientInterface;
 
+/**
+ * this class represents the clients in server side
+ */
 public class Client {
 
     /**
@@ -45,4 +48,7 @@ public class Client {
         this.clientInterface = clientInterface;
     }
 
+    public ClientInterface getClientInterface() {
+        return clientInterface;
+    }
 }

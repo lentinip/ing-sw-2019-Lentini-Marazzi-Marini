@@ -1,11 +1,14 @@
 package it.polimi.sw2019.network.messages;
 
+import it.polimi.sw2019.network.client.ClientInterface;
+
 public class LoginMessage {
 
-    public LoginMessage(String username, boolean rmi){
+    public LoginMessage(String username, boolean rmi, ClientInterface clientInterface){
 
         setRmi(rmi);
         setUsername(username);
+        setClientInterface(clientInterface);
     }
 
     /* Attributes */
@@ -13,6 +16,8 @@ public class LoginMessage {
     private String username;
 
     private boolean rmi;
+
+    private ClientInterface clientInterface;
 
     /* Methods */
 
@@ -30,6 +35,14 @@ public class LoginMessage {
 
     public void setRmi(boolean rmi) {
         this.rmi = rmi;
+    }
+
+    public void setClientInterface(ClientInterface clientInterface) {
+        this.clientInterface = clientInterface;
+    }
+
+    public ClientInterface getClientInterface() {
+        return clientInterface;
     }
 }
 

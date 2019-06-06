@@ -10,11 +10,12 @@ import java.rmi.RemoteException;
 public interface ClientActions {
 
     /**
-     * send message to server
+     * in case of rmi connection it calls the method handleMessage from server (remotely) with message as parameter
+     * in case of socket connection it sends the message to the server that will elaborate it
      * @param message to be sent
      * @throws RemoteException connection fail
      */
-    public void send(Message message) throws RemoteException;
+    public void doSomething(Message message) throws RemoteException;
 
     /**
      * Used by RMI connection

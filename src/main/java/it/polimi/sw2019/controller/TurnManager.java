@@ -205,7 +205,7 @@ public class TurnManager {
     }
 
     /**
-     * see if there are other players to spawn, if not send the message to continue the turn to the current player
+     * see if there are other players to spawn, if not doSomething the message to continue the turn to the current player
      * @return
      */
     public Message spawningHandler(){

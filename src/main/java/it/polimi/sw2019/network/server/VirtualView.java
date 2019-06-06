@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.nio.file.Paths;
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class VirtualView extends Observable implements Observer {
@@ -251,12 +252,26 @@ public class VirtualView extends Observable implements Observer {
 
         if (message.getUsername().equals("All")){
 
-            //TODO SEND THE MESS TO ALL THE CLIENTS
+            for(String username : waitingPlayers.keySet()) {
+
+                try {
+
+                    waitingPlayers.get(username).getClientInterface().notify(message);
+                } catch (RemoteException e) {
+
+                    waitingPlayers.get(username).setConnected(false);
+                    addDisconnectedPlayer(username);
+                }
+            }
         }
 
         else {
+            try {
+                waitingPlayers.get(message.getUsername()).getClientInterface().notify(message);
+            } catch (RemoteException e) {
 
-            //TODO SEND THE MESS TO THE message.getUsername client
+                //TODO manage exception
+            }
         }
     }
 

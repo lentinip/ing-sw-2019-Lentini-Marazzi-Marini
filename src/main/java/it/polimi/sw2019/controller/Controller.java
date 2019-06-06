@@ -144,7 +144,7 @@ public class Controller implements Observer {
                     answer.createAvailableCardsMessage(TypeOfAction.SHOOT, indexMessageList, true);
                 }
 
-                //Otherwise send the available cells
+                //Otherwise doSomething the available cells
                 else {
                     List<Cell> shootingCells = currentPlayer.allowedCellsShoot();
                     List<BoardCoord> shootCoord = new ArrayList<>();

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Class used to send the info about the board and the game to the view
+ *  Class used to doSomething the info about the board and the game to the view
  */
 public class MatchStart {
 

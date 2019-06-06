@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class manages the communication with the client matched with the socket assigned.
@@ -15,13 +17,8 @@ import java.net.Socket;
 public class SocketServerClientHandler extends Thread implements ClientInterface {
 
     /**
-     * Default constructor
+     * Constructor
      */
-
-    public SocketServerClientHandler() {
-
-    }
-
     public SocketServerClientHandler(Socket socket, SocketServer socketServer) {
         this.connection = socket;
         this.socketServer = socketServer;
@@ -29,7 +26,8 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
             this.objectIn = new ObjectInputStream(this.connection.getInputStream());
             this.objectOut = new ObjectOutputStream(this.connection.getOutputStream());
         } catch (IOException e) {
-            //TODO manage exception
+
+            LOGGER.log(Level.WARNING, e.getMessage());
         }
     }
 
@@ -44,6 +42,10 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
 
     private ObjectOutputStream objectOut;
 
+    private String sender;
+
+    private static Logger LOGGER = Logger.getLogger("SocketServerClientHandler");
+
     /* Methods */
 
     /**
@@ -56,18 +58,22 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
         try{
             while(go && !connection.isClosed()) {
 
-                Message message = (Message) objectIn.readObject();
+                Message message = (Message) objectIn.readObject(); //message received
                 if(message == null) {
                     go = false;
                 } else {
-                    //TODO implement how to use this message
+
+                    sender = message.getUsername();
+                    socketServer.receive(message);
                 }
             }
         } catch (IOException e) {
-            //TODO manage exception, DISCONNECTION
+
+            socketServer.disconnect(sender);
         }
         catch(ClassNotFoundException e) {
-            //TODO manage exception, DISCONNECTION
+
+            socketServer.disconnect(sender);
         }
 
     }
@@ -83,7 +89,8 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
             objectOut.writeObject(message);
             objectOut.flush();
         } catch (IOException e) {
-            //TODO manage exception
+
+            LOGGER.log(Level.WARNING, e.getMessage());
         }
     }
 

@@ -620,7 +620,7 @@ public class Player extends Observable {
     }
 
     /**
-     * this method creates the class player hand to send to the view in the match state
+     * this method creates the class player hand to doSomething to the view in the match state
      * @return the class created
      */
     public PlayerHand createPlayerHand(){

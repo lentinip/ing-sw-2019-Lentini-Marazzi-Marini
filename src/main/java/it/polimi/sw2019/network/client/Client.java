@@ -1,14 +1,21 @@
 package it.polimi.sw2019.network.client;
 
 import it.polimi.sw2019.model.TypeOfAction;
+import it.polimi.sw2019.network.client.rmi.RmiClient;
+import it.polimi.sw2019.network.client.socket.SocketClientConnection;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.TypeOfMessage;
 import it.polimi.sw2019.view.ViewInterface;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Client {
 
     /**
-     * default constructor
+     * Default constructor
      */
     public Client(){}
 
@@ -23,6 +30,10 @@ public class Client {
     private String username;
 
     private boolean rmi; //tells what kind of connection he is using
+
+    private ClientActions clientActions;
+
+    private static Logger LOGGER = Logger.getLogger("Client");
 
     /* Methods */
 
@@ -82,6 +93,25 @@ public class Client {
         else {
 
             System.console().printf("After the name of the program write 'cli' if you want to use the console, 'gui' if you want to use the gui interface");
+        }
+    }
+
+    /**
+     * creates the connection and tries to register the client
+     * @throws RemoteException
+     * @throws NotBoundException
+     */
+    public void connect() throws RemoteException, NotBoundException {
+
+        if(rmi) {
+
+            clientActions =  new RmiClient(this);
+            clientActions.register(username);
+        }
+        else{
+
+            clientActions = new SocketClientConnection(this);
+            clientActions.register(username);
         }
     }
 
@@ -153,7 +183,7 @@ public class Client {
 
     /**
      * shows the correct info on the gui, cli, by analyzing the last message received
-     * @param message contains the info to send to gui/cli
+     * @param message contains the info to doSomething to gui/cli
      */
     public void availableCardsHandler(Message message){
 
@@ -173,7 +203,7 @@ public class Client {
 
     /**
      * shows the correct info on the gui, cli, by analyzing the last message received
-     * @param message contains the info to send to gui/cli
+     * @param message contains the info to doSomething to gui/cli
      */
     public void availablePlayersHandler(Message message){
 
@@ -199,7 +229,7 @@ public class Client {
 
     /**
      * shows the correct info on the gui, cli, by analyzing the last message received
-     * @param message contains the info to send to gui/cli
+     * @param message contains the info to doSomething to gui/cli
      */
     public void availableEffectsHandler(Message message){
 
@@ -216,17 +246,17 @@ public class Client {
         }
     }
 
-
+    /**
+     * represents client actions
+     * @param messageToSend parameter or message to send to server
+     */
     public void send(Message messageToSend){
 
-        if (rmi){
+        try {
+            clientActions.doSomething(messageToSend);
+        } catch (RemoteException e) {
 
-            //TODO call the send message of RMI
-        }
-
-        else {
-
-            //TODO call the send message of socket (param always messageToSend
+            LOGGER.log(Level.WARNING, "failure: connection error");
         }
     }
 

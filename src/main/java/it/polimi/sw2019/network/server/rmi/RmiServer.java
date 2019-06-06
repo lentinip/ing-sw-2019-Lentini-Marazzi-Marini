@@ -6,9 +6,11 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * RMIserver runned by the server
+ * RMIserver runned by the main server
  */
 public class RmiServer implements Remote {
 
@@ -27,6 +29,8 @@ public class RmiServer implements Remote {
 
     private Server server;
 
+    private static Logger LOGGER = Logger.getLogger("RmiServer");
+
     /* Methods */
 
     public void setServer(Server server) {
@@ -36,12 +40,12 @@ public class RmiServer implements Remote {
     public void startServer(int port) throws RemoteException {
 
         Registry registry = LocateRegistry.createRegistry(port);
-        ServerImplementation serverImplementation = new ServerImplementation();
+        ServerImplementation serverImplementation = new ServerImplementation(server);
         try {
             registry.rebind("Server", serverImplementation);
         } catch (RemoteException e) {
 
-            //TODO implement exception
+            LOGGER.log(Level.WARNING, e.getMessage());
         }
     }
 }
