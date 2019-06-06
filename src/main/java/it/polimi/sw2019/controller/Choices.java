@@ -9,6 +9,8 @@ import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Choices {
 
@@ -54,6 +56,8 @@ public class Choices {
     private List<Cell> shootedCells = new ArrayList<>(); // here I save the list of the cells already selected
 
     private Player selectedPlayer; // here I save the player that I'm going to move
+
+    private static final Logger LOGGER = Logger.getLogger("choices");
 
     /* Methods */
 
@@ -229,7 +233,7 @@ public class Choices {
                 selectionPlayerHandler(message);
                 break;
             default:
-                System.console().printf("TYPE OF MESSAGE UNKNOWN");
+                LOGGER.log(Level.SEVERE, "switch error");
                 break;
         }
     }
@@ -243,6 +247,8 @@ public class Choices {
         switch (message.getTypeOfAction()){
 
             case SPAWN:
+                //stopping the timer because a choice has been made
+                view.getSpawningChoiceTimer().cancel();
                 IndexMessage index = message.deserializeIndexMessage();
                 singleActionManager.getTurnManager().spawn(match.getPlayerByUsername(message.getUsername()), index.getSelectionIndex());
                 break;
@@ -275,7 +281,7 @@ public class Choices {
                 weaponHandler(message);
                 break;
             default:
-                System.console().printf("TYPE OF ACTION UNKNOWN");
+                LOGGER.log(Level.SEVERE, "switch error");
                 break;
 
         }
@@ -321,7 +327,7 @@ public class Choices {
 
                 break;
             default:
-                System.console().printf("TYPE OF ACTION UNKNOWN");
+                LOGGER.log(Level.SEVERE, "switch error");
                 break;
         }
 

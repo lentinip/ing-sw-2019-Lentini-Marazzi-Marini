@@ -6,6 +6,9 @@ import it.polimi.sw2019.network.messages.TypeOfMessage;
 import it.polimi.sw2019.view.CLI;
 import it.polimi.sw2019.view.ViewInterface;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Client {
 
     /**
@@ -24,6 +27,8 @@ public class Client {
     private String username;
 
     private boolean rmi; //tells what kind of connection he is using
+
+    private static final Logger LOGGER = Logger.getLogger("client");
 
     /* Methods */
 
@@ -148,7 +153,7 @@ public class Client {
                 view.displayReconnectionWindow();
                 break;
             default:
-                System.console().printf("TYPE OF MESSAGE UNKNOWN");
+                LOGGER.log(Level.SEVERE, "switch error");
                 break;
 
         }

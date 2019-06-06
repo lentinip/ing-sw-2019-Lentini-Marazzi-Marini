@@ -1,12 +1,25 @@
 package it.polimi.sw2019.view;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.model.TypeOfAction;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.*;
 
-import java.io.PrintWriter;
+
+import java.io.*;
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class CLI implements ViewInterface {
@@ -14,21 +27,36 @@ public class CLI implements ViewInterface {
     /**
      * Customized constructor
      */
-    @SuppressWarnings("squid:S106")
     public CLI(Client client){
 
         setClient(client);
-        out = new PrintWriter(System.out, true);
-        in = new Scanner(System.in);
+        Gson json = new Gson();
+        InputStream jsonFile = getClass().getClassLoader().getResourceAsStream("/AmmoTiles/AmmoTileDescription.json");
+        Type map = new TypeToken<HashMap<String, String>>(){}.getType();
+        try {
+            ammoTileDescription = json.fromJson(jsonFile.toString(), map);
+        }
+        catch (Exception e){
+            out.println("file not found");
+        }
+
     }
 
     /**
-     * Default constructor
+     * Default constructor for test
      */
-    @SuppressWarnings("squid:S106")
-    public CLI(){
-        out = new PrintWriter(System.out, true);
-        in = new Scanner(System.in);
+    public CLI() {
+
+        setClient(client);
+        Gson json = new Gson();
+        InputStream jsonFile = getClass().getClassLoader().getResourceAsStream("/AmmoTiles/AmmoTileDescription.json");
+        Type map = new TypeToken<HashMap<String, String>>(){}.getType();
+        try {
+            ammoTileDescription = json.fromJson(jsonFile.toString(), map);
+        }
+        catch (Exception e){
+            out.println("file not found");
+        }
     }
 
     /* Attributes */
@@ -69,15 +97,37 @@ public class CLI implements ViewInterface {
         boardSize = Collections.unmodifiableMap(maps);
     }
 
+    private  Map<String, String> ammoTileDescription = new HashMap<>();
+
     private Client client;
 
-    private static PrintWriter out;
+    /* COLORS !!! */
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
+    private static final String ANSI_BLUE = "\u001B[34m";
+    private static final String ANSI_PURPLE = "\u001B[35m";
+    private static final String ANSI_WHITE = "\u001B[37m";
 
-    private static Scanner in;
+    @SuppressWarnings("squid:S106")
+    private static PrintWriter out = new PrintWriter(System.out, true);
+
+    private static Scanner in = new Scanner(System.in);
+
+    private static final Logger LOGGER = Logger.getLogger("cli");
 
 
 
     /* Methods */
+
+    public static PrintWriter getOut() {
+        return out;
+    }
+
+    public Map<String, String> getAmmoTileDescription() {
+        return ammoTileDescription;
+    }
 
     public void setCharacters(List<Character> characters) {
         this.characters = characters;
@@ -129,18 +179,129 @@ public class CLI implements ViewInterface {
 
     public static void main(String[] args){
 
-        CLI prova = new CLI();
-        prova.getUsernames().add("prova1");
-        prova.getUsernames().add("prova2");
-        prova.getUsernames().add("prova3");
-        prova.getCharacters().add(Character.DISTRUCTOR);
-        prova.getCharacters().add(Character.BANSHEE);
-        prova.getCharacters().add(Character.VIOLET);
-        MatchSetup matchSetup = new MatchSetup(true, false, "Board3.json");
-        Message message = new Message("All");
-        message.createMessageMatchSetup(matchSetup);
-        MatchStart matchStart = new MatchStart(message ,prova.getUsernames(), prova.getCharacters());
-        prova.displayMatchStart(matchStart);
+        CLI prova = null;
+
+
+        prova = new CLI();
+
+
+
+
+        List<String> usernames = new ArrayList<>();
+        usernames.add("prova1");
+        usernames.add("prova2");
+        usernames.add("prova3");
+        usernames.add("prova4");
+        usernames.add("prova5");
+        prova.setUsernames(usernames);
+        prova.setUsername("prova1");
+
+        //TESTING DISPLAY OPTIONS
+        MatchState matchState = new MatchState();
+        List<MessageCell> cells = new ArrayList<>();
+        List<Character> characters = new ArrayList<>();
+        characters.add(Character.DISTRUCTOR);
+        characters.add(Character.BANSHEE);
+        characters.add(Character.DOZER);
+        characters.add(Character.VIOLET);
+        characters.add(Character.SPROG);
+        prova.setCharacters(characters);
+
+        MessageCell cell0 = new MessageCell(0, 0, characters, true, null, null);
+        List<String> weapons = new ArrayList<>();
+        weapons.add("CYBER BLADE");
+        weapons.add("SHOTGUN");
+        List<String> weaponsEmpty = new ArrayList<>();
+        List<Character> characters1 = new ArrayList<>();
+
+        MessageCell cell1 = new MessageCell(0, 1, characters1, false, null, weapons);
+        MessageCell cell2 = new MessageCell(0, 2, characters1, false, "AD_ammo_042.png", null);
+
+        cells.add(cell0);
+        cells.add(cell1);
+        cells.add(cell2);
+        matchState.setCells(cells);
+
+        List<PlayerBoardMessage> playerBoards = new ArrayList<>();
+        PlayerBoardMessage playerBoardMessage = new PlayerBoardMessage();
+        playerBoardMessage.setYellowAmmo(1);
+        playerBoardMessage.setBlueAmmo(0);
+        playerBoardMessage.setRedAmmo(2);
+        playerBoardMessage.setNumOfDeaths(1);
+        playerBoardMessage.setFlipped(false);
+        playerBoardMessage.setFirstPlayer(true);
+        playerBoardMessage.setDamageSequence(characters);
+        playerBoardMessage.setMarkSequence(characters1);
+        playerBoards.add(playerBoardMessage);
+        PlayerBoardMessage playerBoardMessage2 = new PlayerBoardMessage();
+        playerBoardMessage2.setYellowAmmo(1);
+        playerBoardMessage2.setBlueAmmo(0);
+        playerBoardMessage2.setRedAmmo(2);
+        playerBoardMessage2.setNumOfDeaths(1);
+        playerBoardMessage2.setFlipped(true);
+        playerBoardMessage2.setFirstPlayer(false);
+        playerBoardMessage2.setDamageSequence(characters);
+        playerBoardMessage2.setMarkSequence(characters);
+        playerBoards.add(playerBoardMessage2);
+        PlayerBoardMessage playerBoardMessage3 = new PlayerBoardMessage();
+        playerBoardMessage3.setYellowAmmo(0);
+        playerBoardMessage3.setBlueAmmo(0);
+        playerBoardMessage3.setRedAmmo(0);
+        playerBoardMessage3.setNumOfDeaths(1);
+        playerBoardMessage3.setFlipped(false);
+        playerBoardMessage3.setFirstPlayer(true);
+        playerBoardMessage3.setDamageSequence(characters1);
+        playerBoardMessage3.setMarkSequence(characters1);
+        playerBoards.add(playerBoardMessage3);
+        matchState.setPlayerBoardMessages(playerBoards);
+
+        List<PlayerHand> playerHands = new ArrayList<>();
+
+        PlayerHand playerHand1 = new PlayerHand();
+        playerHand1.setWeaponsUnloaded(weaponsEmpty);
+        playerHand1.setWeaponsHidden(2);
+        playerHand1.setPowerups(0);
+        playerHands.add(playerHand1);
+
+        PlayerHand playerHand2 = new PlayerHand();
+        playerHand2.setWeaponsUnloaded(weapons);
+        playerHand2.setWeaponsHidden(0);
+        playerHand2.setPowerups(3);
+        playerHands.add(playerHand2);
+
+        PlayerHand playerHand3 = new PlayerHand();
+        playerHand3.setWeaponsUnloaded(weapons);
+        playerHand3.setWeaponsHidden(0);
+        playerHand3.setPowerups(3);
+        playerHands.add(playerHand3);
+
+        matchState.setPlayerHands(playerHands);
+        matchState.setKillSequence(characters);
+        List<Boolean> booleans = new ArrayList<>();
+        booleans.add(true);
+        booleans.add(false);
+        booleans.add(false);
+        booleans.add(true);
+        booleans.add(true);
+        matchState.setOverkillSequence(booleans);
+        matchState.setPowerupsDeckSize(20);
+        matchState.setWeaponsDeckSize(10);
+        matchState.setCurrentPlayerLeftActions(2);
+        prova.setMatchState(matchState);
+
+        if (prova.getAmmoTileDescription().get("AD_ammo_042.png") == null) {
+            System.out.println("AMMO NON TROVATA");
+        } else {
+            System.out.println(prova.getAmmoTileDescription().get("AD_ammo_042.png"));
+        }
+        PrivateHand privateHand = new PrivateHand(weaponsEmpty, weapons, weapons);
+        prova.setPrivateHand(privateHand);
+        prova.displayCanIShoot(true);
+    }
+
+    public static void restartScanner(){
+
+        in = new Scanner(System.in);
     }
 
 
@@ -225,6 +386,18 @@ public class CLI implements ViewInterface {
      */
     public void displayReconnectionWindow(){
 
+        out.println("DRIIIIIIN DRIIIIIN\n");
+        out.println("       .-.-.\n" +
+                "  ((  (__I__)  ))\n" +
+                "    .'_....._'.\n" +
+                "   / / .12 . \\ \\\n" +
+                "  | | '  |  ' | |\n" +
+                "  | | 9  /  3 | |\n" +
+                "   \\ \\ '.6.' / /\n" +
+                "    '.`-...-'.'\n" +
+                "     /'-- --'\\\n" +
+                "    `\"\"\"\"\"\"\"\"\"`");
+        out.println("YOUR TIME IS UP MY FRIEND!\n");
         out.println("\nOoops it looks like you have been disconnected from the game!!!  (˘_˘٥) \n" +
                 "PRESS ENTER TO RECONNECT:\n");
         in.nextLine();
@@ -363,7 +536,8 @@ public class CLI implements ViewInterface {
 
         for (int i = 0; i < usernames.size(); i++){
 
-            out.println("\n(　-_･) ︻デ═一  ▸    " + usernames.get(i) + "  using  " + characters.get(i));
+            out.print("\n(　-_･) ︻デ═一  ▸    " + usernames.get(i) + "  using  ");
+            printCharacterName(characters.get(i));
         }
 
         out.println("\n\nTURN OF THE FIRST PLAYER:\n");
@@ -375,7 +549,400 @@ public class CLI implements ViewInterface {
      */
     public void displayCanIShoot(boolean answer){
 
-        //TODO implement
+        int choice = displayOptions(answer);
+        Message mes = new Message(username);
+
+        //info window
+        if (sameNumbers(choice, 1)){
+            displayInfoWindow(answer);
+        }
+        //use powerup
+        else if (sameNumbers(choice, 2 )){
+            mes.createAskMessage(TypeOfAction.USEPOWERUP);
+        }
+        //reload
+        else if (sameNumbers(choice, 3)){
+            mes.createAskMessage(TypeOfAction.RELOAD);
+        }
+        //end turn
+        else if (sameNumbers(choice, 4)){
+            mes.createEndTurnMessage();
+        }
+        //move
+        else if (sameNumbers(choice, 5)){
+            mes.createAskMessage(TypeOfAction.MOVE);
+        }
+        //grab
+        else if (sameNumbers(choice, 6)){
+            mes.createAskMessage(TypeOfAction.GRAB);
+        }
+        //shoot
+        else if (sameNumbers(choice, 7)){
+            mes.createAskMessage(TypeOfAction.SHOOT);
+        }
+
+        //if he did not choose info window we send the message
+        if (!sameNumbers(choice, 1)) {
+            client.send(mes);
+        }
+    }
+
+    /**
+     * ised to show the first display
+     * @param answer can I shoot answer
+     */
+    private void goBackActionWindow(boolean answer){
+        out.println("\nPRESS SOMETHING TO GO BACK IN THE ACTION WINDOW:\n");
+        in.next();
+        displayCanIShoot(answer);
+    }
+
+    private void displayInfoWindow(boolean answer){
+
+        out.println("\nWhat do you want to know?\n");
+        out.println("╔═════════════════╗\n" +
+                "║   MATCH INFO    ║\n" +
+                "╠═════════════════╣\n" +
+                "║ 1. BATTLE FIELD ║\n" +
+                "║ 2. PLAYERS      ║\n" +
+                "║ 3. KILL TRACK   ║\n" +
+                "║ 4. YOUR STATE   ║\n" +
+                "║ 5. GO BACK      ║\n" +
+                "╚═════════════════╝");
+        int choice = readNumbers(1,5);
+        //battle field
+        if (sameNumbers(choice, 1)){
+           displayBattlefield(answer);
+        }
+        //Players
+        else if (sameNumbers(choice, 2)){
+            out.println("╔═════════════════════╗\n" +
+                    "║    PLAYERS INFO     ║\n" +
+                    "╠═════════════════════╣\n" +
+                    "║ 1. PLAYERS' BOARDS  ║\n" +
+                    "║ 2. PLAYERS' CARDS   ║\n" +
+                    "╚═════════════════════╝");
+             choice = readNumbers(1,2);
+
+             //player boards
+             if (sameNumbers(choice, 1)){
+                 displayPlayerBoards(answer);
+             }
+             //player cards
+            else{
+                displayPlayerCards(answer);
+             }
+        }
+        //Kill track
+        else if (sameNumbers(choice, 3)){
+            displayKillTrack(answer);
+        }
+        //your status
+        else if (sameNumbers(choice, 4)){
+            displayYourStatus(answer);
+        }
+        //go back
+        else{
+            displayCanIShoot(answer);
+        }
+    }
+
+    private void displayYourStatus(boolean answer){
+
+        printCharacterName(characters.get(usernames.indexOf(username)));
+        out.println("");
+        out.println("YOUR CARDS:");
+        out.print("unloaded weapons: ");
+        for (String weapon: privateHand.getWeaponsUnloaded()){
+            out.print("  " + weapon);
+        }
+        out.print("\nloaded weapons: ");
+        for (String weapon: privateHand.getWeaponsLoaded()){
+            out.println("    " + weapon);
+        }
+        out.print("\npowerups: ");
+        for (String powerup: privateHand.getPowerups()){
+            out.print("    " + powerup);
+        }
+        out.print("\n\nYOUR LIFE: ");
+        PlayerBoardMessage playerBoard = matchState.getPlayerBoardMessages().get(usernames.indexOf(username));
+        out.print("DAMAGES: ");
+        for (Character character: playerBoard.getDamageSequence()){
+            printCharacter(character);
+        }
+        out.print("\nMARKS: ");
+        for (Character character: playerBoard.getMarkSequence()){
+            printCharacter(character);
+        }
+        out.println("\n"+playerBoard.getNumOfDeaths()+"deaths so far");
+        out.println("AMMO:  " + ANSI_RED + playerBoard.getRedAmmo() + ANSI_RESET + "  " + ANSI_YELLOW + playerBoard.getYellowAmmo() + ANSI_RESET + "  " + ANSI_BLUE + playerBoard.getBlueAmmo() + ANSI_RESET);
+        if (playerBoard.isFirstPlayer()){
+            out.println("FIRST PLAYER");
+        }
+        if (playerBoard.isFlipped()){
+            out.println("BOARD FLIPPED");
+        }
+        goBackActionWindow(answer);
+    }
+
+    /**
+     * shows the kill track
+     * @param answer can I shoot
+     */
+    private void displayKillTrack(boolean answer){
+
+        out.println("KILL TRACK:\n");
+        for (int i = 0; i < matchState.getKillSequence().size(); i++){
+
+            printCharacterName(matchState.getKillSequence().get(i));
+            if (matchState.getOverkillSequence().get(i)){
+                out.println("(OVERKILL) ");
+            }
+            else {
+                out.println("");
+            }
+        }
+        goBackActionWindow(answer);
+    }
+
+    /**
+     * shows the status of the player boards
+     * @param answer can I shoot
+     */
+    private void displayPlayerBoards(Boolean answer){
+
+        displayLegend();
+        out.println("PLAYER BOARDS:\n");
+        for (PlayerBoardMessage playerBoard: matchState.getPlayerBoardMessages()){
+
+            //excluding the player
+            if (matchState.getPlayerBoardMessages().indexOf(playerBoard) != usernames.indexOf(username)){
+
+                printCharacterName(characters.get(matchState.getPlayerBoardMessages().indexOf(playerBoard)));
+                out.println("");
+                out.print("DAMAGES: ");
+                for (Character character: playerBoard.getDamageSequence()){
+                    printCharacter(character);
+                }
+                out.print("\nMARKS: ");
+                for (Character character: playerBoard.getMarkSequence()){
+                    printCharacter(character);
+                }
+                out.println("\nAMMO:  " + ANSI_RED + playerBoard.getRedAmmo() + ANSI_RESET + "  " + ANSI_YELLOW + playerBoard.getYellowAmmo() + ANSI_RESET + "  " + ANSI_BLUE + playerBoard.getBlueAmmo() + ANSI_RESET);
+                if (playerBoard.isFirstPlayer()){
+                    out.println("FIRST PLAYER");
+                }
+                if (playerBoard.isFlipped()){
+                    out.println("BOARD FLIPPED");
+                }
+                out.println(playerBoard.getNumOfDeaths()+" deaths so far\n");
+            }
+        }
+        goBackActionWindow(answer);
+    }
+
+    private void displayPlayerCards(Boolean answer){
+
+        out.println("PLAYERS' CARDS:\n");
+        for (PlayerHand playerHand: matchState.getPlayerHands()){
+
+            //excluding the player
+            if (matchState.getPlayerHands().indexOf(playerHand) != usernames.indexOf(username)) {
+                printCharacterName(characters.get(matchState.getPlayerHands().indexOf(playerHand)));
+                out.println("");
+                out.println("WEAPONS LOADED: " + playerHand.getWeaponsHidden());
+                out.print("WEAPONS UNLOADED: ");
+                for (String weapon : playerHand.getWeaponsUnloaded()) {
+                    out.print(weapon + "      ");
+                }
+                out.println("\nPOWERUPS: " + playerHand.getPowerups() + "\n");
+            }
+        }
+        goBackActionWindow(answer);
+    }
+
+    /**
+     * displays the legend of the colors related to the characters
+     */
+    private void displayLegend(){
+
+        out.println("LEGEND:\n\n" + ANSI_YELLOW + "DISTRUCTOR" + ANSI_RESET);
+        out.println(ANSI_BLUE + "BANSHEE" + ANSI_RESET);
+        out.println(ANSI_WHITE + "DOZER" + ANSI_RESET);
+        out.println(ANSI_PURPLE + "VIOLET" + ANSI_RESET);
+        out.println(ANSI_GREEN + "SPROG\n" + ANSI_RESET);
+    }
+
+    /**
+     * takes a character and display his color with his initial
+     * @param characterName character
+     */
+    private void printCharacter(Character characterName){
+
+        switch (characterName){
+
+            case DISTRUCTOR:
+                out.print(ANSI_YELLOW + "D " + ANSI_RESET);
+                break;
+            case DOZER:
+                out.print(ANSI_WHITE + "DO " + ANSI_RESET);
+                break;
+            case BANSHEE:
+                out.print(ANSI_BLUE + "B " + ANSI_RESET);
+                break;
+            case SPROG:
+                out.print(ANSI_GREEN + "S " + ANSI_RESET);
+                break;
+            case VIOLET:
+                out.print(ANSI_PURPLE + "V " + ANSI_RESET);
+                break;
+        }
+    }
+
+    /**
+     * takes a character and display his color with his name
+     * @param characterName character
+     */
+    private void printCharacterName(Character characterName){
+
+        switch (characterName){
+
+            case DISTRUCTOR:
+                out.print(ANSI_YELLOW + "DISTRUCTOR " + ANSI_RESET);
+                break;
+            case DOZER:
+                out.print(ANSI_WHITE + "DOZER " + ANSI_RESET);
+                break;
+            case BANSHEE:
+                out.print(ANSI_BLUE + "BANSHEE " + ANSI_RESET);
+                break;
+            case SPROG:
+                out.print(ANSI_GREEN + "SPROG " + ANSI_RESET);
+                break;
+            case VIOLET:
+                out.print(ANSI_PURPLE + "VIOLET " + ANSI_RESET);
+                break;
+        }
+    }
+
+
+    private void displayBattlefield(boolean answer){
+
+        out.println( "\n" + matchState.getWeaponsDeckSize() + " weapons and " + matchState.getPowerupsDeckSize() + " powerups left in the deck\n");
+        out.println("CELLS OF THE BOARD:\n");
+
+        for (MessageCell cell: matchState.getCells()){
+
+            out.println("CELL " + matchState.getCells().indexOf(cell));
+            out.println("row: " + cell.getRow());
+            out.println("column: " + cell.getColumn());
+            out.print("players inside: ");
+            if (cell.getCharacters().isEmpty()){
+                out.println("nobody is inside this cell  :(");
+            }
+            else {
+                for (Character character : cell.getCharacters()) {
+                    printCharacterName(character);
+
+                }
+            }
+            if (cell.isEmpty()){
+
+                out.println("\nThis cell is empty\n");
+            }
+
+            //common cell
+            else if (cell.getAmmoTile() != null ){
+
+                out.println("ammo tile: " + ammoTileDescription.get(cell.getAmmoTile()));
+            }
+
+            else {
+
+                out.print("weapons inside: ");
+                for(String weaponName: cell.getWeapons()){
+                    out.print(weaponName + "   ");
+                }
+                out.println("\n");
+            }
+        }
+        goBackActionWindow(answer);
+    }
+
+    /**
+     * shows the options based on current player left actions
+     * @param answer tells if he can shoot
+     * @return the option chosed
+     */
+    public int displayOptions(boolean answer){
+
+        int choice;
+
+        if (matchState.getCurrentPlayerLeftActions() > 0){
+
+            if (matchState.getCurrentPlayerLeftActions() == 2){
+
+                out.println("IT'S YOUR TURN CHOOSE AN ACTION:       (remember you only have 8 minutes!!!)\n");
+            }
+
+            else{
+
+                out.println("IT'S STILL YOUR TURN, CHOOSE YOUR NEXT ACTION:\n");
+            }
+
+            //he can shoot
+            if (answer){
+
+                out.println("╔═════════════════════════╗\n" +
+                        "║        OPTIONS:         ║\n" +
+                        "╠═════════════════════════╣\n" +
+                        "║ 1. INFO ABOUT THE MATCH ║\n" +
+                        "║ 2. USE POWERUP          ║\n" +
+                        "║ 3. RELOAD               ║\n" +
+                        "║ 4. END TURN             ║\n" +
+                        "║ 5. MOVE                 ║\n" +
+                        "║ 6. GRAB                 ║\n" +
+                        "║ 7. SHOOT                ║\n" +
+                        "╚═════════════════════════╝\n");
+
+                choice = readNumbers(1,7);
+            }
+
+            else {
+
+                out.println("\nWe are sorry you can't shoot now! But you can do other cool things.    (˵ ͡° ͜ʖ ͡°˵) \n");
+                out.println("╔═════════════════════════╗\n" +
+                        "║        OPTIONS:         ║\n" +
+                        "╠═════════════════════════╣\n" +
+                        "║ 1. INFO ABOUT THE MATCH ║\n" +
+                        "║ 2. USE POWERUP          ║\n" +
+                        "║ 3. RELOAD               ║\n" +
+                        "║ 4. END TURN             ║\n" +
+                        "║ 5. MOVE                 ║\n" +
+                        "║ 6. GRAB                 ║\n" +
+                        "╚═════════════════════════╝\n");
+                choice = readNumbers(1,6);
+            }
+        }
+
+        //no more actions available (left actions = 0)
+        else {
+
+            out.println("You have used all your actions WELL DONE!\n" +
+                    "You can still do something!!\n" +
+                    "TIPS: don't forget to reload your unloaded weapons before ending you turn...  ︻╦╤─ ︻╦╤─ ︻╦╤─\n");
+            out.println("╔═════════════════════════╗\n" +
+                    "║        OPTIONS:         ║\n" +
+                    "╠═════════════════════════╣\n" +
+                    "║ 1. INFO ABOUT THE MATCH ║\n" +
+                    "║ 2. USE POWERUP          ║\n" +
+                    "║ 3. RELOAD               ║\n" +
+                    "║ 4. END TURN             ║\n" +
+                    "╚═════════════════════════╝");
+            choice = readNumbers(1,4);
+        }
+
+        return choice;
     }
 
     /**
@@ -465,6 +1032,8 @@ public class CLI implements ViewInterface {
      * @param matchState updates all over the board and the cards
      */
     public void updateMatchState(MatchState matchState){
+
+        this.matchState = matchState;
 
         //TODO implement
     }

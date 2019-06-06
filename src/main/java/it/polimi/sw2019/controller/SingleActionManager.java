@@ -10,6 +10,8 @@ import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class handles a single action
@@ -42,6 +44,8 @@ public class SingleActionManager {
     private Choices choices;
 
     private Payment payment;
+
+    private static final Logger LOGGER = Logger.getLogger("SingleActionManager");
 
     /* Methods */
 
@@ -91,7 +95,7 @@ public class SingleActionManager {
                 turnManager.endTurn();
                 break;
             default:
-                System.console().printf("TYPE OF ACTION UNKNOWN");
+                LOGGER.log(Level.SEVERE, "switch error");
                 break;
         }
     }
@@ -229,6 +233,7 @@ public class SingleActionManager {
 
         Message next = new Message(match.getCurrentPlayer().getName());
         next.createMessageCanIShoot(choices.canIshoot());
+        view.display(next);
     }
 
     /**
@@ -242,12 +247,7 @@ public class SingleActionManager {
 
         Message message = new Message(player.getName());
 
-        if(match.getCurrentPlayerLeftActions()>0){
-            message.createMessageCanIShoot(player.canIshootBeforeComplexAction());
-        }
-        else {
-            message.createMessageCanIShoot(false);
-        }
+        message.createMessageCanIShoot(choices.canIshoot());
 
         view.display(message);
     }

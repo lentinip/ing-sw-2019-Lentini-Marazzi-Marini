@@ -6,6 +6,8 @@ import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Payment {
 
@@ -36,6 +38,8 @@ public class Payment {
     private List<Powerup> selectedPowerups = new ArrayList<>();
 
     private Powerup usablePowerup; // this attribute is here to know if we are paying the cost of a powerup effect
+
+    private static final Logger LOGGER = Logger.getLogger("Payment");
 
     /* Methods */
 
@@ -103,7 +107,7 @@ public class Payment {
                 singleActionManager.getChoices().effectAnalizer();
                 break;
             default:
-                System.console().printf("TYPE OF ACTION UNKNOWN");
+                LOGGER.log(Level.SEVERE, "switch error");
                 break;
         }
 
@@ -248,7 +252,7 @@ public class Payment {
                 leftCost = initialCost.clone();
                 break;
             default:
-                System.console().printf("TYPE OF ACTION UNKNOWN");
+                LOGGER.log(Level.SEVERE, "switch error");
                 break;
         }
 

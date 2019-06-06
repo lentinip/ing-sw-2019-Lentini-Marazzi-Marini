@@ -48,7 +48,7 @@ public class Factory {
         List<Weapon> weaponDeck = new ArrayList<>();
 
         Gson gson = new Gson();
-        File jsonFile = Paths.get("/src/main/resources/WeaponsDictionary.json").toFile();
+        File jsonFile = new File(getClass().getResource("WeaponsDictionary.json").toString());
 
         String[] fileNames = gson.fromJson(new FileReader(jsonFile), String[].class);
 
@@ -71,7 +71,10 @@ public class Factory {
         Weapon weapon;
 
         Gson gson = new Gson();
-        File jsonFile = Paths.get(fileName).toFile();
+
+        fileName = "/Weapons/" + fileName;
+
+        File jsonFile = new File(getClass().getResource(fileName).toString());
 
         WeaponFactory weaponFactory = gson.fromJson(new FileReader(jsonFile), WeaponFactory.class);
 
@@ -95,7 +98,7 @@ public class Factory {
         List<Powerup> powerupDeck = new ArrayList<>();
 
         Gson gson = new Gson();
-        File jsonFile = Paths.get("/src/main/resources/PoweupsDictionary.json").toFile();
+        File jsonFile = new File(getClass().getResource("PowerupsDictionary.json").toString());
 
         String[] fileNames = gson.fromJson(new FileReader(jsonFile), String[].class);
 
@@ -119,7 +122,9 @@ public class Factory {
 
         Gson gson = new Gson();
 
-        File jsonFile = Paths.get(fileName).toFile();
+        fileName = "/Powerups/" + fileName;
+
+        File jsonFile = new File(getClass().getResource(fileName).toString());
 
         Type foundListType = new TypeToken<ArrayList<PowerupFactory>>(){}.getType(); /* to deserialize the array into an arrayList */
 
@@ -143,7 +148,7 @@ public class Factory {
         List<AmmoTile> ammoDeck = new ArrayList<>();
 
         Gson gson = new Gson();
-        File jsonFile = Paths.get("/src/main/resources/AmmoTiles/Ammo.json").toFile();
+        File jsonFile = new File(getClass().getResource("/AmmoTiles/Ammo.json").toString());
 
         Type foundListType = new TypeToken<ArrayList<AmmoTileFactory>>(){}.getType(); /* to deserialize the array into an arrayList */
 
@@ -182,7 +187,9 @@ public class Factory {
 
         Gson gson = new Gson();
 
-        File jsonFile = Paths.get(fileName).toFile();
+        fileName = "/Board/" + fileName;
+
+        File jsonFile = new File(getClass().getResource(fileName).toString());
 
         Type foundListType = new TypeToken<ArrayList<CellFactory>>(){}.getType();
 

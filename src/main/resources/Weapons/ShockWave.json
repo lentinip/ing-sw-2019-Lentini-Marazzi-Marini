@@ -1,5 +1,5 @@
 {
-  "name" : "SHOCKWAVE",
+  "name" : "SHOCK WAVE",
   "Description" : "basic mode: Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target.in tsunami mode: Deal 1 damage to all targets that are exactly 1 move away.",
   "grabCost" : {
     "red" : 0,
