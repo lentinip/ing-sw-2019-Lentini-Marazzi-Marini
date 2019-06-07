@@ -75,6 +75,7 @@ public class DamageTokens extends Tokens {
         totalDamage=0;
     }
 
+    @SuppressWarnings("Duplicates")
     private class RankingComparator implements Comparator<Map.Entry<Character, Integer>> {
 
         public int compare(Map.Entry<Character, Integer> o1, Map.Entry<Character, Integer> o2) {

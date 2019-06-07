@@ -1,25 +1,21 @@
 package it.polimi.sw2019.view;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.sun.org.apache.regexp.internal.RE;
 import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.model.Colors;
 import it.polimi.sw2019.model.TypeOfAction;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.*;
+import sun.jvm.hotspot.oops.OopUtilities;
 
 
 import java.io.*;
-import java.lang.reflect.Type;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 
 public class CLI implements ViewInterface {
@@ -31,13 +27,12 @@ public class CLI implements ViewInterface {
 
         setClient(client);
         Gson json = new Gson();
-        InputStream jsonFile = getClass().getClassLoader().getResourceAsStream("/AmmoTiles/AmmoTileDescription.json");
-        Type map = new TypeToken<HashMap<String, String>>(){}.getType();
         try {
-            ammoTileDescription = json.fromJson(jsonFile.toString(), map);
+            JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("/AmmoTiles/AmmoTileDescription.json")));
+            ammoTileDescription = json.fromJson(jsonReader, Map.class);
         }
         catch (Exception e){
-            out.println("file not found");
+            LOGGER.log(Level.SEVERE, "file not found");
         }
 
     }
@@ -47,15 +42,13 @@ public class CLI implements ViewInterface {
      */
     public CLI() {
 
-        setClient(client);
         Gson json = new Gson();
-        InputStream jsonFile = getClass().getClassLoader().getResourceAsStream("/AmmoTiles/AmmoTileDescription.json");
-        Type map = new TypeToken<HashMap<String, String>>(){}.getType();
         try {
-            ammoTileDescription = json.fromJson(jsonFile.toString(), map);
+            JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("/AmmoTiles/AmmoTileDescription.json")));
+            ammoTileDescription = json.fromJson(jsonReader, Map.class);
         }
         catch (Exception e){
-            out.println("file not found");
+            LOGGER.log(Level.SEVERE, "file not found");
         }
     }
 
@@ -64,6 +57,10 @@ public class CLI implements ViewInterface {
     private MatchState matchState; //the current matchState
 
     private PrivateHand privateHand; //the current privateHand
+
+    private BoardCoord lastCellSelected;
+
+    private Boolean lastCanIshoot;
 
     private String username; //player user
 
@@ -120,6 +117,10 @@ public class CLI implements ViewInterface {
 
 
     /* Methods */
+
+    public void setLastCanIshoot(Boolean lastCanIshoot) {
+        this.lastCanIshoot = lastCanIshoot;
+    }
 
     public static PrintWriter getOut() {
         return out;
@@ -179,13 +180,7 @@ public class CLI implements ViewInterface {
 
     public static void main(String[] args){
 
-        CLI prova = null;
-
-
-        prova = new CLI();
-
-
-
+        CLI prova = new CLI();
 
         List<String> usernames = new ArrayList<>();
         usernames.add("prova1");
@@ -211,6 +206,7 @@ public class CLI implements ViewInterface {
         List<String> weapons = new ArrayList<>();
         weapons.add("CYBER BLADE");
         weapons.add("SHOTGUN");
+        weapons.add("T.H.O.R");
         List<String> weaponsEmpty = new ArrayList<>();
         List<Character> characters1 = new ArrayList<>();
 
@@ -287,16 +283,45 @@ public class CLI implements ViewInterface {
         matchState.setPowerupsDeckSize(20);
         matchState.setWeaponsDeckSize(10);
         matchState.setCurrentPlayerLeftActions(2);
+        matchState.setCurrentPlayer(Character.DISTRUCTOR);
         prova.setMatchState(matchState);
 
-        if (prova.getAmmoTileDescription().get("AD_ammo_042.png") == null) {
-            System.out.println("AMMO NON TROVATA");
-        } else {
-            System.out.println(prova.getAmmoTileDescription().get("AD_ammo_042.png"));
-        }
-        PrivateHand privateHand = new PrivateHand(weaponsEmpty, weapons, weapons);
+        List<Colors> colors = new ArrayList<>();
+        colors.add(Colors.BLUE);
+        colors.add(Colors.YELLOW);
+        colors.add(Colors.RED);
+        PrivateHand privateHand = new PrivateHand(weaponsEmpty, weapons, weapons, weapons, colors);
         prova.setPrivateHand(privateHand);
-        prova.displayCanIShoot(true);
+        Message matchSetup = new Message("All");
+        matchSetup.createMessageMatchSetup(new MatchSetup(false, false, "Board1.json"));
+
+        List<BoardCoord> coords = new ArrayList<>();
+        coords.add(new BoardCoord(0,1));
+        coords.add(new BoardCoord(2,3));
+        coords.add(new BoardCoord(1, 2));
+        coords.add(new BoardCoord(0, 0));
+
+
+        List<IndexMessage> indexMessages = new ArrayList<>();
+        indexMessages.add(new IndexMessage(0));
+        indexMessages.add(new IndexMessage(2));
+        AvailableCards cards = new AvailableCards(indexMessages, false);
+        prova.setLastCanIshoot(false);
+        PaymentMessage paymentMessage = new PaymentMessage(false, indexMessages);
+        MatchState matchState1 = new MatchState();
+        matchState1.setCurrentPlayer(Character.DOZER);
+
+        prova.updateMatchState(matchState1);
+        //prova.displayPaymentForPowerupsCost(paymentMessage);
+        //prova.displayPayment(paymentMessage);
+        //prova.displayAvailablePlayersWithNoOption(characters, TypeOfAction.SHOOT);
+        //prova.displayAvailablePlayers(characters, TypeOfAction.SHOOT);
+        //prova.displayAvailableCardsWithNoOption(cards, TypeOfAction.USEPOWERUP);
+        //prova.displayAvailableCards(cards, TypeOfAction.SPAWN);
+        //prova.displayAvailableCells(coords, TypeOfAction.MOVE);
+        //prova.displayMatchStart(new MatchStart(matchSetup, usernames, characters));
+        //prova.displayCanIShoot(true);
+        //prova.displayReconnectionWindow();
     }
 
     public static void restartScanner(){
@@ -550,6 +575,7 @@ public class CLI implements ViewInterface {
     public void displayCanIShoot(boolean answer){
 
         int choice = displayOptions(answer);
+        lastCanIshoot = answer;
         Message mes = new Message(username);
 
         //info window
@@ -654,7 +680,7 @@ public class CLI implements ViewInterface {
         out.println("YOUR CARDS:");
         out.print("unloaded weapons: ");
         for (String weapon: privateHand.getWeaponsUnloaded()){
-            out.print("  " + weapon);
+            out.print("    " + weapon);
         }
         out.print("\nloaded weapons: ");
         for (String weapon: privateHand.getWeaponsLoaded()){
@@ -662,7 +688,9 @@ public class CLI implements ViewInterface {
         }
         out.print("\npowerups: ");
         for (String powerup: privateHand.getPowerups()){
-            out.print("    " + powerup);
+            out.print("    " );
+            printPowerupName(powerup);
+            out.print("");
         }
         out.print("\n\nYOUR LIFE: ");
         PlayerBoardMessage playerBoard = matchState.getPlayerBoardMessages().get(usernames.indexOf(username));
@@ -822,7 +850,32 @@ public class CLI implements ViewInterface {
             case VIOLET:
                 out.print(ANSI_PURPLE + "VIOLET " + ANSI_RESET);
                 break;
+                default:
+                    LOGGER.log(Level.SEVERE, "CHARACTER NOT FOUND");
         }
+    }
+
+    /**
+     * Used to print powerup names colored
+     * @param powerup powerup current
+     */
+    private void printPowerupName(String powerup){
+
+        List<String> powerups = privateHand.getPowerups();
+        List<Colors> colors = privateHand.getPowerupColors();
+
+        Colors color = colors.get(powerups.indexOf(powerup));
+
+        if (color == Colors.BLUE){
+            out.print(ANSI_BLUE + powerup + ANSI_RESET);
+        }
+        else if (color == Colors.RED){
+            out.print(ANSI_RED + powerup + ANSI_RESET);
+        }
+        else{
+            out.print(ANSI_YELLOW + powerup + ANSI_RESET);
+        }
+
     }
 
 
@@ -951,44 +1004,208 @@ public class CLI implements ViewInterface {
      */
     public void displayAvailableCells(List<BoardCoord> cells, TypeOfAction typeOfAction){
 
-        //TODO implement
+        out.println("\nCHOOSE THE CELL: ");
+        int cont  = 0;
+        for (BoardCoord cell: cells){
+            out.println(cont + ".  row: " + cell.getRow() + "  column: " + cell.getColumn());
+            cont++;
+        }
+        int choice = readNumbers(0, cells.size() - 1);
+        Message selectedCell = new Message(username);
+
+        if ( typeOfAction == TypeOfAction.SHOOT){
+
+            selectedCell.createSelectedCellMessage(cells.get(choice), typeOfAction, TypeOfMessage.SELECTED_CELL);
+        }
+
+        else {
+
+            selectedCell.createSelectedCellMessage(cells.get(choice), typeOfAction, TypeOfMessage.SINGLE_ACTION);
+        }
+
+        lastCellSelected = cells.get(choice);
+
+        client.send(selectedCell);
     }
 
     /**
      * shows the cards the player can choose
      * @param cards contains options
      */
+    @SuppressWarnings("Duplicates")
     public void displayAvailableCards(AvailableCards cards, TypeOfAction typeOfAction){
 
-        //TODO implement
+        int cont = 0;
+
+        if (cards.areWeapons()){
+            out.println("CHOOSE THE WEAPON:");
+            for(IndexMessage indexMessage: cards.getAvailableCards()){
+                out.println(cont + ".  " + privateHand.getAllWeapons().get(indexMessage.getSelectionIndex()));
+                cont++;
+            }
+        }
+
+        else {
+            if (typeOfAction == TypeOfAction.SPAWN){
+                out.println("   YOU ARE DEAD!!!");
+                out.println(ANSI_GREEN + "     _.--\"\"--._\n" +
+                        "    /  _    _  \\\n" +
+                        " _  ( (_\\  /_) )  _\n" +
+                        "{ \\._\\   /\\   /_./ }\n" +
+                        "/_\"=-.}______{.-=\"_\\\n" +
+                        " _  _.=(\"\"\"\")=._  _\n" +
+                        "(_'\"_.-\"`~~`\"-._\"'_)\n" +
+                        " {_\"            \"_}" + ANSI_RESET);
+                out.println("\nYou will spawn in the spawn cell of the same color of the powerup chosen\n");
+            }
+            out.println("CHOOSE THE POWERUP:");
+            for(IndexMessage indexMessage: cards.getAvailableCards()){
+                out.print(cont + ".  ");
+                printPowerupName(privateHand.getPowerups().get(indexMessage.getSelectionIndex()));
+                out.println("");
+                cont++;
+            }
+        }
+
+        int choice = readNumbers(0, cont - 1);
+
+        int cont2 = 0;
+        Message selectedCard = new Message(username);
+
+        if (typeOfAction == TypeOfAction.GRAB){
+
+            //the players has 3 weapons
+            if (privateHand.getAllWeapons().size() == 3) {
+
+                out.println("We are sorry you can't have more than 3 weapons, choose one to discard:");
+
+                for (String weapon: privateHand.getAllWeapons()) {
+                    out.println(cont2 + ".  " + weapon);
+                    cont2++;
+                }
+                int choice2 = readNumbers(0, cont2 - 1);
+                selectedCard.createSingleActionGrabWeapon(new GrabWeapon(cards.getAvailableCards().get(choice).getSelectionIndex(), choice2, lastCellSelected));
+            }
+            //no weapons to drop
+            else{
+                selectedCard.createSingleActionGrabWeapon(new GrabWeapon(cards.getAvailableCards().get(choice).getSelectionIndex(), -1, lastCellSelected));
+            }
+        }
+
+        else {
+
+            selectedCard.createSelectedCard(cards.getAvailableCards().get(choice).getSelectionIndex(), typeOfAction);
+        }
+
+        client.send(selectedCard);
     }
 
     /**
-     * shows the cards the player can choose with the "no" button
+     * shows the cards the player can choose with the "no" button (used for reload and use powerup
      * @param cards contains options
      */
+    @SuppressWarnings("Duplicates")
     public void displayAvailableCardsWithNoOption(AvailableCards cards, TypeOfAction typeOfAction){
 
-        //TODO implement
+        int cont = 0;
+        Message selectedCard = new Message(username);
+
+        if (cards.areWeapons()){
+            out.println("CHOOSE THE WEAPON:");
+            for(IndexMessage indexMessage: cards.getAvailableCards()){
+                out.println(cont + ".  " + privateHand.getAllWeapons().get(indexMessage.getSelectionIndex()));
+                cont++;
+            }
+        }
+
+        else {
+            out.println("CHOOSE THE POWERUP:");
+            for(IndexMessage indexMessage: cards.getAvailableCards()){
+                out.print(cont + ".  ");
+                printPowerupName(privateHand.getPowerups().get(indexMessage.getSelectionIndex()));
+                out.println("");
+                cont++;
+            }
+        }
+        out.println(cont + ". NO THANKS");
+        int choice = readNumbers(0, cont);
+
+        if (typeOfAction == TypeOfAction.RELOAD){
+
+            //no thanks
+            if (sameNumbers(choice, cont)){
+                displayCanIShoot(lastCanIshoot);
+            }
+
+            else {
+                selectedCard.createSingleActionReload(cards.getAvailableCards().get(choice).getSelectionIndex());
+                client.send(selectedCard);
+            }
+        }
+        else if (typeOfAction == TypeOfAction.USEPOWERUP){
+
+            //no thanks
+            if (sameNumbers(choice, cont)){
+                selectedCard.createSelectionForUsePowerup(-1);
+            }
+            else{
+                selectedCard.createSelectionForUsePowerup(cards.getAvailableCards().get(choice).getSelectionIndex());
+            }
+            client.send(selectedCard);
+        }
     }
 
     /**
      * shows the characters the player can choose
      * @param players contains options
      */
+    @SuppressWarnings("Duplicates")
     public void displayAvailablePlayers(List<Character> players, TypeOfAction typeOfAction){
 
-        //TODO implement
+        Message selectedPlayer = new Message(username);
+        int cont = 0;
+        out.println("CHOOSE THE PLAYER:");
+        for(Character player: players){
+            out.print(cont + ".  ");
+            printCharacterName(player);
+            out.println("");
+            cont++;
+        }
+        int choice = readNumbers(0, cont-1);
+        selectedPlayer.createSelectedPlayer(characters.indexOf(players.get(choice)), typeOfAction);
     }
 
     /**
      * shows the characters the player can choose with the "no" button
      * @param players contains options
      */
+    @SuppressWarnings("Duplicates")
     public void displayAvailablePlayersWithNoOption(List<Character> players, TypeOfAction typeOfAction){
 
-        //TODO implement
+        Message selectedPlayer = new Message(username);
+        int cont = 0;
+
+        out.println("CHOOSE THE PLAYER:");
+        for(Character player: players){
+            out.print(cont + ".  ");
+            printCharacterName(player);
+            out.println("");
+            cont++;
+        }
+        out.println(cont + ".  NO THANKS");
+        int choice = readNumbers(0, cont);
+        int indexSelected;
+        //NO THANKS
+        if (choice == cont){
+            indexSelected = -1;
+        }
+        else {
+            indexSelected = characters.indexOf(players.get(choice));
+        }
+        selectedPlayer.createSelectedPlayer(indexSelected, typeOfAction);
+        client.send(selectedPlayer);
     }
+
 
     /**
      * shows the effects the player can choose
@@ -1012,9 +1229,42 @@ public class CLI implements ViewInterface {
      * show the payment message with the powerups that can be used to pay
      * @param paymentInfo if must is true the player has to choose one, otherwise he can click "no" button
      */
+    @SuppressWarnings("Duplicates")
     public void displayPayment(PaymentMessage paymentInfo){
 
-        //TODO implement
+        int cont = 0;
+        int choice;
+        Message payment = new Message(username);
+
+        out.println("YOU CAN PAY THE COST WITH ONE OR MORE POWERUPS!!!  <(^_^)>");
+        if (!paymentInfo.isMustPay()) {
+            out.println("select 'NO THANKS' if you don't want to pay using powerups");
+        }
+        out.println("SELECT THE POWERUPS:");
+        for(IndexMessage indexMessage: paymentInfo.getUsablePowerups()){
+            out.print(cont + ".  ");
+            printPowerupName(privateHand.getPowerups().get(indexMessage.getSelectionIndex()));
+            out.println("");
+            cont++;
+        }
+        // has enough ammo
+        if (!paymentInfo.isMustPay()){
+            out.println(cont + ".  NO THANKS");
+            choice = readNumbers(0, cont);
+        }
+        //has not enough ammo
+        else{
+            choice = readNumbers(0, cont - 1);
+        }
+
+        if (sameNumbers(choice, cont)){
+            payment.createPaymentSelection(-1);
+        }
+        else {
+            payment.createPaymentSelection(paymentInfo.getUsablePowerups().get(choice).getSelectionIndex());
+        }
+
+        client.send(payment);
     }
 
     /**
@@ -1022,20 +1272,92 @@ public class CLI implements ViewInterface {
      * the player has to select a color (between the available ones) to pay an ammo cube
      * @param paymentMessage payment info, if must is true then no answer is not accepted
      */
+    @SuppressWarnings({"Duplicates","squid:S3776"})
     public void displayPaymentForPowerupsCost(PaymentMessage paymentMessage){
 
-        //TODO implement
+        int cont = 0;
+        int choice;
+        Message payment = new Message(username);
+
+        out.println("YOU CAN PAY THE COST OF TARGETING SCOPE WITH ONE OR MORE POWERUPS!!!  <(^_^)>");
+        if (!paymentMessage.isMustPay()) {
+            out.println("select 'NO THANKS' if you don't want to pay using powerups");
+        }
+        out.println("SELECT THE POWERUPS:");
+        for(IndexMessage indexMessage: paymentMessage.getUsablePowerups()){
+            out.print(cont + ".  ");
+            printPowerupName(privateHand.getPowerups().get(indexMessage.getSelectionIndex()));
+            out.println("");
+            cont++;
+        }
+        // has enough ammo
+        if (!paymentMessage.isMustPay()){
+            out.println(cont + ".  NO THANKS");
+            choice = readNumbers(0, cont);
+        }
+        //has not enough ammo
+        else{
+            choice = readNumbers(0, cont - 1);
+        }
+        //he pays with cube ammo and have to select the color
+        if (sameNumbers(choice, cont)){
+
+            Colors selectedColor = null;
+            int cont2 = 1;
+            int redInt = -1;
+            int blueInt = -1;
+            int yellowInt = -1;
+            PlayerBoardMessage hisBoard = matchState.getPlayerBoardMessages().get(usernames.indexOf(username));
+            out.println("\n PLEASE SELECT THE COLOR OF THE AMMO CUBE YOU WANT TO USE");
+            if ( hisBoard.getRedAmmo() > 0) {
+                out.println(cont2 + ". " + ANSI_RED + "RED" + ANSI_RESET);
+                redInt = cont2;
+                cont2++;
+            }
+            if (hisBoard.getBlueAmmo() > 0) {
+                out.println(cont2 + ". " + ANSI_BLUE + "BLUE" + ANSI_RESET);
+                blueInt = cont2;
+                cont2++;
+            }
+            if (hisBoard.getYellowAmmo() > 0) {
+                out.println(cont2 + ". " + ANSI_YELLOW + "YELLOW" + ANSI_RESET);
+                yellowInt = cont2;
+                cont2++;
+            }
+            int colorChoice = readNumbers(1,cont2-1);
+
+            if (sameNumbers(colorChoice,redInt)){
+                selectedColor = Colors.RED;
+            }
+            else if (sameNumbers(colorChoice, blueInt)){
+                selectedColor = Colors.BLUE;
+            }
+            else if (sameNumbers(colorChoice, yellowInt)){
+                selectedColor = Colors.YELLOW;
+            }
+            payment.createColorSelection(selectedColor);
+        }
+        else {
+            payment.createPaymentSelection(paymentMessage.getUsablePowerups().get(choice).getSelectionIndex());
+        }
+
+        client.send(payment);
     }
 
     /**
      * updates all the info showed in cli and gui about the status of the match
-     * @param matchState updates all over the board and the cards
+     * @param matchStateNew updates all over the board and the cards
      */
-    public void updateMatchState(MatchState matchState){
+    public void updateMatchState(MatchState matchStateNew){
 
-        this.matchState = matchState;
+        if (matchStateNew.getCurrentPlayer() != matchState.getCurrentPlayer()){
 
-        //TODO implement
+            out.print("\nIT'S THE TURN OF ");
+            printCharacterName(matchStateNew.getCurrentPlayer());
+            out.println("");
+        }
+
+        matchState = matchStateNew;
     }
 
     /**
@@ -1044,7 +1366,7 @@ public class CLI implements ViewInterface {
      */
     public void updatePrivateHand(PrivateHand privateHand){
 
-        //TODO implement
+        this.privateHand = privateHand;
     }
 
     /**

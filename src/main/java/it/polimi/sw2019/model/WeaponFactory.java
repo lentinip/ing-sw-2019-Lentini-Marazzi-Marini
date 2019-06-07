@@ -1,10 +1,12 @@
 package it.polimi.sw2019.model;
 
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.nio.file.Paths;
 
 /**
@@ -104,9 +106,9 @@ public class WeaponFactory {
 
     /**
      * Method that creates the Weapon Class and reads the json file to create also the effects class
-     * @return
+     * @return weapon
      */
-    public Weapon createWeapon() throws FileNotFoundException {
+    public Weapon createWeapon(){
 
         Weapon weapon = new Weapon();
 
@@ -126,8 +128,8 @@ public class WeaponFactory {
 
             Gson gson = new Gson();
             fileName = "/Weapons/" + fileName;
-            File jsonFile = new File(getClass().getResource(fileName).toString());
-            Effect effect = gson.fromJson(new FileReader(jsonFile), Effect.class);
+            JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream(fileName)));
+            Effect effect = gson.fromJson(jsonReader, Effect.class);
             weapon.addEffect(effect);
         }
 

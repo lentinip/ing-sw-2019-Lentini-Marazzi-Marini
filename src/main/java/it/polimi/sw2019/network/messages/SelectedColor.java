@@ -5,6 +5,7 @@ import it.polimi.sw2019.model.Colors;
 public class SelectedColor {
 
     public SelectedColor(Colors color){
+
         setColor(color);
     }
 
