@@ -10,6 +10,8 @@ import java.io.FileReader;
 import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class VirtualView extends Observable implements Observer {
 
@@ -21,17 +23,17 @@ public class VirtualView extends Observable implements Observer {
 
         TimeConfigurations timeConfigurations = new TimeConfigurations();
         Gson gson = new Gson();
-        File jsonFile = Paths.get("/src/main/resources/configurations.json").toFile();
+        File jsonFile = new File(getClass().getResource("configurations.json").toString());
         try {
             timeConfigurations = gson.fromJson(new FileReader(jsonFile), TimeConfigurations.class);
         }
         catch (FileNotFoundException e){
-            System.console().printf("File not found");
+            LOGGER.log(Level.SEVERE, "file not found");
         }
         //reading the timer from the file and converting it in milliseconds
         setTurnTimer(timeConfigurations.getTurnTimer()*1000);
         setMatchCreationTimer(timeConfigurations.getMatchCreationTime()*1000);
-        setCounterAttackPowerupTimer(timeConfigurations.getCounterAttackPowerupTimer()*1000);
+        setQuickResponseTimer(timeConfigurations.getCounterAttackPowerupTimer()*1000);
     }
 
     /* Attributes */
@@ -52,13 +54,18 @@ public class VirtualView extends Observable implements Observer {
 
     private static long turnTimer;  //used for the duration of the turn
 
-    private static long counterAttackPowerupTimer; //used for the time to choose if you want to use the tagback grenade
+    private static long quickResponseTimer; //used for the time to choose if you want to use the tagback grenade, and to select powerup for the spawn
 
     private Timer timer = new Timer(); //used to manage the creation of the match
 
     private Timer turn = new Timer(); //used to manage the duration of a turn
 
     private Timer responseTimer = new Timer(); //used to manage the time of response for tagback
+
+    private Timer spawningChoiceTimer = new Timer(); //used to menage the time of response for spawn
+
+    private static final Logger LOGGER = Logger.getLogger("virtual view");
+
 
 
     /* Methods */
@@ -91,12 +98,12 @@ public class VirtualView extends Observable implements Observer {
         this.userNames = usernames;
     }
 
-    public static long getCounterAttackPowerupTimer() {
-        return counterAttackPowerupTimer;
+    public static long getQuickResponseTimer() {
+        return quickResponseTimer;
     }
 
-    public static void setCounterAttackPowerupTimer(long counterAttackPowerupTimer) {
-        VirtualView.counterAttackPowerupTimer = counterAttackPowerupTimer;
+    public static void setQuickResponseTimer(long quickResponseTimer) {
+        VirtualView.quickResponseTimer = quickResponseTimer;
     }
 
     public static long getTurnTimer() {
@@ -145,6 +152,10 @@ public class VirtualView extends Observable implements Observer {
 
     public Timer getTurn() {
         return turn;
+    }
+
+    public Timer getSpawningChoiceTimer() {
+        return spawningChoiceTimer;
     }
 
     public Server getServer() {
@@ -231,7 +242,7 @@ public class VirtualView extends Observable implements Observer {
      */
     public void sendEndTurnMessage(){
 
-        Message endTurnMessage = new Message(messageSender);
+        Message endTurnMessage = new Message(currentPlayer);
         endTurnMessage.createEndTurnMessage();
         notify(endTurnMessage);
     }
@@ -243,6 +254,10 @@ public class VirtualView extends Observable implements Observer {
        display(reconnectionRequest);
     }
 
+    /**
+     * if the timer elapses before the player click on yes/no an automatic
+     * response message is sent
+     */
     public void startResponseMessage(){
 
         responseTimer.schedule(new TimerTask() {
@@ -251,7 +266,32 @@ public class VirtualView extends Observable implements Observer {
 
                 sendAutomaticResponse();
             }
-        }, counterAttackPowerupTimer);
+        }, quickResponseTimer);
+    }
+
+    /**
+     * if the timer elapses before the player chooses a spawn location we choose it for him
+     */
+    public void startSpawnMessage(){
+
+        responseTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+                sendAutomaticSpawn();
+            }
+        }, quickResponseTimer);
+    }
+
+    /**
+     * automatic response for spawn choice
+     */
+    public void sendAutomaticSpawn(){
+
+       Message automaticSpawn = new Message(messageSender);
+       automaticSpawn.createSpawnSelection(0);
+       notify(automaticSpawn);
+
     }
 
     /**

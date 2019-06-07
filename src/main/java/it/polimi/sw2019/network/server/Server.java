@@ -26,11 +26,13 @@ public class Server {
      */
     public Server() {
 
-        waitingRoom = new VirtualView();
+        currentWaitingRoom = new VirtualView();
         socketServer = new SocketServer(this);
         rmiServer = new RmiServer(this);
         loginMessage = new Message();
         loginMessage.setTypeOfMessage(TypeOfMessage.LOGIN_REPORT);
+        reconnectionMessage = new Message();
+        reconnectionMessage.setTypeOfMessage(TypeOfMessage.PLAYER_ALREADY_LOGGED);
     }
 
     /* Attributes */
@@ -38,7 +40,7 @@ public class Server {
 
     private int socketPort;
 
-    private VirtualView waitingRoom;
+    private VirtualView currentWaitingRoom;
 
     private SocketServer socketServer;
 
@@ -46,7 +48,9 @@ public class Server {
 
     private Message loginMessage;
 
-    private Map<String, VirtualView> playersInGame;
+    private Message reconnectionMessage;
+
+    private Map<String, VirtualView> virtualViewMap;
 
     private static Logger LOGGER = Logger.getLogger("server");
 
@@ -72,15 +76,20 @@ public class Server {
         this.socketPort = socketPort;
     }
 
-    public VirtualView getWaitingRoom() {
-        return waitingRoom;
+    public VirtualView getWaitingRoom(String username) {
+        return virtualViewMap.get(username);
+    }
+
+    public VirtualView getCurrentWaitingRoom() {
+        return currentWaitingRoom;
     }
 
     public void startMatch() {
 
-        Message loginReport = new Message(waitingRoom.getUserNames().get(0));
-        loginReport.createLoginReport(waitingRoom.getUserNames().size());
+        Message loginReport = new Message(currentWaitingRoom.getUserNames().get(0));
+        loginReport.createLoginReport(currentWaitingRoom.getUserNames().size());
         sendMessage(loginReport);
+        currentWaitingRoom = new VirtualView();
     }
 
     /**
@@ -90,69 +99,61 @@ public class Server {
      */
     public void addPlayer(String username, ClientInterface clientInterface) {
 
-        if(waitingRoom.getWaitingPlayers().containsKey(username) && waitingRoom.getWaitingPlayers().get(username).getConnected()) {
+        //If there is a player connected with the same username, tell the client he has to choose another username
+        if(virtualViewMap.containsKey(username) && !virtualViewMap.get(username).getDisconnectedPlayers().contains(username)) {
 
             try {
                 loginMessage.createLoginReport(false);
+                //TODO send message to server that the username is used yet
                 clientInterface.notify(loginMessage);
-                LOGGER.log(Level.INFO, "You are connected yet");
             } catch (RemoteException e) {
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
         }
-        else if (waitingRoom.getWaitingPlayers().containsKey(username) && !waitingRoom.getWaitingPlayers().get(username).getConnected()) {
 
-            Client client = waitingRoom.getWaitingPlayers().get(username);
-            client.setConnected(true);
+        //If there is a player disconnected with the same username, tell the client if he wants to rejoin that match or if he wants to begin another match (In this case he has to choose another username)
+        else if (virtualViewMap.containsKey(username) && !virtualViewMap.get(username).getWaitingPlayers().get(username).getConnected() && virtualViewMap.get(username).getDisconnectedPlayers().contains(username)) {
+
+                reconnectionMessage.createReconnectionMessage();
             try {
 
-                loginMessage.createLoginReport(true);
                 clientInterface.notify(loginMessage);
             } catch (RemoteException e) {
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
         }
+
+        //If the username is usable
         else {
-            try {
+            try{
                 Client client = new Client(username, clientInterface);
-                if (waitingRoom.getWaitingPlayers().containsKey(username) || username == "all")
-                    throw new InvalidParameterException();
 
-                waitingRoom.addWaitingPlayer(username, client);
+                currentWaitingRoom.addWaitingPlayer(username, client);
+                virtualViewMap.put(username, currentWaitingRoom);
                 loginMessage.createLoginReport(true);
                 clientInterface.notify(loginMessage);
-                waitingRoom.addWaitingPlayer(username, client);
-            } catch (InvalidParameterException e) { //this exception is called when the username chosen by the user isn't correct
-
-                try {
-                    loginMessage.createLoginReport(false);
-                    clientInterface.notify(loginMessage);
-                } catch (RemoteException ex) { //this exception is called when I can't notify the message of failed login
-
-                    LOGGER.log(Level.WARNING, ex.getMessage());
-                }
             } catch (RemoteException e) { //this exception is called when I can't notify the message of login successful
 
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
 
-            if(waitingRoom.getNumOfWaitingPlayers() == 3){
+            if(currentWaitingRoom.getNumOfWaitingPlayers() == 3){
 
-                waitingRoom.startTimer();
+                currentWaitingRoom.startTimer();
             }
 
-            else if (waitingRoom.getNumOfWaitingPlayers() == 5){
+            else if (currentWaitingRoom.getNumOfWaitingPlayers() == 5){
 
-                waitingRoom.getTimer().cancel();
+                currentWaitingRoom.getTimer().cancel();
                 startMatch();
             }
         }
     }
 
-    /**
+ /*   /**
      * if the message is a login message, the player will be registered, else will be handled by controller
      * @param message
-     */
+
     public void handleMessage(Message message) {
 
         if (waitingRoom.getWaitingPlayers().containsKey(message.getUsername()) && !waitingRoom.getWaitingPlayers().get(message.getUsername()).getConnected()) {
@@ -166,23 +167,42 @@ public class Server {
 
             waitingRoom.notify(message);
         }
-        //TODO implement
-    }
+    } */
+
     /**
      * send a message to the specific client in the username field of the message
      * @param message to be sent
      */
     public void sendMessage(Message message){
 
+        try {
+
+            virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).getClientInterface().notify(message);
+        } catch (RemoteException e) {
+
+            LOGGER.log(Level.WARNING, e.getMessage());
+        }
     }
 
     /**
      * send a message to all clients (except for disconnected ones)
      * @param message to be sent
      */
-    public void sendAll(Message message){
+    public void sendAll(Message message, VirtualView virtualView){
 
-        //TODO implement
+        for(String user : virtualViewMap.keySet()) {
+
+            if(virtualViewMap.get(user) == virtualView) {
+
+                try {
+
+                    virtualViewMap.get(user).getWaitingPlayers().get(user).getClientInterface().notify(message);
+                } catch (RemoteException e) {
+
+                    LOGGER.log(Level.WARNING, e.getMessage());
+                }
+            }
+        }
 
     }
 
@@ -192,6 +212,8 @@ public class Server {
      * @param message
      */
     public void receiveMessage(Message message){
+
+
 
         //when the first player chooses the setup options we send to everyOne a message with the choices that the player has taken
         if (message.getTypeOfMessage() == TypeOfMessage.MATCH_SETUP){
@@ -205,19 +227,19 @@ public class Server {
             charactersInGame.add(Character.BANSHEE);
             charactersInGame.add(Character.DOZER);
 
-            if (counter < waitingRoom.getNumOfWaitingPlayers()) {           /* if there are 4 players adding violet */
+            if (counter < virtualViewMap.get(message.getUsername()).getNumOfWaitingPlayers()) {  /* if there are 4 players adding violet */
                 charactersInGame.add(Character.VIOLET);
                 counter++;
             }
-            if (counter < waitingRoom.getNumOfWaitingPlayers()) {          /* if there are 5 players adding also sprog */
+            if (counter < virtualViewMap.get(message.getUsername()).getNumOfWaitingPlayers()) {  /* if there are 5 players adding also sprog */
                 charactersInGame.add(Character.SPROG);
             }
-            MatchStart matchStartClass = new MatchStart(message, waitingRoom.getUsernames(), charactersInGame);
+            MatchStart matchStartClass = new MatchStart(message, virtualViewMap.get(message.getUsername()).getUsernames(), charactersInGame);
             matchStart.createMessageMatchStart(matchStartClass);
-            sendAll(matchStart);
+            sendAll(matchStart, virtualViewMap.get(message.getUsername()));
         }
 
-        waitingRoom.notify(message);
+        virtualViewMap.get(message.getUsername()).notify(message);
     }
 
     /**

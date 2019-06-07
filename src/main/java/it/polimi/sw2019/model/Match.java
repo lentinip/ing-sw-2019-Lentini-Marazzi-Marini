@@ -39,6 +39,7 @@ public class Match extends Observable {
             players.add(new Player(usernames.get(counter), charactersInGame.get(counter), charactersInGame));
         }
 
+        deadPlayers = new ArrayList<>(players);
         initializeMatch(boardJsonName);
         score = new Score(charactersInGame, board.getKillTrack());
         setIWantFrenzyMode(iWantFrenzyMode);
@@ -60,7 +61,7 @@ public class Match extends Observable {
 
     private int currentPlayerLeftActions = 2;
 
-    private List<Player> deadPlayers = new ArrayList<>();
+    private List<Player> deadPlayers;
 
     private Score score;
 

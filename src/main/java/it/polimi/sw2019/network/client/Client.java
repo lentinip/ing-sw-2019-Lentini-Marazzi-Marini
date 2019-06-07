@@ -1,8 +1,6 @@
 package it.polimi.sw2019.network.client;
 
 import it.polimi.sw2019.model.TypeOfAction;
-import it.polimi.sw2019.network.client.rmi.RmiClient;
-import it.polimi.sw2019.network.client.socket.SocketClientConnection;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.TypeOfMessage;
 import it.polimi.sw2019.view.CLI;

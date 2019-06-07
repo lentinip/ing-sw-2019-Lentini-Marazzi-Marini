@@ -1,5 +1,5 @@
 {
-  "name" : "HEATSEEKER",
+  "name" : "HEAT SEEKER",
   "Description" : "effect: Choose 1 target you cannot see and deal 3 damage to it.Notes: Yes, this can only hit targets you cannot see.",
   "grabCost" : {
     "red" : 1,

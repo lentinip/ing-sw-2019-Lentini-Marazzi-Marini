@@ -1,0 +1,15 @@
+{
+
+  "AD_ammo_042.png" : "2 ammo cube blue and 1 yellow",
+  "AD_ammo_043.png" : "2 ammo cube red and 1 yellow",
+  "AD_ammo_045.png" : "2 ammo cube yellow and 1 red",
+  "AD_ammo_047.png" : "2 ammo cube red and 1 blue",
+  "AD_ammo_046.png" : "2 ammo cube yellow and 1 blue",
+  "AD_ammo_044.png" : "2 ammo cube blue and 1 red",
+  "AD_ammo_0421.png" : "2 ammo cube red and 1 powerup",
+  "AD_ammo_0429.png" : "2 ammo cube yellow and 1 powerup",
+  "AD_ammo_0422.png" : "2 ammo cube blue and 1 powerup",
+  "AD_ammo_0424.png" : "1 ammo cube blue, 1 yellow and 1 powerup",
+  "AD_ammo_0423.png" : "1 ammo cube red, 1 yellow and 1 powerup",
+  "AD_ammo_0428.png" : "1 ammo cube red, 1 blue and 1 powerup"
+}

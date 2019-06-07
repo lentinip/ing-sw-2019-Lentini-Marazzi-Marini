@@ -125,8 +125,8 @@ public class WeaponFactory {
         for(String fileName: effects){
 
             Gson gson = new Gson();
-            File jsonFile = Paths.get(fileName).toFile();
-
+            fileName = "/Weapons/" + fileName;
+            File jsonFile = new File(getClass().getResource(fileName).toString());
             Effect effect = gson.fromJson(new FileReader(jsonFile), Effect.class);
             weapon.addEffect(effect);
         }

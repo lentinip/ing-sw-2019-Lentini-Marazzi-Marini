@@ -4,11 +4,13 @@ import it.polimi.sw2019.network.messages.*;
 import it.polimi.sw2019.network.server.VirtualView;
 import static it.polimi.sw2019.network.messages.TypeOfMessage.*;
 
+import java.io.Console;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Controller implements Observer {
@@ -20,7 +22,6 @@ public class Controller implements Observer {
 
         this.view = view;
     }
-
     /* Attributes */
 
     private Match match;
@@ -28,6 +29,8 @@ public class Controller implements Observer {
     private VirtualView view;
 
     private TurnManager turnManager;
+
+    private static final Logger LOGGER = Logger.getLogger("controller");
 
     /* Methods */
 
@@ -58,6 +61,9 @@ public class Controller implements Observer {
 
         match = new Match(setupInfo.isFrenzy(), setupInfo.isEightSkulls(), view.getUsernames(), setupInfo.getBoardJsonName());
         turnManager = new TurnManager(match, view);
+
+        //sending the spawn message to the first player
+        view.display(turnManager.spawningHandler());
     }
 
     /**
@@ -79,8 +85,7 @@ public class Controller implements Observer {
             }
 
             catch (FileNotFoundException e){
-
-                System.console().printf("JSON FILE NOT FOUND");
+                LOGGER.log(Level.SEVERE, "file not found");
             }
         }
 
@@ -109,8 +114,7 @@ public class Controller implements Observer {
         }
 
         else {
-
-            System.out.println("type of message attribute not initialized");
+            LOGGER.log(Level.SEVERE, "switch error");
         }
 
     }
@@ -174,7 +178,7 @@ public class Controller implements Observer {
                 answer.createAvailableCardsMessage(TypeOfAction.RELOAD, indexMessageList, true);
                 break;
             default:
-                System.console().printf("TYPE OF MESSAGE UNKNOWN");
+                LOGGER.log(Level.SEVERE, "switch error");
                 break;
         }
 

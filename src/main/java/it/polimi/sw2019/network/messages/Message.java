@@ -451,4 +451,12 @@ public class Message implements Serializable {
         setJsonFile(serializeIndexMessage(new IndexMessage(userDisconnected)));
     }
 
+    public void createSpawnSelection(int powerupIndex){
+
+        setTypeOfMessage(TypeOfMessage.SELECTED_CARD);
+        setTypeOfAction(TypeOfAction.SPAWN);
+        setJsonFile(serializeIndexMessage(new IndexMessage(powerupIndex)));
+    }
+
+
 }

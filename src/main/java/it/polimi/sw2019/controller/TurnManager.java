@@ -9,6 +9,7 @@ import it.polimi.sw2019.network.server.VirtualView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class TurnManager {
 
@@ -43,6 +44,8 @@ public class TurnManager {
 
     //SpawnCells where the player took the Weapon
     private List<Cell> emptySpawnCells = new ArrayList<>();
+
+    private static final Logger LOGGER = Logger.getLogger("client");
 
     /* Methods */
 
@@ -105,6 +108,12 @@ public class TurnManager {
         if (match.isEnded()){
 
             Map<Character, Integer> leaderboard = match.getScore().getRankingMap();
+
+            //removing disconnected players from the leader board
+            for (String name: view.getDisconnectedPlayers()){
+
+                leaderboard.remove(match.getPlayerByUsername(name).getCharacter());
+            }
 
             Message endMessage = new Message("All");
             endMessage.createLeaderBoard(leaderboard);
@@ -175,6 +184,8 @@ public class TurnManager {
         //The player is moved to the SpawnCell of the room
         spawningPlayer.setPosition(room.getSpawnCell());
 
+        match.notifyPrivateHand(spawningPlayer);
+
         // checking if it is the first spawn or not
         if (isFirstRound){
 
@@ -190,18 +201,18 @@ public class TurnManager {
             message.createMessageCanIShoot(spawningPlayer.canIshootBeforeComplexAction());
         }
 
-        // updating the model and the player attribute isDead
         else {
-
-            spawningPlayer.setDead(false);
-            match.getDeadPlayers().remove(spawningPlayer);
 
             // sending the spawn message to the next player with the available Powerups to discard
             message = spawningHandler();
 
         }
 
+        // updating the model and the player attribute isDead
+        spawningPlayer.setDead(false);
+        match.getDeadPlayers().remove(spawningPlayer);
         match.notifyPrivateHand(spawningPlayer);
+        //sending the message
         view.display(message);
     }
 
@@ -219,6 +230,12 @@ public class TurnManager {
             receiver = match.getDeadPlayers().get(0);
             singleActionManager.getAtomicActions().drawPowerup(receiver);
 
+            //in the first round players draw 2 powerups before the spawn
+            if (isFirstRound){
+
+                singleActionManager.getAtomicActions().drawPowerup(receiver);
+            }
+
             message.setUsername(receiver.getName());
 
             List<Powerup> powerups = receiver.getPowerups();
@@ -228,6 +245,9 @@ public class TurnManager {
                 options.add(new IndexMessage(receiver.getPowerupIndex(card)));
             }
             message.createAvailableCardsMessage(TypeOfAction.SPAWN, options, false);
+            //starting the spawn answer timer
+            view.setMessageSender(receiver.getName());
+            view.startSpawnMessage();
         }
 
         //sending the can I shoot message to the new current player
@@ -235,7 +255,7 @@ public class TurnManager {
             message.setUsername(currentPlayer.getName());
             message.createMessageCanIShoot(currentPlayer.canIshootBeforeComplexAction());
 
-            //restarting the time beacuse a new player is having his turn
+            //restarting the time because a new player is having his turn
             view.startTurnTimer(currentPlayer.getName());
         }
 

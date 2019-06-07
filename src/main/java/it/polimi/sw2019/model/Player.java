@@ -34,7 +34,7 @@ public class Player extends Observable {
         setName(name);
         setCharacter(character);
         playerBoard = new PlayerBoard(charactersInGame);
-        setDead(false);
+        setDead(true);
         setState(State.NORMAL);
     }
 

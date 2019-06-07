@@ -90,6 +90,11 @@ public class  AtomicActions {
         //Removes it from the cell
         selectedCell.getWeapons().remove(grabbedWeapon);
 
+        if (selectedCell.getWeapons().isEmpty()){
+
+            selectedCell.setIsEmpty(true);
+        }
+
         //Sets the match as changed
         match.notifyPrivateHand(match.getCurrentPlayer());
     }
