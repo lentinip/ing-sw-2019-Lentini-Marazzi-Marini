@@ -25,7 +25,7 @@ public class SingleActionManager {
         this.match = match;
         this.view = view;
         this.turnManager = turnManager;
-        this.atomicActions = new AtomicActions(match);
+        this.atomicActions = new AtomicActions(match, view);
         this.payment = new Payment(match, view, this);
         this.choices = new Choices(match, view, payment, atomicActions, this);
 
@@ -336,14 +336,16 @@ public class SingleActionManager {
         else {
 
             List<IndexMessage> effects = new ArrayList<>();
+            List<String> names = new ArrayList<>();
 
             for (Effect effect: usableEffects){
 
                 effects.add(new IndexMessage(choices.getSelectedWeapon().getIndexByEffect(effect)));
+                names.add(effect.getName());
             }
 
             Message options = new Message(match.getCurrentPlayer().getName());
-            options.createAvailableEffects(effects);
+            options.createAvailableEffects(effects, names);
             view.display(options);
         }
     }

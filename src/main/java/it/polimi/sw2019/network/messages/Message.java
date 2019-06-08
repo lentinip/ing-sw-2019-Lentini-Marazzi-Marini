@@ -175,6 +175,18 @@ public class Message implements Serializable {
         return gson.toJson(loginMessage);
     }
 
+    public String serializeActionReport(ActionReports actionReports){
+
+        Gson gson = new Gson();
+        return gson.toJson(actionReports);
+    }
+
+    public ActionReports deserializeActionReports(){
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonFile, ActionReports.class);
+    }
+
     public MatchStart deserializeMatchStart(){
 
         Gson gson = new Gson();
@@ -363,19 +375,19 @@ public class Message implements Serializable {
         setJsonFile(serializePlayers(playersMessage));
     }
 
-    public void createAvailableEffects(List<IndexMessage> availableEffects){
+    public void createAvailableEffects(List<IndexMessage> availableEffects, List<String> names){
 
         setTypeOfMessage(TypeOfMessage.AVAILABLE_EFFECTS);
         setTypeOfAction(TypeOfAction.SHOOT);
-        AvailableEffects effects = new AvailableEffects(availableEffects);
+        AvailableEffects effects = new AvailableEffects(availableEffects, names);
         setJsonFile(serializeAvailableEffects(effects));
     }
 
-    public void createLeaderBoard(Map<Character, Integer> map){
+    public void createLeaderBoard(Map<Character, Integer> map, Map<Character, Integer> pointsMap){
 
         setTypeOfMessage(TypeOfMessage.END_MATCH);
         setTypeOfAction(TypeOfAction.NONE);
-        LeaderBoard leaderBoard = new LeaderBoard(map);
+        LeaderBoard leaderBoard = new LeaderBoard(map, pointsMap);
         setJsonFile(serializeLeaderBoard(leaderBoard));
     }
 
@@ -469,6 +481,20 @@ public class Message implements Serializable {
         setTypeOfMessage(TypeOfMessage.SELECTED_COLOR);
         setTypeOfAction(TypeOfAction.PAY);
         setJsonFile(serializeSelectedColor(new SelectedColor(color)));
+    }
+
+    public void createSelectedEffect(int selection){
+
+        setTypeOfMessage(TypeOfMessage.SELECTED_EFFECT);
+        setTypeOfAction(TypeOfAction.SHOOT);
+        setJsonFile(serializeIndexMessage(new IndexMessage(selection)));
+    }
+
+    public void createActionReports(String report, Character subject, Character receiver){
+
+        setTypeOfMessage(TypeOfMessage.ACTION_REPORT);
+        setTypeOfAction(TypeOfAction.NONE);
+        setJsonFile(serializeActionReport(new ActionReports(report, subject, receiver)));
     }
 
 }

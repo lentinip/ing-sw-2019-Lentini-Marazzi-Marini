@@ -583,6 +583,7 @@ public class Choices {
         else {
 
             List<Effect> availableEffects = selectedWeapon.usableEffects(match.getPlayers());
+            List<String> names = new ArrayList<>();
             List<IndexMessage> effectIndex = new ArrayList<>();
 
             // for cyberblade (only weapon that has an order for the moment) I want to remove the last effect beacuse I need to show only the free one and the move
@@ -594,10 +595,11 @@ public class Choices {
             for (Effect effect: availableEffects){
 
                 effectIndex.add(new IndexMessage(selectedWeapon.getIndexByEffect(effect)));
+                names.add(effect.getName());
             }
 
             Message answer = new Message(message.getUsername());
-            answer.createAvailableEffects(effectIndex);
+            answer.createAvailableEffects(effectIndex, names);
             view.display(answer);
         }
     }

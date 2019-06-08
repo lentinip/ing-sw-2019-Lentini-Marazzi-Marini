@@ -116,6 +116,8 @@ public class Client {
             case MATCH_START:
                 view.displayMatchStart(message.deserializeMatchStart());
                 break;
+            case ACTION_REPORT:
+                view.displayActionReport(message.deserializeActionReports());
             case CAN_I_SHOOT:
                 view.displayCanIShoot(message.deserializeBooleanMessage().isAnswer());
                 break;
@@ -219,13 +221,13 @@ public class Client {
         // must choose one
         if (lastMessage.getTypeOfMessage() == TypeOfMessage.AVAILABLE_CARDS){
 
-            view.displayAvailableEffects(message.deserializeAvailableEffects().getIndexes());
+            view.displayAvailableEffects(message.deserializeAvailableEffects());
         }
 
         // I can answer no
         else {
 
-            view.displayAvailableEffectsWithNoOption(message.deserializeAvailableEffects().getIndexes());
+            view.displayAvailableEffectsWithNoOption(message.deserializeAvailableEffects());
         }
     }
 

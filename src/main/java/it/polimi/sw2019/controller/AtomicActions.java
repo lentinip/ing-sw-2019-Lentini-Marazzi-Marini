@@ -1,6 +1,8 @@
 package it.polimi.sw2019.controller;
 
 import it.polimi.sw2019.model.*;
+import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.List;
 
@@ -9,13 +11,16 @@ public class  AtomicActions {
     /**
      * Default Constructor
      */
-    public AtomicActions(Match match){
+    public AtomicActions(Match match, VirtualView view){
+
         this.match = match;
+        this.view = view;
     }
 
     /* Attributes */
 
     private Match match;
+    private VirtualView view;
 
     /* Methods */
 
@@ -25,12 +30,17 @@ public class  AtomicActions {
      * @param selectedCell destination Cell
      */
     public void move(Player player, Cell selectedCell){
-        if(player!= null && selectedCell!=null){
-            player.setPosition(selectedCell);
 
-            //Sets the match as changed
-            match.notifyMatchState();
-        }
+        player.setPosition(selectedCell);
+
+        //Sets the match as changed
+        match.notifyMatchState();
+
+        String report = "  >>>>  in row: " + selectedCell.getRow() + ", column: " + selectedCell.getColumn();
+        Message message = new Message("All");
+        message.createActionReports(report, player.getCharacter(), null);
+        view.display(message);
+
     }
 
     /**
@@ -69,6 +79,11 @@ public class  AtomicActions {
 
         //Sets the match as changed
         match.notifyMatchState();
+
+        String report = "  GRABBED AMMO TILE in row: " + selectedCell.getRow() + ", column: " + selectedCell.getColumn();
+        Message message = new Message("All");
+        message.createActionReports(report, grabbingPlayer.getCharacter(), null);
+        view.display(message);
     }
 
     /**
@@ -97,6 +112,11 @@ public class  AtomicActions {
 
         //Sets the match as changed
         match.notifyPrivateHand(match.getCurrentPlayer());
+
+        String report = "  GRABBED  " + selectedCell.getWeapons().get(weaponIndex).getName() + "  in row: " + selectedCell.getRow() + ", column: " + selectedCell.getColumn();
+        Message message = new Message("All");
+        message.createActionReports(report, grabbingPlayer.getCharacter(), null);
+        view.display(message);
     }
 
     /**
@@ -124,6 +144,10 @@ public class  AtomicActions {
 
         //Sets the match as changed
         match.notifyMatchState();
+        String report = " LAID DOWN  " + weaponToReplace.getName();
+        Message message = new Message("All");
+        message.createActionReports(report, grabbingPlayer.getCharacter(), null);
+        view.display(message);
     }
 
     /**
@@ -145,6 +169,11 @@ public class  AtomicActions {
         //Finally adds the damage
         receiverDamage.addDamage(newDamage, shooter.getCharacter());
 
+        String report = "  DAMAGED ︻デ┳═ー  ";
+        Message message = new Message("All");
+        message.createActionReports(report, shooter.getCharacter(), receiver.getCharacter());
+        view.display(message);
+
         int totalDamage = receiverDamage.getTotalDamage();
 
         //If we're not in the frenzy mode and if the player is still alive, change his mode
@@ -162,10 +191,17 @@ public class  AtomicActions {
         //If the player has more than 10 damages he's dead
         if (totalDamage>10){
             receiver.setDead(true);
+            String reportKill = "  KILLED ☠☠☠☠☠   ";
+            Message messageKill = new Message("All");
+            messageKill.createActionReports(reportKill, shooter.getCharacter(), receiver.getCharacter());
+            view.display(messageKill);
+
         }
 
         //Sets the match as changed
         match.notifyMatchState();
+
+
     }
 
 
@@ -175,6 +211,10 @@ public class  AtomicActions {
 
         //Sets the match as changed
         match.notifyMatchState();
+        String report = "  MARKED ︻デ┳═ー  ";
+        Message message = new Message("All");
+        message.createActionReports(report, shooter.getCharacter(), receiver.getCharacter());
+        view.display(message);
     }
 
     public void reload(Player reloader, Weapon reloadedWeapon){
@@ -182,6 +222,11 @@ public class  AtomicActions {
 
         //Sets the match as changed
         match.notifyPrivateHand(reloader);
+        String report = "  RELOADED ︻╦╤─  " + reloadedWeapon.getName();
+        Message message = new Message("All");
+        message.createActionReports(report, reloader.getCharacter(), null);
+        view.display(message);
+
     }
 
     /**
@@ -256,5 +301,9 @@ public class  AtomicActions {
             drawer.addPowerup(drawn);
         }
         match.notifyPrivateHand(match.getCurrentPlayer());
+        String report = "  DREW a card";
+        Message message = new Message("All");
+        message.createActionReports(report, drawer.getCharacter(), null);
+        view.display(message);
     }
 }

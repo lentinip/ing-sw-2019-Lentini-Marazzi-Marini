@@ -7,6 +7,7 @@ import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -108,15 +109,19 @@ public class TurnManager {
         if (match.isEnded()){
 
             Map<Character, Integer> leaderboard = match.getScore().getRankingMap();
+            Map<Character, Integer> pointsMap = match.getScore().getMap();
 
             //removing disconnected players from the leader board
-            for (String name: view.getDisconnectedPlayers()){
+            for (String name: view.getUserNames()){
 
-                leaderboard.remove(match.getPlayerByUsername(name).getCharacter());
+                if (!view.getWaitingPlayers().get(name).getConnected()) {
+                    leaderboard.remove(match.getPlayerByUsername(name).getCharacter());
+                    pointsMap.remove(match.getPlayerByUsername(name).getCharacter());
+                }
             }
 
             Message endMessage = new Message("All");
-            endMessage.createLeaderBoard(leaderboard);
+            endMessage.createLeaderBoard(leaderboard, pointsMap);
             view.display(endMessage);
         }
 
