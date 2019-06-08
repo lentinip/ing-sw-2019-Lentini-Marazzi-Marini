@@ -3,12 +3,11 @@ package it.polimi.sw2019.model;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,16 +40,15 @@ public class Factory {
     /**
      * This method creates the weapons deck by reading every weapon json file using the weaponsDictionary file
      * @return the ArrayList associated to the weapons deck
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException file not found
      */
-    public List<Weapon> createWeaponDeck() throws FileNotFoundException {
+    private List<Weapon> createWeaponDeck() throws FileNotFoundException {
 
         List<Weapon> weaponDeck = new ArrayList<>();
 
         Gson gson = new Gson();
-        File jsonFile = new File(getClass().getResource("WeaponsDictionary.json").toString());
-
-        String[] fileNames = gson.fromJson(new FileReader(jsonFile), String[].class);
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("WeaponsDictionary.json")));
+        String[] fileNames = gson.fromJson(jsonReader, String[].class);
 
         for (String fileName : fileNames) {
 
@@ -63,23 +61,17 @@ public class Factory {
 
     /**
      * this method creates the weapon class by reading the correspondent json file
-     * @param fileName
-     * @return
+     * @param fileName file name
+     * @return weapon
      */
-    public Weapon createWeapon(String fileName) throws FileNotFoundException{
+    private Weapon createWeapon(String fileName) throws FileNotFoundException{
 
         Weapon weapon;
-
         Gson gson = new Gson();
-
         fileName = "/Weapons/" + fileName;
-
-        File jsonFile = new File(getClass().getResource(fileName).toString());
-
-        WeaponFactory weaponFactory = gson.fromJson(new FileReader(jsonFile), WeaponFactory.class);
-
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream(fileName)));
+        WeaponFactory weaponFactory = gson.fromJson(jsonReader, WeaponFactory.class);
         weapon = weaponFactory.createWeapon();
-
         for(Effect effect: weapon.getEffects()){
 
             effect.setVisibilityClass(visibilityClass);
@@ -91,17 +83,13 @@ public class Factory {
     /**
      * this method read the name of every file json correspondent to a powerup from the "powerupsDictionary" and calls the method that creates the arrayList of every copy of that powerup
      * @return the ArrayList associated to the powerups deck.
-     * @throws FileNotFoundException
      */
-    public List<Powerup> createPowerupDeck() throws FileNotFoundException {
+    private List<Powerup> createPowerupDeck(){
 
         List<Powerup> powerupDeck = new ArrayList<>();
-
         Gson gson = new Gson();
-        File jsonFile = new File(getClass().getResource("PowerupsDictionary.json").toString());
-
-        String[] fileNames = gson.fromJson(new FileReader(jsonFile), String[].class);
-
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("PowerupsDictionary.json")));
+        String[] fileNames = gson.fromJson(jsonReader, String[].class);
         for (String fileName : fileNames) {
 
             powerupDeck.addAll(createPoweup(fileName));
@@ -114,22 +102,15 @@ public class Factory {
      * this method creates every copy of the cards correspondent to the selected powerup using also PowerupFactory class
      * @param fileName json File of the powerup
      * @return all the copies of that powerup
-     * @throws FileNotFoundException
      */
-    public List<Powerup> createPoweup(String fileName) throws FileNotFoundException {
+    private List<Powerup> createPoweup(String fileName){
 
         List<Powerup> powerup = new ArrayList<>();
-
         Gson gson = new Gson();
-
         fileName = "/Powerups/" + fileName;
-
-        File jsonFile = new File(getClass().getResource(fileName).toString());
-
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream(fileName)));
         Type foundListType = new TypeToken<ArrayList<PowerupFactory>>(){}.getType(); /* to deserialize the array into an arrayList */
-
-        List<PowerupFactory> powerups = gson.fromJson(new FileReader(jsonFile), foundListType);
-
+        List<PowerupFactory> powerups = gson.fromJson(jsonReader, foundListType);
         for (PowerupFactory powerupKind: powerups){
 
             powerup.addAll(powerupKind.createPowerups());
@@ -140,20 +121,16 @@ public class Factory {
 
     /**
      * this method creates the ammoTiles deck by reading every kind of ammoTile from a file json and using AmmoTileFactory class
-     * @return
-     * @throws FileNotFoundException
+     * @return list of ammo tiles
      */
-    public List<AmmoTile> createAmmoDeck() throws FileNotFoundException {
+    private List<AmmoTile> createAmmoDeck(){
 
         List<AmmoTile> ammoDeck = new ArrayList<>();
 
         Gson gson = new Gson();
-        File jsonFile = new File(getClass().getResource("/AmmoTiles/Ammo.json").toString());
-
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("/AmmoTiles/Ammo.json")));
         Type foundListType = new TypeToken<ArrayList<AmmoTileFactory>>(){}.getType(); /* to deserialize the array into an arrayList */
-
-        List<AmmoTileFactory> ammoTiles = gson.fromJson(new FileReader(jsonFile), foundListType);
-
+        List<AmmoTileFactory> ammoTiles = gson.fromJson(jsonReader, foundListType);
         for (AmmoTileFactory ammoTileKind : ammoTiles) {
 
             ammoDeck.addAll(ammoTileKind.createAmmoTiles());
@@ -167,7 +144,7 @@ public class Factory {
      * THIS METHOD DOES NOT SET THE "PLAYERS" ATTRIBUTE IN THE ROOMS, IT MUST BE DONE IN MATCH CLASS AND DOES NOT SET
      * THE "KILLTRACK"
      * @param fileName the name of the json file correspondent to the kind of board chosen by logged client
-     * @return
+     * @return board created
      */
     public Board createBoard(String fileName, List<Player> players) throws FileNotFoundException{
 
@@ -188,15 +165,10 @@ public class Factory {
         Gson gson = new Gson();
 
         fileName = "/Board/" + fileName;
-
-        File jsonFile = new File(getClass().getResource(fileName).toString());
-
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream(fileName)));
         Type foundListType = new TypeToken<ArrayList<CellFactory>>(){}.getType();
-
-        List<CellFactory> cells = gson.fromJson(new FileReader(jsonFile), foundListType);
-
+        List<CellFactory> cells = gson.fromJson(jsonReader, foundListType);
         List<Cell> field = new ArrayList<>();
-
         for (int i = 0; i < cells.size(); i++){ /* creating the correct number of cells and putting them in field attribute */
 
             field.add(new Cell());
@@ -236,11 +208,11 @@ public class Factory {
 
     /**
      * this method creates every room giving it the pointers to every cell it contains
-     * @param cells
-     * @param field
-     * @return
+     * @param cells cells
+     * @param field fields
+     * @return rooms created
      */
-    public List<Room> createRooms(List<CellFactory> cells, List<Cell> field, List<Player> players){
+    private List<Room> createRooms(List<CellFactory> cells, List<Cell> field, List<Player> players){
 
         List<Room> rooms = new ArrayList<>();
 
@@ -281,10 +253,10 @@ public class Factory {
     /**
      * this method creates the killTrack by taking the characters from every player in the game
      * and set the board "killTrack" attribute
-     * @param board
-     * @param players
+     * @param board board
+     * @param players players
      */
-    public void createKillTrack(Board board, List<Player> players){
+    private void createKillTrack(Board board, List<Player> players){
 
         List<Character> charactersInGame = new ArrayList<>();
 

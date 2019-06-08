@@ -1,12 +1,14 @@
 package it.polimi.sw2019.network.server;
 
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.TypeOfMessage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -22,12 +24,12 @@ public class VirtualView extends Observable implements Observer {
     public VirtualView(){
 
         TimeConfigurations timeConfigurations = new TimeConfigurations();
-        Gson gson = new Gson();
-        File jsonFile = new File(getClass().getResource("configurations.json").toString());
+        Gson json = new Gson();
         try {
-            timeConfigurations = gson.fromJson(new FileReader(jsonFile), TimeConfigurations.class);
+            JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("configurations.json")));
+            timeConfigurations = json.fromJson(jsonReader, TimeConfigurations.class);
         }
-        catch (FileNotFoundException e){
+        catch (Exception e){
             LOGGER.log(Level.SEVERE, "file not found");
         }
         //reading the timer from the file and converting it in milliseconds

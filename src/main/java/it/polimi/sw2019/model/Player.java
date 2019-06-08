@@ -591,6 +591,7 @@ public class Player extends Observable {
         //First creates the message
         Message message = new Message(name);
 
+        List<String> allWeapons = new ArrayList<>();
         List<String> weaponsLoaded = new ArrayList<>();
         List<String> weaponsUnloaded = new ArrayList<>();
 
@@ -602,16 +603,20 @@ public class Player extends Observable {
             else {
                 weaponsUnloaded.add(weapon.getName());
             }
+
+            allWeapons.add(weapon.getName());
         }
 
         //Than the powerups
         List<String> powerupsSerialized = new ArrayList<>();
+        List<Colors> powerupColors = new ArrayList<>();
 
         for (Powerup powerup : powerups){
             powerupsSerialized.add(powerup.getName());
+            powerupColors.add(powerup.getColor());
         }
 
-        PrivateHand privateHand = new PrivateHand(weaponsLoaded, weaponsUnloaded, powerupsSerialized);
+        PrivateHand privateHand = new PrivateHand(weaponsLoaded, weaponsUnloaded, powerupsSerialized, allWeapons, powerupColors);
 
         //And at the end creates the message
         message.createMessagePrivateHand(privateHand);

@@ -2,6 +2,7 @@ package it.polimi.sw2019.network.messages;
 
 import com.google.gson.Gson;
 import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.model.Colors;
 import it.polimi.sw2019.model.TypeOfAction;
 import it.polimi.sw2019.network.client.ClientInterface;
 
@@ -416,13 +417,6 @@ public class Message implements Serializable {
         setJsonFile(serializeIndexMessage(new IndexMessage(weaponReloaded)));
     }
 
-    public void createSelectionForShoot(int selectedWeapon, TypeOfMessage typeOfMessage){
-
-        setTypeOfMessage(typeOfMessage);
-        setTypeOfAction(TypeOfAction.SHOOT);
-        setJsonFile(serializeIndexMessage(new IndexMessage(selectedWeapon)));
-    }
-
     public void createSelectionForUsePowerup(int selectedPowerup){
 
         setTypeOfMessage(TypeOfMessage.SELECTED_CARD);
@@ -458,5 +452,24 @@ public class Message implements Serializable {
         setJsonFile(serializeIndexMessage(new IndexMessage(powerupIndex)));
     }
 
+    public void createSelectedCard(int indexSelected, TypeOfAction typeOfAction){
+
+        setTypeOfMessage(TypeOfMessage.SELECTED_CARD);
+        setTypeOfAction(typeOfAction);
+        setJsonFile(serializeIndexMessage(new IndexMessage(indexSelected)));
+    }
+
+    public void createPaymentSelection(int indexSelected){
+        setTypeOfMessage(TypeOfMessage.PAYMENT);
+        setTypeOfAction(TypeOfAction.PAY);
+        setJsonFile(serializeIndexMessage(new IndexMessage(indexSelected)));
+    }
+
+    public void createColorSelection(Colors color){
+
+        setTypeOfMessage(TypeOfMessage.SELECTED_COLOR);
+        setTypeOfAction(TypeOfAction.PAY);
+        setJsonFile(serializeSelectedColor(new SelectedColor(color)));
+    }
 
 }
