@@ -1462,7 +1462,7 @@ public class CLI implements ViewInterface {
     public void displayEndMatchLeaderBoard(LeaderBoard leaderBoard){
 
         try{
-        out.println("MATHC IS ENDED!!!    ⊂(◉‿◉)つ\n");
+        out.println("MATCH IS ENDED!!!    ⊂(◉‿◉)つ\n");
 
             TimeUnit.MILLISECONDS.sleep(400);
 
