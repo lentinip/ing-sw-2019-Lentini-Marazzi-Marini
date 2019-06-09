@@ -24,4 +24,12 @@ public interface ServerInterface extends Remote {
      * @param clientInterface used by server to create the new Client class
      */
     public void register(String username, ClientInterface clientInterface) throws RemoteException;
+
+    /**
+     * used to reconnect a client
+     * @param username client to reconnect
+     * @param clientInterface new type of connection
+     * @throws RemoteException
+     */
+    public void reconnect(String username, ClientInterface clientInterface) throws RemoteException;
 }

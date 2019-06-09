@@ -549,7 +549,7 @@ public class Choices {
     }
 
     /**
-     * this method send to the view the list of the available players that can be targeted by Targeting Scope powerup
+     * this method doSomething to the view the list of the available players that can be targeted by Targeting Scope powerup
      */
     public void damagedTargets(){
 
@@ -565,7 +565,7 @@ public class Choices {
     }
 
     /**
-     * Method that receive the weapon and analyze it to send options to the view
+     * Method that receive the weapon and analyze it to doSomething options to the view
      */
     public void weaponHandler(Message message){
 
@@ -687,7 +687,7 @@ public class Choices {
      * apply the effect and continue the turn
      * called by moveBeforeShoot after the move,
      * by SingleActionManager, by effectAnalyzer
-     * send to the view the possible selections
+     * doSomething to the view the possible selections
      */
     public void effectHandler(){
 

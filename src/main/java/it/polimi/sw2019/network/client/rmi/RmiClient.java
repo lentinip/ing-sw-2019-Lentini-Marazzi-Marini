@@ -4,6 +4,7 @@ import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.client.ClientActions;
 import it.polimi.sw2019.network.client.ClientInterface;
 import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.network.messages.TypeOfMessage;
 import it.polimi.sw2019.network.server.rmi.ServerInterface;
 
 import java.rmi.NotBoundException;
@@ -14,6 +15,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * this class represents the logic of rmi connection on client side
+ */
 public class RmiClient implements ClientActions {
 
     /**
@@ -33,10 +37,14 @@ public class RmiClient implements ClientActions {
 
     private ClientInterface clientInterface;
 
-    private Logger LOGGER;
+    private static Logger LOGGER = Logger.getLogger("RmiClient");
 
     /* Methods */
 
+    /**
+     * if the username is avaliable, adds the player in the game
+     * @param username nickname chose by the player
+     */
     @Override
     public void register(String username) {
 
@@ -44,18 +52,33 @@ public class RmiClient implements ClientActions {
             serverInterface.register(username, clientInterface);
         } catch (RemoteException e) {
 
-            LOGGER.log(Level.WARNING, e.getMessage());
+            LOGGER.log(Level.WARNING, "connection failure");
         }
     }
 
+    /**
+     * calls the messageHandler method in server
+     * @param message parameter to use in messageHandler
+     */
     @Override
-    public void send(Message message) {
+    public void doSomething(Message message) {
 
-        try {
-            serverInterface.messageHandler(message);
-        } catch (RemoteException e) {
+        if(message.getTypeOfMessage() == TypeOfMessage.RECONNECTION_REQUEST) {
 
-            //TODO implement exception
+            try{
+                serverInterface.reconnect(message.getUsername(), clientInterface);
+            } catch (RemoteException e) {
+
+                LOGGER.log(Level.WARNING, "connection failure");
+            }
+        }
+        else {
+            try {
+                serverInterface.messageHandler(message);
+            } catch (RemoteException e) {
+
+                LOGGER.log(Level.WARNING, "connection failure");
+            }
         }
     }
 }

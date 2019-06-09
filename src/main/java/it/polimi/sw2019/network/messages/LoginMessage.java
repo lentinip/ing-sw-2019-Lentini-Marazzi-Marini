@@ -1,5 +1,7 @@
 package it.polimi.sw2019.network.messages;
 
+import it.polimi.sw2019.network.client.ClientInterface;
+
 public class LoginMessage {
 
     public LoginMessage(String username, boolean rmi){

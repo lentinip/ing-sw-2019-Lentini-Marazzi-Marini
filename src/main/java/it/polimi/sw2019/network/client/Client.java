@@ -1,18 +1,24 @@
 package it.polimi.sw2019.network.client;
 
 import it.polimi.sw2019.model.TypeOfAction;
+import it.polimi.sw2019.network.client.rmi.RmiClient;
+import it.polimi.sw2019.network.client.socket.SocketClientConnection;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.TypeOfMessage;
 import it.polimi.sw2019.view.CLI;
 import it.polimi.sw2019.view.ViewInterface;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static it.polimi.sw2019.network.messages.TypeOfMessage.PLAYER_ALREADY_LOGGED;
 
 public class Client {
 
     /**
-     * default constructor
+     * Default constructor
      */
     public Client(){}
 
@@ -28,7 +34,9 @@ public class Client {
 
     private boolean rmi; //tells what kind of connection he is using
 
-    private static final Logger LOGGER = Logger.getLogger("client");
+    private ClientActions clientActions;
+
+    private static Logger LOGGER = Logger.getLogger("Client");
 
     /* Methods */
 
@@ -96,12 +104,37 @@ public class Client {
     }
 
     /**
+     * creates the connection and tries to register the client
+     * @throws RemoteException
+     * @throws NotBoundException
+     */
+    public void connect() throws RemoteException, NotBoundException {
+
+        if(rmi) {
+
+            clientActions =  new RmiClient(this);
+            clientActions.register(username);
+        }
+        else{
+
+            clientActions = new SocketClientConnection(this);
+            clientActions.register(username);
+        }
+    }
+
+    /**
      * this method analyzes the message received and calls the correct method of the view interface to display
      * the correct information on the cli/gui
      * @param message received from the server
      */
     public void handleMessage(Message message){
 
+        //messages to verify that the client is connected
+        if(message.getTypeOfMessage() == null) {
+
+            //do nothing
+            return;
+        }
 
         switch (message.getTypeOfMessage()){
 
@@ -154,8 +187,11 @@ public class Client {
             case RECONNECTION_REQUEST:
                 view.displayReconnectionWindow();
                 break;
+            case PLAYER_ALREADY_LOGGED:
+                view.displayAlreadyConnectedWindow();
+                break;
             default:
-                LOGGER.log(Level.SEVERE, "switch error");
+                System.console().printf("TYPE OF MESSAGE UNKNOWN");
                 break;
 
         }
@@ -168,7 +204,7 @@ public class Client {
 
     /**
      * shows the correct info on the gui, cli, by analyzing the last message received
-     * @param message contains the info to send to gui/cli
+     * @param message contains the info to doSomething to gui/cli
      */
     public void availableCardsHandler(Message message){
 
@@ -188,7 +224,7 @@ public class Client {
 
     /**
      * shows the correct info on the gui, cli, by analyzing the last message received
-     * @param message contains the info to send to gui/cli
+     * @param message contains the info to doSomething to gui/cli
      */
     public void availablePlayersHandler(Message message){
 
@@ -214,7 +250,7 @@ public class Client {
 
     /**
      * shows the correct info on the gui, cli, by analyzing the last message received
-     * @param message contains the info to send to gui/cli
+     * @param message contains the info to doSomething to gui/cli
      */
     public void availableEffectsHandler(Message message){
 
@@ -231,17 +267,17 @@ public class Client {
         }
     }
 
-
+    /**
+     * represents client actions
+     * @param messageToSend parameter or message to send to server
+     */
     public void send(Message messageToSend){
 
-        if (rmi){
+        try {
+            clientActions.doSomething(messageToSend);
+        } catch (RemoteException e) {
 
-            //TODO call the send message of RMI
-        }
-
-        else {
-
-            //TODO call the send message of socket (param always messageToSend)
+            LOGGER.log(Level.WARNING, "failure: connection error");
         }
     }
 

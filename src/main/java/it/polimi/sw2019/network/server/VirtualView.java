@@ -5,6 +5,7 @@ import com.google.gson.stream.JsonReader;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.TypeOfMessage;
 
+
 import java.io.InputStreamReader;
 import java.util.*;
 import java.util.logging.Level;
@@ -21,7 +22,7 @@ public class VirtualView extends Observable implements Observer {
         TimeConfigurations timeConfigurations = new TimeConfigurations();
         Gson json = new Gson();
         try {
-            JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("configurations.json")));
+            JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("/configurations.json")));
             timeConfigurations = json.fromJson(jsonReader, TimeConfigurations.class);
         }
         catch (Exception e){
@@ -177,14 +178,24 @@ public class VirtualView extends Observable implements Observer {
 
     public void addDisconnectedPlayer(String username){
 
-        disconnectedPlayers.add(username);
+        waitingPlayers.get(username).setConnected(false);
 
         //sending a message to tell everybody the player is disconnected
         Message disconnectionMes = new Message("All");
         disconnectionMes.createDisconnectionMessage(userNames.indexOf(username));
         display(disconnectionMes);
 
-        if (getNumOfWaitingPlayers() - disconnectedPlayers.size() < 3){
+        int counter = 0;
+
+        for(String user : waitingPlayers.keySet()) {
+
+            if(!waitingPlayers.get(user).getConnected()) {
+
+                counter++;
+            }
+        }
+
+        if(getNumOfWaitingPlayers() - counter < 3) {
 
             sendEndMatchMessage();
         }
@@ -309,20 +320,22 @@ public class VirtualView extends Observable implements Observer {
      * consider if the client is disconnected and send an automatic response to the controller
      * @param message to be sent
      */
-    public void display(Message message){
+    public void display(Message message) {
 
-        if (message.getUsername().equals("All")){
+        if (message.getUsername().equals("All")) {
 
-            server.sendAll(message);
+            server.sendAll(message, this);
+            if(message.getTypeOfMessage() == TypeOfMessage.END_MATCH) {
+
+                server.endMatch(this);
+            }
         }
-
         else {
-
             // the player is disconnected
-            if (disconnectedPlayers.contains(message.getUsername())){
+            if (!waitingPlayers.get(message.getUsername()).getConnected()) {
 
                 //if he has received an ask to use a tagback I answer no to the controller instantly
-                if (message.getTypeOfMessage() == TypeOfMessage.AVAILABLE_CARDS && !message.getUsername().equals(currentPlayer)){
+                if (message.getTypeOfMessage() == TypeOfMessage.AVAILABLE_CARDS && !message.getUsername().equals(currentPlayer)) {
 
                     sendAutomaticResponse();
                 }

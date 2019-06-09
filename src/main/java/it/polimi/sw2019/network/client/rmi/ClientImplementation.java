@@ -1,10 +1,12 @@
 package it.polimi.sw2019.network.client.rmi;
 
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.client.ClientActions;
 import it.polimi.sw2019.network.client.ClientInterface;
 import it.polimi.sw2019.network.messages.Message;
 
+/**
+ * this class is used to notify the client by rmi connection
+ */
 public class ClientImplementation implements ClientInterface {
 
     /**
@@ -33,7 +35,7 @@ public class ClientImplementation implements ClientInterface {
     @Override
     public void notify(Message message) {
 
-        //TODO implement what to do with the message in client
+        client.handleMessage(message);
     }
 
 }

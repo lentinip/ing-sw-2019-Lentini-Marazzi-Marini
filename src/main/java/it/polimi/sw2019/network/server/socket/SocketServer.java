@@ -1,29 +1,25 @@
 package it.polimi.sw2019.network.server.socket;
 
+import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.server.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * Socket server runned by the server
+ * Socket server runned by the main server
  */
 public class SocketServer extends Thread {
 
     /**
-     * Default constructor
+     * Constructor
      */
-
-    public SocketServer() {
-
-    }
-
     public SocketServer(Server server) {
         setServer(server);
     }
-
-
 
     /* Attributes */
 
@@ -31,7 +27,15 @@ public class SocketServer extends Thread {
 
     private Server server;
 
+    private static Logger LOGGER = Logger.getLogger("SocketServer");
+
+    private SocketServerClientHandler socketServerClientHandler;
+
     /* Methods */
+
+    public SocketServerClientHandler getSocketServerClientHandler() {
+        return socketServerClientHandler;
+    }
 
     public void setServer(Server server) {
         this.server = server;
@@ -44,10 +48,12 @@ public class SocketServer extends Thread {
     public void startServer(int port) {
 
         try {
-            serverSocket = new ServerSocket(port);
 
+            serverSocket = new ServerSocket(port);
+            LOGGER.log(Level.INFO, "SocketServer is online");
         } catch (IOException e) {
-            //TODO manage exception
+
+            LOGGER.log(Level.WARNING, e.getMessage());
         }
 
     }
@@ -61,11 +67,34 @@ public class SocketServer extends Thread {
         while(true) {
 
             try {
+
+                LOGGER.log(Level.INFO, "SocketServer is ready to accept a connection");
                 Socket connection = serverSocket.accept();
+                (socketServerClientHandler = new SocketServerClientHandler(connection, this)).start();
             } catch (IOException e) {
-                //TODO manage exception
+
+                LOGGER.log(Level.WARNING, e.getMessage());
             }
         }
+    }
+
+    /**
+     * forward message to server
+     * @param message to be forwarded
+     */
+    public void receive(Message message) {
+
+        server.receiveMessage(message);
+    }
+
+    /**
+     * disconnect the client due to an error in connection
+     * @param username to be disconnected
+     */
+    public void disconnect(String username) {
+
+        server.getVirtualViewMap().get(username).getWaitingPlayers().get(username).setConnected(false);
+        server.getVirtualViewMap().get(username).addDisconnectedPlayer(username);
     }
 
 }

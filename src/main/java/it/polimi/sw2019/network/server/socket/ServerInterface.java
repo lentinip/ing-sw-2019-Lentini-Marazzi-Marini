@@ -7,7 +7,10 @@ import it.polimi.sw2019.network.messages.Message;
  */
 public interface ServerInterface {
 
-
+    /**
+     * send message to server in Socket connection
+     * @param message message to be sent
+     */
     public void send(Message message);
 }
 
