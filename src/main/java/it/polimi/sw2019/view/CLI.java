@@ -6,6 +6,7 @@ import it.polimi.sw2019.model.*;
 import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.*;
+import sun.dc.pr.PRError;
 
 import java.io.*;
 import java.util.*;
@@ -177,6 +178,7 @@ public class CLI implements ViewInterface {
         return matchState;
     }
 
+    /*  MAIN FOR TEST!!!!
     public static void main(String[] args){
 
         CLI prova = new CLI();
@@ -320,7 +322,8 @@ public class CLI implements ViewInterface {
         String report = "  KILLED ☠☠☠☠☠  ";
         ActionReports actionReports = new ActionReports(report, characters.get(0), characters.get(2));
 
-        prova.displayActionReport(actionReports);
+        //prova.displayAlreadyConnectedWindow();
+        //prova.displayActionReport(actionReports);
         //prova.displayAvailableEffectsWithNoOption(availableEffects);
         //prova.displayAvailableEffects(availableEffects);
         //prova.displayEndMatchLeaderBoard(leaderBoard);
@@ -340,11 +343,8 @@ public class CLI implements ViewInterface {
         //prova.displayLoginSuccessful(new LoginReport(4));
         //prova.displayLoginWindow();
     }
+    */
 
-    public static void restartScanner(){
-
-        in = new Scanner(System.in);
-    }
 
     /**
      * used to reset all the values
@@ -454,7 +454,12 @@ public class CLI implements ViewInterface {
 
         Message loginMes = new Message(username);
         loginMes.createLoginMessage(username, sameNumbers(typeOfConnection, 2));
-        client.send(loginMes);
+        try {
+            client.connect(loginMes);
+        }
+        catch (Exception e){
+            LOGGER.log(Level.SEVERE, "Error in connect");
+        }
     }
 
     /**
@@ -1749,10 +1754,39 @@ public class CLI implements ViewInterface {
         }
     }
 
+    /**
+     * Shows that there is already a game with that username
+     */
     public void displayAlreadyConnectedWindow() {
 
-        //TODO implement
+        out.println("Mmm, looks like there is a match started with this username, what do you want to do?");
+        out.println("╔═════════════════════╗\n" +
+                "║       OPTIONS       ║\n" +
+                "╠═════════════════════╣\n" +
+                "║ 1. JOIN THE MATCH   ║\n" +
+                "║ 2. START A NEW GAME ║\n" +
+                "╚═════════════════════╝");
+        int choice = readNumbers(1, 2);
+
+        if (sameNumbers(choice, 1)) {
+
+            Message reconnect = new Message(username);
+            reconnect.setTypeOfMessage(TypeOfMessage.RECONNECTION);
+            client.send(reconnect);
+        }
+
+        else {
+            try {
+
+                out.println("\nCHOOSE ANOTHER USERNAME THEN!!\n\n");
+                firstMatch = false;
+                TimeUnit.MILLISECONDS.sleep(1000);
+                displayLoginWindow();
+            }
+            catch (InterruptedException e) {
+                LOGGER.log(Level.WARNING, "interrupted exception");
+                Thread.currentThread().interrupt();
+            }
+        }
     }
-
-
 }

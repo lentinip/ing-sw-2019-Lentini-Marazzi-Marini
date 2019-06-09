@@ -15,12 +15,12 @@ public interface ClientActions {
      * @param message to be sent
      * @throws RemoteException connection fail
      */
-    public void doSomething(Message message) throws RemoteException;
+    void doSomething(Message message) throws RemoteException;
 
     /**
      * Used by RMI connection
      * add the client to the waitingPlayers list
      * @param username nickname chose by the player
      */
-    public void register(String username);
+    void register(String username);
 }

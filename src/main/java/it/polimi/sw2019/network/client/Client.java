@@ -7,6 +7,8 @@ import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.TypeOfMessage;
 import it.polimi.sw2019.view.CLI;
 import it.polimi.sw2019.view.ViewInterface;
+import it.polimi.sw2019.view.gui.GUI;
+import javafx.application.Application;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -84,22 +86,41 @@ public class Client {
     public static void main(String[] args){
 
         Client client = new Client();
+        boolean cli = false;
 
-        if (args[0].equals("cli")){
+        if (args.length > 0) {
 
-            CLI cli = new CLI(client);
+            switch (args[0]) {
 
-            cli.displayLoginWindow();
+                case "cli":
+                    cli = true;
+                    break;
+                case "gui":
+                    break;
+                default:
+                    LOGGER.log(Level.WARNING, "After the name of the program write 'cli' if you want to use the console, 'gui' if you want to use the gui interface");
+                    System.exit(0);
+                    break;
+            }
+        }
+        if(args.length > 2){
+            client.setIpAddress(args[1]);
         }
 
-        else if (args[0].equals("gui")){
+        else {
+            client.setIpAddress("localhost");
+        }
 
-            //TODO run gui
+        if (cli){
+
+            CLI view = new CLI(client);
+            client.setView(view);
+            view.displayLoginWindow();
         }
 
         else {
 
-            System.console().printf("After the name of the program write 'cli' if you want to use the console, 'gui' if you want to use the gui interface");
+            Application.launch(GUI.class, args);
         }
     }
 
@@ -108,7 +129,10 @@ public class Client {
      * @throws RemoteException
      * @throws NotBoundException
      */
-    public void connect() throws RemoteException, NotBoundException {
+    public void connect(Message loginMessage) throws RemoteException, NotBoundException {
+
+        rmi = loginMessage.deserializeLoginMessage().isRmi();
+        username = loginMessage.getUsername();
 
         if(rmi) {
 
@@ -151,6 +175,7 @@ public class Client {
                 break;
             case ACTION_REPORT:
                 view.displayActionReport(message.deserializeActionReports());
+                break;
             case CAN_I_SHOOT:
                 view.displayCanIShoot(message.deserializeBooleanMessage().isAnswer());
                 break;

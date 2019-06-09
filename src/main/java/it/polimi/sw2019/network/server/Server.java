@@ -53,6 +53,7 @@ public class Server {
 
     /* Methods */
 
+    @SuppressWarnings("squid:S106")
     public static void main(String[] args) {
 
             Server server = new Server();
@@ -62,6 +63,7 @@ public class Server {
 
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
+            System.out.println("SERVER STARTED!");
     }
 
     public Map<String, VirtualView> getVirtualViewMap() {
