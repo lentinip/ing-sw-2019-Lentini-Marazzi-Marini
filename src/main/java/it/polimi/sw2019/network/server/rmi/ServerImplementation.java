@@ -44,7 +44,13 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     @Override
     public void messageHandler(Message message) {
 
-        server.handleMessage(message);
+        server.receiveMessage(message);
+    }
+
+    @Override
+    public void reconnect(String username, ClientInterface clientInterface) {
+
+        server.reconnectPlayer(username, clientInterface);
     }
 
 }

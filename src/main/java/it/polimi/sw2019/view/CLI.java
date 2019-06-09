@@ -2,17 +2,14 @@ package it.polimi.sw2019.view;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import com.sun.org.apache.regexp.internal.RE;
+import it.polimi.sw2019.model.*;
 import it.polimi.sw2019.model.Character;
-import it.polimi.sw2019.model.Colors;
-import it.polimi.sw2019.model.TypeOfAction;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.*;
-import sun.jvm.hotspot.oops.OopUtilities;
-
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -67,6 +64,8 @@ public class CLI implements ViewInterface {
     private List<String> usernames = new ArrayList<>(); //username of all players
 
     private List<Character> characters = new ArrayList<>();
+
+    private boolean firstMatch = true;
 
     private static final Map<Integer, String> boards;
 
@@ -310,8 +309,22 @@ public class CLI implements ViewInterface {
         PaymentMessage paymentMessage = new PaymentMessage(false, indexMessages);
         MatchState matchState1 = new MatchState();
         matchState1.setCurrentPlayer(Character.DOZER);
+        Score score = new Score(characters, new KillTokens(characters));
+        score.addPoints(17, Character.DISTRUCTOR);
+        score.addPoints(0, Character.BANSHEE);
+        score.addPoints(4, Character.VIOLET);
+        score.addPoints(6, Character.DOZER);
+        score.addPoints(18, Character.SPROG);
+        LeaderBoard leaderBoard = new LeaderBoard(score.getRankingMap(), score.getMap());
+        AvailableEffects availableEffects = new AvailableEffects(indexMessages, weapons);
+        String report = "  KILLED ☠☠☠☠☠  ";
+        ActionReports actionReports = new ActionReports(report, characters.get(0), characters.get(2));
 
-        prova.updateMatchState(matchState1);
+        prova.displayActionReport(actionReports);
+        //prova.displayAvailableEffectsWithNoOption(availableEffects);
+        //prova.displayAvailableEffects(availableEffects);
+        //prova.displayEndMatchLeaderBoard(leaderBoard);
+        //prova.updateMatchState(matchState1);
         //prova.displayPaymentForPowerupsCost(paymentMessage);
         //prova.displayPayment(paymentMessage);
         //prova.displayAvailablePlayersWithNoOption(characters, TypeOfAction.SHOOT);
@@ -322,11 +335,29 @@ public class CLI implements ViewInterface {
         //prova.displayMatchStart(new MatchStart(matchSetup, usernames, characters));
         //prova.displayCanIShoot(true);
         //prova.displayReconnectionWindow();
+        //prova.displayMatchStart(new MatchStart(matchSetup, usernames, characters));
+        //prova.displayUsernameNotAvailable();
+        //prova.displayLoginSuccessful(new LoginReport(4));
+        //prova.displayLoginWindow();
     }
 
     public static void restartScanner(){
 
         in = new Scanner(System.in);
+    }
+
+    /**
+     * used to reset all the values
+     */
+    private void clearAttributes(){
+
+        setLastCanIshoot(null);
+        setPrivateHand(null);
+        setMatchState(null);
+        setCharacters(null);
+        setUsername(null);
+        setUsernames(null);
+        firstMatch = false;
     }
 
 
@@ -363,22 +394,42 @@ public class CLI implements ViewInterface {
 
     public void displayLoginWindow(){
 
-        out.println("            ,--.   ,--.,------.,--.    ,-----. ,-----. ,--.   ,--.,------.               \n" +
-                "            |  |   |  ||  .---'|  |   '  .--./'  .-.  '|   `.'   ||  .---'               \n" +
-                "            |  |.'.|  ||  `--, |  |   |  |    |  | |  ||  |'.'|  ||  `--,                \n" +
-                "            |   ,'.   ||  `---.|  '--.'  '--'\\'  '-'  '|  |   |  ||  `---.               \n" +
-                "            '--'   '--'`------'`-----' `-----' `-----' `--'   `--'`------'               \n" +
-                "                                    ,--------. ,-----.                                   \n" +
-                "                                    '--.  .--''  .-.  '                                  \n" +
-                "                                       |  |   |  | |  |                                  \n" +
-                "                                       |  |   '  '-'  '                                  \n" +
-                "                                       `--'    `-----'                                   \n" +
-                "      ,---.  ,------.  ,------. ,------.,--.  ,--.  ,---.  ,--.   ,--.,--.  ,--.,------. \n" +
-                "     /  O  \\ |  .-.  \\ |  .--. '|  .---'|  ,'.|  | /  O  \\ |  |   |  ||  ,'.|  ||  .---' \n" +
-                "    |  .-.  ||  |  \\  :|  '--'.'|  `--, |  |' '  ||  .-.  ||  |   |  ||  |' '  ||  `--,  \n" +
-                "    |  | |  ||  '--'  /|  |\\  \\ |  `---.|  | `   ||  | |  ||  '--.|  ||  | `   ||  `---. \n" +
-                "    `--' `--'`-------' `--' '--'`------'`--'  `--'`--' `--'`-----'`--'`--'  `--'`------'  \n\n\n");
+        out.println("                ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗         \n" +
+                "                ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝         \n" +
+                "                ██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗           \n" +
+                "                ██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝           \n" +
+                "                ╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗         \n" +
+                "                 ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝         ");
+
+        try {
+            TimeUnit.MILLISECONDS.sleep(1200);
+            out.println("                                    ████████╗ ██████╗                                  \n" +
+                    "                                    ╚══██╔══╝██╔═══██╗                                 \n" +
+                    "                                       ██║   ██║   ██║                                 \n" +
+                    "                                       ██║   ██║   ██║                                 \n" +
+                    "                                       ██║   ╚██████╔╝                                 \n" +
+                    "                                       ╚═╝    ╚═════╝                                  ");
+
+            TimeUnit.MILLISECONDS.sleep(1200);
+            out.println("         █████╗ ██████╗ ██████╗ ███████╗███╗   ██╗ █████╗ ██╗     ██╗███╗   ██╗███████╗\n" +
+                    "        ██╔══██╗██╔══██╗██╔══██╗██╔════╝████╗  ██║██╔══██╗██║     ██║████╗  ██║██╔════╝\n" +
+                    "        ███████║██║  ██║██████╔╝█████╗  ██╔██╗ ██║███████║██║     ██║██╔██╗ ██║█████╗  \n" +
+                    "        ██╔══██║██║  ██║██╔══██╗██╔══╝  ██║╚██╗██║██╔══██║██║     ██║██║╚██╗██║██╔══╝  \n" +
+                    "        ██║  ██║██████╔╝██║  ██║███████╗██║ ╚████║██║  ██║███████╗██║██║ ╚████║███████╗\n" +
+                    "        ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝╚══════╝\n" +
+                    "                                                                                       ");
+            TimeUnit.MILLISECONDS.sleep(1200);
+        }
+        catch (InterruptedException e){
+            LOGGER.log(Level.WARNING, "interrupted exception");
+            Thread.currentThread().interrupt();
+        }
+
         out.println("PLEASE INSERT YOUR USERNAME:\n");
+
+        if (!firstMatch) {
+            in.nextLine(); //to solve a bug where message after popped too soon
+        }
 
         String name = in.nextLine();
 
@@ -1119,6 +1170,9 @@ public class CLI implements ViewInterface {
         }
 
         else {
+            if (matchState.getCurrentPlayer() != characters.get(usernames.indexOf(username))){
+                out.println("OH NO! A PLAYER JUST SHOT YOU, BUT YOU CAN USE A POWERUP   (⌐■_■)︻╦╤─ (╥﹏╥)");
+            }
             out.println("CHOOSE THE POWERUP:");
             for(IndexMessage indexMessage: cards.getAvailableCards()){
                 out.print(cont + ".  ");
@@ -1146,12 +1200,19 @@ public class CLI implements ViewInterface {
 
             //no thanks
             if (sameNumbers(choice, cont)){
-                selectedCard.createSelectionForUsePowerup(-1);
+                if (matchState.getCurrentPlayer() != characters.get(usernames.indexOf(username))) {
+                    selectedCard.createSelectionForUsePowerup(-1);
+                    client.send(selectedCard);
+                }
+                else {
+                    displayCanIShoot(lastCanIshoot);
+                }
             }
             else{
                 selectedCard.createSelectionForUsePowerup(cards.getAvailableCards().get(choice).getSelectionIndex());
+                client.send(selectedCard);
             }
-            client.send(selectedCard);
+
         }
     }
 
@@ -1209,20 +1270,45 @@ public class CLI implements ViewInterface {
 
     /**
      * shows the effects the player can choose
-     * @param effects contains options
+     * @param availableEffects contains options
      */
-    public void displayAvailableEffects(List<IndexMessage> effects){
+    public void displayAvailableEffects(AvailableEffects availableEffects){
 
-        //TODO implement
+        Message selection = new Message(username);
+        int cont = 0;
+        out.println("CHOOSE THE EFFECT:");
+        for (IndexMessage effect: availableEffects.getIndexes()){
+
+            out.println(cont + ". " + availableEffects.getNames().get(availableEffects.getIndexes().indexOf(effect)));
+            cont++;
+        }
+        int choice = readNumbers(0, cont - 1);
+        selection.createSelectedEffect(availableEffects.getIndexes().get(choice).getSelectionIndex());
+        client.send(selection);
     }
 
     /**
      * shows the effects the player can choose with the "no" button
-     * @param effects contains options
+     * @param availableEffects contains options
      */
-    public void displayAvailableEffectsWithNoOption(List<IndexMessage> effects){
+    public void displayAvailableEffectsWithNoOption(AvailableEffects availableEffects){
 
-        //TODO implement
+        Message selection = new Message(username);
+        int cont = 0;
+        out.println("CHOOSE THE EFFECT:  (select 'NO THANKS' if you don't want to use any effect) ");
+        for (IndexMessage effect: availableEffects.getIndexes()){
+            out.println(cont + ". " + availableEffects.getNames().get(availableEffects.getIndexes().indexOf(effect)));
+            cont++;
+        }
+        out.println(cont + ".  NO THANKS");
+        int choice = readNumbers(0, cont);
+        if (sameNumbers(choice, cont)){
+            selection.createSelectedEffect(-1);
+        }
+        else {
+            selection.createSelectedEffect(availableEffects.getIndexes().get(choice).getSelectionIndex());
+        }
+        client.send(selection);
     }
 
     /**
@@ -1375,7 +1461,292 @@ public class CLI implements ViewInterface {
      */
     public void displayEndMatchLeaderBoard(LeaderBoard leaderBoard){
 
-        //TODO implement
+        try{
+        out.println("MATHC IS ENDED!!!    ⊂(◉‿◉)つ\n");
+
+            TimeUnit.MILLISECONDS.sleep(400);
+
+            out.println("...\n");
+
+            TimeUnit.MILLISECONDS.sleep(400);
+
+
+            out.println("...\n");
+
+            TimeUnit.MILLISECONDS.sleep(400);
+
+
+            out.println("...\n");
+
+            TimeUnit.MILLISECONDS.sleep(1000);
+
+
+            out.println("\n\n       ___   ___  _   _  __  __  ___   ___   _     _         \n" +
+                    " _/\\_ |   \\ | _ \\| | | ||  \\/  || _ \\ / _ \\ | |   | |    _/\\_\n" +
+                    " >  < | |) ||   /| |_| || |\\/| ||   /| (_) || |__ | |__  >  <\n" +
+                    "  \\/  |___/ |_|_\\ \\___/ |_|  |_||_|_\\ \\___/ |____||____|  \\/ \n" +
+                    "                                                             \n\n");
+
+
+            TimeUnit.MILLISECONDS.sleep(1600);
+        }
+        catch (InterruptedException e){
+            LOGGER.log(Level.WARNING, "interrupted exception");
+            Thread.currentThread().interrupt();
+        }
+
+        //he won
+        if (leaderBoard.getLeaderBoard().get(characters.get(usernames.indexOf(username))) == 1 && !isADraw(leaderBoard)){
+
+            out.println("                         /$$     /$$ /$$$$$$  /$$   /$$                  \n" +
+                    "                        |  $$   /$$//$$__  $$| $$  | $$                  \n" +
+                    "                         \\  $$ /$$/| $$  \\ $$| $$  | $$                  \n" +
+                    "                          \\  $$$$/ | $$  | $$| $$  | $$                  \n" +
+                    "                           \\  $$/  | $$  | $$| $$  | $$                  \n" +
+                    "                            | $$   | $$  | $$| $$  | $$                  \n" +
+                    "                            | $$   |  $$$$$$/|  $$$$$$/                  \n" +
+                    "                            |__/    \\______/  \\______/                   \n" +
+                    "        /$$$$$$  /$$$$$$$  /$$$$$$$$       /$$$$$$$$ /$$   /$$ /$$$$$$$$ \n" +
+                    "       /$$__  $$| $$__  $$| $$_____/      |__  $$__/| $$  | $$| $$_____/ \n" +
+                    "      | $$  \\ $$| $$  \\ $$| $$               | $$   | $$  | $$| $$       \n" +
+                    "      | $$$$$$$$| $$$$$$$/| $$$$$            | $$   | $$$$$$$$| $$$$$    \n" +
+                    "      | $$__  $$| $$__  $$| $$__/            | $$   | $$__  $$| $$__/    \n" +
+                    "      | $$  | $$| $$  \\ $$| $$               | $$   | $$  | $$| $$       \n" +
+                    "      | $$  | $$| $$  | $$| $$$$$$$$         | $$   | $$  | $$| $$$$$$$$ \n" +
+                    "      |__/  |__/|__/  |__/|________/         |__/   |__/  |__/|________/ \n" +
+                    "             /$$      /$$ /$$$$$$ /$$   /$$ /$$   /$$ /$$$$$$$$ /$$$$$$$ \n" +
+                    "            | $$  /$ | $$|_  $$_/| $$$ | $$| $$$ | $$| $$_____/| $$__  $$\n" +
+                    "            | $$ /$$$| $$  | $$  | $$$$| $$| $$$$| $$| $$      | $$  \\ $$\n" +
+                    "            | $$/$$ $$ $$  | $$  | $$ $$ $$| $$ $$ $$| $$$$$   | $$$$$$$/\n" +
+                    "            | $$$$_  $$$$  | $$  | $$  $$$$| $$  $$$$| $$__/   | $$__  $$\n" +
+                    "            | $$$/ \\  $$$  | $$  | $$\\  $$$| $$\\  $$$| $$      | $$  \\ $$\n" +
+                    "            | $$/   \\  $$ /$$$$$$| $$ \\  $$| $$ \\  $$| $$$$$$$$| $$  | $$\n" +
+                    "            |__/     \\__/|______/|__/  \\__/|__/  \\__/|________/|__/  |__/\n" +
+                    "                                                                         \n" +
+                    "                                                                         \n" +
+                    "                                                                         \n");
+
+            try {
+                TimeUnit.MILLISECONDS.sleep(1000);
+            }
+            catch (InterruptedException e){
+                LOGGER.log(Level.WARNING, "interrupted exception");
+                Thread.currentThread().interrupt();
+            }
+
+            out.println("\nOMG! CONGRATULATIONS!!! HERE ARE THE POINTS:   ＼(＾O＾)／\n");
+            printPoints(leaderBoard);
+        }
+
+        else if (isADraw(leaderBoard)){
+
+            out.println("                ██╗    ██╗ ██████╗ ██╗    ██╗          \n" +
+                    "                ██║    ██║██╔═══██╗██║    ██║          \n" +
+                    "                ██║ █╗ ██║██║   ██║██║ █╗ ██║          \n" +
+                    "                ██║███╗██║██║   ██║██║███╗██║          \n" +
+                    "                ╚███╔███╔╝╚██████╔╝╚███╔███╔╝          \n" +
+                    "                 ╚══╝╚══╝  ╚═════╝  ╚══╝╚══╝           \n" +
+                    "            ██████╗ ██████╗  █████╗ ██╗    ██╗██╗██╗██╗\n" +
+                    "            ██╔══██╗██╔══██╗██╔══██╗██║    ██║██║██║██║\n" +
+                    "            ██║  ██║██████╔╝███████║██║ █╗ ██║██║██║██║\n" +
+                    "            ██║  ██║██╔══██╗██╔══██║██║███╗██║╚═╝╚═╝╚═╝\n" +
+                    "            ██████╔╝██║  ██║██║  ██║╚███╔███╔╝██╗██╗██╗\n" +
+                    "            ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝╚═╝╚═╝\n" +
+                    "                                                       \n");
+
+            try {
+                TimeUnit.MILLISECONDS.sleep(1000);
+            }
+            catch (InterruptedException e){
+                LOGGER.log(Level.WARNING, "interrupted exception");
+                Thread.currentThread().interrupt();
+            }
+
+            out.println("THIS DOES NOT HAPPEN OFTEN  (Ͼ˳Ͽ)..!!!");
+            out.println("HERE ARE THE POINTS\n");
+            printPoints(leaderBoard);
+        }
+
+        else {
+
+            out.println(" ██▓        ▒█████      ▒█████       ██████    ▓█████     ██▀███  \n" +
+                    "▓██▒       ▒██▒  ██▒   ▒██▒  ██▒   ▒██    ▒    ▓█   ▀    ▓██ ▒ ██▒\n" +
+                    "▒██░       ▒██░  ██▒   ▒██░  ██▒   ░ ▓██▄      ▒███      ▓██ ░▄█ ▒\n" +
+                    "▒██░       ▒██   ██░   ▒██   ██░     ▒   ██▒   ▒▓█  ▄    ▒██▀▀█▄  \n" +
+                    "░██████▒   ░ ████▓▒░   ░ ████▓▒░   ▒██████▒▒   ░▒████▒   ░██▓ ▒██▒\n" +
+                    "░ ▒░▓  ░   ░ ▒░▒░▒░    ░ ▒░▒░▒░    ▒ ▒▓▒ ▒ ░   ░░ ▒░ ░   ░ ▒▓ ░▒▓░\n" +
+                    "░ ░ ▒  ░     ░ ▒ ▒░      ░ ▒ ▒░    ░ ░▒  ░ ░    ░ ░  ░     ░▒ ░ ▒░\n" +
+                    "  ░ ░      ░ ░ ░ ▒     ░ ░ ░ ▒     ░  ░  ░        ░        ░░   ░ \n" +
+                    "    ░  ░       ░ ░         ░ ░           ░        ░  ░      ░     \n" +
+                    "                                                                  ");
+            try {
+                TimeUnit.MILLISECONDS.sleep(1000);
+            }
+            catch (InterruptedException e){
+                LOGGER.log(Level.WARNING, "interrupted exception");
+                Thread.currentThread().interrupt();
+            }
+
+            out.println("SORRY MY FRIEND, MAYBE NEXT TIME!  ¯\\_(ツ)_/¯");
+            out.println("HERE ARE THE POINTS\n");
+            printPoints(leaderBoard);
+        }
+
+        try {
+            TimeUnit.MILLISECONDS.sleep(2000);
+        }
+        catch (InterruptedException e){
+            LOGGER.log(Level.WARNING, "interrupted exception");
+            Thread.currentThread().interrupt();
+        }
+
+
+        out.println("\n\n╔═══════════════════════╗\n" +
+                "║        OPTIONS        ║\n" +
+                "╠═══════════════════════╣\n" +
+                "║ 1. START ANOTHER GAME ║\n" +
+                "║ 2. QUIT               ║\n" +
+                "╚═══════════════════════╝");
+        int choice = readNumbers(1,3);
+
+        if (sameNumbers(choice, 1)){
+            clearAttributes();
+            displayLoginWindow();
+        }
+        else if (sameNumbers(choice, 2)){
+            System.exit(0);
+        }
+        else if (sameNumbers(choice, 3)){
+            out.println("MMM LOOKS LIKE YOU HAVE UNLOCKED OUR EASTER EGG!!!\n\n\n");
+            try {
+                TimeUnit.MILLISECONDS.sleep(1400);
+                out.println("████████╗ █████╗ ███╗   ██╗                                            \n" +
+                        "╚══██╔══╝██╔══██╗████╗  ██║                                            \n" +
+                        "   ██║   ███████║██╔██╗ ██║                                            \n" +
+                        "   ██║   ██╔══██║██║╚██╗██║                                            \n" +
+                        "   ██║   ██║  ██║██║ ╚████║                                            \n" +
+                        "   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝                                            ");
+                TimeUnit.MILLISECONDS.sleep(1400);
+                out.println("                    ████████╗ █████╗ ███╗   ██╗                        \n" +
+                        "                    ╚══██╔══╝██╔══██╗████╗  ██║                        \n" +
+                        "                       ██║   ███████║██╔██╗ ██║                        \n" +
+                        "                       ██║   ██╔══██║██║╚██╗██║                        \n" +
+                        "                       ██║   ██║  ██║██║ ╚████║                        \n" +
+                        "                       ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝                       ");
+                TimeUnit.MILLISECONDS.sleep(1400);
+                out.println("                                            ████████╗ █████╗ ███╗   ██╗\n" +
+                        "                                            ╚══██╔══╝██╔══██╗████╗  ██║\n" +
+                        "                                               ██║   ███████║██╔██╗ ██║\n" +
+                        "                                               ██║   ██╔══██║██║╚██╗██║\n" +
+                        "                                               ██║   ██║  ██║██║ ╚████║\n" +
+                        "                                               ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝\n" +
+                        "                                                                       ");
+
+                TimeUnit.MILLISECONDS.sleep(1300);
+                out.println("██╗   ██╗ ██████╗ ██╗   ██╗██████╗                                                                 \n" +
+                        "╚██╗ ██╔╝██╔═══██╗██║   ██║██╔══██╗                                                                \n" +
+                        " ╚████╔╝ ██║   ██║██║   ██║██████╔╝                                                                \n" +
+                        "  ╚██╔╝  ██║   ██║██║   ██║██╔══██╗                                                                \n" +
+                        "   ██║   ╚██████╔╝╚██████╔╝██║  ██║                                                                \n" +
+                        "   ╚═╝    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝                                                                \n" +
+                        "██████╗ ██████╗  ██████╗  ██████╗ ██████╗  █████╗ ███╗   ███╗███╗   ███╗███████╗██████╗ ███████╗   \n" +
+                        "██╔══██╗██╔══██╗██╔═══██╗██╔════╝ ██╔══██╗██╔══██╗████╗ ████║████╗ ████║██╔════╝██╔══██╗██╔════╝██╗\n" +
+                        "██████╔╝██████╔╝██║   ██║██║  ███╗██████╔╝███████║██╔████╔██║██╔████╔██║█████╗  ██████╔╝███████╗╚═╝\n" +
+                        "██╔═══╝ ██╔══██╗██║   ██║██║   ██║██╔══██╗██╔══██║██║╚██╔╝██║██║╚██╔╝██║██╔══╝  ██╔══██╗╚════██║██╗\n" +
+                        "██║     ██║  ██║╚██████╔╝╚██████╔╝██║  ██║██║  ██║██║ ╚═╝ ██║██║ ╚═╝ ██║███████╗██║  ██║███████║╚═╝\n" +
+                        "╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝   \n" +
+                        "                                                                                                  ");
+                TimeUnit.MILLISECONDS.sleep(1300);
+                out.println("\n██████╗ ██╗███████╗████████╗██████╗  ██████╗     ██╗     ███████╗███╗   ██╗████████╗██╗███╗   ██╗██╗\n" +
+                        "██╔══██╗██║██╔════╝╚══██╔══╝██╔══██╗██╔═══██╗    ██║     ██╔════╝████╗  ██║╚══██╔══╝██║████╗  ██║██║\n" +
+                        "██████╔╝██║█████╗     ██║   ██████╔╝██║   ██║    ██║     █████╗  ██╔██╗ ██║   ██║   ██║██╔██╗ ██║██║\n" +
+                        "██╔═══╝ ██║██╔══╝     ██║   ██╔══██╗██║   ██║    ██║     ██╔══╝  ██║╚██╗██║   ██║   ██║██║╚██╗██║██║\n" +
+                        "██║     ██║███████╗   ██║   ██║  ██║╚██████╔╝    ███████╗███████╗██║ ╚████║   ██║   ██║██║ ╚████║██║\n" +
+                        "╚═╝     ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝     ╚══════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚═╝  ╚═══╝╚═╝\n" +
+                        "                                                                                                    ");
+                TimeUnit.MILLISECONDS.sleep(1300);
+                out.println("\n\n███╗   ███╗██╗ ██████╗██╗  ██╗███████╗██╗     ███████╗    ███╗   ███╗ █████╗ ██████╗  █████╗ ███████╗███████╗██╗\n" +
+                        "████╗ ████║██║██╔════╝██║  ██║██╔════╝██║     ██╔════╝    ████╗ ████║██╔══██╗██╔══██╗██╔══██╗╚══███╔╝╚══███╔╝██║\n" +
+                        "██╔████╔██║██║██║     ███████║█████╗  ██║     █████╗      ██╔████╔██║███████║██████╔╝███████║  ███╔╝   ███╔╝ ██║\n" +
+                        "██║╚██╔╝██║██║██║     ██╔══██║██╔══╝  ██║     ██╔══╝      ██║╚██╔╝██║██╔══██║██╔══██╗██╔══██║ ███╔╝   ███╔╝  ██║\n" +
+                        "██║ ╚═╝ ██║██║╚██████╗██║  ██║███████╗███████╗███████╗    ██║ ╚═╝ ██║██║  ██║██║  ██║██║  ██║███████╗███████╗██║\n" +
+                        "╚═╝     ╚═╝╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝\n" +
+                        "                                                                                                                ");
+
+                TimeUnit.MILLISECONDS.sleep(1300);
+                out.println("\n\n███╗   ███╗ █████╗ ██████╗  ██████╗ ██████╗     ███╗   ███╗ █████╗ ██████╗ ██╗███╗   ██╗██╗\n" +
+                        "████╗ ████║██╔══██╗██╔══██╗██╔════╝██╔═══██╗    ████╗ ████║██╔══██╗██╔══██╗██║████╗  ██║██║\n" +
+                        "██╔████╔██║███████║██████╔╝██║     ██║   ██║    ██╔████╔██║███████║██████╔╝██║██╔██╗ ██║██║\n" +
+                        "██║╚██╔╝██║██╔══██║██╔══██╗██║     ██║   ██║    ██║╚██╔╝██║██╔══██║██╔══██╗██║██║╚██╗██║██║\n" +
+                        "██║ ╚═╝ ██║██║  ██║██║  ██║╚██████╗╚██████╔╝    ██║ ╚═╝ ██║██║  ██║██║  ██║██║██║ ╚████║██║\n" +
+                        "╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝     ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝\n" +
+                        "                                                                                           ");
+
+                TimeUnit.MILLISECONDS.sleep(2300);
+                System.exit(0);
+
+            }
+            catch (InterruptedException e){
+                LOGGER.log(Level.WARNING, "interrupted exception");
+                Thread.currentThread().interrupt();
+            }
+
+        }
+
+    }
+
+    /**
+     * prints the points of every player
+     * @param leaderBoard message with points
+     */
+    private void printPoints(LeaderBoard leaderBoard){
+
+        out.println("LEADER BOARD:\n");
+        for (Character character: leaderBoard.getPointsMap().keySet()){
+            printCharacterName(character);
+            out.println(" got " + leaderBoard.getPointsMap().get(character) + " points." );
+        }
+    }
+
+    /**
+     * this method check if there was a draw
+     * @param leaderBoard message received
+     * @return true if there was a draw
+     */
+    private Boolean isADraw(LeaderBoard leaderBoard){
+
+        int firstPlayers = 0;
+
+        for (Character character: characters){
+
+            if (leaderBoard.getLeaderBoard().get(character) == 1){
+
+                firstPlayers++;
+                if (firstPlayers > 1){
+
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * shows a textual message with the action a player has done (used onli in cli)
+     * @param actionReports mesage
+     */
+    public void displayActionReport(ActionReports actionReports){
+
+        out.print("\nACTION: ");
+        printCharacterName(actionReports.getSubject());
+        out.print(actionReports.getReport());
+        if (actionReports.getReceiver() != null){
+            printCharacterName(actionReports.getReceiver());
+            out.println("");
+        }
+        else {
+            out.println("");
+        }
     }
 
 

@@ -29,7 +29,13 @@ public class SocketServer extends Thread {
 
     private static Logger LOGGER = Logger.getLogger("SocketServer");
 
+    private SocketServerClientHandler socketServerClientHandler;
+
     /* Methods */
+
+    public SocketServerClientHandler getSocketServerClientHandler() {
+        return socketServerClientHandler;
+    }
 
     public void setServer(Server server) {
         this.server = server;
@@ -62,7 +68,7 @@ public class SocketServer extends Thread {
             try {
 
                 Socket connection = serverSocket.accept();
-                (new SocketServerClientHandler(connection, this)).start();
+                (socketServerClientHandler = new SocketServerClientHandler(connection, this)).start();
             } catch (IOException e) {
 
                 LOGGER.log(Level.WARNING, e.getMessage());
@@ -76,7 +82,7 @@ public class SocketServer extends Thread {
      */
     public void receive(Message message) {
 
-        server.handleMessage(message);
+        server.receiveMessage(message);
     }
 
     /**
@@ -85,9 +91,8 @@ public class SocketServer extends Thread {
      */
     public void disconnect(String username) {
 
-        server.getWaitingRoom().getWaitingPlayers().get(username).setConnected(false);
-        server.getWaitingRoom().addDisconnectedPlayer(username);
-        server.getWaitingRoom().removeWaitingPlayer(username);
+        server.getVirtualViewMap().get(username).getWaitingPlayers().get(username).setConnected(false);
+        server.getVirtualViewMap().get(username).addDisconnectedPlayer(username);
     }
 
 }

@@ -4,7 +4,6 @@ import it.polimi.sw2019.network.messages.*;
 import it.polimi.sw2019.network.server.VirtualView;
 import static it.polimi.sw2019.network.messages.TypeOfMessage.*;
 
-import java.io.Console;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;

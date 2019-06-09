@@ -4,6 +4,7 @@ import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.client.ClientActions;
 import it.polimi.sw2019.network.client.ClientInterface;
 import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.network.messages.TypeOfMessage;
 import it.polimi.sw2019.network.server.rmi.ServerInterface;
 
 import java.rmi.NotBoundException;
@@ -62,11 +63,22 @@ public class RmiClient implements ClientActions {
     @Override
     public void doSomething(Message message) {
 
-        try {
-            serverInterface.messageHandler(message);
-        } catch (RemoteException e) {
+        if(message.getTypeOfMessage() == TypeOfMessage.RECONNECTION_REQUEST) {
 
-            LOGGER.log(Level.WARNING, "connection failure");
+            try{
+                serverInterface.reconnect(message.getUsername(), clientInterface);
+            } catch (RemoteException e) {
+
+                LOGGER.log(Level.WARNING, "connection failure");
+            }
+        }
+        else {
+            try {
+                serverInterface.messageHandler(message);
+            } catch (RemoteException e) {
+
+                LOGGER.log(Level.WARNING, "connection failure");
+            }
         }
     }
 }
