@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="533.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.SelectWeaponController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="533.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
+      <ImageView fitHeight="533.0" fitWidth="800.0" opacity="0.5">
+         <image>
+            <Image url="@../images/StartScreenLogo.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="weaponImageView" fitHeight="385.0" fitWidth="246.0" layoutX="286.0" layoutY="131.0" preserveRatio="true">
+         <image>
+            <Image url="@../images/cards/AD_weapons_IT_0225.png" />
+         </image>
+         <effect>
+            <DropShadow color="#0062ff" height="203.14" radius="82.0975" spread="0.58" width="127.25" />
+         </effect>
+      </ImageView>
+      <Label prefHeight="125.0" prefWidth="800.0" style="-fx-background-color: #404040; -fx-alignment: center;" text="CHOOSE AN EFFECT" textAlignment="CENTER" textFill="#ddd2d2">
+         <font>
+            <Font name="Arial" size="36.0" />
+         </font>
+      </Label>
+      <Group fx:id="optional1" layoutX="455.0" layoutY="273.0" visible="false">
+         <children>
+            <RadioButton fx:id="radioButton0" disable="true" layoutX="33.0" layoutY="33.0" mnemonicParsing="false">
+               <effect>
+                  <DropShadow height="70.0" radius="34.5" spread="0.62" width="70.0" />
+               </effect>
+               <toggleGroup>
+                  <ToggleGroup fx:id="toggleGroup0" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radioButton1" disable="true" layoutX="33.0" layoutY="145.0" mnemonicParsing="false" toggleGroup="$toggleGroup0">
+               <effect>
+                  <DropShadow height="70.0" radius="34.5" spread="0.62" width="70.0" />
+               </effect>
+            </RadioButton>
+         </children>
+      </Group>
+      <Group fx:id="optional2" layoutX="333.0" layoutY="282.0" visible="false">
+         <children>
+            <RadioButton fx:id="radioButton2" disable="true" layoutX="143.0" layoutY="33.0" mnemonicParsing="false">
+               <effect>
+                  <DropShadow height="70.0" radius="34.5" spread="0.62" width="70.0" />
+               </effect>
+               <toggleGroup>
+                  <ToggleGroup fx:id="toggleGroup1" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radioButton3" disable="true" layoutX="33.0" layoutY="129.0" mnemonicParsing="false" toggleGroup="$toggleGroup1">
+               <effect>
+                  <DropShadow height="70.0" radius="34.5" spread="0.62" width="70.0" />
+               </effect>
+            </RadioButton>
+            <RadioButton fx:id="radioButton4" disable="true" layoutX="143.0" layoutY="129.0" mnemonicParsing="false" toggleGroup="$toggleGroup1">
+               <effect>
+                  <DropShadow height="70.0" radius="34.5" spread="0.62" width="70.0" />
+               </effect>
+            </RadioButton>
+         </children>
+      </Group>
+      <Group fx:id="selectable3" layoutX="365.0" layoutY="306.0" visible="false">
+         <children>
+            <CheckBox fx:id="checkBox0" disable="true" layoutX="111.0" mnemonicParsing="false" onAction="#handleCheckBoxSelection" />
+            <CheckBox fx:id="checkBox1" disable="true" layoutX="111.0" layoutY="104.0" mnemonicParsing="false" onAction="#handleCheckBoxSelection" />
+            <CheckBox fx:id="checkBox2" disable="true" layoutY="104.0" mnemonicParsing="false" onAction="#handleCheckBoxSelection" />
+         </children>
+      </Group>
+      <Button layoutX="608.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleSendButton" text="SEND CHOICE" />
+   </children>
+</AnchorPane>

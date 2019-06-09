@@ -1,7 +1,5 @@
 package it.polimi.sw2019.network.messages;
 
-import it.polimi.sw2019.model.Board;
-
 public class BoardCoord {
 
     /**
@@ -39,5 +37,9 @@ public class BoardCoord {
 
     public void setColumn(int column) {
         this.column = column;
+    }
+
+    public int getCellNumber(){
+        return 4*row + column;
     }
 }

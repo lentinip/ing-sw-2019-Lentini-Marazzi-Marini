@@ -40,7 +40,7 @@ public class Score extends Tokens {
                     return -1;
                 }
                 else {
-                    //TODO exception still tied
+                    return 0;
                 }
             }
             return o1.getValue().compareTo(o2.getValue());
@@ -58,14 +58,15 @@ public class Score extends Tokens {
         List<Map.Entry<Character, Integer>> list = new LinkedList<>(sortedMap.entrySet());
 
         int rank = 1;
-        int previousValue = list.get(0).getValue();
+        Map.Entry<Character, Integer> previousEntry = list.get(0);
+        RankingComparator rankingComparator = new RankingComparator();
 
         for (int i=0; i<list.size(); i++){
-            if (previousValue==list.get(i).getValue()){
+            if (rankingComparator.compare(previousEntry, list.get(i))==0){
                 ranking.put(list.get(i).getKey(), rank);
             }
             else {
-                previousValue = list.get(i).getValue();
+                previousEntry = list.get(i);
                 rank++;
                 ranking.put(list.get(i).getKey(), rank);
             }

@@ -1,5 +1,6 @@
 package it.polimi.sw2019.view.gui;
 
+import it.polimi.sw2019.network.client.Client;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -14,6 +15,8 @@ import java.awt.event.ActionEvent;
 public class MatchSettingController {
 
     /* Attributes */
+
+    private Client client;
 
     @FXML
     private CheckBox checkBoxFrenzyMode;
@@ -42,9 +45,11 @@ public class MatchSettingController {
 
     private String selectedBoard = "boardAll";
 
-    private Integer numberOfPlayers = 0;
-
     /* Methods */
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 
     public boolean isFrenzy() {
         return frenzy;
@@ -59,7 +64,9 @@ public class MatchSettingController {
     }
 
     public void setNumberOfPlayers(Integer numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
+
+        //Setting the number of players in the label
+        labelNumberOfPlayers.setText(numberOfPlayers.toString());
     }
 
     public void initialize(){
@@ -78,11 +85,6 @@ public class MatchSettingController {
                 }
             }
         });
-
-        //Setting the number of players in the label
-        labelNumberOfPlayers.setText(numberOfPlayers.toString());
-
-
     }
 
     @FXML

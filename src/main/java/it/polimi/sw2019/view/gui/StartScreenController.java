@@ -1,5 +1,6 @@
 package it.polimi.sw2019.view.gui;
 
+import it.polimi.sw2019.network.client.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -12,6 +13,8 @@ import java.util.List;
 public class StartScreenController {
 
     /* Attributes */
+
+    private Client client;
 
     @FXML
     private ComboBox<String> typeOfConnectionBox;
@@ -36,6 +39,10 @@ public class StartScreenController {
     private String username;
 
     /* Methods */
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 
     public String getTypeOfConnection() {
         return typeOfConnection;
@@ -88,6 +95,9 @@ public class StartScreenController {
         }
     }
 
-}
+    public void handleStartGamButton(){
+        client.setUsername(username);
+        //TODO implement
+    }
 
-//TODO implement alert for wrong username
+}

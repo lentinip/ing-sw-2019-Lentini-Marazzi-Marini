@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<Group xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.PlayerBoardController">
+   <children>
+      <ImageView fx:id="playerBoardImage" fitHeight="292.0" fitWidth="826.0" layoutX="45.0" layoutY="12.0" preserveRatio="true">
+         <image>
+            <Image url="@../images/PlayerBoardDistructorFront.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="myFirstPlayerMarker" fitHeight="163.0" fitWidth="86.0" layoutY="45.0" preserveRatio="true">
+         <image>
+            <Image url="@../images/StartingPlayerMarker.png" />
+         </image>
+      </ImageView>
+      <Group fx:id="playerCards" layoutX="346.0" layoutY="1.0" visible="false">
+         <children>
+            <ImageView fitHeight="151.0" fitWidth="50.0" layoutX="14.0" layoutY="9.0" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../images/cards/AD_weapons_IT_02.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fitHeight="64.0" fitWidth="60.0" layoutX="9.0" layoutY="30.0" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../images/cards/AD_powerups_IT_02.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="227.0" layoutY="166.0">
+         <children>
+            <ImageView fx:id="mySkull0" fitHeight="45.0" fitWidth="37.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/skull.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="mySkull1" fitHeight="45.0" fitWidth="37.0" layoutX="42.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/skull.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="mySkull2" fitHeight="45.0" fitWidth="37.0" layoutX="83.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/skull.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="mySkull3" fitHeight="45.0" fitWidth="37.0" layoutX="125.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/skull.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="mySkull4" fitHeight="45.0" fitWidth="37.0" layoutX="167.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/skull.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="mySkull5" fitHeight="45.0" fitWidth="37.0" layoutX="209.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/skull.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="121.0" layoutY="84.0">
+         <children>
+            <ImageView fx:id="myDamageToken0" fitHeight="69.0" fitWidth="36.0" layoutX="9.0" layoutY="10.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myDamageToken1" fitHeight="69.0" fitWidth="36.0" layoutX="52.0" layoutY="10.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myDamageToken2" fitHeight="69.0" fitWidth="36.0" layoutX="101.0" layoutY="10.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myDamageToken3" fitHeight="69.0" fitWidth="36.0" layoutX="144.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myDamageToken4" fitHeight="69.0" fitWidth="36.0" layoutX="189.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myDamageToken5" fitHeight="69.0" fitWidth="36.0" layoutX="236.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myDamageToken6" fitHeight="69.0" fitWidth="36.0" layoutX="279.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myDamageToken7" fitHeight="69.0" fitWidth="36.0" layoutX="321.0" layoutY="10.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myDamageToken8" fitHeight="69.0" fitWidth="36.0" layoutX="365.0" layoutY="10.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myDamageToken9" fitHeight="69.0" fitWidth="36.0" layoutX="409.0" layoutY="10.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myDamageToken10" fitHeight="69.0" fitWidth="36.0" layoutX="456.0" layoutY="10.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myDamageToken11" fitHeight="69.0" fitWidth="36.0" layoutX="499.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="426.0">
+         <children>
+            <ImageView fx:id="myMark0" fitHeight="69.0" fitWidth="36.0" layoutX="9.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myMark1" fitHeight="69.0" fitWidth="36.0" layoutX="27.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myMark2" fitHeight="69.0" fitWidth="36.0" layoutX="46.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myMark3" fitHeight="69.0" fitWidth="36.0" layoutX="64.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myMark4" fitHeight="69.0" fitWidth="36.0" layoutX="82.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myMark5" fitHeight="69.0" fitWidth="36.0" layoutX="100.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myMark6" fitHeight="69.0" fitWidth="36.0" layoutX="118.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myMark7" fitHeight="69.0" fitWidth="36.0" layoutX="136.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myMark8" fitHeight="69.0" fitWidth="36.0" layoutX="154.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myMark9" fitHeight="69.0" fitWidth="36.0" layoutX="172.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myMark10" fitHeight="69.0" fitWidth="36.0" layoutX="190.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="myMark11" fitHeight="69.0" fitWidth="36.0" layoutX="208.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/tokens/YellowToken.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+         </children>
+      </Group>
+      <Label fx:id="myUsername" layoutX="121.0" layoutY="18.0" prefHeight="28.0" prefWidth="144.0" style="-fx-background-color: #404040; -fx-background-radius: 3;" text="Username" textFill="#ddd2d2" wrapText="true">
+         <padding>
+            <Insets left="7.0" right="3.0" />
+         </padding>
+         <font>
+            <Font size="18.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
+      <Group layoutX="58.0" layoutY="62.0">
+         <children>
+            <Pane fx:id="moveAvailable" prefHeight="30.0" prefWidth="46.0" style="-fx-border-color: white;" />
+            <Pane fx:id="grabAvailable" layoutY="31.0" prefHeight="30.0" prefWidth="46.0" style="-fx-border-color: white;" />
+            <Pane fx:id="shootAvailable" layoutY="62.0" prefHeight="30.0" prefWidth="46.0" style="-fx-border-color: white;" />
+            <Pane fx:id="reloadAvailable" layoutX="15.0" layoutY="101.0" prefHeight="37.0" prefWidth="27.0" style="-fx-border-color: white;" />
+         </children>
+      </Group>
+      <Group layoutX="722.0" layoutY="88.0">
+         <children>
+            <Group>
+               <children>
+                  <Rectangle fx:id="myAmmoBlue0" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                  <Rectangle fx:id="myAmmoBlue1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="48.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                  <Rectangle fx:id="myAmmoBlue2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="97.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+               </children>
+            </Group>
+            <Group layoutY="50.0">
+               <children>
+                  <Rectangle fx:id="myAmmoRed0" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                  <Rectangle fx:id="myAmmoRed1" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="20.0" layoutX="49.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                  <Rectangle fx:id="myAmmoRed2" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="20.0" layoutX="97.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+               </children>
+            </Group>
+            <Group layoutY="102.0">
+               <children>
+                  <Rectangle fx:id="myAmmoYellow0" arcHeight="5.0" arcWidth="5.0" fill="#fbff1f" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                  <Rectangle fx:id="myAmmoYellow1" arcHeight="5.0" arcWidth="5.0" fill="#fbff1f" height="20.0" layoutX="49.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                  <Rectangle fx:id="myAmmoYellow2" arcHeight="5.0" arcWidth="5.0" fill="#fbff1f" height="20.0" layoutX="97.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+               </children>
+            </Group>
+         </children>
+      </Group>
+   </children>
+</Group>

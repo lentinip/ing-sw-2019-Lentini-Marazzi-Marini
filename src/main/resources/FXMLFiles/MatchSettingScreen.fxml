@@ -159,7 +159,7 @@
                                  <children>
                                     <ImageView fitHeight="150.0" fitWidth="200.0">
                                        <image>
-                                          <Image url="@../images/Board4.png" />
+                                          <Image url="@../images/Board3.png" />
                                        </image>
                                     </ImageView>
                                     <RadioButton fx:id="board3players1" mnemonicParsing="false" text="generic" toggleGroup="$boardGroup">

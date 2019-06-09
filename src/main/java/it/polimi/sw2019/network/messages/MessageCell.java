@@ -84,4 +84,19 @@ public class MessageCell {
         return isEmpty;
     }
 
+    public int getCellNumber(){
+        return 4*row + column;
+    }
+
+    public int getAmmoPositionNumber(){
+        int result = getCellNumber();
+        if (result>1){
+            result--;
+        }
+        if (result>3){
+            result--;
+        }
+        return result;
+    }
+
 }
