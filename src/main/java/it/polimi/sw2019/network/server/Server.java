@@ -5,11 +5,9 @@ import it.polimi.sw2019.network.client.ClientInterface;
 import it.polimi.sw2019.network.messages.*;
 import it.polimi.sw2019.network.server.rmi.RmiServer;
 import it.polimi.sw2019.network.server.socket.SocketServer;
-import it.polimi.sw2019.network.server.socket.SocketServerClientHandler;
+
 
 import java.rmi.RemoteException;
-import java.security.InvalidParameterException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
@@ -137,6 +135,7 @@ public class Server {
                 clientInterface.notify(loginMessage);
             } catch (RemoteException e) { //this exception is called when I can't notify the message of login successful
 
+                removeWaitingPlayer(username);
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
 
@@ -167,6 +166,8 @@ public class Server {
             virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).getClientInterface().notify(message);
         } catch (RemoteException e) {
 
+            virtualViewMap.get(message.getUsername()).addDisconnectedPlayer(message.getUsername());
+            virtualViewMap.get(message.getUsername()).getDisconnectedPlayers().add(message.getUsername());
             LOGGER.log(Level.WARNING, e.getMessage());
         }
     }
@@ -185,18 +186,19 @@ public class Server {
 
                 usernames.add(virtualView.getUserNames().get(i));
             }
-
         }
 
         for(String user : usernames) {
 
-                try {
+            try {
 
-                    virtualView.getWaitingPlayers().get(user).getClientInterface().notify(message);
-                } catch (RemoteException e) {
+                virtualView.getWaitingPlayers().get(user).getClientInterface().notify(message);
+            } catch (RemoteException e) {
 
-                    LOGGER.log(Level.WARNING, e.getMessage());
-                }
+                virtualViewMap.get(user).addDisconnectedPlayer(user);
+                virtualViewMap.get(user).getDisconnectedPlayers().add(user);
+                LOGGER.log(Level.WARNING, e.getMessage());
+            }
         }
     }
 
@@ -273,6 +275,11 @@ public class Server {
         }
     }
 
+    /**
+     * tries to reconnect the player in the match he started before
+     * @param username to reconnect
+     * @param clientInterface connection
+     */
     public void reconnectPlayer(String username, ClientInterface clientInterface) {
 
         //If there is a player connected with the same username, tell the client he has to choose another username
@@ -283,6 +290,8 @@ public class Server {
                 clientInterface.notify(loginMessage);
             } catch (RemoteException e) {
 
+                virtualViewMap.get(username).addDisconnectedPlayer(username);
+                virtualViewMap.get(username).getDisconnectedPlayers().add(username);
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
         }

@@ -43,6 +43,7 @@ public class RmiServer implements Remote {
         ServerImplementation serverImplementation = new ServerImplementation(server);
         try {
             registry.rebind("Server", serverImplementation);
+            LOGGER.log(Level.INFO, "RmiServer is online");
         } catch (RemoteException e) {
 
             LOGGER.log(Level.WARNING, e.getMessage());

@@ -498,4 +498,17 @@ public class Message implements Serializable {
         setJsonFile(serializeActionReport(new ActionReports(report, subject, receiver)));
     }
 
+    public void createReconnectionMessage() {
+
+        setTypeOfMessage(TypeOfMessage.PLAYER_ALREADY_LOGGED);
+        setTypeOfAction(TypeOfAction.NONE);
+        setJsonFile(null);
+    }
+
+    public void createReconnectionRequest(Boolean rmi) {
+
+        setTypeOfMessage(TypeOfMessage.RECONNECTION);
+        setTypeOfAction(TypeOfAction.NONE);
+        setJsonFile(null);
+    }
 }

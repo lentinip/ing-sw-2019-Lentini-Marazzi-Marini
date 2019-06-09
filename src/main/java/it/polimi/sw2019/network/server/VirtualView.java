@@ -26,7 +26,7 @@ public class VirtualView extends Observable implements Observer {
         TimeConfigurations timeConfigurations = new TimeConfigurations();
         Gson json = new Gson();
         try {
-            JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("configurations.json")));
+            JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("/configurations.json")));
             timeConfigurations = json.fromJson(jsonReader, TimeConfigurations.class);
         }
         catch (Exception e){

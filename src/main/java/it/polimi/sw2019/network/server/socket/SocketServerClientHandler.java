@@ -58,6 +58,7 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
         try{
             while(go && !connection.isClosed()) {
 
+                LOGGER.log(Level.INFO, "SocketServer is ready to receive messages");
                 Message message = (Message) objectIn.readObject(); //message received
                 if(message == null) {
                     go = false;

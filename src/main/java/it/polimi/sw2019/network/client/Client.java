@@ -1,6 +1,8 @@
 package it.polimi.sw2019.network.client;
 
 import it.polimi.sw2019.model.TypeOfAction;
+import it.polimi.sw2019.network.client.rmi.RmiClient;
+import it.polimi.sw2019.network.client.socket.SocketClientConnection;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.TypeOfMessage;
 import it.polimi.sw2019.view.CLI;
@@ -10,6 +12,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static it.polimi.sw2019.network.messages.TypeOfMessage.PLAYER_ALREADY_LOGGED;
 
 public class Client {
 
@@ -125,6 +129,12 @@ public class Client {
      */
     public void handleMessage(Message message){
 
+        //messages to verify that the client is connected
+        if(message.getTypeOfMessage() == null) {
+
+            //do nothing
+            return;
+        }
 
         switch (message.getTypeOfMessage()){
 
@@ -176,6 +186,9 @@ public class Client {
                 break;
             case RECONNECTION_REQUEST:
                 view.displayReconnectionWindow();
+                break;
+            case PLAYER_ALREADY_LOGGED:
+                view.displayAlreadyConnectedWindow();
                 break;
             default:
                 System.console().printf("TYPE OF MESSAGE UNKNOWN");

@@ -1749,5 +1749,10 @@ public class CLI implements ViewInterface {
         }
     }
 
+    public void displayAlreadyConnectedWindow() {
+
+        //TODO implement
+    }
+
 
 }

@@ -50,6 +50,7 @@ public class SocketServer extends Thread {
         try {
 
             serverSocket = new ServerSocket(port);
+            LOGGER.log(Level.INFO, "SocketServer is online");
         } catch (IOException e) {
 
             LOGGER.log(Level.WARNING, e.getMessage());
@@ -67,6 +68,7 @@ public class SocketServer extends Thread {
 
             try {
 
+                LOGGER.log(Level.INFO, "SocketServer is ready to accept a connection");
                 Socket connection = serverSocket.accept();
                 (socketServerClientHandler = new SocketServerClientHandler(connection, this)).start();
             } catch (IOException e) {

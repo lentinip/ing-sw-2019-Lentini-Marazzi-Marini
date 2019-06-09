@@ -127,4 +127,9 @@ public interface ViewInterface {
      */
     void displayActionReport(ActionReports actionReports);
 
+    /**
+     * shows the possibility to reconnect to a match started yet, or the possibility to start a new match (choosing another username)
+     */
+    void displayAlreadyConnectedWindow();
+
 }
