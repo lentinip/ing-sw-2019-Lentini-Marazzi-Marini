@@ -26,7 +26,7 @@
          <children>
             <ImageView fitHeight="151.0" fitWidth="50.0" layoutX="14.0" layoutY="9.0" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@../images/cards/AD_weapons_IT_02.png" />
+                  <Image url="@../images/cards/weaponsBack.png" />
                </image>
                <effect>
                   <DropShadow />
@@ -34,7 +34,7 @@
             </ImageView>
             <ImageView fitHeight="64.0" fitWidth="60.0" layoutX="9.0" layoutY="30.0" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@../images/cards/AD_powerups_IT_02.png" />
+                  <Image url="@../images/cards/powerupsBack.png" />
                </image>
                <effect>
                   <DropShadow />
@@ -289,13 +289,13 @@
       </Label>
       <Group layoutX="58.0" layoutY="62.0">
          <children>
-            <Pane fx:id="moveAvailable" prefHeight="30.0" prefWidth="46.0" style="-fx-border-color: white;" />
-            <Pane fx:id="grabAvailable" layoutY="31.0" prefHeight="30.0" prefWidth="46.0" style="-fx-border-color: white;" />
-            <Pane fx:id="shootAvailable" layoutY="62.0" prefHeight="30.0" prefWidth="46.0" style="-fx-border-color: white;" />
-            <Pane fx:id="reloadAvailable" layoutX="15.0" layoutY="101.0" prefHeight="37.0" prefWidth="27.0" style="-fx-border-color: white;" />
+            <Pane fx:id="moveAvailable" onMouseClicked="#handleAction" prefHeight="30.0" prefWidth="46.0" style="-fx-border-color: white;" />
+            <Pane fx:id="grabAvailable" layoutY="31.0" onMouseClicked="#handleAction" prefHeight="30.0" prefWidth="46.0" style="-fx-border-color: white;" />
+            <Pane fx:id="shootAvailable" layoutY="62.0" onMouseClicked="#handleAction" prefHeight="30.0" prefWidth="46.0" style="-fx-border-color: white;" />
+            <Pane fx:id="reloadAvailable" layoutX="15.0" layoutY="101.0" onMouseClicked="#handleAction" prefHeight="37.0" prefWidth="27.0" style="-fx-border-color: white;" />
          </children>
       </Group>
-      <Group layoutX="722.0" layoutY="88.0">
+      <Group fx:id="ammoGroup" layoutX="722.0" layoutY="88.0">
          <children>
             <Group>
                <children>

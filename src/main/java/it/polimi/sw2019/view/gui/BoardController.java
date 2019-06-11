@@ -1,6 +1,9 @@
 package it.polimi.sw2019.view.gui;
 
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.model.Colors;
 import it.polimi.sw2019.model.TypeOfAction;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.*;
@@ -14,15 +17,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BoardController extends Application {
 
@@ -34,7 +44,11 @@ public class BoardController extends Application {
 
     private CardController cardController = new CardController();
 
+    private MatchStart configurationMessage;
+
     private MatchState oldMatchState;
+
+    private static Logger logger = Logger.getLogger("BoardController");
 
     //The index of my user in the message MatchState
     private int myIndex;
@@ -313,6 +327,8 @@ public class BoardController extends Application {
 
     private List<Pane> selectableCells;
 
+    private BoardCoord lastSelectedCell;
+
     @FXML
     private Circle yellowCharacter0;
 
@@ -499,6 +515,8 @@ public class BoardController extends Application {
     private List<Circle> sprogPositions = new ArrayList<>();
     private List<Circle> violetPositions = new ArrayList<>();
 
+    private List<Circle> ablePositions = new ArrayList<>();
+
     @FXML
     private ImageView myWeaponCard0;
 
@@ -509,6 +527,8 @@ public class BoardController extends Application {
     private ImageView myWeaponCard2;
 
     private List<ImageView> myWeapons = new ArrayList<>();
+
+    private ImageView selectedWeapon;
 
     @FXML
     private ImageView myPowerupCard0;
@@ -544,6 +564,12 @@ public class BoardController extends Application {
 
     @FXML
     private Button usePowerupButton;
+
+    @FXML
+    private Group selectAPlayerGroup;
+
+    @FXML
+    private Button cancelSelectAplayerButton;
 
 
     /* Methods */
@@ -592,9 +618,13 @@ public class BoardController extends Application {
      */
     public void configureBoard(Client client, MatchStart configuration){
         this.client = client;
+        configurationMessage = configuration;
 
         //First sets the image of the board and the tiles
-        boardImage.setImage(new Image(configuration.getBoardType()));
+
+        String boardPath = getBoardPath(configuration.getBoardType());
+
+        boardImage.setImage(new Image(boardPath));
         initializeAmmoTiles(configuration.getBoardType());
 
         //Initialize the possible easyMode with 5 skulls
@@ -635,6 +665,19 @@ public class BoardController extends Application {
         //Set if there's the frenzy mode
         initializeFrenzyLabel(configuration.isFrenzy());
 
+    }
+
+    public String getBoardPath(String jsonName){
+        Gson json = new Gson();
+        Map <String, String> boards = new HashMap<>();
+        try {
+            JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("/BoardsDictionary.json")));
+            boards = json.fromJson(jsonReader, Map.class);
+        }
+        catch (Exception e){
+            logger.log(Level.SEVERE, "BoardDictionary.json not found");
+        }
+        return boards.get(jsonName);
     }
 
     public void initializeAmmoTiles(String url){
@@ -759,6 +802,10 @@ public class BoardController extends Application {
         bansheePositions.add(blueCharacter10);
         bansheePositions.add(blueCharacter11);
 
+        for (Circle position : bansheePositions){
+            position.setUserData(Character.BANSHEE);
+        }
+
         distructorPositions.add(yellowCharacter0);
         distructorPositions.add(yellowCharacter1);
         distructorPositions.add(yellowCharacter2);
@@ -771,6 +818,10 @@ public class BoardController extends Application {
         distructorPositions.add(yellowCharacter9);
         distructorPositions.add(yellowCharacter10);
         distructorPositions.add(yellowCharacter11);
+
+        for (Circle position : distructorPositions){
+            position.setUserData(Character.DISTRUCTOR);
+        }
 
         dozerPositions.add(greyCharacter0);
         dozerPositions.add(greyCharacter1);
@@ -785,6 +836,10 @@ public class BoardController extends Application {
         dozerPositions.add(greyCharacter10);
         dozerPositions.add(greyCharacter11);
 
+        for (Circle position : dozerPositions){
+            position.setUserData(Character.DOZER);
+        }
+
         sprogPositions.add(greenCharacter0);
         sprogPositions.add(greenCharacter1);
         sprogPositions.add(greenCharacter2);
@@ -798,6 +853,10 @@ public class BoardController extends Application {
         sprogPositions.add(greenCharacter10);
         sprogPositions.add(greenCharacter11);
 
+        for (Circle position : sprogPositions){
+            position.setUserData(Character.SPROG);
+        }
+
         violetPositions.add(violetCharacter0);
         violetPositions.add(violetCharacter1);
         violetPositions.add(violetCharacter2);
@@ -810,6 +869,10 @@ public class BoardController extends Application {
         violetPositions.add(violetCharacter9);
         violetPositions.add(violetCharacter10);
         violetPositions.add(violetCharacter11);
+
+        for (Circle position : violetPositions){
+            position.setUserData(Character.VIOLET);
+        }
     }
 
     public void initializeSpawnCellWeapons(){
@@ -913,12 +976,12 @@ public class BoardController extends Application {
             mainPane.getChildren().add(myPlayerBoardGroup);
         }
         catch (Exception e){
-            //TODO implement logger
+            logger.log(Level.SEVERE, "MyPlayerBoardGroup.fxml not found");
         }
 
         myPlayerBoard = loader.getController();
         myPlayerBoard.disableActions();
-        myPlayerBoard.configurePlayerBoard(username, character, first);
+        myPlayerBoard.configureMyPlayerBoard(client, character, first);
         allPlayerBoards.add(myPlayerBoard);
     }
 
@@ -944,13 +1007,13 @@ public class BoardController extends Application {
                     playerBoard.setLayoutY(342.0);
                     break;
                 default:
-                    //TODO implement logger
+                    logger.log(Level.SEVERE, "MORE THAN 4 PLAYERS IN THE initializeOtherPlayerBoards METHOD");
                     break;
             }
             mainPane.getChildren().add(playerBoard);
         }
         catch (IOException e){
-            //TODO implement logger
+            logger.log(Level.SEVERE, "PlayerBoardGroup.fxml not found");
         }
 
         PlayerBoardController playerBoardController = loader.getController();
@@ -960,8 +1023,8 @@ public class BoardController extends Application {
     }
 
     public Image getAmmoImage(String name){
-        //TODO implement
-        return null;
+        String path = "/images/ammo/"+name;
+        return new Image(path);
     }
 
     public void initializeFrenzyLabel(boolean frenzyMode){
@@ -982,8 +1045,7 @@ public class BoardController extends Application {
             //Manages the weapons
 
             //Array of all the weapons
-            List<String> newWeapons = new ArrayList<>(privateHand.getWeaponsLoaded());
-            newWeapons.addAll(privateHand.getWeaponsUnloaded());
+            List<String> newWeapons = privateHand.getAllWeapons();
 
             //Sets the new Weapons
             for (int i=0; i<3; i++){
@@ -1001,11 +1063,14 @@ public class BoardController extends Application {
                     //Sets the image
                     myWeapon.setImage(newImage);
 
+                    //Sets the type of the weapon in the weapon ImageView
+                    myWeapon.setUserData(cardController.getWeaponType(newWeaponName));
+
                     //Checks if the weapon is visible
-                    boolean isVisible = i<privateHand.getWeaponsLoaded().size();
+                    boolean isVisible = privateHand.getWeaponsLoaded().contains(newWeaponName);
 
                     //Sets the visibility and shows it
-                    cardController.setUnloaded(myWeapon, isVisible);
+                    CardController.setUnavailable(myWeapon, isVisible);
                     myWeapon.setVisible(true);
                 }
                 else {
@@ -1026,7 +1091,8 @@ public class BoardController extends Application {
 
                     //Gets the Image of the new weapon
                     String newPowerupName = privateHand.getPowerups().get(i);
-                    Image newImage = cardController.getPowerupImage(newPowerupName);
+                    Colors newPowerupColor = privateHand.getPowerupColors().get(i);
+                    Image newImage = cardController.getPowerupImage(newPowerupName, newPowerupColor);
 
                     //Sets the image
                     myPowerup.setImage(newImage);
@@ -1046,12 +1112,15 @@ public class BoardController extends Application {
     public void updateMatch(MatchState matchState){
 
         updateCells(matchState.getCells());
-        updatePlayerBoards(matchState.getPlayerBoardMessages());
+        updatePlayerBoards(matchState.getPlayerBoardMessages(), matchState.getPlayerHands());
         updateLeftActions(matchState.getCurrentPlayerLeftActions());
-        //TODO implement update playerHands
         updateKillTrack(matchState.getKillSequence(), matchState.getOverkillSequence());
         updateDecks(matchState.getWeaponsDeckSize(), matchState.getPowerupsDeckSize());
         updateCurrentPlayer(matchState.getCurrentPlayer());
+
+        if (matchState.getCurrentPlayer() == myPlayerBoard.getCharacter() && matchState.getCurrentPlayerLeftActions()==0){
+            disableActions();
+        }
 
         oldMatchState = matchState;
 
@@ -1136,7 +1205,7 @@ public class BoardController extends Application {
                 positions = violetPositions;
                 break;
             default:
-                //TODO implement logger
+                logger.log(Level.SEVERE, "Not identified character in showPlayerPosition");
         }
 
         for (Circle position : positions){
@@ -1146,16 +1215,19 @@ public class BoardController extends Application {
         positions.get(cellNumber).setVisible(true);
     }
 
-    public void updatePlayerBoards(List<PlayerBoardMessage> playerBoardMessages){
+    public void updatePlayerBoards(List<PlayerBoardMessage> playerBoardMessages, List<PlayerHand> playerHands){
 
         PlayerBoardMessage myPlayerBoardMessage = playerBoardMessages.get(myIndex);
         myPlayerBoard.updatePlayerBoard(myPlayerBoardMessage);
 
         List<PlayerBoardMessage> playerBoardMessageList = new ArrayList<>(playerBoardMessages);
         playerBoardMessageList.remove(myIndex);
+        List<PlayerHand> playerHandList = new ArrayList<>(playerHands);
+        playerHandList.remove(myIndex);
 
         for (int i=0; i<playerBoardMessageList.size(); i++){
             otherPlayerBoards.get(i).updatePlayerBoard(playerBoardMessageList.get(i));
+            otherPlayerBoards.get(i).updatePlayerHand(playerHandList.get(i));
         }
     }
 
@@ -1223,7 +1295,36 @@ public class BoardController extends Application {
         Pane cell = (Pane) actionEvent.getSource();
         BoardCoord boardCoord = (BoardCoord) cell.getUserData();
 
-        //TODO implement send
+        //If is a spawncell saves the cells weapons for the grab
+        int cellNumber = boardCoord.getCellNumber();
+        lastSelectedCell = boardCoord;
+
+        switch (cellNumber){
+            case 2:
+                selectedSpawnCell = blueSpawnCellWeapons;
+                break;
+            case 4:
+                selectedSpawnCell = redSpawnCellWeapons;
+                break;
+            case 11:
+                selectedSpawnCell = yellowSpawnCellWeapons;
+                break;
+            default:
+                selectedSpawnCell = null;
+                lastSelectedCell = null;
+        }
+
+        Message message = new Message(client.getUsername());
+
+        if (currentTypeOfAction == TypeOfAction.SHOOT){
+            message.createSelectedCellMessage(boardCoord, TypeOfAction.SHOOT, TypeOfMessage.SELECTED_CELL);
+        }
+
+        else {
+            message.createSelectedCellMessage(boardCoord, currentTypeOfAction, TypeOfMessage.SINGLE_ACTION);
+        }
+
+        client.send(message);
     }
 
     //Interactions
@@ -1271,12 +1372,12 @@ public class BoardController extends Application {
             imageViewList = myWeapons;
         }
 
-        else if (typeOfAction == TypeOfAction.USEPOWERUP){
+        else if (typeOfAction == TypeOfAction.USEPOWERUP || typeOfAction == TypeOfAction.SPAWN){
             imageViewList = myPowerups;
         }
 
         else {
-            //TODO implement logger
+            logger.log(Level.SEVERE, "Trying to get instances of Image of cards with a not implemented TypeOfAction in getImageCards");
 
             //The new instance is for safety reasons
             imageViewList = new ArrayList<>();
@@ -1289,5 +1390,126 @@ public class BoardController extends Application {
         return result;
     }
 
+    public Image getSelectedWeaponImage(){
+        return selectedWeapon.getImage();
+    }
+
+    public int getSelectedWeaponType(){
+        return (int) selectedWeapon.getUserData();
+    }
+
+    public void showSelectablePlayers(List<Character> characters, TypeOfAction typeOfAction, boolean noOption){
+        currentTypeOfAction = typeOfAction;
+
+        for (Character character : characters){
+            switch (character){
+                case BANSHEE:
+                    ablePositionSelection(bansheePositions);
+                    break;
+                case DISTRUCTOR:
+                    ablePositionSelection(distructorPositions);
+                    break;
+                case DOZER:
+                    ablePositionSelection(dozerPositions);
+                    break;
+                case SPROG:
+                    ablePositionSelection(sprogPositions);
+                    break;
+                case VIOLET:
+                    ablePositionSelection(violetPositions);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        selectAPlayerGroup.setVisible(true);
+
+        if (noOption){
+            cancelSelectAplayerButton.setVisible(true);
+        }
+
+        disableActions();
+    }
+
+    public void ablePositionSelection(List<Circle> positions){
+        for (Circle position : positions){
+            if(position.isVisible()){
+                position.setDisable(false);
+                ablePositions.add(position);
+            }
+        }
+    }
+
+    public void disablePositions(){
+        for (Circle position : ablePositions){
+            position.setDisable(true);
+            ablePositions.remove(position);
+        }
+    }
+
+    @FXML
+    public void showEffectPosition(ActionEvent actionEvent){
+        DropShadow dropShadow = new DropShadow();
+
+        dropShadow.setHeight(30.0);
+        dropShadow.setWidth(30.0);
+        dropShadow.setSpread(0.3);
+        dropShadow.setColor(Color.BLUE);
+
+        Circle position = (Circle) actionEvent.getSource();
+        position.setEffect(dropShadow);
+    }
+
+    @FXML
+    public void disableEffectPosition(ActionEvent actionEvent){
+        Circle position = (Circle) actionEvent.getSource();
+        position.setEffect(null);
+    }
+
+    @FXML
+    public void handlePositionSelection(ActionEvent actionEvent){
+        Circle position = (Circle) actionEvent.getSource();
+        Character selectedCharacter = (Character) position.getUserData();
+
+        int positionInt = configurationMessage.getCharacters().indexOf(selectedCharacter);
+
+        sendPosition(positionInt);
+    }
+
+    @FXML
+    public void handleNoPositionSelection(ActionEvent actionEvent){
+        sendPosition(-1);
+    }
+
+    public void sendPosition(int position){
+        disablePositions();
+        selectAPlayerGroup.setVisible(false);
+        cancelSelectAplayerButton.setVisible(false);
+
+        Message message = new Message(client.getUsername());
+        message.createSelectedPlayer(position, currentTypeOfAction);
+        client.send(message);
+    }
+
+    public Group getMyAmmoGroup(){
+        return myPlayerBoard.getAmmoGroup();
+    }
+
+    public PlayerBoardMessage getMyCurrentPlayerBoardMessage(){
+        return myPlayerBoard.getCurrentPlayerBoardMessage();
+    }
+
+    public List<ImageView> getMyWeapons(){
+        return myWeapons;
+    }
+
+    public PrivateHand getPrivateHand(){
+        return oldPrivateHand;
+    }
+
+    public BoardCoord getLastSelectedCell(){
+        return lastSelectedCell;
+    }
 
     }

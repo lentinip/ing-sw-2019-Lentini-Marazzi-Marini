@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="533.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.SelectWeaponController">
+<AnchorPane prefHeight="533.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.SelectEffectController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="533.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
       <ImageView fitHeight="533.0" fitWidth="800.0" opacity="0.5">
@@ -23,7 +23,7 @@
       </ImageView>
       <ImageView fx:id="weaponImageView" fitHeight="385.0" fitWidth="246.0" layoutX="286.0" layoutY="131.0" preserveRatio="true">
          <image>
-            <Image url="@../images/cards/AD_weapons_IT_0225.png" />
+            <Image url="@../images/cards/weaponsBack.png" />
          </image>
          <effect>
             <DropShadow color="#0062ff" height="203.14" radius="82.0975" spread="0.58" width="127.25" />
@@ -81,5 +81,6 @@
          </children>
       </Group>
       <Button layoutX="608.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleSendButton" text="SEND CHOICE" />
+      <Button fx:id="closeButton" layoutX="631.0" layoutY="354.0" mnemonicParsing="false" onAction="#handleCloseButton" text="CLOSE" visible="false" />
    </children>
 </AnchorPane>

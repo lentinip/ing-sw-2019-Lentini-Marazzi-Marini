@@ -1,16 +1,16 @@
 package it.polimi.sw2019.view.gui;
 
 import it.polimi.sw2019.network.client.Client;
+import it.polimi.sw2019.network.messages.MatchSetup;
+import it.polimi.sw2019.network.messages.Message;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-
-import java.awt.event.ActionEvent;
-
 
 public class MatchSettingController {
 
@@ -34,6 +34,9 @@ public class MatchSettingController {
     private Toggle board4players;
 
     @FXML
+    private Toggle generic;
+
+    @FXML
     private ToggleGroup boardGroup;
 
     @FXML
@@ -43,24 +46,12 @@ public class MatchSettingController {
 
     private boolean easyMode;
 
-    private String selectedBoard = "boardAll";
+    private String selectedBoard = "Board1.json";
 
     /* Methods */
 
     public void setClient(Client client) {
         this.client = client;
-    }
-
-    public boolean isFrenzy() {
-        return frenzy;
-    }
-
-    public boolean isEasyMode() {
-        return easyMode;
-    }
-
-    public String getSelectedBoard() {
-        return selectedBoard;
     }
 
     public void setNumberOfPlayers(Integer numberOfPlayers) {
@@ -72,9 +63,10 @@ public class MatchSettingController {
     public void initialize(){
 
         //Setting the toggles
-        boardAll.setUserData("boardAll");
-        board3players.setUserData("board3players");
-        board4players.setUserData("board4players");
+        boardAll.setUserData("Board1.json");
+        board3players.setUserData("Board4.json");
+        board4players.setUserData("Board2.json");
+        generic.setUserData("Board3.json");
 
         //listener for the changes of the toggles for the UI
         boardGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
@@ -99,6 +91,9 @@ public class MatchSettingController {
 
     @FXML
     public void handleSetMatch(ActionEvent actionEvent){
-        //TODO implement
+        MatchSetup matchSetup = new MatchSetup(frenzy, easyMode, selectedBoard);
+        Message message = new Message(client.getUsername());
+        message.createMessageMatchSetup(matchSetup);
+        client.send(message);
     }
 }

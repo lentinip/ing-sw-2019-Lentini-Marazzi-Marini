@@ -1,14 +1,16 @@
 package it.polimi.sw2019.view.gui;
 
 import it.polimi.sw2019.network.client.Client;
+import it.polimi.sw2019.network.messages.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class StartScreenController {
 
@@ -26,17 +28,13 @@ public class StartScreenController {
     private Button startGameButton;
 
     @FXML
-    private ImageView imageView;
-
-    @FXML
-    private AnchorPane anchorPane;
-
-    @FXML
-    private ToolBar toolBar;
+    private Group pleaseWaitGroup;
 
     private String typeOfConnection;
 
     private String username;
+
+    private static Logger logger = Logger.getLogger("StartScreenController");
 
     /* Methods */
 
@@ -44,18 +42,10 @@ public class StartScreenController {
         this.client = client;
     }
 
-    public String getTypeOfConnection() {
-        return typeOfConnection;
-    }
-
     @FXML
     public void setTypeOfConnection(ActionEvent actionEvent){
         this.typeOfConnection = typeOfConnectionBox.getSelectionModel().getSelectedItem();
         ableStartButton();
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     @FXML
@@ -95,9 +85,26 @@ public class StartScreenController {
         }
     }
 
-    public void handleStartGamButton(){
-        client.setUsername(username);
-        //TODO implement
+    @FXML
+    public void handleStartGameButton(ActionEvent actionEvent){
+        pleaseWaitGroup.setVisible(true);
+        boolean rmi = typeOfConnection.equals("RMI");
+
+        //SEND
+        Message message = new Message(username);
+        message.createLoginMessage(username, rmi);
+        try {
+            client.connect(message);
+        }
+        catch (Exception e){
+            logger.log(Level.SEVERE, "Connection failed in StartScreenController");
+        }
+    }
+
+    public void hidePleaseWait(){
+        pleaseWaitGroup.setVisible(false);
+        username = null;
+        ableStartButton();
     }
 
 }

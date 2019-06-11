@@ -3,6 +3,7 @@ package it.polimi.sw2019.view.gui;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.AvailableEffects;
 import it.polimi.sw2019.network.messages.IndexMessage;
+import it.polimi.sw2019.network.messages.Message;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -11,9 +12,12 @@ import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SelectEffectController {
 
@@ -71,7 +75,12 @@ public class SelectEffectController {
     private int choice = -1;
 
     @FXML
+    Button closeButton;
+
+    @FXML
     private ImageView weaponImageView;
+
+    private static Logger logger = Logger.getLogger("SelectEffectController");
 
     /* Methods */
 
@@ -131,9 +140,13 @@ public class SelectEffectController {
         }
     }
 
-    public void configure(Client client, Image weapon, int type, AvailableEffects availableEffects){
+    public void configure(Client client, AvailableEffects availableEffects, Image weapon, int type, boolean noOption){
 
         this.client = client;
+
+        if(noOption){
+            closeButton.setVisible(true);
+        }
 
         //First sets the image
         weaponImageView.setImage(weapon);
@@ -154,7 +167,7 @@ public class SelectEffectController {
                 controls.addAll(checkBoxes);
                 break;
             default:
-                //TODO implement logger
+                logger.log(Level.SEVERE, "Type of weapon not defined in configure method in SelectEffectController");
                 break;
         }
         showControls(controls);
@@ -205,9 +218,28 @@ public class SelectEffectController {
             }
         }
         else {
-            //TODO implement the send of the choice
+            sendIndex(choice);
+
+            closeWindow();
         }
 
+    }
+
+    @FXML
+    public void handleCloseButton(ActionEvent actionEvent){
+        sendIndex(-1);
+        closeWindow();
+    }
+
+    public void sendIndex(int index){
+        Message message = new Message(client.getUsername());
+        message.createSelectedEffect(index);
+        client.send(message);
+    }
+
+    public void closeWindow(){
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
     }
 
 

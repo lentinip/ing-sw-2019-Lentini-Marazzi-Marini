@@ -1,0 +1,15 @@
+{
+  "Newton BLUE" : "/images/cards/newtonBlue.png",
+  "Newton RED" : "/images/cards/newtonRed.png",
+  "Newton YELLOW" : "/images/cards/newtonYellow.png",
+  "Tagback Grenade BLUE" : "/images/cards/tagbackGranadeBlue.png",
+  "Tagback Grenade RED" : "/images/cards/tagbackGranadeRed.png",
+  "Tagback Grenade YELLOW" : "/images/cards/tagbackGranadeYellow.png",
+  "Targeting Scope BLUE" : "/images/cards/targetingScopeBlue.png",
+  "Targeting Scope RED" : "/images/cards/targetingScopeRed.png",
+  "Targeting Scope YELLOW" : "/images/cards/targetingScopeYellow.png",
+  "Teleporter BLUE" : "/images/cards/teleporterBlue.png",
+  "Teleporter RED" : "/images/cards/teleporterRed.png",
+  "Teleporter YELLOW" : "/images/cards/teleporterYellow.png",
+  "powerupsBack.png" : "/images/cards/powerupsBack.png"
+}

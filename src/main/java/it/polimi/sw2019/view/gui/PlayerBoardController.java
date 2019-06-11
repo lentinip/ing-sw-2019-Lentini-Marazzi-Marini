@@ -1,9 +1,17 @@
 package it.polimi.sw2019.view.gui;
 
 import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.model.TypeOfAction;
+import it.polimi.sw2019.network.client.Client;
+import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.PlayerBoardMessage;
+import it.polimi.sw2019.network.messages.PlayerHand;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -11,15 +19,21 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PlayerBoardController {
 
     /* Attributes */
 
-    //Informations
+    //Information
+
+    Client client;
 
     private String username;
 
@@ -185,6 +199,15 @@ public class PlayerBoardController {
 
     private List<Rectangle> yellowAmmo = new ArrayList<>();
 
+    @FXML
+    private Group ammoGroup;
+
+    private Stage playerHandStage;
+
+    private OtherPlayerHandController otherPlayerHandController;
+
+    private static Logger logger = Logger.getLogger("PlayerBoardController");
+
     /* Methods */
 
     public void initialize(){
@@ -192,6 +215,8 @@ public class PlayerBoardController {
         initializeDamageSequence();
         initializeMarkSequence();
         initializeAmmo();
+        initializePlayerHand();
+        initializeActions();
     }
 
     public void configurePlayerBoard(String username, Character character, boolean isFirst){
@@ -203,6 +228,11 @@ public class PlayerBoardController {
 
         this.isFirst = isFirst;
         initializeIsFirst();
+    }
+
+    public void configureMyPlayerBoard(Client client, Character character, boolean isFirst){
+        this.client = client;
+        configurePlayerBoard(client.getUsername(), character, isFirst);
     }
 
     public void updateAmmo(int blue, int red, int yellow){
@@ -244,6 +274,13 @@ public class PlayerBoardController {
         for (ImageView skull : skullList){
             skull.setVisible(false);
         }
+    }
+
+    public void initializeActions(){
+        moveAvailable.setUserData(TypeOfAction.MOVE);
+        grabAvailable.setUserData(TypeOfAction.GRAB);
+        shootAvailable.setUserData(TypeOfAction.SHOOT);
+        reloadAvailable.setUserData(TypeOfAction.RELOAD);
     }
 
 
@@ -352,12 +389,40 @@ public class PlayerBoardController {
 
     public void initializeUsername(){
         myUsername.setText(username);
+        otherPlayerHandController.configure(username);
     }
 
     public void initializeIsFirst(){
         if (!isFirst){
             myFirstPlayerMarker.setVisible(false);
         }
+    }
+
+    public void initializePlayerHand(){
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/OtherPlayerHandScreen.fxml"));
+
+        Parent root;
+        Scene scene;
+
+        try {
+            root = fxmlLoader.load();
+            scene = new Scene(root);
+
+        }
+        catch (IOException e) {
+            logger.log(Level.SEVERE, "OtherPlayerHandScreen.fxml file not found in PlayerBoardController");
+            scene = new Scene(new Label("ERROR"));
+        }
+
+        otherPlayerHandController = fxmlLoader.getController();
+
+        playerHandStage = new Stage();
+
+        playerHandStage.setScene(scene);
+
+        playerHandStage.setTitle("Player hand");
+        playerHandStage.setResizable(false);
     }
 
     public void setAsCurrentPlayer(){
@@ -373,9 +438,9 @@ public class PlayerBoardController {
         playerBoardImage.setEffect(null);
     }
 
-    public void showPlayerPrivateHand(){
-        //Create new window
-        //TODO implement
+    @FXML
+    public void showPlayerPrivateHand(ActionEvent actionEvent){
+        playerHandStage.show();
 
     }
 
@@ -401,10 +466,14 @@ public class PlayerBoardController {
         }
     }
 
+    public void updatePlayerHand(PlayerHand playerHand){
+        otherPlayerHandController.updatePlayerHand(playerHand);
+    }
+
     public void updateSequence(List<ImageView> sequence, List<Character> characters){
-        for (Character character : characters){
-            ImageView token = sequence.get(characters.indexOf(character));
-            changeTokenColor(token, character);
+        for (Character owner : characters){
+            ImageView token = sequence.get(characters.indexOf(owner));
+            changeTokenColor(token, owner);
             token.setVisible(true);
         }
 
@@ -471,4 +540,52 @@ public class PlayerBoardController {
         shootAvailable.setVisible(false);
         reloadAvailable.setVisible(false);
     }
+
+    @FXML
+    public void showSelection(ActionEvent actionEvent){
+
+        DropShadow dropShadow = new DropShadow();
+
+        dropShadow.setColor(Color.BLUE);
+        dropShadow.setWidth(21.0);
+        dropShadow.setHeight(21.0);
+        dropShadow.setSpread(0.0);
+
+        ImageView imageView = (ImageView) actionEvent.getSource();
+
+        imageView.setEffect(dropShadow);
+    }
+
+    @FXML
+    public void disableEffect(ActionEvent actionEvent){
+        ImageView imageView = (ImageView) actionEvent.getSource();
+        imageView.setEffect(null);
+    }
+
+    public Group getAmmoGroup(){
+        return ammoGroup;
+    }
+
+    public PlayerBoardMessage getCurrentPlayerBoardMessage(){
+        return oldPlayerBoardMessage;
+    }
+
+
+    //ACTIONS
+
+    public void sendAskMessage(TypeOfAction typeOfAction){
+        Message message = new Message(username);
+        message.createAskMessage(typeOfAction);
+        client.send(message);
+    }
+
+    @FXML
+    public void handleAction(ActionEvent actionEvent){
+        Pane pane = (Pane) actionEvent.getSource();
+        TypeOfAction typeOfAction = (TypeOfAction) pane.getUserData();
+        sendAskMessage(typeOfAction);
+    }
+
+
+
 }

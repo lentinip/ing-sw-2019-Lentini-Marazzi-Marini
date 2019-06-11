@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="533.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.SelectCardController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="533.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
+      <ImageView fitHeight="533.0" fitWidth="800.0" opacity="0.5">
+         <image>
+            <Image url="@../images/StartScreenLogo.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="cardImage0" disable="true" fitHeight="327.0" fitWidth="235.0" layoutX="14.0" layoutY="147.0" onMouseClicked="#handleSelection" onMouseEntered="#showSelection" onMouseExited="#disableEffect" opacity="0.4" preserveRatio="true">
+         <image>
+            <Image url="@../images/cards/weaponsBack.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="cardImage1" disable="true" fitHeight="327.0" fitWidth="235.0" layoutX="303.0" layoutY="147.0" onMouseClicked="#handleSelection" onMouseEntered="#showSelection" onMouseExited="#disableEffect" opacity="0.4" preserveRatio="true">
+         <image>
+            <Image url="@../images/cards/weaponsBack.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="cardImage2" disable="true" fitHeight="327.0" fitWidth="235.0" layoutX="592.0" layoutY="147.0" onMouseClicked="#handleSelection" onMouseEntered="#showSelection" onMouseExited="#disableEffect" opacity="0.4" preserveRatio="true">
+         <image>
+            <Image url="@../images/cards/weaponsBack.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="mainLabel" prefHeight="128.0" prefWidth="800.0" style="-fx-background-color: #404040; -fx-alignment: center;" text="CHOOSE A WEAPON" textAlignment="CENTER" textFill="#ddd2d2">
+         <font>
+            <Font name="Arial" size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="closeButton" layoutX="370.0" layoutY="492.0" mnemonicParsing="false" onAction="#handleCloseButton" text="CLOSE" visible="false" />
+   </children>
+</AnchorPane>

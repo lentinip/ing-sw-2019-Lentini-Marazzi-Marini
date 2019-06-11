@@ -7,12 +7,14 @@ import it.polimi.sw2019.network.messages.*;
 import it.polimi.sw2019.view.ViewInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +23,8 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GUI extends Application implements ViewInterface {
 
@@ -39,6 +43,12 @@ public class GUI extends Application implements ViewInterface {
 
     private BoardController boardController;
 
+    private StartScreenController startScreenController;
+
+    private static Logger logger = Logger.getLogger("gui");
+
+    private String errorString = "ERROR";
+
     /* Methods */
 
     public static void main(String[] args) {
@@ -46,7 +56,35 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void displayLoginWindow(){
-        //TODO Implements
+
+        //This resets the class if there's a new game (for safety)
+        resetClass();
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/StartScreen.fxml"));
+
+        Parent root;
+        Scene scene;
+
+        try {
+            root = fxmlLoader.load();
+            scene = new Scene(root);
+
+        }
+        catch (IOException e) {
+            logger.log(Level.SEVERE, "StartScreen.fxml not found");
+            scene = new Scene(new Label(errorString));
+        }
+
+        primaryStage.setScene(scene);
+
+        primaryStage.setTitle("Adrenalina");
+        primaryStage.setResizable(false);
+
+        primaryStage.show();
+
+        startScreenController = fxmlLoader.getController();
+        startScreenController.setClient(client);
     }
 
     public void displayReconnectionWindow(){
@@ -60,21 +98,16 @@ public class GUI extends Application implements ViewInterface {
 
     public void displayUsernameNotAvailable(){
         createAlertWarning("The chosen username is not available.");
+        startScreenController.hidePleaseWait();
     }
 
     public void displayLoginSuccessful(LoginReport loginReport){
-        try{
-            askMatchSetting(loginReport.getNumberOfPlayers());
-        } catch (IOException e){
-            //Do nothing
-        }
+        askMatchSetting(loginReport.getNumberOfPlayers());
     }
 
     public void displayMatchStart(MatchStart matchStart){
         this.matchStart = matchStart;
         setBoard();
-
-
     }
 
     public void displayCanIShoot(boolean answer){
@@ -88,52 +121,53 @@ public class GUI extends Application implements ViewInterface {
     public void displayAvailableCards(AvailableCards cards, TypeOfAction typeOfAction){
         List<Image> cardsImages = boardController.getImageCards(typeOfAction);
 
-        if (cards.areWeapons()){
-            showWeaponSelection(cards, typeOfAction, cardsImages);
-        }
-        else {
-            //TODO implement for powerups
-        }
+        showCardSelection(cards, typeOfAction, cardsImages, false);
     }
 
     public void displayAvailableCardsWithNoOption(AvailableCards cards, TypeOfAction typeOfAction){
+        List<Image> cardsImages = boardController.getImageCards(typeOfAction);
 
+        showCardSelection(cards, typeOfAction, cardsImages, true);
     }
 
     public void displayAvailableEffects(AvailableEffects availableEffects){
+        Image card = boardController.getSelectedWeaponImage();
+        int type = boardController.getSelectedWeaponType();
 
+        showEffectSelection(availableEffects, card, type, false);
     }
 
     public void displayAvailableEffectsWithNoOption(AvailableEffects availableEffects){
+        Image card = boardController.getSelectedWeaponImage();
+        int type = boardController.getSelectedWeaponType();
 
+        showEffectSelection(availableEffects, card, type, true);
     }
 
     public void displayAvailablePlayers(List<Character> players, TypeOfAction typeOfAction){
-
+        boardController.showSelectablePlayers(players, typeOfAction, false);
     }
 
     public void displayAvailablePlayersWithNoOption(List<Character> players, TypeOfAction typeOfAction){
-
-    }
-
-    public void displayAvailableEffects(List<IndexMessage> effects){
-
-    }
-
-    public void displayAvailableEffectsWithNoOption(List<IndexMessage> effects){
-
+        boardController.showSelectablePlayers(players, typeOfAction, true);
     }
 
     public void displayPayment(PaymentMessage paymentInfo){
+        List<Image> powerups = boardController.getImageCards(TypeOfAction.USEPOWERUP);
 
+        startPaymentSession(paymentInfo, powerups, null, null, false);
     }
 
     public void displayPaymentForPowerupsCost(PaymentMessage paymentMessage){
+        List<Image> powerups = boardController.getImageCards(TypeOfAction.USEPOWERUP);
+        PlayerBoardMessage playerBoardMessage = boardController.getMyCurrentPlayerBoardMessage();
+        Group ammoGroup = boardController.getMyAmmoGroup();
 
+        startPaymentSession(paymentMessage, powerups, playerBoardMessage, ammoGroup, true);
     }
 
     public void updateMatchState(MatchState matchState){
-
+        boardController.updateMatch(matchState);
     }
 
     public void updatePrivateHand(PrivateHand privateHand){
@@ -141,20 +175,41 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void displayAlreadyConnectedWindow(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Username already in the server");
+        alert.setHeaderText("There's a match started with the username you entered.");
+        alert.setContentText("Do you want to reconnect or start a new game with a new username?");
 
+        ButtonType buttonTypeJoin = new ButtonType("JOIN");
+        ButtonType buttonTypeNewGame = new ButtonType("NEW GAME");
+
+        alert.getButtonTypes().setAll(buttonTypeJoin, buttonTypeNewGame);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent()){
+            if (result.get() == buttonTypeJoin){
+                Message message = new Message(client.getUsername());
+                message.setTypeOfMessage(TypeOfMessage.RECONNECTION);
+                client.send(message);
+            }
+            else {
+                startScreenController.hidePleaseWait();
+            }
+        }
     }
 
     public void displayEndMatchLeaderBoard(LeaderBoard leaderBoard){
-
+        createLeaderboard(leaderBoard);
     }
 
     public void displayActionReport(ActionReports actionReports){
-
+        //Do nothing: is for the CLI
     }
 
-    public void showWeaponSelection(AvailableCards cards, TypeOfAction typeOfAction, List<Image> images){
+    public void showCardSelection(AvailableCards cards, TypeOfAction typeOfAction, List<Image> images, boolean noOption){
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/BoardScreen.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/SelectCardScreen.fxml"));
 
         Parent root;
         Scene scene;
@@ -164,17 +219,150 @@ public class GUI extends Application implements ViewInterface {
             scene = new Scene(root);
         }
         catch (IOException e){
-            //TODO implement logger
-            scene = new Scene(new Label("ERROR"));
+            logger.log(Level.SEVERE, "SelectCardScreen.fxml not found");
+            scene = new Scene(new Label(errorString));
         }
 
         //Configures the controller
-        SelectWeaponController selectWeaponController = fxmlLoader.getController();
-        selectWeaponController.configure(client, cards, typeOfAction, images);
+        SelectCardController selectCardController = fxmlLoader.getController();
+
+
+        PrivateHand privateHand = boardController.getPrivateHand();
+        int numberOfWeapons = privateHand.getAllWeapons().size();
+        BoardCoord lastSelectedCell = boardController.getLastSelectedCell();
+
+        //If is a grab and the player has already 3 weapons
+        if (numberOfWeapons == 3){
+
+            List<ImageView> myWeapons = boardController.getMyWeapons();
+            selectCardController.configure(client, cards, images, lastSelectedCell, myWeapons);
+        }
+        else {
+            selectCardController.configure(client, cards, typeOfAction, images, lastSelectedCell, noOption);
+        }
 
         //Creates a new window for the match setting
         Stage newWindow = new Stage();
-        newWindow.setTitle("Select Weapon");
+        if (cards.areWeapons()){
+            newWindow.setTitle("Select Weapon");
+        }
+        else {
+            newWindow.setTitle("Select Powerup");
+        }
+
+        //The next line sets that this new window will lock the parent window.
+        //Is impossible to interact with the parent window until this window is closed.
+        //The window doesn't have the close button
+        newWindow.initModality(Modality.WINDOW_MODAL);
+        newWindow.initStyle(StageStyle.UNDECORATED);
+        newWindow.initOwner(primaryStage);
+
+        newWindow.setScene(scene);
+        newWindow.show();
+    }
+
+    public void showEffectSelection(AvailableEffects availableEffects, Image card, int type, boolean noOption){
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/SelectEffectScreen.fxml"));
+
+        Parent root;
+        Scene scene;
+
+        try {
+            root = fxmlLoader.load();
+            scene = new Scene(root);
+        }
+        catch (IOException e){
+            logger.log(Level.SEVERE, "SelectEffectScreen.fxml not found");
+            scene = new Scene(new Label(errorString));
+        }
+
+        //Configures the controller
+        SelectEffectController selectEffectController = fxmlLoader.getController();
+        selectEffectController.configure(client, availableEffects, card, type, noOption);
+
+        //Creates a new window for the match setting
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Select Effect");
+
+
+        //The next line sets that this new window will lock the parent window.
+        //Is impossible to interact with the parent window until this window is closed.
+        //The window doesn't have the close button
+        newWindow.initModality(Modality.WINDOW_MODAL);
+        newWindow.initStyle(StageStyle.UNDECORATED);
+        newWindow.initOwner(primaryStage);
+
+        newWindow.setScene(scene);
+        newWindow.show();
+    }
+
+    public void startPaymentSession(PaymentMessage paymentMessage, List<Image> images, PlayerBoardMessage playerBoardMessage, Group ammoGroup, boolean anyColor){
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/PaymentScreen.fxml"));
+
+        Parent root;
+        Scene scene;
+
+        try {
+            root = fxmlLoader.load();
+            scene = new Scene(root);
+        }
+        catch (IOException e){
+            logger.log(Level.SEVERE, "PaymentScreen.fxml not found");
+            scene = new Scene(new Label(errorString));
+        }
+
+        //Configures the controller
+        PaymentController paymentController = fxmlLoader.getController();
+
+        if (anyColor) {
+          paymentController.configure(client, paymentMessage, images, playerBoardMessage, ammoGroup, true);
+        }
+        else {
+            paymentController.configure(client, paymentMessage, images);
+        }
+
+        //Creates a new window for the match setting
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Payment session");
+
+
+        //The next line sets that this new window will lock the parent window.
+        //Is impossible to interact with the parent window until this window is closed.
+        //The window doesn't have the close button
+        newWindow.initModality(Modality.WINDOW_MODAL);
+        newWindow.initStyle(StageStyle.UNDECORATED);
+        newWindow.initOwner(primaryStage);
+
+        newWindow.setScene(scene);
+        newWindow.show();
+    }
+
+    public void createLeaderboard(LeaderBoard leaderBoard){
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/LeaderBoardScreen.fxml"));
+
+        Parent root;
+        Scene scene;
+
+        try {
+            root = fxmlLoader.load();
+            scene = new Scene(root);
+
+        }
+        catch (IOException e) {
+            logger.log(Level.SEVERE, "LeaderBoardScreen.fxml not found");
+            scene = new Scene(new Label(errorString));
+        }
+
+        LeaderBoardController leaderBoardController = fxmlLoader.getController();
+        leaderBoardController.configure(this, leaderBoard, matchStart.getUsernames(), matchStart.getCharacters());
+
+        //Creates a new window for the match setting
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Payment session");
+
 
         //The next line sets that this new window will lock the parent window.
         //Is impossible to interact with the parent window until this window is closed.
@@ -202,7 +390,7 @@ public class GUI extends Application implements ViewInterface {
         }
 
         catch (IOException e){
-            //TODO implement logger
+            logger.log(Level.SEVERE, "BoardScreen.fxml not found");
         }
         boardController = fxmlLoader.getController();
 
@@ -215,14 +403,23 @@ public class GUI extends Application implements ViewInterface {
         primaryStage.show();
     }
 
-    public void askMatchSetting(Integer numberOfPlayers) throws IOException{
+    public void askMatchSetting(Integer numberOfPlayers){
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/MatchSettingScreen.fxml"));
 
-        Parent board = fxmlLoader.load();
+        Parent board;
+        Scene scene;
 
-        Scene scene = new Scene(board);
+        try {
+            board = fxmlLoader.load();
+            scene = new Scene(board);
+
+        }
+        catch (IOException e) {
+            logger.log(Level.SEVERE, "MatchSettingScreen.fxml not found");
+            scene = new Scene(new Label(errorString));
+        }
 
         //Creates a new window for the match setting
         Stage newWindow = new Stage();
@@ -230,7 +427,9 @@ public class GUI extends Application implements ViewInterface {
 
         //The next line sets that this new window will lock the parent window.
         //Is impossible to interact with the parent window until this window is closed.
+        //The new window doesn't have a close button
         newWindow.initModality(Modality.WINDOW_MODAL);
+        newWindow.initStyle(StageStyle.UNDECORATED);
         newWindow.initOwner(primaryStage);
 
         MatchSettingController matchSettingController = fxmlLoader.getController();
@@ -238,10 +437,6 @@ public class GUI extends Application implements ViewInterface {
 
         newWindow.setScene(scene);
         newWindow.show();
-    }
-
-    public void alertAlreadyUsedUsername() {
-        createAlertWarning("The username you chose is already in use. Please choose another one.");
     }
 
     public void alertPlayerLeft(String username){
@@ -271,7 +466,10 @@ public class GUI extends Application implements ViewInterface {
 
         if (option.isPresent()){
             if (option.get() == ButtonType.OK){
-                //TODO implement reconnecion
+
+                Message reconnectionMessage = new Message(client.getUsername());
+                reconnectionMessage.setTypeOfMessage(TypeOfMessage.RECONNECTION_REQUEST);
+                client.send(reconnectionMessage);
             }
             else {
                 Platform.exit();
@@ -280,26 +478,16 @@ public class GUI extends Application implements ViewInterface {
         }
     }
 
+    public void resetClass(){
+        matchStart = null;
+        boardController = null;
+        startScreenController = null;
+    }
+
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/StartScreen.fxml"));
-
-        Parent root = fxmlLoader.load();
-
-        Scene scene = new Scene(root);
-
-        primaryStage.setScene(scene);
-
-        primaryStage.setTitle("Adrenalina");
-        primaryStage.setResizable(false);
-
-        primaryStage.show();
-
+    public void start(Stage primaryStage){
         this.primaryStage = primaryStage;
-        StartScreenController startScreenController = fxmlLoader.getController();
-        startScreenController.setClient(client);
+        displayLoginWindow();
     }
 }
-
