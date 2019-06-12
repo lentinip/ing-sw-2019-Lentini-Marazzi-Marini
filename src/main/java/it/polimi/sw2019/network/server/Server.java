@@ -92,6 +92,9 @@ public class Server {
         Message loginReport = new Message(currentWaitingRoom.getUserNames().get(0));
         loginReport.createLoginReport(currentWaitingRoom.getUserNames().size());
         sendMessage(loginReport);
+        currentWaitingRoom.startSetupTimer();
+        currentWaitingRoom = new VirtualView();
+
     }
 
     /**
@@ -208,7 +211,7 @@ public class Server {
     /**
      * this method verify if the players in queue are online during matching phase (else it removes them)
      * @param message is a message with null parameter used only to verify connection (does nothing in the client)
-     * @param virtualView
+     * @param virtualView virtual view
      */
     public void verifyOnline(Message message, VirtualView virtualView) {
 
@@ -230,7 +233,7 @@ public class Server {
     /**
      * this method receive messages from clients and send them to the VirtualView, also check the message received
      * and do stuff based on the type of message
-     * @param message
+     * @param message message received
      */
     public void receiveMessage(Message message){
 
@@ -250,28 +253,31 @@ public class Server {
         }
 
         else if(!virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).getConnected()) {
+
             //when the first player chooses the setup options we send to everyOne a message with the choices that the player has taken
          if (message.getTypeOfMessage() == TypeOfMessage.MATCH_SETUP) {
 
-                Message matchStart = new Message("All");
+             //stopping the timer
+             virtualViewMap.get(message.getUsername()).getMatchSetupChoiceTimer().cancel();
+             Message matchStart = new Message("All");
 
-                List<Character> charactersInGame = new ArrayList<>();
-                int counter = 3; /* set to 3 because the smaller number of player allowed is 3 */
+             List<Character> charactersInGame = new ArrayList<>();
+             int counter = 3; /* set to 3 because the smaller number of player allowed is 3 */
 
-                charactersInGame.add(Character.DISTRUCTOR);
-                charactersInGame.add(Character.BANSHEE);
-                charactersInGame.add(Character.DOZER);
+             charactersInGame.add(Character.DISTRUCTOR);
+             charactersInGame.add(Character.BANSHEE);
+             charactersInGame.add(Character.DOZER);
 
-                if (counter < virtualViewMap.get(message.getUsername()).getNumOfWaitingPlayers()) {  /* if there are 4 players adding violet */
-                    charactersInGame.add(Character.VIOLET);
-                    counter++;
-                }
-                if (counter < virtualViewMap.get(message.getUsername()).getNumOfWaitingPlayers()) {  /* if there are 5 players adding also sprog */
-                    charactersInGame.add(Character.SPROG);
-                }
-                MatchStart matchStartClass = new MatchStart(message, virtualViewMap.get(message.getUsername()).getUsernames(), charactersInGame);
-                matchStart.createMessageMatchStart(matchStartClass);
-                sendAll(matchStart, virtualViewMap.get(message.getUsername()));
+             if (counter < virtualViewMap.get(message.getUsername()).getNumOfWaitingPlayers()) {  /* if there are 4 players adding violet */
+                 charactersInGame.add(Character.VIOLET);
+                 counter++;
+             }
+             if (counter < virtualViewMap.get(message.getUsername()).getNumOfWaitingPlayers()) {  /* if there are 5 players adding also sprog */
+                 charactersInGame.add(Character.SPROG);
+             }
+             MatchStart matchStartClass = new MatchStart(message, virtualViewMap.get(message.getUsername()).getUsernames(), charactersInGame);
+             matchStart.createMessageMatchStart(matchStartClass);
+             sendAll(matchStart, virtualViewMap.get(message.getUsername()));
             }
 
             virtualViewMap.get(message.getUsername()).notify(message);

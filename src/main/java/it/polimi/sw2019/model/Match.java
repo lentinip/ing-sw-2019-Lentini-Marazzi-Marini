@@ -2,7 +2,6 @@ package it.polimi.sw2019.model;
 
 import it.polimi.sw2019.network.messages.*;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -17,7 +16,7 @@ public class Match extends Observable {
     /**
      * customized constructor
      */
-    public Match(boolean iWantFrenzyMode, boolean easyMode, List<String> usernames, String boardJsonName) throws FileNotFoundException{
+    public Match(boolean iWantFrenzyMode, boolean easyMode, List<String> usernames, String boardJsonName){
 
         List<Character> charactersInGame = new ArrayList<>();
         int counter = 3; /* set to 3 because the smaller number of player allowed is 3 */

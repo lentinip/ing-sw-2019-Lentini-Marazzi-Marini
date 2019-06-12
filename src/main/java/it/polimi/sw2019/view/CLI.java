@@ -553,6 +553,7 @@ public class CLI implements ViewInterface {
      */
     public void displayLoginSuccessful(LoginReport loginReport){
 
+        out.println("YOU HAVE ONLY ONE MINUTE TO CHOOSE!");
         out.println("\nYES! " + loginReport.getNumberOfPlayers() + " players found.\n" +
                 "You are the first of the list so you can choose match settings! ヽ(•‿•)ノ\n\n" +
                 "FRENZY MODE?\n" +
