@@ -58,7 +58,6 @@ public class DamageTokens extends Tokens {
             }
             totalDamage = totalDamage + i;
         }
-        //TODO exception
     }
 
     /**
@@ -99,7 +98,7 @@ public class DamageTokens extends Tokens {
      *
      * @return an ArrayList of Character ordered by the rules of the damageSequence
      */
-    public ArrayList<Character>  getRanking(){
+    public List<Character>  getRanking(){
         return orderArrayByComparator(charactersMap, new RankingComparator());
     }
 }

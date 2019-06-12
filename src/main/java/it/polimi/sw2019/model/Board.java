@@ -9,10 +9,11 @@ import java.util.List;
 public class Board {
 
     /**
-     * Default constructor
+     * default constructor
      */
-
-    public Board(){}
+    public Board(){
+        //default constructor
+    }
 
     /* Attributes */
 
@@ -160,7 +161,7 @@ public class Board {
 
     /**
      * Draws an AmmoTile from the ammoDeck and than if is empty it restores it (shuffling it)
-     * @return
+     * @return ammotile
      */
     public AmmoTile drawAmmo(){
 
@@ -207,6 +208,10 @@ public class Board {
         ammoDiscarded.add(ammoTileToDiscard);
     }
 
+    /**
+     * updates the kill track after a player dies
+     * @param deadPlayer dead player
+     */
     public void updateKillTrack (Player deadPlayer) {
 
         if(deadPlayer == null) {

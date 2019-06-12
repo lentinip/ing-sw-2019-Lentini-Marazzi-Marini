@@ -6,7 +6,6 @@ import it.polimi.sw2019.model.*;
 import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.*;
-import sun.dc.pr.PRError;
 
 import java.io.*;
 import java.util.*;
@@ -178,7 +177,7 @@ public class CLI implements ViewInterface {
         return matchState;
     }
 
-    /*  MAIN FOR TEST!!!!
+
     public static void main(String[] args){
 
         CLI prova = new CLI();
@@ -342,8 +341,9 @@ public class CLI implements ViewInterface {
         //prova.displayUsernameNotAvailable();
         //prova.displayLoginSuccessful(new LoginReport(4));
         //prova.displayLoginWindow();
+        prova.displayDisconnectionDuringSetup();
     }
-    */
+
 
 
     /**
@@ -1239,6 +1239,7 @@ public class CLI implements ViewInterface {
         }
         int choice = readNumbers(0, cont-1);
         selectedPlayer.createSelectedPlayer(characters.indexOf(players.get(choice)), typeOfAction);
+        client.send(selectedPlayer);
     }
 
     /**
@@ -1779,7 +1780,6 @@ public class CLI implements ViewInterface {
             try {
 
                 out.println("\nCHOOSE ANOTHER USERNAME THEN!!\n\n");
-                firstMatch = false;
                 TimeUnit.MILLISECONDS.sleep(1000);
                 displayLoginWindow();
             }
@@ -1788,5 +1788,25 @@ public class CLI implements ViewInterface {
                 Thread.currentThread().interrupt();
             }
         }
+    }
+
+    /**
+     * shows the return to login window because a player has been disconnected
+     */
+    public void displayDisconnectionDuringSetup(){
+
+        out.println("OOOPS, FIRST PLAYER JUST DISCONNECTED, PLEASE, START A NEW GAME!!!\n\n");
+        try {
+            firstMatch = false;
+            TimeUnit.MILLISECONDS.sleep(1300);
+            displayLoginWindow();
+        }
+        catch (InterruptedException e) {
+            LOGGER.log(Level.WARNING, "interrupted exception");
+            Thread.currentThread().interrupt();
+        }
+
+        displayLoginWindow();
+
     }
 }

@@ -14,10 +14,7 @@ public class TestCommonCell {
         Cell commonCell = new Cell();
 
         AmmoTile ammoTile = null;
-        try{
-            commonCell.setAmmo(ammoTile);
-            fail();
-        } catch (NullPointerException e) {System.out.print("fallito");}
+        commonCell.setAmmo(ammoTile);
 
         ammoTile = new AmmoTile();
         ammoTile.setYellow(1);

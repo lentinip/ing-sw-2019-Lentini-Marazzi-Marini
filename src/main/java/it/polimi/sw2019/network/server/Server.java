@@ -57,13 +57,14 @@ public class Server {
     public static void main(String[] args) {
 
             Server server = new Server();
+            System.out.println("SERVER STARTED!");
+
             try {
                 server.start(1111, 1099 );
             } catch (RemoteException e) {
 
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
-            System.out.println("SERVER STARTED!");
     }
 
     public Map<String, VirtualView> getVirtualViewMap() {
@@ -307,7 +308,7 @@ public class Server {
 
     /**
      * removes the waiting player (without a disconnection) when he disconnects during the game creation phase
-     * @param username
+     * @param username user disconnected
      */
     public void removeWaitingPlayer(String username) {
 
@@ -324,7 +325,7 @@ public class Server {
 
     /**
      * removes the player
-     * @param virtualView
+     * @param virtualView virtual view
      */
     public void endMatch(VirtualView virtualView) {
 

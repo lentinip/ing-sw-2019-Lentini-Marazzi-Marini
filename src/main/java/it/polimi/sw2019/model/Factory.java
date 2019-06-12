@@ -21,7 +21,9 @@ public class Factory {
     /**
      * Default Constructor
      */
-    public Factory(){}
+    public Factory(){
+        //default constructor
+    }
 
     /* Attributes */
 
@@ -40,9 +42,8 @@ public class Factory {
     /**
      * This method creates the weapons deck by reading every weapon json file using the weaponsDictionary file
      * @return the ArrayList associated to the weapons deck
-     * @throws FileNotFoundException file not found
      */
-    private List<Weapon> createWeaponDeck() throws FileNotFoundException {
+    private List<Weapon> createWeaponDeck(){
 
         List<Weapon> weaponDeck = new ArrayList<>();
 
@@ -64,7 +65,7 @@ public class Factory {
      * @param fileName file name
      * @return weapon
      */
-    private Weapon createWeapon(String fileName) throws FileNotFoundException{
+    private Weapon createWeapon(String fileName) {
 
         Weapon weapon;
         Gson gson = new Gson();
@@ -146,7 +147,7 @@ public class Factory {
      * @param fileName the name of the json file correspondent to the kind of board chosen by logged client
      * @return board created
      */
-    public Board createBoard(String fileName, List<Player> players) throws FileNotFoundException{
+    public Board createBoard(String fileName, List<Player> players){
 
         Board board = new Board();
 
@@ -180,7 +181,7 @@ public class Factory {
 
         for (CellFactory cell: cells){
 
-            cell.setCell(cells, field, cells.indexOf(cell), rooms);
+            cell.setCell(field, cells.indexOf(cell), rooms);
         }
 
         board.setField(field);

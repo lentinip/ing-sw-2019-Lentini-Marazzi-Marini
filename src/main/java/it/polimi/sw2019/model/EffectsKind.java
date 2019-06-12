@@ -5,5 +5,5 @@ public enum EffectsKind {
     SINGLE_TARGET,
     MULTIPLE_TARGET,
     ALL_TARGET,
-    MOVE;
+    MOVE
 }

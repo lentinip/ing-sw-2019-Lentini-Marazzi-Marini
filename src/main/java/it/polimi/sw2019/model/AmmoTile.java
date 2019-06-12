@@ -48,10 +48,10 @@ public class AmmoTile extends Ammo {
 
     /**
      * used by the constructor class Factory
-     * @param red
-     * @param blue
-     * @param yellow
-     * @param powerup
+     * @param red color
+     * @param blue color
+     * @param yellow color
+     * @param powerup color
      */
     public void setAmmoTileStructure(int red, int blue, int yellow, boolean powerup){
 

@@ -132,4 +132,9 @@ public interface ViewInterface {
      */
     void displayAlreadyConnectedWindow();
 
+    /**
+     * shows the return to login window because a player has been disconnected
+     */
+    void displayDisconnectionDuringSetup();
+
 }

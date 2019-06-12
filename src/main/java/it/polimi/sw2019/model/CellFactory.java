@@ -96,7 +96,7 @@ public class CellFactory {
         return isCommon;
     }
 
-    public void setCell(List<CellFactory> cells, List<Cell> field, int index, List<Room> rooms){
+    public void setCell(List<Cell> field, int index, List<Room> rooms){
 
         Cell cell = field.get(index);
 

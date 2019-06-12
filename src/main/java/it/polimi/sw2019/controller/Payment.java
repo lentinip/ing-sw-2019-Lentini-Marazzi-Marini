@@ -39,9 +39,18 @@ public class Payment {
 
     private Powerup usablePowerup; // this attribute is here to know if we are paying the cost of a powerup effect
 
+    private boolean reloadInFrenzy = false; //used to know if we are reloading and after reload there is a shoot
+
     private static final Logger LOGGER = Logger.getLogger("Payment");
 
-    /* Methods */
+
+    public boolean isReloadInFrenzy() {
+        return reloadInFrenzy;
+    }
+
+    public void setReloadInFrenzy(boolean reloadInFrenzy) {
+        this.reloadInFrenzy = reloadInFrenzy;
+    }
 
     public Ammo getLeftCost() {
         return leftCost;
@@ -101,10 +110,23 @@ public class Payment {
                 singleActionManager.grabWeaponHandler(pendingMessage);
                 break;
             case RELOAD:
-                singleActionManager.reloadHandler(pendingMessage);
+                //in this case I have to shoot after
+                if (reloadInFrenzy ){
+                    IndexMessage indexMessage = pendingMessage.deserializeIndexMessage();
+                    Player player = match.getCurrentPlayer();
+                    Weapon weapon = player.getWeaponFromIndex(indexMessage.getSelectionIndex());
+                    singleActionManager.getAtomicActions().reload(player, weapon);
+                    reloadInFrenzy = false;
+                    pendingMessage.setTypeOfAction(TypeOfAction.SHOOT); //we set that to reload, now set back to shoot
+                    singleActionManager.getChoices().selectionCardHandler(pendingMessage);
+                }
+                // in this case is a normal reload
+                else {
+                    singleActionManager.reloadHandler(pendingMessage);
+                }
                 break;
             case SHOOT:
-                singleActionManager.getChoices().effectAnalizer();
+                singleActionManager.getChoices().effectAnalyzer();
                 break;
             default:
                 LOGGER.log(Level.SEVERE, "switch error");
@@ -232,7 +254,7 @@ public class Payment {
                 GrabWeapon grabWeapon = message.deserializeGrabWeapon();
                 Weapon weapon = payingPlayer.getWeaponFromIndex(grabWeapon.getGrabbedWeapon());
                 initialCost = weapon.getGrabCost();
-                leftCost = initialCost.clone();
+                leftCost = initialCost.copy();
                 break;
             case USEPOWERUP:
                 IndexMessage indexMessage = message.deserializeIndexMessage();
@@ -242,14 +264,14 @@ public class Payment {
                 IndexMessage reloadCardMessage = message.deserializeIndexMessage();
                 Weapon reloadWeapon = payingPlayer.getWeaponFromIndex(reloadCardMessage.getSelectionIndex());
                 initialCost = reloadWeapon.getReloadCost();
-                leftCost = initialCost.clone();
+                leftCost = initialCost.copy();
                 break;
             case SHOOT:
                 IndexMessage effectMessage = message.deserializeIndexMessage();
                 Weapon selectedWeapon = singleActionManager.getChoices().getSelectedWeapon();
                 Effect effect = selectedWeapon.getEffects().get(effectMessage.getSelectionIndex());
                 initialCost = effect.getCost();
-                leftCost = initialCost.clone();
+                leftCost = initialCost.copy();
                 break;
             default:
                 LOGGER.log(Level.SEVERE, "switch error");

@@ -135,9 +135,6 @@ public class Cell {
 
     public void setAmmo(AmmoTile ammoTile){
 
-        if(ammoTile == null) {
-            throw new NullPointerException("ammoTile parameter can't be null");
-        }
         this.ammoTile = ammoTile;
     }
 
@@ -224,8 +221,8 @@ public class Cell {
     }
 
     /**
-     *
-     * @param numberOfMoves
+     *this method is used to know the cells a player can reach
+     * @param numberOfMoves moves available
      * @return the cells you can reach with numberOfMoves moves
      */
     public List<Cell> reachableCells(int numberOfMoves){
@@ -291,17 +288,17 @@ public class Cell {
       messageCell.setEmpty(isEmpty);
       messageCell.setAmmoTile(ammoTile.getAmmoTileImg());
 
-      List<String> weapons = new ArrayList<>();
+      List<String> weaponsList = new ArrayList<>();
 
       if (!isCommon){
 
           for (Weapon weapon: this.weapons){
 
-              weapons.add(weapon.getName());
+              weaponsList.add(weapon.getName());
           }
       }
 
-      messageCell.setWeapons(weapons);
+      messageCell.setWeapons(weaponsList);
 
       return messageCell;
     }

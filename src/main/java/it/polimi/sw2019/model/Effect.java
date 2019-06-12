@@ -8,7 +8,9 @@ public class Effect {
     /**
      * Default Constructor
      */
-    public Effect(){}
+    public Effect(){
+        //default constructor
+    }
 
     /* Attributes */
 
@@ -160,43 +162,41 @@ public class Effect {
 
         List<Cell> shootableCells = new ArrayList<>();
         List<Cell> reachableCells = reachableCells(owner);
-        List<Player> targets = new ArrayList<>();
+        List<Player> targetsPlayer = new ArrayList<>();
 
         for (int i = 0; i < reachableCells.size(); i++) {
 
-            targets.addAll(reachableCells.get(i).playersInCell()); /* removing the player who is shooting from the list of the possible targets */
+            targetsPlayer.addAll(reachableCells.get(i).playersInCell()); /* removing the player who is shooting from the list of the possible targets */
 
-            if (targets.contains(owner)) { targets.remove(owner); }
+            if (targetsPlayer.contains(owner)) {
 
-            if (!targets.isEmpty()){
+                targetsPlayer.remove(owner);
+            }
+
+            if (!targetsPlayer.isEmpty()){
 
                 shootableCells.add(reachableCells.get(i));
             }
-
         }
-
         return shootableCells;
     }
 
     /**
-     *
+     * returns the reachable players
      * @param owner player who is shooting
      * @return players you can shoot at
      */
     public List<Player> reachablePlayers(Player owner) {
 
         List<Player> reachablePlayers = new ArrayList<>();
-        List<Cell> shootableCells = shootableCells(owner);
 
-        for( int i = 0; i < shootableCells.size(); i++){
+        for( Cell cell: shootableCells(owner)){
 
-            reachablePlayers.addAll(shootableCells.get(i).playersInCell());
+            reachablePlayers.addAll(cell.playersInCell());
         }
 
-        if ( reachablePlayers.contains(owner) ){
+        reachablePlayers.remove(owner); /* removing the player who is shooting from the list of the possible targets */
 
-            reachablePlayers.remove(owner); /* removing the player who is shooting from the list of the possible targets */
-        }
 
         return reachablePlayers;
     }
@@ -207,9 +207,10 @@ public class Effect {
      * @param owner the player who is using the weapon
      * @return true if the player can actually pay and apply the effect
      */
+    @SuppressWarnings("squid:S3776")
     public boolean usableEffect(Player owner, List<Player> allPlayers){
 
-        List<Player> targets = new ArrayList<>();
+        List<Player> targetsPlayer = new ArrayList<>(allPlayers);
 
         if (!owner.canIPay(cost)) { /* can I pay the cost of the effect? */
 
@@ -226,12 +227,11 @@ public class Effect {
             return false;
         }
 
-        targets.addAll(allPlayers);
-        targets.remove(owner);
+        targetsPlayer.remove(owner);
 
         if (move.iCanMoveTargetBefore()){  /* I can move targets and after the move I can shoot them */
 
-           for(Player target: allPlayers){
+           for(Player target: targetsPlayer){
 
                for(Cell reachableCell: target.getPosition().reachableCells(move.getMoveTargets())){
 

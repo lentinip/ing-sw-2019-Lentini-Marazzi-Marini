@@ -209,7 +209,7 @@ public class Match extends Observable {
     /**
      * Get Player by username (if there is no player with that username returns null)
      * @param username user of the player
-     * @return
+     * @return player
      */
     public Player getPlayerByUsername(String username){
         for (Player player : players){
@@ -232,7 +232,7 @@ public class Match extends Observable {
     /**
      * this method creates the board and everything it contains
      */
-    public void initializeMatch(String boardFileName) throws FileNotFoundException{
+    public void initializeMatch(String boardFileName){
 
       Visibility visibilityClass = new Visibility();
 
@@ -290,9 +290,15 @@ public class Match extends Observable {
         }
 
         //Resets the player's numberOfActions
-        setCurrentPlayerLeftActions(2);
+        if (currentPlayer != null && currentPlayer.getState() == State.FRENZYAFTERFIRST){
+            setCurrentPlayerLeftActions(1);
+        }
+        else {
+            setCurrentPlayerLeftActions(2);
+        }
     }
 
+    @SuppressWarnings("squid:S3776")
     public void endTurn() {
 
         PlayerBoard playerBoard;

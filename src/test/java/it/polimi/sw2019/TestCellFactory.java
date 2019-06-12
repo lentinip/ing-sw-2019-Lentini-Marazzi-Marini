@@ -248,7 +248,7 @@ public class TestCellFactory {
 
         List<CellFactory> factories = new ArrayList<>();
 
-        cellFactory.setCell(factories, cells, 0, roooms);
+        cellFactory.setCell(cells, 0, roooms);
 
         assertEquals(cell.getDown(), cells.get(0).getDown());
         assertEquals(cell.getRoom(), cells.get(0).getRoom());
