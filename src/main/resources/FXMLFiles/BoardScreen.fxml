@@ -269,7 +269,7 @@
                                     <DropShadow />
                                  </effect>
                               </ImageView>
-                              <ImageView fx:id="extraKillToken" fitHeight="40.0" fitWidth="42.0" layoutX="289.0" layoutY="11.0" preserveRatio="true">
+                              <ImageView fx:id="extraKillToken" fitHeight="40.0" fitWidth="42.0" layoutX="289.0" layoutY="11.0" onMouseClicked="#showKillTrackSummary" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/tokens/YellowToken.png" />
                                  </image>
@@ -2055,7 +2055,7 @@
                         </Group>
                      </children>
                   </Group>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="33.0" layoutX="16.0" layoutY="647.0" opacity="0.4" stroke="WHITE" strokeType="INSIDE" width="141.0" />
+                  <Rectangle fx:id="frenzyModeRectangle" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="33.0" layoutX="16.0" layoutY="647.0" opacity="0.4" stroke="WHITE" strokeType="INSIDE" width="141.0" />
                   <Label layoutX="33.0" layoutY="655.0" text="Frenzy mode:" />
                   <Label fx:id="frenzyModeLabel" layoutX="123.0" layoutY="655.0" prefHeight="17.0" prefWidth="24.0" text="yes" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="33.0" layoutX="166.0" layoutY="647.0" opacity="0.4" stroke="WHITE" strokeType="INSIDE" width="223.0" />

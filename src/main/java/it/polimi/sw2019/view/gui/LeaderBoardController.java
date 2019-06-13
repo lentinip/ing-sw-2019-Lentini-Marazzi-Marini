@@ -133,6 +133,7 @@ public class LeaderBoardController {
         Stage stage = (Stage) button.getScene().getWindow();
         stage.close();
 
+        gui.getPrimaryStage().close();
         gui.displayLoginWindow();
     }
 

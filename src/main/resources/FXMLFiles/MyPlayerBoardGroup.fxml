@@ -12,9 +12,14 @@
 
 <Group xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.PlayerBoardController">
    <children>
-      <ImageView fx:id="playerBoardImage" fitHeight="292.0" fitWidth="826.0" layoutX="45.0" layoutY="12.0" preserveRatio="true">
+      <ImageView fx:id="playerBoardImage" fitHeight="194.0" fitWidth="812.0" layoutX="57.0" layoutY="25.0" preserveRatio="true">
          <image>
             <Image url="@../images/PlayerBoardDistructorFront.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="actionTileImage" fitHeight="194.0" fitWidth="81.0" layoutX="57.0" layoutY="25.0" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../images/actionTiles/BansheeActionTileFrenzy.png" />
          </image>
       </ImageView>
       <ImageView fx:id="myFirstPlayerMarker" fitHeight="163.0" fitWidth="86.0" layoutY="45.0" preserveRatio="true">
@@ -22,7 +27,7 @@
             <Image url="@../images/StartingPlayerMarker.png" />
          </image>
       </ImageView>
-      <Group fx:id="playerCards" layoutX="346.0" layoutY="1.0" visible="false">
+      <Group layoutX="346.0" layoutY="1.0" visible="false">
          <children>
             <ImageView fitHeight="151.0" fitWidth="50.0" layoutX="14.0" layoutY="9.0" preserveRatio="true" visible="false">
                <image>
@@ -42,7 +47,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="227.0" layoutY="166.0">
+      <Group fx:id="mySkullsGroup" layoutX="227.0" layoutY="166.0">
          <children>
             <ImageView fx:id="mySkull0" fitHeight="45.0" fitWidth="37.0" preserveRatio="true">
                <image>
@@ -295,6 +300,13 @@
             <Pane fx:id="reloadAvailable" layoutX="15.0" layoutY="101.0" onMouseClicked="#handleAction" prefHeight="37.0" prefWidth="27.0" style="-fx-border-color: white;" />
          </children>
       </Group>
+      <Group layoutX="54.0" layoutY="54.0">
+         <children>
+            <Pane fx:id="shootBeforeFirstAvailable" onMouseClicked="#handleAction" prefHeight="24.0" prefWidth="45.0" style="-fx-border-color: white;" visible="false" />
+            <Pane fx:id="moveBeforeFirstAvailable" layoutY="25.0" onMouseClicked="#handleAction" prefHeight="22.0" prefWidth="45.0" style="-fx-border-color: white;" visible="false" />
+            <Pane fx:id="grabBeforeFirstAvailable" layoutY="48.0" onMouseClicked="#handleAction" prefHeight="21.0" prefWidth="45.0" style="-fx-border-color: white;" visible="false" />
+         </children>
+      </Group>
       <Group fx:id="ammoGroup" layoutX="722.0" layoutY="88.0">
          <children>
             <Group>
@@ -318,6 +330,12 @@
                   <Rectangle fx:id="myAmmoYellow2" arcHeight="5.0" arcWidth="5.0" fill="#fbff1f" height="20.0" layoutX="97.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
                </children>
             </Group>
+         </children>
+      </Group>
+      <Group layoutX="53.0" layoutY="158.0">
+         <children>
+            <Pane fx:id="shootAfterFirstAvailable" onMouseClicked="#handleAction" prefHeight="26.0" prefWidth="49.0" style="-fx-border-color: white;" visible="false" />
+            <Pane fx:id="grabAfterFirstAvailable" layoutY="27.0" onMouseClicked="#handleAction" prefHeight="26.0" prefWidth="49.0" style="-fx-border-color: white;" visible="false" />
          </children>
       </Group>
    </children>

@@ -7,7 +7,12 @@ import it.polimi.sw2019.model.Colors;
 import it.polimi.sw2019.model.TypeOfAction;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +28,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -63,6 +70,13 @@ public class BoardController extends Application {
 
     @FXML
     private ProgressBar timer;
+
+    //Timer in seconds
+    private Integer timerDuration;
+
+    private IntegerProperty timeSeconds = new SimpleIntegerProperty(timerDuration*1000);
+
+    private Timeline timeline;
 
     @FXML
     private ImageView weaponsDeck;
@@ -119,6 +133,10 @@ public class BoardController extends Application {
 
     @FXML
     private ImageView extraKillToken;
+
+    private KillTrackController killTrackController;
+
+    private Stage killTrackStage;
 
     private List<ImageView> killTrackKillTokens = new ArrayList<>();
 
@@ -556,6 +574,8 @@ public class BoardController extends Application {
     @FXML
     private Label frenzyModeLabel;
 
+    private boolean frenzyStarted = false;
+
     @FXML
     private Label leftActionsLabel;
 
@@ -570,6 +590,9 @@ public class BoardController extends Application {
 
     @FXML
     private Button cancelSelectAplayerButton;
+
+    @FXML
+    private Rectangle frenzyModeRectangle;
 
 
     /* Methods */
@@ -610,6 +633,9 @@ public class BoardController extends Application {
 
         //Initialize the players positions
         initializePositions();
+
+        //Initialize timer
+        initializeTimer();
     }
 
     /**
@@ -639,6 +665,7 @@ public class BoardController extends Application {
 
         if (myIndex==0){
             iAmTheFirst=true;
+
         }
 
         initializeMyPlayerBoard(client.getUsername(), myCharacter, iAmTheFirst);
@@ -662,6 +689,9 @@ public class BoardController extends Application {
             initializeOtherPlayerBoards(usernames.get(i), characters.get(i), false, i);
         }
 
+        //Orders the playerBoardControllers in an arrayList by the Character order
+        orderAllPlayerBoards();
+
         //Set if there's the frenzy mode
         initializeFrenzyLabel(configuration.isFrenzy());
 
@@ -678,6 +708,19 @@ public class BoardController extends Application {
             logger.log(Level.SEVERE, "BoardDictionary.json not found");
         }
         return boards.get(jsonName);
+    }
+
+    public void initializeTimer(){
+        timer.progressProperty().bind(timeSeconds.divide(timerDuration*1000.0));
+        timeSeconds.set(timerDuration*1000);
+        timeline = new Timeline();
+        timeline.getKeyFrames().add(
+                new KeyFrame(Duration.seconds(timerDuration),
+                        new KeyValue(timeSeconds, 0)));
+    }
+
+    public void startTimer() {
+        timeline.playFromStart();
     }
 
     public void initializeAmmoTiles(String url){
@@ -1022,6 +1065,18 @@ public class BoardController extends Application {
         allPlayerBoards.add(playerBoardController);
     }
 
+    public void orderAllPlayerBoards(){
+        List<PlayerBoardController> playerBoardControllers = new ArrayList<>();
+        for (Character character : configurationMessage.getCharacters()){
+            for (PlayerBoardController playerBoardController : allPlayerBoards){
+                if (playerBoardController.getCharacter() == character){
+                    playerBoardControllers.add(playerBoardController);
+                }
+            }
+        }
+        allPlayerBoards = playerBoardControllers;
+    }
+
     public Image getAmmoImage(String name){
         String path = "/images/ammo/"+name;
         return new Image(path);
@@ -1034,6 +1089,34 @@ public class BoardController extends Application {
         else {
             frenzyModeLabel.setText("no");
         }
+    }
+
+    public void initializeKillTrackSummary(){
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/KillTrackScreen.fxml"));
+
+        Parent root;
+        Scene scene;
+
+        try {
+            root = fxmlLoader.load();
+            scene = new Scene(root);
+
+        }
+        catch (IOException e) {
+            logger.log(Level.SEVERE, "KillTrackScreen.fxml file not found in BoardController");
+            scene = new Scene(new Label("ERROR"));
+        }
+
+        killTrackController = fxmlLoader.getController();
+
+        killTrackStage = new Stage();
+
+        killTrackStage.setScene(scene);
+        killTrackStage.initOwner(boardImage.getScene().getWindow());
+
+        killTrackStage.setTitle("Killtrack summary");
+        killTrackStage.setResizable(false);
     }
 
     //Method for the update of the controller
@@ -1112,9 +1195,12 @@ public class BoardController extends Application {
     public void updateMatch(MatchState matchState){
 
         updateCells(matchState.getCells());
-        updatePlayerBoards(matchState.getPlayerBoardMessages(), matchState.getPlayerHands());
+        updatePlayerBoards(matchState.getPlayerBoardMessages(), matchState.getPlayerHands(), matchState.getCurrentPlayer());
         updateLeftActions(matchState.getCurrentPlayerLeftActions());
         updateKillTrack(matchState.getKillSequence(), matchState.getOverkillSequence());
+        if (matchState.getKillSequence().size()>killTrackSkulls.size()){
+            updateKillTrackSummary(matchState.getKillSequence(), matchState.getOverkillSequence());
+        }
         updateDecks(matchState.getWeaponsDeckSize(), matchState.getPowerupsDeckSize());
         updateCurrentPlayer(matchState.getCurrentPlayer());
 
@@ -1215,27 +1301,55 @@ public class BoardController extends Application {
         positions.get(cellNumber).setVisible(true);
     }
 
-    public void updatePlayerBoards(List<PlayerBoardMessage> playerBoardMessages, List<PlayerHand> playerHands){
+    public void updatePlayerBoards(List<PlayerBoardMessage> playerBoardMessages, List<PlayerHand> playerHands, Character currentCharacter){
 
-        PlayerBoardMessage myPlayerBoardMessage = playerBoardMessages.get(myIndex);
-        myPlayerBoard.updatePlayerBoard(myPlayerBoardMessage);
-
-        List<PlayerBoardMessage> playerBoardMessageList = new ArrayList<>(playerBoardMessages);
-        playerBoardMessageList.remove(myIndex);
-        List<PlayerHand> playerHandList = new ArrayList<>(playerHands);
-        playerHandList.remove(myIndex);
-
-        for (int i=0; i<playerBoardMessageList.size(); i++){
-            otherPlayerBoards.get(i).updatePlayerBoard(playerBoardMessageList.get(i));
-            otherPlayerBoards.get(i).updatePlayerHand(playerHandList.get(i));
+        if (configurationMessage.isFrenzy()){
+            for (PlayerBoardMessage playerBoardMessage : playerBoardMessages){
+                if (playerBoardMessage.isFlipped() && !frenzyStarted){
+                    updateIsFrenzy(currentCharacter);
+                }
+            }
         }
+
+
+        for(int i=0; i<playerBoardMessages.size(); i++){
+            if (i==myIndex){
+                myPlayerBoard.updatePlayerBoard(playerBoardMessages.get(i));
+            }
+            else {
+                PlayerBoardController otherPlayerBoard = allPlayerBoards.get(i);
+                otherPlayerBoard.updatePlayerBoard(playerBoardMessages.get(i));
+                otherPlayerBoard.updatePlayerHand(playerHands.get(i));
+            }
+        }
+
+    }
+
+    public void updateIsFrenzy(Character currentCharacter){
+        frenzyStarted=true;
+
+        boolean beforeFirst = true;
+        List<Character> characters = configurationMessage.getCharacters();
+
+        for (int i=0; i<characters.size(); i++){
+            if (characters.get(i).equals(currentCharacter)){
+                beforeFirst=false;
+                allPlayerBoards.get(i).setFrenzyMode(false);
+            }
+            else {
+                allPlayerBoards.get(i).setFrenzyMode(beforeFirst);
+            }
+        }
+
+        //Shows something so that the player knows is the frenzyMode
+        frenzyModeRectangle.setFill(Color.RED);
     }
 
     public void updateKillTrack(List<Character> killSequence, List<Boolean> overkillSequence){
 
         if (oldMatchState.getKillSequence().isEmpty() || !oldMatchState.getKillSequence().equals(killSequence)){
 
-            for (int i=0; i<killSequence.size(); i++){
+            for (int i=0; i<killTrackSkulls.size(); i++){
 
                 ImageView token = killTrackKillTokens.get(i);
                 PlayerBoardController.changeTokenColor(token, killSequence.get(i));
@@ -1266,6 +1380,10 @@ public class BoardController extends Application {
 
     public void updateCurrentPlayer(Character currentPlayer){
         if (oldMatchState == null || oldMatchState.getCurrentPlayer() != currentPlayer){
+            //Starts the turn timer
+            startTimer();
+
+            //Changes the effect around the playerBoard
             for (PlayerBoardController playerBoardController : allPlayerBoards){
                 if (playerBoardController.getCharacter()==currentPlayer){
                     playerBoardController.setAsCurrentPlayer();
@@ -1275,6 +1393,21 @@ public class BoardController extends Application {
                 }
             }
         }
+    }
+
+    public void updateKillTrackSummary(List<Character> killTrack, List<Boolean> overKillTrack){
+        if (!extraKillToken.isVisible()){
+            extraKillToken.setVisible(true);
+        }
+
+        if (!oldMatchState.getKillSequence().equals(killTrack)){
+            killTrackController.updateTokens(killTrack, overKillTrack);
+        }
+    }
+
+    @FXML
+    public void showKillTrackSummary(ActionEvent actionEvent){
+        killTrackStage.show();
     }
 
     @FXML

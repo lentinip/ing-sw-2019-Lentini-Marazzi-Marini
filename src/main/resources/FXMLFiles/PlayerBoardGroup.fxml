@@ -11,9 +11,14 @@
 
 <Group xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.PlayerBoardController">
    <children>
-      <ImageView fx:id="playerBoardImage" fitHeight="90.0" fitWidth="321.0" layoutX="23.0" layoutY="3.0" preserveRatio="true">
+      <ImageView fx:id="playerBoardImage" fitHeight="90.0" fitWidth="321.0" layoutX="25.0" layoutY="3.0" preserveRatio="true">
          <image>
             <Image url="@../images/PlayerBoardBansheeFront.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="actionTileImage" fitHeight="78.0" fitWidth="35.0" layoutX="25.0" layoutY="3.0" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../images/actionTiles/BansheeActionTileFrenzy.png" />
          </image>
       </ImageView>
       <ImageView fx:id="myFirstPlayerMarker" fitHeight="75.0" fitWidth="26.0" layoutY="8.0" preserveRatio="true">
@@ -21,7 +26,7 @@
             <Image url="@../images/StartingPlayerMarker.png" />
          </image>
       </ImageView>
-      <Group fx:id="playerCards" layoutX="336.0" layoutY="-9.0" onMouseClicked="#showPlayerPrivateHand" onMouseEntered="#showSelection" onMouseExited="#disableEffect">
+      <Group layoutX="336.0" layoutY="-9.0" onMouseClicked="#showPlayerPrivateHand" onMouseEntered="#showSelection" onMouseExited="#disableEffect">
          <children>
             <ImageView fitHeight="151.0" fitWidth="50.0" layoutX="14.0" layoutY="9.0" preserveRatio="true">
                <image>
@@ -41,7 +46,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="92.0" layoutY="58.0">
+      <Group fx:id="mySkullsGroup" layoutX="93.0" layoutY="58.0">
          <children>
             <ImageView fx:id="mySkull0" fitHeight="22.0" fitWidth="17.0" preserveRatio="true">
                <image>
@@ -117,7 +122,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="myDamageToken5" fitHeight="24.0" fitWidth="17.0" layoutX="98.0" layoutY="9.0" preserveRatio="true">
+            <ImageView fx:id="myDamageToken5" fitHeight="24.0" fitWidth="17.0" layoutX="99.0" layoutY="9.0" preserveRatio="true">
                <image>
                   <Image url="@../images/tokens/YellowToken.png" />
                </image>
@@ -125,7 +130,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="myDamageToken6" fitHeight="24.0" fitWidth="17.0" layoutX="116.0" layoutY="9.0" preserveRatio="true">
+            <ImageView fx:id="myDamageToken6" fitHeight="24.0" fitWidth="17.0" layoutX="117.0" layoutY="9.0" preserveRatio="true">
                <image>
                   <Image url="@../images/tokens/YellowToken.png" />
                </image>
@@ -133,7 +138,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="myDamageToken7" fitHeight="24.0" fitWidth="17.0" layoutX="133.0" layoutY="9.0" preserveRatio="true">
+            <ImageView fx:id="myDamageToken7" fitHeight="24.0" fitWidth="17.0" layoutX="134.0" layoutY="9.0" preserveRatio="true">
                <image>
                   <Image url="@../images/tokens/YellowToken.png" />
                </image>
@@ -141,7 +146,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="myDamageToken8" fitHeight="24.0" fitWidth="17.0" layoutX="150.0" layoutY="9.0" preserveRatio="true">
+            <ImageView fx:id="myDamageToken8" fitHeight="24.0" fitWidth="17.0" layoutX="151.0" layoutY="9.0" preserveRatio="true">
                <image>
                   <Image url="@../images/tokens/YellowToken.png" />
                </image>
@@ -149,7 +154,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="myDamageToken9" fitHeight="24.0" fitWidth="17.0" layoutX="168.0" layoutY="9.0" preserveRatio="true">
+            <ImageView fx:id="myDamageToken9" fitHeight="24.0" fitWidth="17.0" layoutX="169.0" layoutY="9.0" preserveRatio="true">
                <image>
                   <Image url="@../images/tokens/YellowToken.png" />
                </image>
@@ -157,7 +162,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="myDamageToken10" fitHeight="24.0" fitWidth="17.0" layoutX="186.0" layoutY="9.0" preserveRatio="true">
+            <ImageView fx:id="myDamageToken10" fitHeight="24.0" fitWidth="17.0" layoutX="187.0" layoutY="9.0" preserveRatio="true">
                <image>
                   <Image url="@../images/tokens/YellowToken.png" />
                </image>
@@ -165,7 +170,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="myDamageToken11" fitHeight="24.0" fitWidth="17.0" layoutX="204.0" layoutY="9.0" preserveRatio="true">
+            <ImageView fx:id="myDamageToken11" fitHeight="24.0" fitWidth="17.0" layoutX="205.0" layoutY="9.0" preserveRatio="true">
                <image>
                   <Image url="@../images/tokens/YellowToken.png" />
                </image>
@@ -311,6 +316,19 @@
                   <Rectangle fx:id="myAmmoYellow2" arcHeight="5.0" arcWidth="5.0" fill="#fbff1f" height="10.0" layoutX="38.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
                </children>
             </Group>
+         </children>
+      </Group>
+      <Group layoutX="64.0" layoutY="64.0" visible="false">
+         <children>
+            <Pane fx:id="shootBeforeFirstAvailable" onMouseClicked="#handleAction" prefHeight="24.0" prefWidth="45.0" style="-fx-border-color: white;" />
+            <Pane fx:id="moveBeforeFirstAvailable" layoutY="25.0" onMouseClicked="#handleAction" prefHeight="22.0" prefWidth="45.0" style="-fx-border-color: white;" />
+            <Pane fx:id="grabBeforeFirstAvailable" layoutY="48.0" onMouseClicked="#handleAction" prefHeight="21.0" prefWidth="45.0" style="-fx-border-color: white;" />
+         </children>
+      </Group>
+      <Group layoutX="63.0" layoutY="168.0" visible="false">
+         <children>
+            <Pane fx:id="shootAfterFirstAvailable" onMouseClicked="#handleAction" prefHeight="26.0" prefWidth="49.0" style="-fx-border-color: white;" />
+            <Pane fx:id="grabAfterFirstAvailable" layoutY="27.0" onMouseClicked="#handleAction" prefHeight="26.0" prefWidth="49.0" style="-fx-border-color: white;" />
          </children>
       </Group>
    </children>

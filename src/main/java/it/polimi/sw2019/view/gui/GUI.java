@@ -484,6 +484,10 @@ public class GUI extends Application implements ViewInterface {
         startScreenController = null;
     }
 
+    public Stage getPrimaryStage(){
+        return primaryStage;
+    }
+
 
     @Override
     public void start(Stage primaryStage){

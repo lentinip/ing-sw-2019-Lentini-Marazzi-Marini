@@ -39,7 +39,17 @@ public class PlayerBoardController {
 
     private Character character;
 
-    private boolean isFirst;
+    private boolean isFirst = false;
+
+    private boolean frenzy = false;
+
+    private boolean beforeFirst = false;
+
+    private boolean isFlipped = false;
+
+    private boolean areActionsAvailable = false;
+
+    private boolean canIShoot = false;
 
     private PlayerBoardMessage oldPlayerBoardMessage;
 
@@ -50,10 +60,13 @@ public class PlayerBoardController {
     private ImageView playerBoardImage;
 
     @FXML
+    private ImageView actionTileImage;
+
+    @FXML
     private ImageView myFirstPlayerMarker;
 
     @FXML
-    private Group playerCards;
+    private Group mySkullsGroup;
 
     @FXML
     private ImageView mySkull0;
@@ -167,6 +180,21 @@ public class PlayerBoardController {
     private Pane reloadAvailable;
 
     @FXML
+    private Pane shootBeforeFirstAvailable;
+
+    @FXML
+    private Pane moveBeforeFirstAvailable;
+
+    @FXML
+    private Pane grabBeforeFirstAvailable;
+
+    @FXML
+    private Pane shootAfterFirstAvailable;
+
+    @FXML
+    private Pane grabAfterFirstAvailable;
+
+    @FXML
     private Rectangle myAmmoBlue0;
 
     @FXML
@@ -228,6 +256,7 @@ public class PlayerBoardController {
 
         this.isFirst = isFirst;
         initializeIsFirst();
+
     }
 
     public void configureMyPlayerBoard(Client client, Character character, boolean isFirst){
@@ -281,6 +310,11 @@ public class PlayerBoardController {
         grabAvailable.setUserData(TypeOfAction.GRAB);
         shootAvailable.setUserData(TypeOfAction.SHOOT);
         reloadAvailable.setUserData(TypeOfAction.RELOAD);
+        shootBeforeFirstAvailable.setUserData(TypeOfAction.SHOOT);
+        moveBeforeFirstAvailable.setUserData(TypeOfAction.MOVE);
+        grabBeforeFirstAvailable.setUserData(TypeOfAction.GRAB);
+        shootAfterFirstAvailable.setUserData(TypeOfAction.SHOOT);
+        grabAfterFirstAvailable.setUserData(TypeOfAction.GRAB);
     }
 
 
@@ -398,6 +432,12 @@ public class PlayerBoardController {
         }
     }
 
+    public void setFrenzyMode(boolean beforeFirst){
+        this.frenzy = true;
+        this.beforeFirst=beforeFirst;
+        showActionTile();
+    }
+
     public void initializePlayerHand(){
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/OtherPlayerHandScreen.fxml"));
@@ -418,6 +458,7 @@ public class PlayerBoardController {
         otherPlayerHandController = fxmlLoader.getController();
 
         playerHandStage = new Stage();
+        playerHandStage.initOwner(playerBoardImage.getScene().getWindow());
 
         playerHandStage.setScene(scene);
 
@@ -455,8 +496,10 @@ public class PlayerBoardController {
                 updateFlipped();
             }
 
-            //Updates the number of deaths
-            updateNumberOfDeaths(playerBoardMessage.getNumOfDeaths());
+            if (!playerBoardMessage.isFlipped()){
+                //Updates the number of deaths if is not flipped
+                updateNumberOfDeaths(playerBoardMessage.getNumOfDeaths());
+            }
 
             //Updates the ammo
             updateAmmo(playerBoardMessage.getBlueAmmo(), playerBoardMessage.getRedAmmo(), playerBoardMessage.getYellowAmmo());
@@ -491,29 +534,66 @@ public class PlayerBoardController {
     }
 
     public void updateFlipped(){
-        String url = "";
+        if (!isFlipped){
+            String url = "";
 
-        switch (character){
-            case BANSHEE:
-                url = "@../images/PlayerBoardBansheeBack.png";
-                break;
-            case DISTRUCTOR:
-                url = "@../images/PlayerBoardDistruttoreBack.png";
-                break;
-            case DOZER:
-                url = "@../images/PlayerBoardDozerBack.png";
-                break;
-            case SPROG:
-                url = "@../images/PlayerBoardSprogBack.png";
-                break;
-            case VIOLET:
-                url = "@../images/PlayerBoardVioletBack.png";
-                break;
+            switch (character){
+                case BANSHEE:
+                    url = "@../images/PlayerBoardBansheeBack.png";
+                    break;
+                case DISTRUCTOR:
+                    url = "@../images/PlayerBoardDistruttoreBack.png";
+                    break;
+                case DOZER:
+                    url = "@../images/PlayerBoardDozerBack.png";
+                    break;
+                case SPROG:
+                    url = "@../images/PlayerBoardSprogBack.png";
+                    break;
+                case VIOLET:
+                    url = "@../images/PlayerBoardVioletBack.png";
+                    break;
+            }
 
-                //TODO implement the changing of the buttons for the frenzyMode in myPlayerboard
+            playerBoardImage.setImage(new Image(url));
+            actionTileImage.setVisible(false);
+
+            mySkullsGroup.setVisible(false);
+
+            isFlipped=true;
+        }
+    }
+
+    public void showActionTile(){
+
+        if (!actionTileImage.isVisible()){
+            String url = "";
+
+            switch (character){
+                case BANSHEE:
+                    url = "@../images/actionTiles/BansheeActionTileFrenzy.png";
+                    break;
+                case DISTRUCTOR:
+                    url = "@../images/actionTiles/DistructorActionTileFrenzy.png";
+                    break;
+                case DOZER:
+                    url = "@../images/images/actionTiles/DozerActionTileFrenzy.png";
+                    break;
+                case SPROG:
+                    url = "@../images/actionTiles/SprogActionTileFrenzy.png";
+                    break;
+                case VIOLET:
+                    url = "@../images/actionTiles/VioletActionTileFrenzy.png";
+                    break;
+            }
+
+            actionTileImage.setImage(new Image(url));
+            actionTileImage.setVisible(true);
         }
 
-        playerBoardImage.setImage(new Image(url));
+        if (areActionsAvailable){
+            showPossibleActions(canIShoot);
+        }
     }
 
     public Character getCharacter() {
@@ -523,22 +603,37 @@ public class PlayerBoardController {
 
     //Interactions
     public void showPossibleActions(boolean canIShoot){
-        moveAvailable.setVisible(true);
-        grabAvailable.setVisible(true);
-        if (canIShoot){
-            shootAvailable.setVisible(true);
+        areActionsAvailable = true;
+        this.canIShoot = canIShoot;
+
+        if (!frenzy){
+            moveAvailable.setVisible(true);
+            grabAvailable.setVisible(true);
+            shootAvailable.setVisible(canIShoot);
+            reloadAvailable.setVisible(true);
         }
         else {
-            shootAvailable.setVisible(false);
+            shootBeforeFirstAvailable.setVisible(beforeFirst);
+            moveBeforeFirstAvailable.setVisible(beforeFirst);
+            grabBeforeFirstAvailable.setVisible(beforeFirst);
+            shootAfterFirstAvailable.setVisible(!beforeFirst);
+            grabAfterFirstAvailable.setVisible(!beforeFirst);
         }
-        reloadAvailable.setVisible(true);
     }
 
     public void disableActions(){
+        areActionsAvailable = false;
+
         moveAvailable.setVisible(false);
         grabAvailable.setVisible(false);
         shootAvailable.setVisible(false);
         reloadAvailable.setVisible(false);
+
+        shootBeforeFirstAvailable.setVisible(false);
+        moveBeforeFirstAvailable.setVisible(false);
+        grabBeforeFirstAvailable.setVisible(false);
+        shootAfterFirstAvailable.setVisible(false);
+        grabAfterFirstAvailable.setVisible(false);
     }
 
     @FXML
