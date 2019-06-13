@@ -2,7 +2,6 @@ package it.polimi.sw2019.model;
 
 import it.polimi.sw2019.network.messages.*;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -17,7 +16,7 @@ public class Match extends Observable {
     /**
      * customized constructor
      */
-    public Match(boolean iWantFrenzyMode, boolean easyMode, List<String> usernames, String boardJsonName) throws FileNotFoundException{
+    public Match(boolean iWantFrenzyMode, boolean easyMode, List<String> usernames, String boardJsonName){
 
         List<Character> charactersInGame = new ArrayList<>();
         int counter = 3; /* set to 3 because the smaller number of player allowed is 3 */
@@ -209,7 +208,7 @@ public class Match extends Observable {
     /**
      * Get Player by username (if there is no player with that username returns null)
      * @param username user of the player
-     * @return
+     * @return player
      */
     public Player getPlayerByUsername(String username){
         for (Player player : players){
@@ -232,7 +231,7 @@ public class Match extends Observable {
     /**
      * this method creates the board and everything it contains
      */
-    public void initializeMatch(String boardFileName) throws FileNotFoundException{
+    public void initializeMatch(String boardFileName){
 
       Visibility visibilityClass = new Visibility();
 
@@ -290,9 +289,15 @@ public class Match extends Observable {
         }
 
         //Resets the player's numberOfActions
-        setCurrentPlayerLeftActions(2);
+        if (currentPlayer != null && currentPlayer.getState() == State.FRENZYAFTERFIRST){
+            setCurrentPlayerLeftActions(1);
+        }
+        else {
+            setCurrentPlayerLeftActions(2);
+        }
     }
 
+    @SuppressWarnings("squid:S3776")
     public void endTurn() {
 
         PlayerBoard playerBoard;

@@ -494,4 +494,11 @@ public class GUI extends Application implements ViewInterface {
         this.primaryStage = primaryStage;
         displayLoginWindow();
     }
+
+    /**
+     * shows the return to login window because a player has been disconnected
+     */
+    public void displayDisconnectionDuringSetup(){
+
+    }
 }

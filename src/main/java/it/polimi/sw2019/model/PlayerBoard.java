@@ -99,11 +99,11 @@ public class PlayerBoard {
 
     /**
      * update the score when the board is not flipped
-     * @param score
+     * @param score score class
      */
     public void updateScore(Score score){
 
-        ArrayList<Character> ranking;
+        List<Character> ranking;
         ranking = damage.getRanking();
         int points;
 
@@ -141,7 +141,7 @@ public class PlayerBoard {
      */
     public void updateFrenzyScore(Score score){
 
-        ArrayList<Character> ranking;
+        List<Character> ranking;
         ranking = damage.getRanking();
 
         if (ranking.isEmpty()){

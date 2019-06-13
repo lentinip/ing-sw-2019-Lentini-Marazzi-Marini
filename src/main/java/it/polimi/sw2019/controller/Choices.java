@@ -152,6 +152,7 @@ public class Choices {
      * this method filters all the selection kind messages
      * @param message sent to the method that reads the message
      */
+    @SuppressWarnings("squid:S3776")
     public void selectionHandler(Message message){
 
         switch (message.getTypeOfMessage()){
@@ -194,7 +195,7 @@ public class Choices {
 
                 // effect is free and I analyze it
                 if ( currentEffect != null && currentEffect.getCost() == null){
-                    effectAnalizer();
+                    effectAnalyzer();
                 }
 
                 // the effect has a cost and I enter the payment session
@@ -278,6 +279,15 @@ public class Choices {
                 }
                 break;
             case SHOOT:
+                IndexMessage weaponIndex = message.deserializeIndexMessage();
+                Player shooter = match.getCurrentPlayer();
+                selectedWeapon = shooter.getWeaponFromIndex(weaponIndex.getSelectionIndex());
+                //if the weapon is unloaded we are in frenzy and I have to reload it
+                if (!selectedWeapon.getIsLoaded()){
+                    payment.setReloadInFrenzy(true);
+                    message.setTypeOfAction(TypeOfAction.RELOAD);
+                    payment.paymentStarter(message);
+                }
                 weaponHandler(message);
                 break;
             default:
@@ -335,7 +345,7 @@ public class Choices {
 
     /**
      * this method handles the selection of a player in an use powerup action
-     * @param message
+     * @param message message received
      */
     public  void usePowerupHandler(Message message){
 
@@ -392,8 +402,9 @@ public class Choices {
 
     /**
      * this method handles the selection of a player in a move before shoot action
-     * @param message
+     * @param message message received
      */
+    @SuppressWarnings("squid:S3776")
     public void moveBeforeShootHandler(Message message){
 
         // see if the index is < 0 and then show him the available cells
@@ -576,7 +587,7 @@ public class Choices {
         // if the weapon is single effect I don't have to ask to the player to choose an effect
         if ( selectedWeapon.getType() == WeaponsType.SINGLE_EFFECT){
             currentEffect = selectedWeapon.getEffects().get(0);
-            effectAnalizer();
+            effectAnalyzer();
         }
 
         // otherwise I have to show the available effects to the player so he can choose one to execute
@@ -689,6 +700,7 @@ public class Choices {
      * by SingleActionManager, by effectAnalyzer
      * doSomething to the view the possible selections
      */
+    @SuppressWarnings("squid:S3776")
     public void effectHandler(){
 
         // if I moved someone I have to apply the effect to the moved players see vortex or tractor beam
@@ -758,6 +770,7 @@ public class Choices {
      * this method sends new options to the player by watching the other players chosen and the effect that is being executed
      * done for multiple target effect (options are players)
      */
+    @SuppressWarnings("squid:S3776")
     public void updateVisibilityMultiple(){
 
         List<Player> newTargets;
@@ -963,7 +976,8 @@ public class Choices {
      * called after the payment session ( if the effect is not free), analyze the effect and see if there is a moveBefore inside it
      * called the first time I select the effect
      */
-    public void effectAnalizer(){
+    @SuppressWarnings("squid:S3776")
+    public void effectAnalyzer(){
 
         Message options = new Message(match.getCurrentPlayer().getName());
 
@@ -1002,7 +1016,7 @@ public class Choices {
             }
 
             //in this if, I can move only in the cells where I can shoot someone from
-            else if (usedEffect.isEmpty()){
+            else {
 
                 List<Effect> weaponsEffect = new ArrayList<>(selectedWeapon.getEffects());
                 weaponsEffect.removeAll(usedEffect);
@@ -1039,7 +1053,7 @@ public class Choices {
 
     /**
      * method used for the vortex move effect
-     * @return
+     * @return characters you can move
      */
     public List<Character> availablePlayersToMove(){
         List<Player> players = new ArrayList<>(match.getPlayers());

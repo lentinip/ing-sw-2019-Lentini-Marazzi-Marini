@@ -1,6 +1,6 @@
 package it.polimi.sw2019.model;
 
-public class Ammo implements Cloneable{
+public class Ammo {
 
     /**
      * Default constructor
@@ -119,8 +119,7 @@ public class Ammo implements Cloneable{
         blue = blue - toSubtract.getBlue();
     }
 
-    @Override
-    public Ammo clone(){
+    public Ammo copy(){
         Ammo result = new Ammo();
         result.setRed(red);
         result.setBlue(blue);

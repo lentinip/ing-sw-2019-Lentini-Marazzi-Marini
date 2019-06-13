@@ -126,8 +126,8 @@ public class Client {
 
     /**
      * creates the connection and tries to register the client
-     * @throws RemoteException
-     * @throws NotBoundException
+     * @throws RemoteException exception
+     * @throws NotBoundException exception
      */
     public void connect(Message loginMessage) throws RemoteException, NotBoundException {
 
@@ -214,6 +214,9 @@ public class Client {
                 break;
             case PLAYER_ALREADY_LOGGED:
                 view.displayAlreadyConnectedWindow();
+                break;
+            case DISCCONECTION_SETUP:
+                view.displayDisconnectionDuringSetup();
                 break;
             default:
                 System.console().printf("TYPE OF MESSAGE UNKNOWN");

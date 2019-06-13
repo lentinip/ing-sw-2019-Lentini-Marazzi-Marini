@@ -44,7 +44,6 @@ public class Marks extends Tokens {
                 markSequence.add(opponent);
             }
         }
-        //TODO exception
     }
 
     /**

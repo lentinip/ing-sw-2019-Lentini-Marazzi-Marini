@@ -32,6 +32,8 @@ public class VirtualView extends Observable implements Observer {
         setTurnTimer(timeConfigurations.getTurnTimer()*1000);
         setMatchCreationTimer(timeConfigurations.getMatchCreationTime()*1000);
         setQuickResponseTimer(timeConfigurations.getCounterAttackPowerupTimer()*1000);
+        setMatchSetupTimer(timeConfigurations.getMatchSetupTimer()*1000);
+
     }
 
     /* Attributes */
@@ -54,19 +56,31 @@ public class VirtualView extends Observable implements Observer {
 
     private static long quickResponseTimer; //used for the time to choose if you want to use the tagback grenade, and to select powerup for the spawn
 
+    private static long matchSetupTimer; //used for time to choose match setup settings
+
     private Timer timer = new Timer(); //used to manage the creation of the match
 
     private Timer turn = new Timer(); //used to manage the duration of a turn
 
     private Timer responseTimer = new Timer(); //used to manage the time of response for tagback
 
-    private Timer spawningChoiceTimer = new Timer(); //used to menage the time of response for spawn
+    private Timer spawningChoiceTimer = new Timer(); //used to manage the time of response for spawn
+
+    private Timer matchSetupChoiceTimer = new Timer(); //used to manage the choice of setups
 
     private static final Logger LOGGER = Logger.getLogger("virtual view");
 
 
 
     /* Methods */
+
+    public static void setMatchSetupTimer(long matchSetupTimer) {
+        VirtualView.matchSetupTimer = matchSetupTimer;
+    }
+
+    public static long getMatchSetupTimer() {
+        return matchSetupTimer;
+    }
 
     public String getCurrentPlayer() {
         return currentPlayer;
@@ -164,6 +178,14 @@ public class VirtualView extends Observable implements Observer {
         this.server = server;
     }
 
+    public Timer getMatchSetupChoiceTimer() {
+        return matchSetupChoiceTimer;
+    }
+
+    public void setMatchSetupChoiceTimer(Timer matchSetupChoiceTimer) {
+        this.matchSetupChoiceTimer = matchSetupChoiceTimer;
+    }
+
     public void addWaitingPlayer(String username, Client client) {
 
         waitingPlayers.put(username, client);
@@ -214,6 +236,25 @@ public class VirtualView extends Observable implements Observer {
     public void removeDisconnectedPlayer(String username){
 
         disconnectedPlayers.remove(username);
+    }
+
+    public void startSetupTimer(){
+
+        matchSetupChoiceTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+                Message fail = new Message("All");
+                fail.setTypeOfMessage(TypeOfMessage.DISCCONECTION_SETUP);
+                display(fail);
+                removeWaitingRoom();
+
+            }
+        }, matchSetupTimer);
+    }
+
+    public void removeWaitingRoom(){
+        server.endMatch(this);
     }
 
     public void startTimer(){

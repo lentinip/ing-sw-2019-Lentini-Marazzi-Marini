@@ -12,6 +12,8 @@ public class TimeConfigurations {
 
     private long counterAttackPowerupTimer;
 
+    private long matchSetupTimer;
+
     /* Methods */
 
     public long getCounterAttackPowerupTimer() {
@@ -24,6 +26,14 @@ public class TimeConfigurations {
 
     public long getTurnTimer() {
         return turnTimer;
+    }
+
+    public long getMatchSetupTimer() {
+        return matchSetupTimer;
+    }
+
+    public void setMatchSetupTimer(long matchSetupTimer) {
+        this.matchSetupTimer = matchSetupTimer;
     }
 
     public void setTurnTimer(int turnTimer) {

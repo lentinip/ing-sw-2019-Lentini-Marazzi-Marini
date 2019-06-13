@@ -102,7 +102,7 @@ public class SingleActionManager {
 
     /**
      * Handles the move and reduces the number of the player actions (handles the message too)
-     * @param message
+     * @param message message received
      */
     public void moveHandler(Message message){
 

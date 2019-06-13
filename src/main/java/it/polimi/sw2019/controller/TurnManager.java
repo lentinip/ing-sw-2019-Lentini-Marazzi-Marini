@@ -7,10 +7,8 @@ import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class TurnManager {
 
@@ -46,7 +44,6 @@ public class TurnManager {
     //SpawnCells where the player took the Weapon
     private List<Cell> emptySpawnCells = new ArrayList<>();
 
-    private static final Logger LOGGER = Logger.getLogger("client");
 
     /* Methods */
 
@@ -223,7 +220,7 @@ public class TurnManager {
 
     /**
      * see if there are other players to spawn, if not doSomething the message to continue the turn to the current player
-     * @return
+     * @return message to send
      */
     public Message spawningHandler(){
 
