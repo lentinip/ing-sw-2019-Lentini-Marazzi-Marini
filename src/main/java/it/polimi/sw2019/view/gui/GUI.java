@@ -28,10 +28,6 @@ import java.util.logging.Logger;
 
 public class GUI extends Application implements ViewInterface {
 
-    public GUI(Client client){
-        this.client = client;
-    }
-
     /* Attributes */
 
     private Stage primaryStage;
@@ -50,10 +46,6 @@ public class GUI extends Application implements ViewInterface {
     private String errorString = "ERROR";
 
     /* Methods */
-
-    public static void main(String[] args) {
-        launch(args);
-    }
 
     public void displayLoginWindow(){
 
@@ -456,6 +448,13 @@ public class GUI extends Application implements ViewInterface {
         a.show();
     }
 
+    public void createAlertInfo(String header, String whatToShow){
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setHeaderText(header);
+        a.setContentText(whatToShow);
+        a.show();
+    }
+
     public void createAlertReconnect(){
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setTitle("Reconnection window");
@@ -492,6 +491,10 @@ public class GUI extends Application implements ViewInterface {
     @Override
     public void start(Stage primaryStage){
         this.primaryStage = primaryStage;
+
+        client = new Client();
+        client.setView(this);
+
         displayLoginWindow();
     }
 
@@ -499,6 +502,10 @@ public class GUI extends Application implements ViewInterface {
      * shows the return to login window because a player has been disconnected
      */
     public void displayDisconnectionDuringSetup(){
+        String header = "The player that was choosing the configuration of the match left the game.";
+        String content = "Please press the start game button again to join a new match.";
+        createAlertInfo(header, content);
+        startScreenController.hidePleaseWait();
 
     }
 }

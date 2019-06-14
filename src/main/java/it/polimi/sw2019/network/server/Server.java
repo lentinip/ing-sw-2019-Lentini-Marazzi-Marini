@@ -8,6 +8,7 @@ import it.polimi.sw2019.network.server.socket.SocketServer;
 
 
 import java.rmi.RemoteException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Server {
      */
     public Server() {
 
-        currentWaitingRoom = new VirtualView();
+        currentWaitingRoom = new VirtualView(this);
         socketServer = new SocketServer(this);
         rmiServer = new RmiServer(this);
         loginMessage = new Message();
@@ -46,7 +47,7 @@ public class Server {
 
     private Message reconnectionMessage;
 
-    private Map<String, VirtualView> virtualViewMap;
+    private Map<String, VirtualView> virtualViewMap = new HashMap<>();
 
     private static Logger LOGGER = Logger.getLogger("server");
 
@@ -93,7 +94,7 @@ public class Server {
         loginReport.createLoginReport(currentWaitingRoom.getUserNames().size());
         sendMessage(loginReport);
         currentWaitingRoom.startSetupTimer();
-        currentWaitingRoom = new VirtualView();
+        currentWaitingRoom = new VirtualView(this);
 
     }
 

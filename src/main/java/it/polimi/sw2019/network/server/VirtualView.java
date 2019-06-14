@@ -17,7 +17,8 @@ public class VirtualView extends Observable implements Observer {
      * Default constructor
      */
 
-    public VirtualView(){
+    public VirtualView(Server server){
+        setServer(server);
 
         TimeConfigurations timeConfigurations = new TimeConfigurations();
         Gson json = new Gson();
@@ -40,7 +41,7 @@ public class VirtualView extends Observable implements Observer {
 
     private Server server;
 
-    private Map<String, Client> waitingPlayers;
+    private Map<String, Client> waitingPlayers = new HashMap<>();
 
     private List<String> userNames = new ArrayList<>();
 
