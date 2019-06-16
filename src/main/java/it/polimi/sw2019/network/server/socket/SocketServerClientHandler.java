@@ -64,17 +64,30 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
                     go = false;
                 } else {
 
+                    System.out.print("\n");
+                    System.out.print("SocketServerClientHandler - Username: ");
+                    System.out.print(message.getUsername());
+                    System.out.print("\n");
+
                     sender = message.getUsername();
                     socketServer.receive(message);
                 }
             }
         } catch (IOException e) {
 
-            socketServer.disconnect(sender);
+            System.out.print("\n");
+            System.out.print("SocketServerClientHandler - Disconnect IOException ");
+            System.out.print("\n");
+
+            //socketServer.disconnect(sender);
         }
         catch(ClassNotFoundException e) {
 
-            socketServer.disconnect(sender);
+            System.out.print("\n");
+            System.out.print("SocketServerClientHandler - Disconnect ClassNotFoundException ");
+            System.out.print("\n");
+
+            //socketServer.disconnect(sender);
         }
 
     }

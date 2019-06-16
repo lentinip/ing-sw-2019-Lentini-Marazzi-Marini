@@ -504,6 +504,7 @@ public class CLI implements ViewInterface {
         out.println("\nOops, looks like someone has already taken this username! :(\n");
         out.println("PLEASE INSERT ANOTHER USERNAME:\n");
 
+        in.nextLine();
         String name = in.nextLine();
 
         while (name.equals("All") || name.isEmpty() || name.matches("^\\s*$")){
@@ -524,7 +525,13 @@ public class CLI implements ViewInterface {
 
         Message loginMes = new Message(username);
         loginMes.createLoginMessage(username, sameNumbers(typeOfConnection, 2));
-        client.send(loginMes);
+
+        try {
+            client.connect(loginMes);
+        }
+        catch (Exception e){
+            LOGGER.log(Level.SEVERE, "Error in connect");
+        }
     }
 
     /**

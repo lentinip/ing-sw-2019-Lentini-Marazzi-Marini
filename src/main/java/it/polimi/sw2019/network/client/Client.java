@@ -3,6 +3,7 @@ package it.polimi.sw2019.network.client;
 import it.polimi.sw2019.model.TypeOfAction;
 import it.polimi.sw2019.network.client.rmi.RmiClient;
 import it.polimi.sw2019.network.client.socket.SocketClientConnection;
+import it.polimi.sw2019.network.messages.LoginReport;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.TypeOfMessage;
 import it.polimi.sw2019.view.CLI;
@@ -134,6 +135,12 @@ public class Client {
         rmi = loginMessage.deserializeLoginMessage().isRmi();
         username = loginMessage.getUsername();
 
+        System.out.print("\n");
+        System.out.print("Connect - Username: ");
+        System.out.print(username);
+        System.out.print("\n");
+
+
         if(rmi) {
 
             clientActions =  new RmiClient(this);
@@ -164,7 +171,12 @@ public class Client {
 
             case LOGIN_REPORT:
                 if (message.deserializeLoginReport().getLoginSuccessful()){
-                    view.displayLoginSuccessful(message.deserializeLoginReport());
+                    System.out.print("\n\nConnected.\n\n");
+                    LoginReport loginReport = message.deserializeLoginReport();
+                    if(loginReport.getNumberOfPlayers() != 0){
+                        System.out.print("\n\nWere're here.\n\n");
+                        view.displayLoginSuccessful(loginReport);
+                    }
                 }
                 else {
                     view.displayUsernameNotAvailable();

@@ -190,7 +190,6 @@ public class VirtualView extends Observable implements Observer {
     public void addWaitingPlayer(String username, Client client) {
 
         waitingPlayers.put(username, client);
-        userNames.add(username);
     }
 
     public void removeWaitingPlayer(String username) {
@@ -259,6 +258,16 @@ public class VirtualView extends Observable implements Observer {
     }
 
     public void startTimer(){
+
+        System.out.print("\n");
+        System.out.print("The first timer start\n");
+        System.out.print("\n");
+
+        System.out.print("\n");
+        System.out.print("Duration: \n");
+        System.out.print(matchCreationTimer);
+        System.out.print("\n");
+
 
         timer.schedule(new TimerTask() {
             @Override

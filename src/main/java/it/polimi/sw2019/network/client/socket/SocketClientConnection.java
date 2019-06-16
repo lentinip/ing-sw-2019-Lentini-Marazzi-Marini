@@ -57,6 +57,11 @@ public class SocketClientConnection implements ClientInterface, ClientActions {
     @Override
     public void doSomething(Message message) {
 
+        System.out.print("\n");
+        System.out.print("Do something - Username: ");
+        System.out.print(message.getUsername());
+        System.out.print("\n");
+
         serverInterface.send(message);
     }
 
@@ -67,6 +72,12 @@ public class SocketClientConnection implements ClientInterface, ClientActions {
     @Override
     public void register(String username) {
 
+        System.out.print("\n");
+        System.out.print("Register - Username: ");
+        System.out.print(username);
+        System.out.print("\n");
+
+        loginMessage.setUsername(username);
         loginMessage.createLoginMessage(username, false);
         doSomething(loginMessage);
     }

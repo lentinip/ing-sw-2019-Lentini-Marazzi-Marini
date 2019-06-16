@@ -6,6 +6,7 @@ public class LoginReport {
     public LoginReport(Boolean loginSuccessful) {
 
         setLoginSuccessful(loginSuccessful);
+        numberOfPlayers=0;
     }
 
     public LoginReport(int numberOfPlayers){

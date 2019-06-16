@@ -84,8 +84,10 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void displayPlayerDisconnectedWindow(int indexOfTheDisconnected){
-        String username = matchStart.getUsernames().get(indexOfTheDisconnected);
-        alertPlayerLeft(username);
+        if (matchStart!=null){
+            String username = matchStart.getUsernames().get(indexOfTheDisconnected);
+            alertPlayerLeft(username);
+        }
     }
 
     public void displayUsernameNotAvailable(){
@@ -373,12 +375,13 @@ public class GUI extends Application implements ViewInterface {
         fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/BoardScreen.fxml"));
 
         Parent board;
-        Scene scene;
 
         try {
             board = fxmlLoader.load();
-            scene = new Scene(board);
-            primaryStage.setScene(scene);
+            Platform.runLater(() -> {
+                Scene scene = new Scene(board);
+                primaryStage.setScene(scene);
+            });
         }
 
         catch (IOException e){
@@ -401,34 +404,39 @@ public class GUI extends Application implements ViewInterface {
         fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/MatchSettingScreen.fxml"));
 
         Parent board;
-        Scene scene;
+        final Scene scene;
 
         try {
             board = fxmlLoader.load();
-            scene = new Scene(board);
 
         }
         catch (IOException e) {
             logger.log(Level.SEVERE, "MatchSettingScreen.fxml not found");
-            scene = new Scene(new Label(errorString));
+            board = null;
         }
+        scene = new Scene(board);
 
-        //Creates a new window for the match setting
-        Stage newWindow = new Stage();
-        newWindow.setTitle("Match Settings");
+        Platform.runLater(() -> {
+            {
+                //Creates a new window for the match setting
+                Stage newWindow = new Stage();
+                newWindow.setTitle("Match Settings");
 
-        //The next line sets that this new window will lock the parent window.
-        //Is impossible to interact with the parent window until this window is closed.
-        //The new window doesn't have a close button
-        newWindow.initModality(Modality.WINDOW_MODAL);
-        newWindow.initStyle(StageStyle.UNDECORATED);
-        newWindow.initOwner(primaryStage);
 
-        MatchSettingController matchSettingController = fxmlLoader.getController();
-        matchSettingController.setNumberOfPlayers(numberOfPlayers);
+                //The next line sets that this new window will lock the parent window.
+                //Is impossible to interact with the parent window until this window is closed.
+                //The new window doesn't have a close button
+                newWindow.initModality(Modality.WINDOW_MODAL);
+                newWindow.initStyle(StageStyle.UNDECORATED);
+                newWindow.initOwner(primaryStage);
 
-        newWindow.setScene(scene);
-        newWindow.show();
+                MatchSettingController matchSettingController = fxmlLoader.getController();
+                matchSettingController.setNumberOfPlayers(numberOfPlayers);
+
+                newWindow.setScene(scene);
+                newWindow.show();
+            }
+        });
     }
 
     public void alertPlayerLeft(String username){
@@ -437,44 +445,52 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void createAlertWarning(String whatToShow){
-        Alert a = new Alert(Alert.AlertType.WARNING);
-        a.setContentText(whatToShow);
-        a.show();
+        Platform.runLater(() ->{
+            Alert a = new Alert(Alert.AlertType.WARNING);
+            a.setContentText(whatToShow);
+            a.show();
+        });
     }
 
     public void createAlertInfo(String whatToShow){
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setContentText(whatToShow);
-        a.show();
+        Platform.runLater(() -> {
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setContentText(whatToShow);
+            a.show();
+        });
     }
 
     public void createAlertInfo(String header, String whatToShow){
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setHeaderText(header);
-        a.setContentText(whatToShow);
-        a.show();
+        Platform.runLater(() ->{
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setHeaderText(header);
+            a.setContentText(whatToShow);
+            a.show();
+        });
     }
 
     public void createAlertReconnect(){
-        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-        a.setTitle("Reconnection window");
-        a.setHeaderText("You let the timer finish and now you are going to appear offline. Do you want to reconnect?");
-        a.setContentText("Click ok to reconnect. Click cancel or close to exit the game.");
+        Platform.runLater(() -> {
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+            a.setTitle("Reconnection window");
+            a.setHeaderText("You let the timer finish and now you are going to appear offline. Do you want to reconnect?");
+            a.setContentText("Click ok to reconnect. Click cancel or close to exit the game.");
 
-        Optional<ButtonType> option = a.showAndWait();
+            Optional<ButtonType> option = a.showAndWait();
 
-        if (option.isPresent()){
-            if (option.get() == ButtonType.OK){
+            if (option.isPresent()){
+                if (option.get() == ButtonType.OK){
 
-                Message reconnectionMessage = new Message(client.getUsername());
-                reconnectionMessage.setTypeOfMessage(TypeOfMessage.RECONNECTION_REQUEST);
-                client.send(reconnectionMessage);
+                    Message reconnectionMessage = new Message(client.getUsername());
+                    reconnectionMessage.setTypeOfMessage(TypeOfMessage.RECONNECTION_REQUEST);
+                    client.send(reconnectionMessage);
+                }
+                else {
+                    Platform.exit();
+                    System.exit(0);
+                }
             }
-            else {
-                Platform.exit();
-                System.exit(0);
-            }
-        }
+        });
     }
 
     public void resetClass(){

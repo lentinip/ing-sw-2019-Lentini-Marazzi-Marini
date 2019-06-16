@@ -105,8 +105,16 @@ public class Server {
      */
     public void addPlayer(String username, ClientInterface clientInterface) {
 
+        System.out.print("\n");
+        System.out.print("\nUsername: ");
+        System.out.print(username);
+        System.out.print("\n");
+
+
         //If there is a player connected with the same username, tell the client he has to choose another username
         if(virtualViewMap.containsKey(username) && !virtualViewMap.get(username).getDisconnectedPlayers().contains(username)) {
+
+            System.out.print("\nFirst if\n");
 
             try {
                 loginMessage.createLoginReport(false);
@@ -120,7 +128,9 @@ public class Server {
         //If there is a player disconnected with the same username, tell the client if he wants to rejoin that match or if he wants to begin another match (In this case he has to choose another username)
         else if (virtualViewMap.containsKey(username) && !virtualViewMap.get(username).getWaitingPlayers().get(username).getConnected() && virtualViewMap.get(username).getDisconnectedPlayers().contains(username)) {
 
-                reconnectionMessage.createReconnectionMessage();
+            System.out.print("\nSecond if\n");
+
+            reconnectionMessage.createReconnectionMessage();
             try {
 
                 clientInterface.notify(loginMessage);
@@ -159,6 +169,9 @@ public class Server {
                 currentWaitingRoom.getTimer().cancel();
                 startMatch();
             }
+            System.out.print("\nNumber of waiting players: ");
+            System.out.print(currentWaitingRoom.getNumOfWaitingPlayers());
+            System.out.print("\n\n");
         }
     }
 
@@ -203,7 +216,6 @@ public class Server {
             } catch (RemoteException e) {
 
                 virtualViewMap.get(user).addDisconnectedPlayer(user);
-                virtualViewMap.get(user).getDisconnectedPlayers().add(user);
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
         }
@@ -318,6 +330,13 @@ public class Server {
      * @param username user disconnected
      */
     public void removeWaitingPlayer(String username) {
+
+        System.out.print("\n");
+        System.out.print("\nI'm removing this username: ");
+        System.out.print(username);
+        System.out.print("\n");
+
+
 
         //I have to reset the timer if I don't have 3 players anymore
         if (currentWaitingRoom.getNumOfWaitingPlayers() == 3){
