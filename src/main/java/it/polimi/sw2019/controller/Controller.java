@@ -52,9 +52,8 @@ public class Controller implements Observer {
     /**
      * this method creates the match and all the data structures useful in the game
      * @param message with the setup info
-     * @throws FileNotFoundException I'm using a json file to create the board chosen by the client
      */
-    public void initializeMatch(Message message) throws FileNotFoundException{
+    public void initializeMatch(Message message){
 
         MatchSetup setupInfo = message.deserializeMatchSetup();
 
@@ -76,16 +75,11 @@ public class Controller implements Observer {
 
         TypeOfMessage typeOfMessage = message.getTypeOfMessage();
 
-        if (typeOfMessage==MATCH_SETUP){
+        if (typeOfMessage==MATCH_SETUP) {
 
-            try {
 
-                initializeMatch(message);
-            }
+            initializeMatch(message);
 
-            catch (FileNotFoundException e){
-                LOGGER.log(Level.SEVERE, "file not found");
-            }
         }
 
         else if (typeOfMessage==SINGLE_ACTION){

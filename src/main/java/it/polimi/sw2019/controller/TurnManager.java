@@ -125,6 +125,11 @@ public class TurnManager {
         else {
             view.display(spawningHandler());
         }
+
+        //in case of timer elapses
+        singleActionManager.getPayment().reset();
+        singleActionManager.getChoices().reset();
+        singleActionManager.getChoices().setSelectedWeapon(null);
     }
 
     /**

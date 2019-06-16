@@ -2,6 +2,7 @@ package it.polimi.sw2019.network.server;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import it.polimi.sw2019.controller.Controller;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.TypeOfMessage;
 
@@ -34,6 +35,7 @@ public class VirtualView extends Observable implements Observer {
         setMatchCreationTimer(timeConfigurations.getMatchCreationTime()*1000);
         setQuickResponseTimer(timeConfigurations.getCounterAttackPowerupTimer()*1000);
         setMatchSetupTimer(timeConfigurations.getMatchSetupTimer()*1000);
+        addObserver(new Controller(this));
 
     }
 
