@@ -73,7 +73,8 @@ public class BoardController extends Application {
     private ProgressBar timer;
 
     //Timer in seconds
-    private Integer timerDuration;
+    //TODO set!!!
+    private Integer timerDuration = 60;
 
     private IntegerProperty timeSeconds = new SimpleIntegerProperty(timerDuration*1000);
 
@@ -344,7 +345,7 @@ public class BoardController extends Application {
     @FXML
     private Pane cell11;
 
-    private List<Pane> selectableCells;
+    private List<Pane> selectableCells = new ArrayList<>();
 
     private BoardCoord lastSelectedCell;
 
@@ -648,9 +649,26 @@ public class BoardController extends Application {
         this.client = client;
         configurationMessage = configuration;
 
+        try {
+            System.out.print("\n");
+            System.out.print("\nConfiguration: ");
+            System.out.print(configuration.toString());
+            System.out.print("\n");
+        }
+        catch (NullPointerException e){
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+
+
         //First sets the image of the board and the tiles
 
         String boardPath = getBoardPath(configuration.getBoardType());
+
+        System.out.print("\n");
+        System.out.print("\nBoardPath: ");
+        System.out.print(boardPath);
+        System.out.print("\n");
+
 
         boardImage.setImage(new Image(boardPath));
         initializeAmmoTiles(configuration.getBoardType());

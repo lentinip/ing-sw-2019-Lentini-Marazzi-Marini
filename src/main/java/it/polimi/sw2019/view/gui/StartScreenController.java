@@ -102,6 +102,7 @@ public class StartScreenController {
             client.connect(message);
         }
         catch (Exception e){
+            hidePleaseWait();
             logger.log(Level.SEVERE, "Connection failed in StartScreenController");
         }
     }

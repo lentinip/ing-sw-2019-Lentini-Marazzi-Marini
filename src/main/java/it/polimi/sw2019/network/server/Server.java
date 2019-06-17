@@ -8,6 +8,7 @@ import it.polimi.sw2019.network.server.rmi.RmiServer;
 import it.polimi.sw2019.network.server.socket.SocketServer;
 
 
+import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
@@ -106,7 +107,7 @@ public class Server {
      */
     public void addPlayer(String username, ClientInterface clientInterface) {
 
-        verifyOnline(new Message("all"), currentWaitingRoom);
+        verifyOnline(new Message("All"), currentWaitingRoom);
 
         System.out.print("\n");
         System.out.print("\nUsername: ");
@@ -267,7 +268,7 @@ public class Server {
             reconnectPlayer(message.getUsername(), socketServer.getSocketServerClientHandler());
         }
 
-        else if(!virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).getConnected()) {
+        else if(virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).getConnected()) {
 
             //when the first player chooses the setup options we send to everyOne a message with the choices that the player has taken
             if (message.getTypeOfMessage() == TypeOfMessage.MATCH_SETUP) {

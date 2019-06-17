@@ -7,6 +7,7 @@ import it.polimi.sw2019.network.messages.*;
 import it.polimi.sw2019.view.ViewInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.LoadException;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -375,31 +376,35 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void setBoard(){
-        Platform.runLater(()->{
-
+        Platform.runLater(()-> {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/BoardScreen.fxml"));
 
             Parent board;
-            Scene scene;
+            final Scene scene;
 
             try {
                 board = fxmlLoader.load();
-                scene = new Scene(board);
-                primaryStage.setScene(scene);
             }
 
-            catch (IOException e){
+            catch (Exception e){
                 logger.log(Level.SEVERE, "BoardScreen.fxml not found");
+                logger.log(Level.SEVERE, e.getMessage());
+                logger.log(Level.SEVERE, e.getLocalizedMessage());
+                board = null;
             }
+            scene = new Scene(board);
+
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Adrenalina");
+            primaryStage.setResizable(false);
+
             boardController = fxmlLoader.getController();
 
 
             //Set the board parameters in the controller
             boardController.configureBoard(client, matchStart);
 
-            primaryStage.setTitle("Adrenalina");
-            primaryStage.setResizable(false);
             primaryStage.show();
         });
     }

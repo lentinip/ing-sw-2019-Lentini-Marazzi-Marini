@@ -48,7 +48,7 @@ public class Factory {
         List<Weapon> weaponDeck = new ArrayList<>();
 
         Gson gson = new Gson();
-        JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("WeaponsDictionary.json")));
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("/WeaponsDictionary.json")));
         String[] fileNames = gson.fromJson(jsonReader, String[].class);
 
         for (String fileName : fileNames) {
@@ -89,7 +89,7 @@ public class Factory {
 
         List<Powerup> powerupDeck = new ArrayList<>();
         Gson gson = new Gson();
-        JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("PowerupsDictionary.json")));
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("/PowerupsDictionary.json")));
         String[] fileNames = gson.fromJson(jsonReader, String[].class);
         for (String fileName : fileNames) {
 

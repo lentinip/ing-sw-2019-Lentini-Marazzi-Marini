@@ -26,6 +26,8 @@ public class CardController {
         }
         catch (Exception e){
             logger.log(Level.SEVERE, "Json files not found in class CardController");
+            logger.log(Level.SEVERE, e.getMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage());
         }
     }
 
