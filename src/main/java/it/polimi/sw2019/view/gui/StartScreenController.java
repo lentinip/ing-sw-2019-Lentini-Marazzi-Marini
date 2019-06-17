@@ -87,6 +87,11 @@ public class StartScreenController {
 
     @FXML
     public void handleStartGameButton(ActionEvent actionEvent){
+
+        usernameTextField.setDisable(true);
+        typeOfConnectionBox.setDisable(true);
+        startGameButton.setDisable(true);
+
         pleaseWaitGroup.setVisible(true);
         boolean rmi = typeOfConnection.equals("RMI");
 
@@ -102,6 +107,10 @@ public class StartScreenController {
     }
 
     public void hidePleaseWait(){
+        usernameTextField.setDisable(false);
+        typeOfConnectionBox.setDisable(false);
+        startGameButton.setDisable(false);
+
         pleaseWaitGroup.setVisible(false);
         username = null;
         ableStartButton();

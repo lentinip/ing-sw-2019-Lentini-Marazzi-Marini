@@ -90,8 +90,8 @@ public class Server {
 
     public void startMatch() {
 
-        Message loginReport = new Message(currentWaitingRoom.getUserNames().get(0));
-        loginReport.createLoginReport(currentWaitingRoom.getUserNames().size());
+        Message loginReport = new Message(currentWaitingRoom.getUsernames().get(0));
+        loginReport.createLoginReport(currentWaitingRoom.getUsernames().size());
         sendMessage(loginReport);
         currentWaitingRoom.startSetupTimer();
         currentWaitingRoom = new VirtualView(this);
@@ -104,6 +104,8 @@ public class Server {
      * @param clientInterface connection methods
      */
     public void addPlayer(String username, ClientInterface clientInterface) {
+
+        verifyOnline(new Message("all"), currentWaitingRoom);
 
         System.out.print("\n");
         System.out.print("\nUsername: ");
@@ -146,7 +148,7 @@ public class Server {
                 Client client = new Client(username, clientInterface);
 
                 currentWaitingRoom.addWaitingPlayer(username, client);
-                currentWaitingRoom.getUserNames().add(username);
+                currentWaitingRoom.getUsernames().add(username);
                 virtualViewMap.put(username, currentWaitingRoom);
                 loginMessage.createLoginReport(true);
                 clientInterface.notify(loginMessage);
@@ -156,8 +158,7 @@ public class Server {
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
 
-            Message message = new Message();
-            verifyOnline(message, currentWaitingRoom);
+            verifyOnline(new Message("all"), currentWaitingRoom);
 
             if(currentWaitingRoom.getNumOfWaitingPlayers() == 3){
 
@@ -202,9 +203,9 @@ public class Server {
 
         for(int i = 0; i < virtualView.getNumOfWaitingPlayers(); i++) {
 
-            if(!virtualView.getDisconnectedPlayers().contains(virtualView.getUserNames().get(i))) {
+            if(!virtualView.getDisconnectedPlayers().contains(virtualView.getUsernames().get(i))) {
 
-                usernames.add(virtualView.getUserNames().get(i));
+                usernames.add(virtualView.getUsernames().get(i));
             }
         }
 
@@ -228,7 +229,7 @@ public class Server {
      */
     public void verifyOnline(Message message, VirtualView virtualView) {
 
-        for(String user : virtualView.getUserNames()) {
+        for(String user : virtualView.getUsernames()) {
 
             try {
 
@@ -345,7 +346,7 @@ public class Server {
         }
 
         currentWaitingRoom.removeWaitingPlayer(username);
-        currentWaitingRoom.getUserNames().remove(username);
+        currentWaitingRoom.getUsernames().remove(username);
         virtualViewMap.remove(username);
     }
 

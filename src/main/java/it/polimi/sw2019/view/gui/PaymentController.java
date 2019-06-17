@@ -5,6 +5,7 @@ import it.polimi.sw2019.network.messages.IndexMessage;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.PaymentMessage;
 import it.polimi.sw2019.network.messages.PlayerBoardMessage;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -124,33 +125,34 @@ public class PaymentController {
     public void payWithAmmo(){
 
         if (anyColor){
-            Stage oldStage = (Stage) payWithAmmoButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/SelectAmmoColorScreen.fxml"));
+            Platform.runLater(()->{
+                Stage oldStage = (Stage) payWithAmmoButton.getScene().getWindow();
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/SelectAmmoColorScreen.fxml"));
 
-            Parent root;
-            Scene scene;
+                Parent root;
+                Scene scene;
 
-            try {
-                root = fxmlLoader.load();
-                scene = new Scene(root);
-            }
-            catch (IOException e){
-                logger.log(Level.SEVERE, "SelectAmmoColorScreen.fxml file not found in PaymentController");
-                scene = new Scene(new Label("ERROR"));
-            }
+                try {
+                    root = fxmlLoader.load();
+                    scene = new Scene(root);
+                }
+                catch (IOException e){
+                    logger.log(Level.SEVERE, "SelectAmmoColorScreen.fxml file not found in PaymentController");
+                    scene = new Scene(new Label("ERROR"));
+                }
 
-            SelecAmmoColorController selecAmmoColorController = fxmlLoader.getController();
-            selecAmmoColorController.configure(client, playerBoardMessage, ammoGroup);
+                SelecAmmoColorController selecAmmoColorController = fxmlLoader.getController();
+                selecAmmoColorController.configure(client, playerBoardMessage, ammoGroup);
 
-            oldStage.setScene(scene);
+                oldStage.setScene(scene);
+            });
         }
 
         else {
             sendPayMessage(-1);
+            closeWindow();
         }
-
-        closeWindow();
     }
 
     public void sendPayMessage(int selection){

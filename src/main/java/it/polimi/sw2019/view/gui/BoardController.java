@@ -11,6 +11,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
@@ -627,6 +628,7 @@ public class BoardController extends Application {
 
         //Initialize the killtrack
         initializeKilltrack();
+        initializeKillTrackSummary();
 
         //Initialize the spot for my cards
         initializeMyCards();
@@ -1092,31 +1094,33 @@ public class BoardController extends Application {
     }
 
     public void initializeKillTrackSummary(){
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/KillTrackScreen.fxml"));
+        Platform.runLater(()->{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/KillTrackScreen.fxml"));
 
-        Parent root;
-        Scene scene;
+            Parent root;
+            Scene scene;
 
-        try {
-            root = fxmlLoader.load();
-            scene = new Scene(root);
+            try {
+                root = fxmlLoader.load();
+                scene = new Scene(root);
 
-        }
-        catch (IOException e) {
-            logger.log(Level.SEVERE, "KillTrackScreen.fxml file not found in BoardController");
-            scene = new Scene(new Label("ERROR"));
-        }
+            }
+            catch (IOException e) {
+                logger.log(Level.SEVERE, "KillTrackScreen.fxml file not found in BoardController");
+                scene = new Scene(new Label("ERROR"));
+            }
 
-        killTrackController = fxmlLoader.getController();
+            killTrackController = fxmlLoader.getController();
 
-        killTrackStage = new Stage();
+            killTrackStage = new Stage();
 
-        killTrackStage.setScene(scene);
-        killTrackStage.initOwner(boardImage.getScene().getWindow());
+            killTrackStage.setScene(scene);
+            killTrackStage.initOwner(boardImage.getScene().getWindow());
 
-        killTrackStage.setTitle("Killtrack summary");
-        killTrackStage.setResizable(false);
+            killTrackStage.setTitle("Killtrack summary");
+            killTrackStage.setResizable(false);
+        });
     }
 
     //Method for the update of the controller

@@ -147,10 +147,6 @@ public class VirtualView extends Observable implements Observer {
         this.messageSender = messageSender;
     }
 
-    public List<String> getUserNames() {
-        return userNames;
-    }
-
     public static long getMatchCreationTimer() {
         return matchCreationTimer;
     }

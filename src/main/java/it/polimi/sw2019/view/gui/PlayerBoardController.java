@@ -6,6 +6,7 @@ import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.PlayerBoardMessage;
 import it.polimi.sw2019.network.messages.PlayerHand;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -439,31 +440,33 @@ public class PlayerBoardController {
     }
 
     public void initializePlayerHand(){
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/OtherPlayerHandScreen.fxml"));
+        Platform.runLater(()->{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/OtherPlayerHandScreen.fxml"));
 
-        Parent root;
-        Scene scene;
+            Parent root;
+            Scene scene;
 
-        try {
-            root = fxmlLoader.load();
-            scene = new Scene(root);
+            try {
+                root = fxmlLoader.load();
+                scene = new Scene(root);
 
-        }
-        catch (IOException e) {
-            logger.log(Level.SEVERE, "OtherPlayerHandScreen.fxml file not found in PlayerBoardController");
-            scene = new Scene(new Label("ERROR"));
-        }
+            }
+            catch (IOException e) {
+                logger.log(Level.SEVERE, "OtherPlayerHandScreen.fxml file not found in PlayerBoardController");
+                scene = new Scene(new Label("ERROR"));
+            }
 
-        otherPlayerHandController = fxmlLoader.getController();
+            otherPlayerHandController = fxmlLoader.getController();
 
-        playerHandStage = new Stage();
-        playerHandStage.initOwner(playerBoardImage.getScene().getWindow());
+            playerHandStage = new Stage();
+            playerHandStage.initOwner(playerBoardImage.getScene().getWindow());
 
-        playerHandStage.setScene(scene);
+            playerHandStage.setScene(scene);
 
-        playerHandStage.setTitle("Player hand");
-        playerHandStage.setResizable(false);
+            playerHandStage.setTitle("Player hand");
+            playerHandStage.setResizable(false);
+        });
     }
 
     public void setAsCurrentPlayer(){

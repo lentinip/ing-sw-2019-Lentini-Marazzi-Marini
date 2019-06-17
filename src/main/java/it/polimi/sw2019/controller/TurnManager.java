@@ -109,7 +109,7 @@ public class TurnManager {
             Map<Character, Integer> pointsMap = match.getScore().getMap();
 
             //removing disconnected players from the leader board
-            for (String name: view.getUserNames()){
+            for (String name: view.getUsernames()){
 
                 if (!view.getWaitingPlayers().get(name).getConnected()) {
                     leaderboard.remove(match.getPlayerByUsername(name).getCharacter());

@@ -56,7 +56,7 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
 
         boolean go = true;
         try{
-            while(go && !connection.isClosed()) {
+            while(go) {
 
                 LOGGER.log(Level.INFO, "SocketServer is ready to receive messages");
                 Message message = (Message) objectIn.readObject(); //message received
@@ -79,7 +79,7 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
             System.out.print("SocketServerClientHandler - Disconnect IOException ");
             System.out.print("\n");
 
-            //socketServer.disconnect(sender);
+            socketServer.disconnect(sender);
         }
         catch(ClassNotFoundException e) {
 
@@ -87,7 +87,7 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
             System.out.print("SocketServerClientHandler - Disconnect ClassNotFoundException ");
             System.out.print("\n");
 
-            //socketServer.disconnect(sender);
+            socketServer.disconnect(sender);
         }
 
     }

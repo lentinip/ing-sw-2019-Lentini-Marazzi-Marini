@@ -93,8 +93,13 @@ public class SocketServer extends Thread {
      */
     public void disconnect(String username) {
 
-        server.getVirtualViewMap().get(username).getWaitingPlayers().get(username).setConnected(false);
-        server.getVirtualViewMap().get(username).addDisconnectedPlayer(username);
+        if (server.getCurrentWaitingRoom().getUsernames().contains(username)){
+            server.removeWaitingPlayer(username);
+        }
+        else {
+            server.getVirtualViewMap().get(username).getWaitingPlayers().get(username).setConnected(false);
+            server.getVirtualViewMap().get(username).addDisconnectedPlayer(username);
+        }
     }
 
 }
