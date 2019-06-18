@@ -18,7 +18,7 @@
     "left": 0,
     "right": 2,
     "isCommon": true
-  }
+  },
   {
     "color": "BLUE",
     "row": 0,
@@ -47,7 +47,7 @@
     "down": 8,
     "left": null,
     "right": null,
-    "isCommon": false,
+    "isCommon": false
   },
   {
     "color": "PURPLE",

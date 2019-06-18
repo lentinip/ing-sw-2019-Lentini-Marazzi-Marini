@@ -30,7 +30,7 @@
     "sameSquare": false,
     "isRoom": false,
     "differentPlayers": false,
-    "maxTargets": false,
+    "maxTargets": 0,
     "forcedChoice": false
   }
 }

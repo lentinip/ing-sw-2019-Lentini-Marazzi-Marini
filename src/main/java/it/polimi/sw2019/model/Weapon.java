@@ -23,7 +23,7 @@ public class Weapon {
 
     private Ammo reloadCost;
 
-    private boolean isLoaded = true;
+    private boolean isLoaded;
 
     private Player owner;
 

@@ -1,6 +1,4 @@
-{
-  "WeaponsFiles": [
-
+ [
     "LockRifle.json",
     "MachineGun.json",
     "Thor.json",
@@ -22,6 +20,4 @@
     "PowerGlove.json",
     "ShockWave.json",
     "Sledgehammer.json"
-
-  ]
-}
+ ]
