@@ -12,7 +12,7 @@
     "blue" : 1
   },
   "type" : "MODES",
-  "effects" : ["Electroscythe_1.json", "Elechtroscythe_2.json"],
+  "effects" : ["Electroscythe_1.json", "Electroscythe_2.json"],
   "hasAnOrder" : false,
   "hasAMoveTypeEffect" : false
 }

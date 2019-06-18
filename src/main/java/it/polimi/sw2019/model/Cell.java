@@ -159,17 +159,16 @@ public class Cell {
         List<Player> playersInCell = new ArrayList<>();
         Cell position;
 
-        if(room.getPlayers().isEmpty()) {
-            throw new NullPointerException("playersInCell parameter can't be null");}
+        if (!room.getPlayers().isEmpty()) {
+            for (Player player : room.getPlayers()) {
 
-        for( int i = 0; i < room.getPlayers().size(); i++) {
+                position = player.getPosition();
 
-            position = room.getPlayers().get(i).getPosition();
+                if (position.getRow() == this.row && position.getColumn() == this.column) {
 
-            if (position.getRow() == this.row && position.getColumn() == this.column) {
+                    playersInCell.add(player);
 
-                playersInCell.add(room.getPlayers().get(i));
-
+                }
             }
         }
 
@@ -279,9 +278,11 @@ public class Cell {
 
       List<Character> playersInside = new ArrayList<>();
 
-      for (Player player: playersInCell()){
+      if (!playersInCell().isEmpty()) {
+          for (Player player : playersInCell()) {
 
-          playersInside.add(player.getCharacter());
+              playersInside.add(player.getCharacter());
+          }
       }
 
       messageCell.setCharacters(playersInside);

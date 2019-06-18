@@ -1,10 +1,6 @@
-{
-  "PowerupsFiles": [
-
+[
     "TargetingScope.json",
     "Newton.json",
     "TagbackGrenade.json",
     "Teleporter.json"
-
-  ]
-}
+]

@@ -1,6 +1,7 @@
 package it.polimi.sw2019.model;
 
 import it.polimi.sw2019.network.messages.*;
+import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,9 @@ public class Match extends Observable {
     /**
      * customized constructor
      */
-    public Match(boolean iWantFrenzyMode, boolean easyMode, List<String> usernames, String boardJsonName){
+    public Match(boolean iWantFrenzyMode, boolean easyMode, List<String> usernames, String boardJsonName, VirtualView view){
 
+        addObserver(view);
         List<Character> charactersInGame = new ArrayList<>();
         int counter = 3; /* set to 3 because the smaller number of player allowed is 3 */
 

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class TestCell {
@@ -56,11 +57,9 @@ public class TestCell {
 
         assertEquals(resultPlayer, cell1.playersInCell());
 
-        room.setPlayers(null);
-        try{
-            cell1.playersInCell();
-            fail();
-        } catch (NullPointerException e) {System.out.print("fallito");}
+        Room room2 = new Room();
+        cell2.setRoom(room2);
+        assertTrue(cell2.playersInCell().isEmpty());
     }
 
     @Test

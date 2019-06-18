@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ public class Factory {
      * This method creates the weapons deck by reading every weapon json file using the weaponsDictionary file
      * @return the ArrayList associated to the weapons deck
      */
-    private List<Weapon> createWeaponDeck(){
+    public List<Weapon> createWeaponDeck(){
 
         List<Weapon> weaponDeck = new ArrayList<>();
 
@@ -85,7 +84,7 @@ public class Factory {
      * this method read the name of every file json correspondent to a powerup from the "powerupsDictionary" and calls the method that creates the arrayList of every copy of that powerup
      * @return the ArrayList associated to the powerups deck.
      */
-    private List<Powerup> createPowerupDeck(){
+    public List<Powerup> createPowerupDeck(){
 
         List<Powerup> powerupDeck = new ArrayList<>();
         Gson gson = new Gson();
@@ -93,7 +92,7 @@ public class Factory {
         String[] fileNames = gson.fromJson(jsonReader, String[].class);
         for (String fileName : fileNames) {
 
-            powerupDeck.addAll(createPoweup(fileName));
+            powerupDeck.addAll(createPowerup(fileName));
         }
 
         return powerupDeck;
@@ -104,7 +103,7 @@ public class Factory {
      * @param fileName json File of the powerup
      * @return all the copies of that powerup
      */
-    private List<Powerup> createPoweup(String fileName){
+    private List<Powerup> createPowerup(String fileName){
 
         List<Powerup> powerup = new ArrayList<>();
         Gson gson = new Gson();
@@ -245,6 +244,8 @@ public class Factory {
                         }
                     }
                 }
+
+                rooms.add(room);
             }
         }
 
