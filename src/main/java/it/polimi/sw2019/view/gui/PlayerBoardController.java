@@ -6,17 +6,18 @@ import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.PlayerBoardMessage;
 import it.polimi.sw2019.network.messages.PlayerHand;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.LoadException;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -34,7 +35,7 @@ public class PlayerBoardController {
 
     //Information
 
-    Client client;
+    private Client client;
 
     private String username;
 
@@ -244,7 +245,6 @@ public class PlayerBoardController {
         initializeDamageSequence();
         initializeMarkSequence();
         initializeAmmo();
-        initializePlayerHand();
         initializeActions();
     }
 
@@ -258,6 +258,9 @@ public class PlayerBoardController {
         this.isFirst = isFirst;
         initializeIsFirst();
 
+        if (client == null){
+            initializePlayerHand(username);
+        }
     }
 
     public void configureMyPlayerBoard(Client client, Character character, boolean isFirst){
@@ -324,19 +327,19 @@ public class PlayerBoardController {
 
         switch (owner){
             case BANSHEE:
-                url = "@../images/tokens/BlueToken.png";
+                url = "/images/tokens/BlueToken.png";
                 break;
             case DISTRUCTOR:
-                url = "@../images/tokens/YellowToken.png";
+                url = "/images/tokens/YellowToken.png";
                 break;
             case DOZER:
-                url = "@../images/tokens/GreyToken.png";
+                url = "/images/tokens/GreyToken.png";
                 break;
             case SPROG:
-                url = "@../images/tokens/GreenToken.png";
+                url = "/images/tokens/GreenToken.png";
                 break;
             case VIOLET:
-                url = "@../images/tokens/VioletToken.png";
+                url = "/images/tokens/VioletToken.png";
                 break;
         }
 
@@ -349,19 +352,19 @@ public class PlayerBoardController {
 
         switch (character){
             case BANSHEE:
-                url = "@../images/PlayerBoardBansheeFront.png";
+                url = "/images/PlayerBoardBansheeFront.png";
                 break;
             case DISTRUCTOR:
-                url = "@../images/PlayerBoardDistructorFront.png";
+                url = "/images/PlayerBoardDistructorFront.png";
                 break;
             case DOZER:
-                url = "@../images/PlayerBoardDozerFront.png";
+                url = "/images/PlayerBoardDozerFront.png";
                 break;
             case SPROG:
-                url = "@../images/PlayerBoardSprogFront.png";
+                url = "/images/PlayerBoardSprogFront.png";
                 break;
             case VIOLET:
-                url = "@../images/PlayerBoardVioletFront.png";
+                url = "/images/PlayerBoardVioletFront.png";
                 break;
         }
 
@@ -424,7 +427,6 @@ public class PlayerBoardController {
 
     public void initializeUsername(){
         myUsername.setText(username);
-        otherPlayerHandController.configure(username);
     }
 
     public void initializeIsFirst(){
@@ -439,34 +441,47 @@ public class PlayerBoardController {
         showActionTile();
     }
 
-    public void initializePlayerHand(){
-        Platform.runLater(()->{
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/OtherPlayerHandScreen.fxml"));
+    public void initializePlayerHand(String username){
 
-            Parent root;
-            Scene scene;
+        System.out.print("\n");
+        System.out.print("Inside initializePlayerHand\n");
+        System.out.print("\n");
 
-            try {
-                root = fxmlLoader.load();
-                scene = new Scene(root);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/OtherPlayerHandScreen.fxml"));
 
-            }
-            catch (IOException e) {
-                logger.log(Level.SEVERE, "OtherPlayerHandScreen.fxml file not found in PlayerBoardController");
-                scene = new Scene(new Label("ERROR"));
-            }
+        Parent root;
+        Scene scene;
 
-            otherPlayerHandController = fxmlLoader.getController();
+        try {
+            root = fxmlLoader.load();
+            scene = new Scene(root);
 
-            playerHandStage = new Stage();
-            playerHandStage.initOwner(playerBoardImage.getScene().getWindow());
+        }
+        catch (LoadException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+            logger.log(Level.SEVERE, e.getStackTrace().toString());
+            scene = new Scene(new Label("ERROR"));
+        }
+        catch (IOException e) {
+            logger.log(Level.SEVERE, "OtherPlayerHandScreen.fxml file not found in PlayerBoardController");
+            scene = new Scene(new Label("ERROR"));
+        }
 
-            playerHandStage.setScene(scene);
+        otherPlayerHandController = fxmlLoader.getController();
+        otherPlayerHandController.configure(username);
+        System.out.print("\n");
+        System.out.print("\nPlayerHandController: ");
+        System.out.print(otherPlayerHandController.toString());
+        System.out.print("\n");
 
-            playerHandStage.setTitle("Player hand");
-            playerHandStage.setResizable(false);
-        });
+        playerHandStage = new Stage();
+        playerHandStage.initOwner(playerBoardImage.getScene().getWindow());
+
+        playerHandStage.setScene(scene);
+
+        playerHandStage.setTitle("Player hand");
+        playerHandStage.setResizable(false);
     }
 
     public void setAsCurrentPlayer(){
@@ -483,7 +498,7 @@ public class PlayerBoardController {
     }
 
     @FXML
-    public void showPlayerPrivateHand(ActionEvent actionEvent){
+    public void showPlayerPrivateHand(MouseEvent actionEvent){
         playerHandStage.show();
 
     }
@@ -513,7 +528,9 @@ public class PlayerBoardController {
     }
 
     public void updatePlayerHand(PlayerHand playerHand){
-        otherPlayerHandController.updatePlayerHand(playerHand);
+        if (client == null){
+            otherPlayerHandController.updatePlayerHand(playerHand);
+        }
     }
 
     public void updateSequence(List<ImageView> sequence, List<Character> characters){
@@ -640,7 +657,7 @@ public class PlayerBoardController {
     }
 
     @FXML
-    public void showSelection(ActionEvent actionEvent){
+    public void showSelection(MouseEvent actionEvent){
 
         DropShadow dropShadow = new DropShadow();
 
@@ -649,15 +666,29 @@ public class PlayerBoardController {
         dropShadow.setHeight(21.0);
         dropShadow.setSpread(0.0);
 
-        ImageView imageView = (ImageView) actionEvent.getSource();
+        Group group = (Group) actionEvent.getSource();
 
-        imageView.setEffect(dropShadow);
+        for (Node node : group.getChildren()){
+            node.setEffect(dropShadow);
+        }
     }
 
     @FXML
-    public void disableEffect(ActionEvent actionEvent){
-        ImageView imageView = (ImageView) actionEvent.getSource();
-        imageView.setEffect(null);
+    public void disableEffect(MouseEvent actionEvent){
+
+        DropShadow dropShadow = new DropShadow();
+
+        dropShadow.setColor(Color.BLACK);
+        dropShadow.setWidth(21.0);
+        dropShadow.setHeight(21.0);
+        dropShadow.setSpread(0.0);
+
+
+        Group group = (Group) actionEvent.getSource();
+
+        for (Node node : group.getChildren()){
+            node.setEffect(null);
+        }
     }
 
     public Group getAmmoGroup(){
@@ -678,7 +709,7 @@ public class PlayerBoardController {
     }
 
     @FXML
-    public void handleAction(ActionEvent actionEvent){
+    public void handleAction(MouseEvent actionEvent){
         Pane pane = (Pane) actionEvent.getSource();
         TypeOfAction typeOfAction = (TypeOfAction) pane.getUserData();
         sendAskMessage(typeOfAction);

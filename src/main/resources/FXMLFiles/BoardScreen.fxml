@@ -16,7 +16,6 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.BoardController">
    <children>
       <AnchorPane>
@@ -52,7 +51,7 @@
                                     <Insets />
                                  </opaqueInsets>
                               </ProgressBar>
-                              <ImageView fitHeight="85.0" fitWidth="51.0" layoutX="727.0" layoutY="35.0" preserveRatio="true">
+                              <ImageView fx:id="powerupsDeck" fitHeight="85.0" fitWidth="51.0" layoutX="727.0" layoutY="35.0" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/cards/powerupsBack.png" />
                                  </image>
@@ -483,30 +482,20 @@
                                     </ImageView>
                                  </children>
                               </Group>
-                              <Label fx:id="powerupsDeckLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="727.0" layoutY="34.0" onMouseEntered="#showLabel" onMouseExited="#hideLabel" prefHeight="78.0" prefWidth="52.0" text="0" textAlignment="CENTER" textFill="WHITE" visible="false">
-                                 <font>
-                                    <Font size="22.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="weaponsDeckLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="706.0" layoutY="167.0" onMouseEntered="#showLabel" onMouseExited="#hideLabel" prefHeight="122.0" prefWidth="73.0" text="0" textAlignment="CENTER" textFill="WHITE" visible="false">
-                                 <font>
-                                    <Font size="22.0" />
-                                 </font>
-                              </Label>
                               <Group layoutX="150.0" layoutY="142.0">
                                  <children>
-                                    <Pane fx:id="cell4" layoutY="139.0" onMouseClicked="#cellSelectionHandler" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-border-width: 3; -fx-background-color: white;" />
-                                    <Pane fx:id="cell1" layoutX="129.0" onMouseClicked="#cellSelectionHandler" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-border-width: 3; -fx-background-color: white;" />
-                                    <Pane fx:id="cell5" layoutX="129.0" layoutY="139.0" onMouseClicked="#cellSelectionHandler" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-background-color: white; -fx-border-width: 3;" />
-                                    <Pane fx:id="cell9" layoutX="129.0" layoutY="282.0" onMouseClicked="#cellSelectionHandler" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-border-width: 3; -fx-background-color: white;" />
-                                    <Pane fx:id="cell8" layoutY="282.0" onMouseClicked="#cellSelectionHandler" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-background-color: white; -fx-border-width: 3;" />
-                                    <Pane fx:id="cell2" layoutX="268.0" onMouseClicked="#cellSelectionHandler" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-background-color: white; -fx-border-width: 3;" />
-                                    <Pane fx:id="cell6" layoutX="268.0" layoutY="139.0" onMouseClicked="#cellSelectionHandler" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-background-color: white; -fx-border-width: 3;" />
-                                    <Pane fx:id="cell10" layoutX="268.0" layoutY="282.0" onMouseClicked="#cellSelectionHandler" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-background-color: white; -fx-border-width: 3;" />
-                                    <Pane fx:id="cell3" layoutX="408.0" onMouseClicked="#cellSelectionHandler" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-border-width: 3; -fx-background-color: white;" />
-                                    <Pane fx:id="cell7" layoutX="408.0" layoutY="139.0" onMouseClicked="#cellSelectionHandler" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-border-width: 3; -fx-background-color: white;" />
-                                    <Pane fx:id="cell11" layoutX="408.0" layoutY="281.0" onMouseClicked="#cellSelectionHandler" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-background-color: white; -fx-border-width: 3;" />
-                                    <Pane fx:id="cell0" onMouseClicked="#cellSelectionHandler" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-border-width: 3; -fx-background-color: white;" />
+                                    <Pane fx:id="cell4" layoutY="139.0" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-border-width: 3; -fx-background-color: white;" />
+                                    <Pane fx:id="cell1" layoutX="129.0" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-border-width: 3; -fx-background-color: white;" />
+                                    <Pane fx:id="cell5" layoutX="129.0" layoutY="139.0" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-background-color: white; -fx-border-width: 3;" />
+                                    <Pane fx:id="cell9" layoutX="129.0" layoutY="282.0" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-border-width: 3; -fx-background-color: white;" />
+                                    <Pane fx:id="cell8" layoutY="282.0" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-background-color: white; -fx-border-width: 3;" />
+                                    <Pane fx:id="cell2" layoutX="268.0" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-background-color: white; -fx-border-width: 3;" />
+                                    <Pane fx:id="cell6" layoutX="268.0" layoutY="139.0" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-background-color: white; -fx-border-width: 3;" />
+                                    <Pane fx:id="cell10" layoutX="268.0" layoutY="282.0" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-background-color: white; -fx-border-width: 3;" />
+                                    <Pane fx:id="cell3" layoutX="408.0" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-border-width: 3; -fx-background-color: white;" />
+                                    <Pane fx:id="cell7" layoutX="408.0" layoutY="139.0" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-border-width: 3; -fx-background-color: white;" />
+                                    <Pane fx:id="cell11" layoutX="408.0" layoutY="281.0" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-background-color: white; -fx-border-width: 3;" />
+                                    <Pane fx:id="cell0" opacity="0.6" prefHeight="113.0" prefWidth="116.0" style="-fx-border-color: green; -fx-border-width: 3; -fx-background-color: white;" />
                                  </children>
                               </Group>
                            </children>
@@ -2189,6 +2178,16 @@
                   </Pane>
                </center>
             </BorderPane>
+            <Label fx:id="powerupsDeckLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="752.0" layoutY="63.0" prefHeight="78.0" prefWidth="52.0" text="0" textAlignment="CENTER" textFill="WHITE" visible="false">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Label fx:id="weaponsDeckLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="730.0" layoutY="192.0" prefHeight="122.0" prefWidth="73.0" text="0" textAlignment="CENTER" textFill="WHITE" visible="false">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

@@ -3,13 +3,13 @@ package it.polimi.sw2019.view.gui;
 import it.polimi.sw2019.model.TypeOfAction;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.*;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -23,6 +23,8 @@ public class SelectCardController {
     /* Attributes */
 
     private Client client;
+
+    private BoardController boardController;
 
     @FXML
     private ImageView cardImage0;
@@ -63,8 +65,9 @@ public class SelectCardController {
         cards.add(cardImage2);
     }
 
-    public void configure(Client client, AvailableCards availableCards, TypeOfAction typeOfAction, List<Image> images, BoardCoord lastSelectedCell, boolean noOption){
+    public void configure(Client client, BoardController boardController,  AvailableCards availableCards, TypeOfAction typeOfAction, List<Image> images, BoardCoord lastSelectedCell, boolean noOption){
         this.client = client;
+        this.boardController = boardController;
         currentTypeOfAction = typeOfAction;
         this.lastSelectedCell = lastSelectedCell;
 
@@ -84,9 +87,9 @@ public class SelectCardController {
         closeButton.setVisible(noOption);
     }
 
-    public void configure(Client client, AvailableCards availableCards, List<Image> images, BoardCoord lastSelectedCell, List<ImageView> myWeapons){
+    public void configure(Client client, BoardController boardController, AvailableCards availableCards, List<Image> images, BoardCoord lastSelectedCell, List<ImageView> myWeapons){
         this.myWeapons = myWeapons;
-        configure(client, availableCards, TypeOfAction.GRAB, images, lastSelectedCell, true);
+        configure(client, boardController, availableCards, TypeOfAction.GRAB, images, lastSelectedCell, true);
     }
 
     public void showCards(List<IndexMessage> indexMessages, List<Image> images, boolean disable){
@@ -102,7 +105,7 @@ public class SelectCardController {
     }
 
     @FXML
-    public void showSelection(ActionEvent actionEvent){
+    public void showSelection(MouseEvent actionEvent){
 
         DropShadow dropShadow = new DropShadow();
 
@@ -117,13 +120,13 @@ public class SelectCardController {
     }
 
     @FXML
-    public void disableEffect(ActionEvent actionEvent){
+    public void disableEffect(MouseEvent actionEvent){
         ImageView imageView = (ImageView) actionEvent.getSource();
         imageView.setEffect(null);
     }
 
     @FXML
-    public void handleSelection(ActionEvent actionEvent){
+    public void handleSelection(MouseEvent actionEvent){
         ImageView imageView = (ImageView) actionEvent.getSource();
         IndexMessage indexMessage = (IndexMessage) imageView.getUserData();
 
@@ -160,6 +163,14 @@ public class SelectCardController {
                 closeWindow();
             }
         }
+        else {
+            Message message = new Message((client.getUsername()));
+            message.createSelectedCard((int) imageView.getUserData(), currentTypeOfAction);
+            setTypeFromImage(imageView);
+            //Saves the weapon in the boardController for next use
+            boardController.setSelectedWeapon(imageView);
+            client.send(message);
+        }
 
 
     }
@@ -184,6 +195,18 @@ public class SelectCardController {
     public void closeWindow(){
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
+    }
+
+    public void setTypeFromImage(ImageView imageView){
+        Image selectedImage = imageView.getImage();
+
+        List<ImageView> myWeapons = boardController.getMyWeapons();
+
+        for (ImageView weapon : myWeapons){
+            if (selectedImage == weapon.getImage()){
+                imageView.setUserData(weapon.getUserData());
+            }
+        }
     }
 
 }

@@ -7,7 +7,6 @@ import it.polimi.sw2019.network.messages.*;
 import it.polimi.sw2019.view.ViewInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.LoadException;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -250,10 +249,10 @@ public class GUI extends Application implements ViewInterface {
             if (numberOfWeapons == 3){
 
                 List<ImageView> myWeapons = boardController.getMyWeapons();
-                selectCardController.configure(client, cards, images, lastSelectedCell, myWeapons);
+                selectCardController.configure(client, boardController, cards, images, lastSelectedCell, myWeapons);
             }
             else {
-                selectCardController.configure(client, cards, typeOfAction, images, lastSelectedCell, noOption);
+                selectCardController.configure(client, boardController, cards, typeOfAction, images, lastSelectedCell, noOption);
             }
         });
     }
@@ -395,6 +394,7 @@ public class GUI extends Application implements ViewInterface {
             }
             scene = new Scene(board);
 
+            primaryStage.close();
             primaryStage.setScene(scene);
             primaryStage.setTitle("Adrenalina");
             primaryStage.setResizable(false);

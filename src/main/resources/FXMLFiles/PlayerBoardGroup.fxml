@@ -26,26 +26,6 @@
             <Image url="@../images/StartingPlayerMarker.png" />
          </image>
       </ImageView>
-      <Group layoutX="336.0" layoutY="-9.0" onMouseClicked="#showPlayerPrivateHand" onMouseEntered="#showSelection" onMouseExited="#disableEffect">
-         <children>
-            <ImageView fitHeight="151.0" fitWidth="50.0" layoutX="14.0" layoutY="9.0" preserveRatio="true">
-               <image>
-                  <Image url="@../images/cards/weaponsBack.png" />
-               </image>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </ImageView>
-            <ImageView fitHeight="64.0" fitWidth="60.0" layoutX="9.0" layoutY="30.0" preserveRatio="true">
-               <image>
-                  <Image url="@../images/cards/powerupsBack.png" />
-               </image>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </ImageView>
-         </children>
-      </Group>
       <Group fx:id="mySkullsGroup" layoutX="93.0" layoutY="58.0">
          <children>
             <ImageView fx:id="mySkull0" fitHeight="22.0" fitWidth="17.0" preserveRatio="true">
@@ -329,6 +309,26 @@
          <children>
             <Pane fx:id="shootAfterFirstAvailable" onMouseClicked="#handleAction" prefHeight="26.0" prefWidth="49.0" style="-fx-border-color: white;" />
             <Pane fx:id="grabAfterFirstAvailable" layoutY="27.0" onMouseClicked="#handleAction" prefHeight="26.0" prefWidth="49.0" style="-fx-border-color: white;" />
+         </children>
+      </Group>
+      <Group layoutX="336.0" layoutY="-9.0" onMouseClicked="#showPlayerPrivateHand" onMouseEntered="#showSelection" onMouseExited="#disableEffect">
+         <children>
+            <ImageView fitHeight="151.0" fitWidth="50.0" layoutX="14.0" layoutY="9.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/cards/weaponsBack.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fitHeight="64.0" fitWidth="60.0" layoutX="9.0" layoutY="30.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/cards/powerupsBack.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
          </children>
       </Group>
    </children>

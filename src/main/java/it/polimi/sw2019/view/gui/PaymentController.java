@@ -6,7 +6,6 @@ import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.PaymentMessage;
 import it.polimi.sw2019.network.messages.PlayerBoardMessage;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -17,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -93,7 +93,7 @@ public class PaymentController {
     }
 
     @FXML
-    public void showSelection(ActionEvent actionEvent){
+    public void showSelection(MouseEvent actionEvent){
 
         DropShadow dropShadow = new DropShadow();
 
@@ -108,13 +108,13 @@ public class PaymentController {
     }
 
     @FXML
-    public void disableEffect(ActionEvent actionEvent){
+    public void disableEffect(MouseEvent actionEvent){
         ImageView imageView = (ImageView) actionEvent.getSource();
         imageView.setEffect(null);
     }
 
     @FXML
-    public void handleSelection(ActionEvent actionEvent){
+    public void handleSelection(MouseEvent actionEvent){
         ImageView imageView = (ImageView) actionEvent.getSource();
         int selection = (int) imageView.getUserData();
 

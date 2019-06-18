@@ -2,6 +2,7 @@ package it.polimi.sw2019.view.gui;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import it.polimi.sw2019.model.Cell;
 import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.model.Colors;
 import it.polimi.sw2019.model.TypeOfAction;
@@ -15,8 +16,10 @@ import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.LoadException;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,6 +29,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -82,6 +86,9 @@ public class BoardController extends Application {
 
     @FXML
     private ImageView weaponsDeck;
+
+    @FXML
+    private ImageView powerupsDeck;
 
     @FXML
     private ImageView skull0;
@@ -639,6 +646,9 @@ public class BoardController extends Application {
 
         //Initialize timer
         initializeTimer();
+
+        //Initialize labels
+        initializeLabels();
     }
 
     /**
@@ -649,26 +659,9 @@ public class BoardController extends Application {
         this.client = client;
         configurationMessage = configuration;
 
-        try {
-            System.out.print("\n");
-            System.out.print("\nConfiguration: ");
-            System.out.print(configuration.toString());
-            System.out.print("\n");
-        }
-        catch (NullPointerException e){
-            logger.log(Level.SEVERE, e.getMessage());
-        }
-
-
         //First sets the image of the board and the tiles
 
         String boardPath = getBoardPath(configuration.getBoardType());
-
-        System.out.print("\n");
-        System.out.print("\nBoardPath: ");
-        System.out.print(boardPath);
-        System.out.print("\n");
-
 
         boardImage.setImage(new Image(boardPath));
         initializeAmmoTiles(configuration.getBoardType());
@@ -687,26 +680,57 @@ public class BoardController extends Application {
             iAmTheFirst=true;
 
         }
+        System.out.print("\nIn configuration:");
+        System.out.print(configuration.getUsernames());
+        System.out.print(configuration.getCharacters());
+        System.out.print("\n");
 
-        initializeMyPlayerBoard(client.getUsername(), myCharacter, iAmTheFirst);
+
+        initializeMyPlayerBoard(myCharacter, iAmTheFirst);
 
         //Initialize the playerBoards
 
         List<String> usernames = new ArrayList<>(configuration.getUsernames());
         List<Character> characters = new ArrayList<>(configuration.getCharacters());
 
+        System.out.print("\nUsernames before:");
+        System.out.print(usernames);
+        System.out.print(characters);
+        System.out.print("\n");
+
+
         usernames.remove(myIndex);
         characters.remove(myIndex);
 
-        int i=0;
+        System.out.print("\nUsernames after: ");
+        System.out.print(usernames);
+        System.out.print(characters);
+        System.out.print("\n");
 
-        if (!iAmTheFirst){
-            initializeOtherPlayerBoards(usernames.get(0),characters.get(0),true, 0);
-            i=1;
-        }
 
-        for (; i < usernames.size(); i++){
-            initializeOtherPlayerBoards(usernames.get(i), characters.get(i), false, i);
+        System.out.print("\n");
+        System.out.print("Inside the for:\n");
+
+        for (int i=0; i < usernames.size(); i++){
+
+            System.out.print("\n");
+            System.out.print("\nIndex: ");
+            System.out.print(i);
+
+            System.out.print("\n");
+            System.out.print("\nUsername: ");
+            System.out.print(usernames.get(i));
+            System.out.print("\nCharacter: ");
+            System.out.print(characters.get(i));
+            System.out.print("\n");
+
+
+            if (!iAmTheFirst && i==0){
+                initializeOtherPlayerBoards(usernames.get(0),characters.get(0),true, 0);
+            }
+            else {
+                initializeOtherPlayerBoards(usernames.get(i), characters.get(i), false, i);
+            }
         }
 
         //Orders the playerBoardControllers in an arrayList by the Character order
@@ -741,6 +765,37 @@ public class BoardController extends Application {
 
     public void startTimer() {
         timeline.playFromStart();
+    }
+
+    public void initializeLabels(){
+        powerupsDeck.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                showLabel(powerupsDeckLabel);
+            }
+        });
+
+        powerupsDeckLabel.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                hideLabel(powerupsDeckLabel);
+            }
+        });
+
+
+        weaponsDeck.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                showLabel(weaponsDeckLabel);
+            }
+        });
+
+        weaponsDeckLabel.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                hideLabel(weaponsDeckLabel);
+            }
+        });
     }
 
     public void initializeAmmoTiles(String url){
@@ -849,6 +904,15 @@ public class BoardController extends Application {
         cell10.setUserData(new BoardCoord(2, 2));
         cell11.setUserData(new BoardCoord(2, 3));
 
+        for (Pane cell : selectableCells){
+            cell.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    Pane cell = (Pane) event.getSource();
+                    cellSelectionHandler(cell);
+                }
+            });
+        }
     }
 
     public void initializePositions(){
@@ -1029,7 +1093,7 @@ public class BoardController extends Application {
         }
     }
 
-    public void initializeMyPlayerBoard(String username, Character character, boolean first){
+    public void initializeMyPlayerBoard(Character character, boolean first){
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/FXMLFiles/MyPlayerBoardGroup.fxml"));
         try {
@@ -1038,7 +1102,11 @@ public class BoardController extends Application {
             myPlayerBoardGroup.setLayoutY(671.0);
             mainPane.getChildren().add(myPlayerBoardGroup);
         }
-        catch (Exception e){
+        catch (LoadException e){
+            logger.log(Level.SEVERE, e.getMessage());
+            logger.log(Level.SEVERE, e.getStackTrace().toString());
+        }
+        catch (IOException e){
             logger.log(Level.SEVERE, "MyPlayerBoardGroup.fxml not found");
         }
 
@@ -1074,6 +1142,10 @@ public class BoardController extends Application {
                     break;
             }
             mainPane.getChildren().add(playerBoard);
+        }
+        catch (LoadException e){
+            logger.log(Level.SEVERE, e.getMessage());
+            logger.log(Level.SEVERE, e.getStackTrace().toString());
         }
         catch (IOException e){
             logger.log(Level.SEVERE, "PlayerBoardGroup.fxml not found");
@@ -1428,26 +1500,20 @@ public class BoardController extends Application {
     }
 
     @FXML
-    public void showKillTrackSummary(ActionEvent actionEvent){
+    public void showKillTrackSummary(MouseEvent actionEvent){
         killTrackStage.show();
     }
 
-    @FXML
-    public void showLabel(ActionEvent e){
-        Label label = (Label)e.getSource();
+    public void showLabel(Label label){
         label.setVisible(true);
     }
 
-    @FXML
-    public void hideLabel(ActionEvent e){
-        Label label = (Label) e.getSource();
+    public void hideLabel(Label label){
         label.setVisible(false);
     }
 
     //Handlers
-    @FXML
-    public void cellSelectionHandler(ActionEvent actionEvent){
-        Pane cell = (Pane) actionEvent.getSource();
+    public void cellSelectionHandler(Pane cell){
         BoardCoord boardCoord = (BoardCoord) cell.getUserData();
 
         //If is a spawncell saves the cells weapons for the grab
@@ -1545,6 +1611,10 @@ public class BoardController extends Application {
         return result;
     }
 
+    public void setSelectedWeapon(ImageView imageView){
+        selectedWeapon = imageView;
+    }
+
     public Image getSelectedWeaponImage(){
         return selectedWeapon.getImage();
     }
@@ -1604,7 +1674,7 @@ public class BoardController extends Application {
     }
 
     @FXML
-    public void showEffectPosition(ActionEvent actionEvent){
+    public void showEffectPosition(MouseEvent actionEvent){
         DropShadow dropShadow = new DropShadow();
 
         dropShadow.setHeight(30.0);
@@ -1617,13 +1687,13 @@ public class BoardController extends Application {
     }
 
     @FXML
-    public void disableEffectPosition(ActionEvent actionEvent){
+    public void disableEffectPosition(MouseEvent actionEvent){
         Circle position = (Circle) actionEvent.getSource();
         position.setEffect(null);
     }
 
     @FXML
-    public void handlePositionSelection(ActionEvent actionEvent){
+    public void handlePositionSelection(MouseEvent actionEvent){
         Circle position = (Circle) actionEvent.getSource();
         Character selectedCharacter = (Character) position.getUserData();
 
