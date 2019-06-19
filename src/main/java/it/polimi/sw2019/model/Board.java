@@ -138,7 +138,7 @@ public class Board {
 
         if (!powerupsDeck.isEmpty()){
             Powerup result = powerupsDeck.get(powerupsDeck.size()-1);
-            powerupsDeck.remove(result);
+            powerupsDeck.remove(powerupsDeck.size()-1);
 
             //If the pile of powerups is empty the powerupDeck needs to be restored
             if (powerupsDeck.isEmpty()){
@@ -167,7 +167,7 @@ public class Board {
 
         if (!ammoDeck.isEmpty()){
             AmmoTile result = ammoDeck.get(ammoDeck.size()-1);
-            ammoDeck.remove(result);
+            ammoDeck.remove(ammoDeck.size()-1);
 
             //If the pile of AmmoTile is empty the AmmoTileDeck needs to be restored
             if (ammoDeck.isEmpty()){

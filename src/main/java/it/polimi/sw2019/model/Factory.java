@@ -123,7 +123,7 @@ public class Factory {
      * this method creates the ammoTiles deck by reading every kind of ammoTile from a file json and using AmmoTileFactory class
      * @return list of ammo tiles
      */
-    private List<AmmoTile> createAmmoDeck(){
+    public List<AmmoTile> createAmmoDeck(){
 
         List<AmmoTile> ammoDeck = new ArrayList<>();
 

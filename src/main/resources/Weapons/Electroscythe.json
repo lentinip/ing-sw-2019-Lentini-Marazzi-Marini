@@ -1,6 +1,6 @@
 {
   "name" : "ELECTROSCYTHE",
-  "Description" : "basic mode: Deal 1 damage to every other player on your square. in reaper mode: Deal 2 damage to every other player on your square.",
+  "description": "basic mode: Deal 1 damage to every other player on your square. in reaper mode: Deal 2 damage to every other player on your square.",
   "grabCost" : {
     "red" : 0,
     "yellow" : 0,

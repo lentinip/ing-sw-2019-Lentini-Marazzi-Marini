@@ -179,6 +179,9 @@ public class TurnManager {
         //Gets the powerup selected
         Powerup powerup = spawningPlayer.getPowerups().get(powerupIndex);
 
+        System.out.print("\n PowerupIndex: " + powerupIndex + "\n");
+
+
         //Gets the room with the color of the powerup
         Room room = match.getBoard().getRoomByColor(powerup.getColor());
 
@@ -248,6 +251,8 @@ public class TurnManager {
             List<Powerup> powerups = receiver.getPowerups();
             List<IndexMessage> options = new ArrayList<>();
             for (Powerup card: powerups){
+
+                System.out.print("\nPowerup index: " + receiver.getPowerupIndex(card));
 
                 options.add(new IndexMessage(receiver.getPowerupIndex(card)));
             }

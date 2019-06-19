@@ -1,6 +1,6 @@
 {
   "name" : "ZX-2",
-  "Description" : "basic mode: Deal 1 damage and 2 marks to 1 target you can see.in scanner mode: Choose up to 3 targets you can see and deal 1 mark to each.Notes: Remember that the 3 targets can be in 3 different rooms.",
+  "description": "basic mode: Deal 1 damage and 2 marks to 1 target you can see.in scanner mode: Choose up to 3 targets you can see and deal 1 mark to each.Notes: Remember that the 3 targets can be in 3 different rooms.",
   "grabCost" : {
     "red" : 1,
     "yellow" : 0,

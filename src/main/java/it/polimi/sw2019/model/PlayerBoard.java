@@ -35,7 +35,7 @@ public class PlayerBoard {
 
     private int numOfDeaths = 0;
 
-    private Ammo ammo = new Ammo();
+    private Ammo ammo = new Ammo(1,1,1);
 
 
     /* Methods */

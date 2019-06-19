@@ -962,6 +962,7 @@ public class CLI implements ViewInterface {
                     printCharacterName(character);
 
                 }
+                out.println();
             }
             if (cell.isEmpty()){
 
@@ -971,7 +972,7 @@ public class CLI implements ViewInterface {
             //common cell
             else if (cell.getAmmoTile() != null ){
 
-                out.println("ammo tile: " + ammoTileDescription.get(cell.getAmmoTile()));
+                out.println("ammo tile: " + ammoTileDescription.get(cell.getAmmoTile()) + "\n");
             }
 
             else {
@@ -1111,7 +1112,7 @@ public class CLI implements ViewInterface {
 
         else {
             if (typeOfAction == TypeOfAction.SPAWN){
-                out.println("   YOU ARE DEAD!!!");
+                out.println("\n   YOU ARE DEAD!!!");
                 out.println(ANSI_GREEN + "     _.--\"\"--._\n" +
                         "    /  _    _  \\\n" +
                         " _  ( (_\\  /_) )  _\n" +
@@ -1157,6 +1158,7 @@ public class CLI implements ViewInterface {
         }
 
         else {
+            out.println(cards.getAvailableCards().get(choice).getSelectionIndex());
 
             selectedCard.createSelectedCard(cards.getAvailableCards().get(choice).getSelectionIndex(), typeOfAction);
         }
@@ -1450,7 +1452,7 @@ public class CLI implements ViewInterface {
      */
     public void updateMatchState(MatchState matchStateNew){
 
-        if (matchStateNew.getCurrentPlayer() != matchState.getCurrentPlayer()){
+        if (matchState == null || matchStateNew.getCurrentPlayer() != matchState.getCurrentPlayer()){
 
             out.print("\nIT'S THE TURN OF ");
             printCharacterName(matchStateNew.getCurrentPlayer());

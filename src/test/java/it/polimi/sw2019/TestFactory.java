@@ -51,4 +51,14 @@ public class TestFactory {
         Assert.assertNotNull(board.getRooms());
         Assert.assertEquals(board.getRooms().get(0).getPlayers(), players);
     }
+
+    @Test
+    public void createAmmoTileDeckTest(){
+
+        Factory factory = new Factory();
+
+        List<AmmoTile> deck = factory.createAmmoDeck();
+
+        Assert.assertTrue(!deck.isEmpty());
+    }
 }

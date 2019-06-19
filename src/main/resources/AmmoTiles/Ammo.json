@@ -1,7 +1,7 @@
  [
   {
     "quantity": 3,
-    "AmmoTile" : {
+    "ammoTileKind" : {
       "red": 0,
       "yellow": 1,
       "blue": 2,
@@ -12,7 +12,7 @@
   },
   {
     "quantity": 3,
-    "AmmoTile" : {
+    "ammoTileKind" : {
       "red": 2,
       "yellow": 1,
       "blue": 0,
@@ -22,7 +22,7 @@
   },
   {
     "quantity": 3,
-    "AmmoTile" : {
+    "ammoTileKind" : {
       "red": 1,
       "yellow": 2,
       "blue": 0,
@@ -32,7 +32,7 @@
   },
   {
     "quantity": 3,
-    "AmmoTile" : {
+    "ammoTileKind" : {
       "red": 2,
       "yellow": 0,
       "blue": 1,
@@ -42,7 +42,7 @@
   },
   {
     "quantity": 3,
-    "AmmoTile" : {
+    "ammoTileKind" : {
       "red": 0,
       "yellow": 2,
       "blue": 1,
@@ -52,7 +52,7 @@
   },
   {
     "quantity": 3,
-    "AmmoTile" : {
+    "ammoTileKind" : {
       "red": 1,
       "yellow": 0,
       "blue": 2,
@@ -62,7 +62,7 @@
   },
   {
     "quantity": 2,
-    "AmmoTile" : {
+    "ammoTileKind" : {
       "red": 2,
       "yellow": 0,
       "blue": 0,
@@ -72,7 +72,7 @@
   },
   {
     "quantity": 2,
-    "AmmoTile" : {
+    "ammoTileKind" : {
       "red": 0,
       "yellow": 2,
       "blue": 0,
@@ -82,7 +82,7 @@
   },
   {
     "quantity": 2,
-    "AmmoTile" : {
+    "ammoTileKind" : {
       "red": 0,
       "yellow": 0,
       "blue": 2,
@@ -92,7 +92,7 @@
   },
   {
     "quantity": 4,
-    "AmmoTile" : {
+    "ammoTileKind" : {
       "red": 0,
       "yellow": 1,
       "blue": 1,
@@ -102,7 +102,7 @@
   },
   {
     "quantity": 4,
-    "AmmoTile" : {
+    "ammoTileKind" : {
       "red": 1,
       "yellow": 1,
       "blue": 0,
@@ -112,7 +112,7 @@
   },
   {
     "quantity": 4,
-    "AmmoTile" : {
+    "ammoTileKind" : {
       "red": 1,
       "yellow": 0,
       "blue": 1,

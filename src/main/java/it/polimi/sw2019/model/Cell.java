@@ -164,7 +164,7 @@ public class Cell {
 
                 position = player.getPosition();
 
-                if (position.getRow() == this.row && position.getColumn() == this.column) {
+                if (position !=null && position.getRow() == this.row && position.getColumn() == this.column) {
 
                     playersInCell.add(player);
 
@@ -287,7 +287,6 @@ public class Cell {
 
       messageCell.setCharacters(playersInside);
       messageCell.setEmpty(isEmpty);
-      messageCell.setAmmoTile(ammoTile.getAmmoTileImg());
 
       List<String> weaponsList = new ArrayList<>();
 
@@ -296,6 +295,11 @@ public class Cell {
           for (Weapon weapon: this.weapons){
 
               weaponsList.add(weapon.getName());
+          }
+      }
+      else {
+          if (!isEmpty){
+              messageCell.setAmmoTile(ammoTile.getAmmoTileImg());
           }
       }
 
