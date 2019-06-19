@@ -177,7 +177,7 @@ public class CLI implements ViewInterface {
         return matchState;
     }
 
-
+/*
     public static void main(String[] args){
 
         CLI prova = new CLI();
@@ -343,7 +343,7 @@ public class CLI implements ViewInterface {
         //prova.displayLoginWindow();
         prova.displayDisconnectionDuringSetup();
     }
-
+    */
 
 
     /**
@@ -753,7 +753,7 @@ public class CLI implements ViewInterface {
         out.print("\npowerups: ");
         for (String powerup: privateHand.getPowerups()){
             out.print("    " );
-            printPowerupName(powerup);
+            printPowerupName(privateHand.getPowerups().indexOf(powerup));
             out.print("");
         }
         out.print("\n\nYOUR LIFE: ");
@@ -921,23 +921,21 @@ public class CLI implements ViewInterface {
 
     /**
      * Used to print powerup names colored
-     * @param powerup powerup current
      */
-    private void printPowerupName(String powerup){
+    private void printPowerupName(int index){
 
-        List<String> powerups = privateHand.getPowerups();
-        List<Colors> colors = privateHand.getPowerupColors();
+        String powerupName = privateHand.getPowerups().get(index);
 
-        Colors color = colors.get(powerups.indexOf(powerup));
+        Colors color = privateHand.getPowerupColors().get(index);
 
         if (color == Colors.BLUE){
-            out.print(ANSI_BLUE + powerup + ANSI_RESET);
+            out.print(ANSI_BLUE + powerupName + ANSI_RESET);
         }
         else if (color == Colors.RED){
-            out.print(ANSI_RED + powerup + ANSI_RESET);
+            out.print(ANSI_RED + powerupName + ANSI_RESET);
         }
         else{
-            out.print(ANSI_YELLOW + powerup + ANSI_RESET);
+            out.print(ANSI_YELLOW + powerupName + ANSI_RESET);
         }
 
     }
@@ -1126,7 +1124,7 @@ public class CLI implements ViewInterface {
             out.println("CHOOSE THE POWERUP:");
             for(IndexMessage indexMessage: cards.getAvailableCards()){
                 out.print(cont + ".  ");
-                printPowerupName(privateHand.getPowerups().get(indexMessage.getSelectionIndex()));
+                printPowerupName(indexMessage.getSelectionIndex());
                 out.println("");
                 cont++;
             }
@@ -1191,7 +1189,7 @@ public class CLI implements ViewInterface {
             out.println("CHOOSE THE POWERUP:");
             for(IndexMessage indexMessage: cards.getAvailableCards()){
                 out.print(cont + ".  ");
-                printPowerupName(privateHand.getPowerups().get(indexMessage.getSelectionIndex()));
+                printPowerupName(indexMessage.getSelectionIndex());
                 out.println("");
                 cont++;
             }
@@ -1345,7 +1343,7 @@ public class CLI implements ViewInterface {
         out.println("SELECT THE POWERUPS:");
         for(IndexMessage indexMessage: paymentInfo.getUsablePowerups()){
             out.print(cont + ".  ");
-            printPowerupName(privateHand.getPowerups().get(indexMessage.getSelectionIndex()));
+            printPowerupName(indexMessage.getSelectionIndex());
             out.println("");
             cont++;
         }
@@ -1381,14 +1379,14 @@ public class CLI implements ViewInterface {
         int choice;
         Message payment = new Message(username);
 
-        out.println("YOU CAN PAY THE COST OF TARGETING SCOPE WITH ONE OR MORE POWERUPS!!!  <(^_^)>");
+        out.println("\nYOU CAN PAY THE COST OF TARGETING SCOPE WITH ONE OR MORE POWERUPS!!!  <(^_^)>");
         if (!paymentMessage.isMustPay()) {
             out.println("select 'NO THANKS' if you don't want to pay using powerups");
         }
         out.println("SELECT THE POWERUPS:");
         for(IndexMessage indexMessage: paymentMessage.getUsablePowerups()){
             out.print(cont + ".  ");
-            printPowerupName(privateHand.getPowerups().get(indexMessage.getSelectionIndex()));
+            printPowerupName(indexMessage.getSelectionIndex());
             out.println("");
             cont++;
         }
@@ -1478,7 +1476,7 @@ public class CLI implements ViewInterface {
     public void displayEndMatchLeaderBoard(LeaderBoard leaderBoard){
 
         try{
-        out.println("MATCH IS ENDED!!!    ⊂(◉‿◉)つ\n");
+        out.println("\n\nMATCH IS ENDED!!!    ⊂(◉‿◉)つ\n");
 
             TimeUnit.MILLISECONDS.sleep(400);
 
@@ -1753,7 +1751,7 @@ public class CLI implements ViewInterface {
      */
     public void displayActionReport(ActionReports actionReports){
 
-        out.print("\nACTION: ");
+        out.print("  ACTION: ");
         printCharacterName(actionReports.getSubject());
         out.print(actionReports.getReport());
         if (actionReports.getReceiver() != null){
@@ -1770,7 +1768,7 @@ public class CLI implements ViewInterface {
      */
     public void displayAlreadyConnectedWindow() {
 
-        out.println("Mmm, looks like there is a match started with this username, what do you want to do?");
+        out.println("\nMmm, looks like there is a match started with this username, what do you want to do?");
         out.println("╔═════════════════════╗\n" +
                 "║       OPTIONS       ║\n" +
                 "╠═════════════════════╣\n" +
@@ -1805,7 +1803,7 @@ public class CLI implements ViewInterface {
      */
     public void displayDisconnectionDuringSetup(){
 
-        out.println("OOOPS, FIRST PLAYER JUST DISCONNECTED, PLEASE, START A NEW GAME!!!\n\n");
+        out.println("\nOOOPS, FIRST PLAYER JUST DISCONNECTED, PLEASE, START A NEW GAME!!!\n\n");
         try {
             firstMatch = false;
             TimeUnit.MILLISECONDS.sleep(1300);
