@@ -6,6 +6,7 @@ import it.polimi.sw2019.network.messages.BoardCoord;
 import it.polimi.sw2019.network.messages.IndexMessage;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.server.VirtualView;
+import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -528,6 +529,14 @@ public class Choices {
 
            List<Player> availablePlayers = match.getPlayers();
            availablePlayers.remove(player);
+           List<Player> playerList = new ArrayList<>(availablePlayers);
+
+           for (Player p : playerList){
+               if (p.getPosition()==null){
+                   availablePlayers.remove(p);
+               }
+           }
+
            List<Character> availableCharacters = new ArrayList<>();
 
            for (Player character: availablePlayers){

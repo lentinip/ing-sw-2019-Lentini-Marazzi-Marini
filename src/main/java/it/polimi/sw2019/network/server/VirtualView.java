@@ -181,10 +181,6 @@ public class VirtualView extends Observable implements Observer {
         return matchSetupChoiceTimer;
     }
 
-    public void setMatchSetupChoiceTimer(Timer matchSetupChoiceTimer) {
-        this.matchSetupChoiceTimer = matchSetupChoiceTimer;
-    }
-
     public void addWaitingPlayer(String username, Client client) {
 
         waitingPlayers.put(username, client);
@@ -243,7 +239,7 @@ public class VirtualView extends Observable implements Observer {
             public void run() {
 
                 Message fail = new Message("All");
-                fail.setTypeOfMessage(TypeOfMessage.DISCCONECTION_SETUP);
+                fail.setTypeOfMessage(TypeOfMessage.DISCONNECTION_SETUP);
                 display(fail);
                 removeWaitingRoom();
 
@@ -331,10 +327,10 @@ public class VirtualView extends Observable implements Observer {
      */
     public void startSpawnMessage(){
 
-        responseTimer.schedule(new TimerTask() {
+        spawningChoiceTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-
+                LOGGER.log(Level.INFO, "TIMER FOR SPAWN FINISHED");
                 sendAutomaticSpawn();
             }
         }, quickResponseTimer);

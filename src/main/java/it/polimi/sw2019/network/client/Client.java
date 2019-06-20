@@ -16,8 +16,6 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static it.polimi.sw2019.network.messages.TypeOfMessage.PLAYER_ALREADY_LOGGED;
-
 public class Client {
 
     /**
@@ -227,7 +225,7 @@ public class Client {
             case PLAYER_ALREADY_LOGGED:
                 view.displayAlreadyConnectedWindow();
                 break;
-            case DISCCONECTION_SETUP:
+            case DISCONNECTION_SETUP:
                 view.displayDisconnectionDuringSetup();
                 break;
             default:

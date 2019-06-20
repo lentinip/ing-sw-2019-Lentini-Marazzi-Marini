@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,6 +53,9 @@ public class BoardController extends Application {
 
     private Client client;
 
+    /*
+    private final Semaphore runMutex = new Semaphore(1);
+     */
     private TypeOfAction currentTypeOfAction;
 
     private CardController cardController = new CardController();
@@ -78,7 +82,7 @@ public class BoardController extends Application {
 
     //Timer in seconds
     //TODO set!!!
-    private Integer timerDuration = 60;
+    private Integer timerDuration = 500;
 
     private IntegerProperty timeSeconds = new SimpleIntegerProperty(timerDuration*1000);
 
@@ -630,6 +634,16 @@ public class BoardController extends Application {
      */
     public void initialize(){
 
+        /*
+        try {
+            runMutex.acquire();
+        }
+        catch (InterruptedException e){
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+
+         */
+
         //Initialize the cells (for selection) and the spots for the weapons in the spawn cells
         initializeCells();
         initializeSpawnCellWeapons();
@@ -680,11 +694,6 @@ public class BoardController extends Application {
             iAmTheFirst=true;
 
         }
-        System.out.print("\nIn configuration:");
-        System.out.print(configuration.getUsernames());
-        System.out.print(configuration.getCharacters());
-        System.out.print("\n");
-
 
         initializeMyPlayerBoard(myCharacter, iAmTheFirst);
 
@@ -693,37 +702,10 @@ public class BoardController extends Application {
         List<String> usernames = new ArrayList<>(configuration.getUsernames());
         List<Character> characters = new ArrayList<>(configuration.getCharacters());
 
-        System.out.print("\nUsernames before:");
-        System.out.print(usernames);
-        System.out.print(characters);
-        System.out.print("\n");
-
-
         usernames.remove(myIndex);
         characters.remove(myIndex);
 
-        System.out.print("\nUsernames after: ");
-        System.out.print(usernames);
-        System.out.print(characters);
-        System.out.print("\n");
-
-
-        System.out.print("\n");
-        System.out.print("Inside the for:\n");
-
         for (int i=0; i < usernames.size(); i++){
-
-            System.out.print("\n");
-            System.out.print("\nIndex: ");
-            System.out.print(i);
-
-            System.out.print("\n");
-            System.out.print("\nUsername: ");
-            System.out.print(usernames.get(i));
-            System.out.print("\nCharacter: ");
-            System.out.print(characters.get(i));
-            System.out.print("\n");
-
 
             if (!iAmTheFirst && i==0){
                 initializeOtherPlayerBoards(usernames.get(0),characters.get(0),true, 0);
@@ -739,6 +721,10 @@ public class BoardController extends Application {
         //Set if there's the frenzy mode
         initializeFrenzyLabel(configuration.isFrenzy());
 
+        /*
+        runMutex.release();
+
+         */
     }
 
     public String getBoardPath(String jsonName){
@@ -809,7 +795,7 @@ public class BoardController extends Application {
         board1AmmoTiles.add(board1AmmoTile9);
         board1AmmoTiles.add(board1AmmoTile10);
 
-        if (!url.contentEquals("@../images/Board1.png")){
+        if (!url.contentEquals("Board1.json")){
             for (ImageView ammoTile : board1AmmoTiles){
                 ammoTile.setVisible(false);
             }
@@ -829,7 +815,7 @@ public class BoardController extends Application {
         board2AmmoTiles.add(board2AmmoTile9);
         board2AmmoTiles.add(board2AmmoTile10);
 
-        if (!url.contentEquals("@../images/Board2.png")){
+        if (!url.contentEquals("Board2.json")){
             for (ImageView ammoTile : board2AmmoTiles){
                 ammoTile.setVisible(false);
             }
@@ -847,7 +833,7 @@ public class BoardController extends Application {
         board3AmmoTiles.add(board3AmmoTile9);
         board3AmmoTiles.add(board3AmmoTile10);
 
-        if (!url.contentEquals("@../images/Board3.png")){
+        if (!url.contentEquals("Board3.json")){
             for (ImageView ammoTile : board3AmmoTiles){
                 ammoTile.setVisible(false);
             }
@@ -864,13 +850,17 @@ public class BoardController extends Application {
         board4AmmoTiles.add(board4AmmoTile9);
         board4AmmoTiles.add(board4AmmoTile10);
 
-        if (!url.contentEquals("@../images/Board4.png")){
+        if (!url.contentEquals("Board4.json")){
             for (ImageView ammoTile : board4AmmoTiles){
                 ammoTile.setVisible(false);
             }
         }
         else {
             boardAmmoTiles = board4AmmoTiles;
+        }
+
+        if (boardAmmoTiles==null){
+            logger.log(Level.SEVERE, "AmmoTiles not successfully loaded, probably wrong Boardname");
         }
     }
 
@@ -1288,6 +1278,16 @@ public class BoardController extends Application {
 
     public void updateMatch(MatchState matchState){
 
+        /*
+        try {
+            runMutex.acquire();
+        }
+        catch (InterruptedException e){
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+
+         */
+
         updateCells(matchState.getCells());
         updatePlayerBoards(matchState.getPlayerBoardMessages(), matchState.getPlayerHands(), matchState.getCurrentPlayer());
         updateLeftActions(matchState.getCurrentPlayerLeftActions());
@@ -1304,9 +1304,14 @@ public class BoardController extends Application {
 
         oldMatchState = matchState;
 
+        /*
+        runMutex.release();
+         */
     }
 
     public void updateCells(List<MessageCell> messageCells){
+
+        //TODO fix if there is not a cell in the board
 
         if (oldMatchState == null || !oldMatchState.getCells().equals(messageCells)){
 
@@ -1330,13 +1335,15 @@ public class BoardController extends Application {
                 }
 
                 //Otherwise is a cell with ammo
-                else {
-                    if (messageCell.isEmpty()){
+                if (cellNumber!=2 && cellNumber!=4 && cellNumber!=11){
+
+                    if (messageCell.getAmmoTile()==null){
                         //set the ammoTile invisible
-                        boardAmmoTiles.get(messageCell.getAmmoPositionNumber()).setVisible(false);
+                        boardAmmoTiles.get(getAmmoPosition(messageCell)).setVisible(false);
                     }
                     else {
-                        ImageView cellAmmo = boardAmmoTiles.get(messageCell.getAmmoPositionNumber());
+
+                        ImageView cellAmmo = boardAmmoTiles.get(getAmmoPosition(messageCell));
                         Image ammoImage = getAmmoImage(messageCell.getAmmoTile());
                         cellAmmo.setImage(ammoImage);
                         cellAmmo.setVisible(true);
@@ -1356,6 +1363,7 @@ public class BoardController extends Application {
         for (int i=0; i<3; i++){
             if (i<messageCell.getWeapons().size()){
                 String weaponName = messageCell.getWeapons().get(i);
+
                 Image weaponImage = cardController.getWeaponImage(weaponName);
                 spawnCellWeapons.get(i).setImage(weaponImage);
             }
@@ -1363,6 +1371,34 @@ public class BoardController extends Application {
                 spawnCellWeapons.get(i).setVisible(false);
             }
         }
+    }
+
+    public int getAmmoPosition(MessageCell messageCell){
+        int result = messageCell.getAmmoPositionNumber();
+
+        if (configurationMessage.getBoardType().equals("Board1.json")){
+            if (messageCell.getCellNumber()>8){
+                result--;
+            }
+        }
+
+        else if (configurationMessage.getBoardType().equals("Board3.json")){
+            if (messageCell.getCellNumber()>3){
+                result--;
+            }
+        }
+
+        else if (configurationMessage.getBoardType().equals("Board4.json")){
+            if (messageCell.getCellNumber()>3){
+                result--;
+            }
+
+            if (messageCell.getCellNumber()>8){
+                result--;
+            }
+        }
+
+        return result;
     }
 
     public void showPlayerPosition(Character character, int cellNumber){
@@ -1441,13 +1477,14 @@ public class BoardController extends Application {
 
     public void updateKillTrack(List<Character> killSequence, List<Boolean> overkillSequence){
 
-        if (oldMatchState.getKillSequence().isEmpty() || !oldMatchState.getKillSequence().equals(killSequence)){
+        if (oldMatchState == null || !oldMatchState.getKillSequence().equals(killSequence)){
 
-            for (int i=0; i<killTrackSkulls.size(); i++){
+            for (int i=0; i<killSequence.size() && i<8; i++){
 
                 ImageView token = killTrackKillTokens.get(i);
                 PlayerBoardController.changeTokenColor(token, killSequence.get(i));
                 token.setVisible(true);
+                killTrackSkulls.get(i).setVisible(false);
 
                 //If there's a overkill shows the overKillToken
                 if(overkillSequence.get(i)){
@@ -1737,4 +1774,11 @@ public class BoardController extends Application {
         return lastSelectedCell;
     }
 
+    public void handleEndTurn(ActionEvent actionEvent){
+        Message message = new Message(client.getUsername());
+        message.createEndTurnMessage();
+        client.send(message);
     }
+    }
+
+

@@ -156,6 +156,7 @@ public class Factory {
 
         List<Powerup> powerupsDeck = createPowerupDeck();
         Collections.shuffle(powerupsDeck);
+        Collections.shuffle(powerupsDeck);
         board.setPowerupsDeck(powerupsDeck);
 
         List<Weapon> weaponsDeck = createWeaponDeck();

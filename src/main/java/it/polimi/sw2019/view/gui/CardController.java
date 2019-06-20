@@ -45,7 +45,13 @@ public class CardController {
 
     public Image getWeaponImage(String name){
         String path = weapons.get(name);
-        return new Image(path);
+        try{
+            return new Image(path);
+        }
+        catch (NullPointerException e){
+            logger.log(Level.SEVERE, "\nASSET MISSING: " + name + "\n");
+            return new Image("/images/cards/weaponsBack.png");
+        }
     }
 
     public Image getPowerupImage(String name, Colors color){

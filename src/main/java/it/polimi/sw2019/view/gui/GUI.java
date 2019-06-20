@@ -113,15 +113,19 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void displayAvailableCards(AvailableCards cards, TypeOfAction typeOfAction){
-        List<Image> cardsImages = boardController.getImageCards(typeOfAction);
+        Platform.runLater(()->{
+            List<Image> cardsImages = boardController.getImageCards(typeOfAction);
 
-        showCardSelection(cards, typeOfAction, cardsImages, false);
+            showCardSelection(cards, typeOfAction, cardsImages, false);
+        });
     }
 
     public void displayAvailableCardsWithNoOption(AvailableCards cards, TypeOfAction typeOfAction){
-        List<Image> cardsImages = boardController.getImageCards(typeOfAction);
+        Platform.runLater(()->{
+            List<Image> cardsImages = boardController.getImageCards(typeOfAction);
 
-        showCardSelection(cards, typeOfAction, cardsImages, true);
+            showCardSelection(cards, typeOfAction, cardsImages, true);
+        });
     }
 
     public void displayAvailableEffects(AvailableEffects availableEffects){
@@ -161,11 +165,15 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void updateMatchState(MatchState matchState){
-        boardController.updateMatch(matchState);
+        Platform.runLater(()->{
+            boardController.updateMatch(matchState);
+        });
     }
 
     public void updatePrivateHand(PrivateHand privateHand){
-        boardController.updatePrivateHand(privateHand);
+        Platform.runLater(()->{
+            boardController.updatePrivateHand(privateHand);
+        });
     }
 
     public void displayAlreadyConnectedWindow(){
@@ -204,57 +212,56 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void showCardSelection(AvailableCards cards, TypeOfAction typeOfAction, List<Image> images, boolean noOption){
-        Platform.runLater(()->{
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/SelectCardScreen.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/SelectCardScreen.fxml"));
 
-            Parent root;
-            final Stage newWindow;
+        Parent root;
+        Scene scene;
+        Stage newWindow;
 
-            try {
-                root = fxmlLoader.load();
-                Scene scene = new Scene(root);
+        try {
+            root = fxmlLoader.load();
+            scene = new Scene(root);
+        }
+        catch (IOException e){
+            logger.log(Level.SEVERE, "SelectCardScreen.fxml not found");
+            scene = new Scene(new Label(errorString));
+        }
 
-                //Creates a new window for the match setting
-                newWindow = new Stage();
-                if (cards.areWeapons()){
-                    newWindow.setTitle("Select Weapon");
-                }
-                else {
-                    newWindow.setTitle("Select Powerup");
-                }
-
-                //The next line sets that this new window will lock the parent window.
-                //Is impossible to interact with the parent window until this window is closed.
-                //The window doesn't have the close button
-                newWindow.initModality(Modality.WINDOW_MODAL);
-                newWindow.initStyle(StageStyle.UNDECORATED);
-                newWindow.initOwner(primaryStage);
-
-                newWindow.setScene(scene);
-            }
-            catch (IOException e){
-                logger.log(Level.SEVERE, "SelectCardScreen.fxml not found");
-            }
-
-            //Configures the controller
-            SelectCardController selectCardController = fxmlLoader.getController();
+        //Configures the controller
+        SelectCardController selectCardController = fxmlLoader.getController();
 
 
-            PrivateHand privateHand = boardController.getPrivateHand();
-            int numberOfWeapons = privateHand.getAllWeapons().size();
-            BoardCoord lastSelectedCell = boardController.getLastSelectedCell();
+        PrivateHand privateHand = boardController.getPrivateHand();
+        int numberOfWeapons = privateHand.getAllWeapons().size();
+        BoardCoord lastSelectedCell = boardController.getLastSelectedCell();
 
-            //If is a grab and the player has already 3 weapons
-            if (numberOfWeapons == 3){
+        //If is a grab and the player has already 3 weapons
+        if (numberOfWeapons == 3){
 
-                List<ImageView> myWeapons = boardController.getMyWeapons();
-                selectCardController.configure(client, boardController, cards, images, lastSelectedCell, myWeapons);
-            }
-            else {
-                selectCardController.configure(client, boardController, cards, typeOfAction, images, lastSelectedCell, noOption);
-            }
-        });
+            List<ImageView> myWeapons = boardController.getMyWeapons();
+            selectCardController.configure(client, boardController, cards, images, lastSelectedCell, myWeapons);
+        }
+        else {
+            selectCardController.configure(client, boardController, cards, typeOfAction, images, lastSelectedCell, noOption);
+        }
+        //The next line sets that this new window will lock the parent window.
+        //Is impossible to interact with the parent window until this window is closed.
+        //The window doesn't have the close button
+        //Creates a new window for the match setting
+        newWindow = new Stage();
+        if (cards.areWeapons()){
+            newWindow.setTitle("Select Weapon");
+        }
+        else {
+            newWindow.setTitle("Select Powerup");
+        }
+        newWindow.initModality(Modality.WINDOW_MODAL);
+        newWindow.initStyle(StageStyle.UNDECORATED);
+        newWindow.initOwner(primaryStage);
+
+        newWindow.setScene(scene);
+        newWindow.show();
     }
 
     public void showEffectSelection(AvailableEffects availableEffects, Image card, int type, boolean noOption){

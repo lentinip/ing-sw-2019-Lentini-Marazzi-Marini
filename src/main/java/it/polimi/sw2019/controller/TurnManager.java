@@ -252,8 +252,6 @@ public class TurnManager {
             List<IndexMessage> options = new ArrayList<>();
             for (Powerup card: powerups){
 
-                System.out.print("\nPowerup index: " + receiver.getPowerupIndex(card));
-
                 options.add(new IndexMessage(receiver.getPowerupIndex(card)));
             }
             message.createAvailableCardsMessage(TypeOfAction.SPAWN, options, false);

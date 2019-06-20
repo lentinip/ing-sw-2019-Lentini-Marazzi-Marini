@@ -214,7 +214,7 @@ public class Match extends Observable {
      */
     public Player getPlayerByUsername(String username){
         for (Player player : players){
-            if (player.getName()==username){
+            if (player.getName().equals(username)){
                 return player;
             }
         }

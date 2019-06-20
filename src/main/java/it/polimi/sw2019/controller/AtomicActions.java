@@ -72,7 +72,7 @@ public class  AtomicActions {
 
         //Removes the AmmoTile from the CommonCell
         selectedCell.setAmmo(null);
-        selectedCell.setIsEmpty(false);
+        selectedCell.setIsEmpty(true);
 
         //Addss the AmmoTile to the discarded ones in the Board
         match.getBoard().discardAmmo(cellTile);

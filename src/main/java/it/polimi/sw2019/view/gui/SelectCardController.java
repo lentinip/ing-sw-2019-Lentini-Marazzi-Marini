@@ -77,7 +77,7 @@ public class SelectCardController {
         }
 
         if (typeOfAction == TypeOfAction.SPAWN){
-            mainLabel.setText("YOU'RE DEAD: CHOOSE A POWERUP TO SPAWN");
+            mainLabel.setText("CHOOSE A POWERUP TO SPAWN");
         }
 
         List<IndexMessage> indexMessages = availableCards.getAvailableCards();
