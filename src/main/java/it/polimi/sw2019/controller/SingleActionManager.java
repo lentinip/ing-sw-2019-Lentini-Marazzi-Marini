@@ -118,12 +118,37 @@ public class SingleActionManager {
         Player player = match.getPlayerByUsername(message.getUsername());
         BoardCoord selection = message.deserializeBoardCoord();
         Cell selectedCell = match.getBoard().getCell(selection);
-        atomicActions.grab(player, selectedCell);
 
-        //Add the cell to a list of empty cells (for the end of the turn)
-        turnManager.getEmptyCommonCells().add(selectedCell);
+        if (selectedCell.isEmpty()){
+            atomicActions.move(player, selectedCell);
+            reducePlayerNumberOfActions();
+        }
 
-        reducePlayerNumberOfActions();
+        else if (!selectedCell.isCommon()) {
+
+            Message availableCards = new Message(player.getName());
+            List<Weapon> availableWeapons = new ArrayList<>(selectedCell.getWeapons());
+            List<IndexMessage> cards = new ArrayList<>();
+
+            for (Weapon weapon: availableWeapons){
+
+                if (player.canIPay(weapon.getGrabCost())){
+                    cards.add(new IndexMessage(availableWeapons.indexOf(weapon)));
+                }
+            }
+
+            availableCards.createAvailableCardsMessage(TypeOfAction.GRAB, cards, true);
+            view.display(availableCards);
+        }
+
+        else {
+
+            atomicActions.grab(player, selectedCell);
+            //Add the cell to a list of empty cells (for the end of the turn)
+            turnManager.getEmptyCommonCells().add(selectedCell);
+            reducePlayerNumberOfActions();
+        }
+
     }
 
     public void grabWeaponHandler(Message message){
