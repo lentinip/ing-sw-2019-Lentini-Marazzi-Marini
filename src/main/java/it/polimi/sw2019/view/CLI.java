@@ -1102,9 +1102,28 @@ public class CLI implements ViewInterface {
 
         if (cards.areWeapons()){
             out.println("CHOOSE THE WEAPON:");
-            for(IndexMessage indexMessage: cards.getAvailableCards()){
-                out.println(cont + ".  " + privateHand.getAllWeapons().get(indexMessage.getSelectionIndex()));
-                cont++;
+
+            if (typeOfAction == TypeOfAction.GRAB){
+                MessageCell spawnCell = new MessageCell();
+
+                for (MessageCell cell: matchState.getCells()){
+                    if (cell.getColumn() == lastCellSelected.getColumn() && cell.getRow() == lastCellSelected.getRow()){
+                        spawnCell = cell;
+                        break;
+                    }
+                }
+
+                for(IndexMessage indexMessage: cards.getAvailableCards()){
+                    out.println(cont + ".  " + spawnCell.getWeapons().get(indexMessage.getSelectionIndex()));
+                    cont++;
+                }
+            }
+
+            else {
+                for (IndexMessage indexMessage : cards.getAvailableCards()) {
+                    out.println(cont + ".  " + privateHand.getAllWeapons().get(indexMessage.getSelectionIndex()));
+                    cont++;
+                }
             }
         }
 
