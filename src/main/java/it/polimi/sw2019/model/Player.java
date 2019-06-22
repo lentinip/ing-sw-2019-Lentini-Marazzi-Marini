@@ -479,7 +479,8 @@ public class Player extends Observable {
 
       int virtualAmmo[] = virtualAmmo();
 
-      if(virtualAmmo[0] >= cost.getRed() && virtualAmmo[1] >= cost.getBlue() && virtualAmmo[2] >= cost.getYellow()){
+
+      if(cost == null || (virtualAmmo[0] >= cost.getRed() && virtualAmmo[1] >= cost.getBlue() && virtualAmmo[2] >= cost.getYellow())){
 
           return true;
       }

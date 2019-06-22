@@ -125,6 +125,7 @@ public class SingleActionManager {
         }
 
         else if (!selectedCell.isCommon()) {
+            payment.setSpawnCell(selectedCell);
 
             Message availableCards = new Message(player.getName());
             List<Weapon> availableWeapons = new ArrayList<>(selectedCell.getWeapons());

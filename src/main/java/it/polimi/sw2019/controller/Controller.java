@@ -154,6 +154,31 @@ public class Controller implements Observer {
                 break;
             case USEPOWERUP:
                 List<Powerup> powerups = currentPlayer.usablePowerups();
+
+                if (turnManager.isFirstRound()){
+                    List<Player> playerList = new ArrayList<>(match.getPlayers());
+                    playerList.remove(currentPlayer);
+
+                    List<Player> playerListTemp = new ArrayList<>(playerList);
+
+                    for (Player player : playerListTemp){
+                        if (player.getPosition()==null){
+                            playerList.remove(player);
+                        }
+                    }
+
+                    if (playerList.isEmpty()){
+
+                        List<Powerup> powerupList = new ArrayList<>(powerups);
+
+                        for (Powerup powerup : powerupList){
+                            if (powerup.getMove()!=null){
+                                powerups.remove(powerup);
+                            }
+                        }
+                    }
+                }
+
                 List<IndexMessage> powerupsIndex = new ArrayList<>();
 
                 for (Powerup powerup : powerups){

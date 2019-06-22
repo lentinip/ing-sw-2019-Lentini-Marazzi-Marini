@@ -249,7 +249,7 @@ public class Client {
         TypeOfAction action = message.getTypeOfAction();
 
         //possible no answer (index selected < 0 )
-        if (action == TypeOfAction.RELOAD ||  action == TypeOfAction.USEPOWERUP ){
+        if (action == TypeOfAction.RELOAD ||  action == TypeOfAction.USEPOWERUP || action == TypeOfAction.GRAB){
 
             view.displayAvailableCardsWithNoOption(message.deserializeAvailableCards(), message.getTypeOfAction());
         }
@@ -310,6 +310,22 @@ public class Client {
      * @param messageToSend parameter or message to send to server
      */
     public void send(Message messageToSend){
+
+        System.out.print("\n");
+        System.out.print("MESSAGE:");
+        System.out.print("\n");
+        System.out.print("Username :");
+        System.out.print(messageToSend.getUsername());
+        System.out.print("\n");
+        System.out.print("\nTypeOfMessage: ");
+        System.out.print(messageToSend.getTypeOfMessage());
+        System.out.print("\n");
+        System.out.print("\nTypeOfAction: ");
+        System.out.print(messageToSend.getTypeOfAction());
+        System.out.print("\n");
+
+
+
 
         try {
             clientActions.doSomething(messageToSend);

@@ -78,7 +78,7 @@ public class  AtomicActions {
         match.getBoard().discardAmmo(cellTile);
 
         //Sets the match as changed
-        match.notifyMatchState();
+        match.notifyPrivateHand(grabbingPlayer);
 
         String report = "  GRABBED AMMO TILE in row: " + selectedCell.getRow() + ", column: " + selectedCell.getColumn();
         Message message = new Message("All");
@@ -96,11 +96,14 @@ public class  AtomicActions {
 
         Weapon grabbedWeapon = selectedCell.getWeapons().get(weaponIndex);
 
+        String report = "  GRABBED  " + selectedCell.getWeapons().get(weaponIndex).getName() + "  in row: " + selectedCell.getRow() + ", column: " + selectedCell.getColumn();
+
         //Moves the player
         move(grabbingPlayer, selectedCell);
 
         //Adds the weapon to the Players weapon
         grabbingPlayer.addWeapon(grabbedWeapon);
+        grabbedWeapon.setOwner(grabbingPlayer);
 
         //Removes it from the cell
         selectedCell.getWeapons().remove(grabbedWeapon);
@@ -113,7 +116,6 @@ public class  AtomicActions {
         //Sets the match as changed
         match.notifyPrivateHand(match.getCurrentPlayer());
 
-        String report = "  GRABBED  " + selectedCell.getWeapons().get(weaponIndex).getName() + "  in row: " + selectedCell.getRow() + ", column: " + selectedCell.getColumn();
         Message message = new Message("All");
         message.createActionReports(report, grabbingPlayer.getCharacter(), null);
         view.display(message);
@@ -138,6 +140,7 @@ public class  AtomicActions {
 
         //"Recharges" the Player's weapon
         weaponToReplace.setIsLoaded(true);
+        weaponToReplace.setOwner(null);
 
         //Adds the Player's weapon to the SpawnCell
         selectedCell.getWeapons().add(weaponToReplace);

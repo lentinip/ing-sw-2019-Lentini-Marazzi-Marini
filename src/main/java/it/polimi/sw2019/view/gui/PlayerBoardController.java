@@ -487,8 +487,9 @@ public class PlayerBoardController {
     public void setAsCurrentPlayer(){
         DropShadow dropShadow = new DropShadow();
         dropShadow.setColor(Color.BLUE);
-        dropShadow.setHeight(10.0);
-        dropShadow.setWidth(10.0);
+        dropShadow.setHeight(18.0);
+        dropShadow.setWidth(18.0);
+        dropShadow.setSpread(0.4);
 
         playerBoardImage.setEffect(dropShadow);
     }

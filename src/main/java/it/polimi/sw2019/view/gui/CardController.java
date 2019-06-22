@@ -37,7 +37,7 @@ public class CardController {
 
     private Map<String, String> powerups = new HashMap<>();
 
-    private Map<String, Integer> weaponsTypes = new HashMap<>();
+    private Map<String, Double> weaponsTypes = new HashMap<>();
 
     private static Logger logger = Logger.getLogger("CardController");
 
@@ -55,13 +55,24 @@ public class CardController {
     }
 
     public Image getPowerupImage(String name, Colors color){
+        if (name.equals("powerupsBack.png")){
+            return new Image(powerups.get(name));
+        }
         String fullname = name + " " + color.toString();
         String path = powerups.get(fullname);
         return new Image(path);
     }
 
-    public int getWeaponType(String name){
-        return weaponsTypes.get(name);
+    public Integer getWeaponType(String name){
+        try {
+            return weaponsTypes.get(name).intValue();
+        }
+        catch (ClassCastException e){
+            logger.log(Level.SEVERE, e.getMessage());
+            logger.log(Level.SEVERE, weaponsTypes.toString());
+            return 1;
+        }
+
     }
 
     public static void setUnavailable(ImageView card, boolean unloaded) {

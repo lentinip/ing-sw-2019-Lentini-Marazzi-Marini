@@ -33,6 +33,8 @@ public class Payment {
 
     private Player payingPlayer;
 
+    private Cell spawnCell;
+
     private Message pendingMessage;
 
     private List<Powerup> selectedPowerups = new ArrayList<>();
@@ -46,6 +48,10 @@ public class Payment {
 
     public boolean isReloadInFrenzy() {
         return reloadInFrenzy;
+    }
+
+    public void setSpawnCell(Cell spawnCell) {
+        this.spawnCell = spawnCell;
     }
 
     public void setReloadInFrenzy(boolean reloadInFrenzy) {
@@ -252,7 +258,7 @@ public class Payment {
         switch (message.getTypeOfAction()){
             case GRABWEAPON:
                 GrabWeapon grabWeapon = message.deserializeGrabWeapon();
-                Weapon weapon = payingPlayer.getWeaponFromIndex(grabWeapon.getGrabbedWeapon());
+                Weapon weapon = spawnCell.getWeapons().get(grabWeapon.getGrabbedWeapon());
                 initialCost = weapon.getGrabCost();
                 leftCost = initialCost.copy();
                 break;

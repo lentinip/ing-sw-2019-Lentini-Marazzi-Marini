@@ -69,9 +69,13 @@ public class PaymentController {
     public void configure(Client client, PaymentMessage paymentMessage, List<Image> images){
         this.client = client;
 
-        for (ImageView weapon : cards){
-            weapon.setImage(images.get(cards.indexOf(weapon)));
+        for (Image image : images) {
+            ImageView card = cards.get(images.indexOf(image));
+            card.setImage(image);
+            card.setVisible(true);
+            card.setDisable(true);
         }
+
 
         for (IndexMessage indexMessage : paymentMessage.getUsablePowerups()){
             ImageView card = cards.get(indexMessage.getSelectionIndex());
@@ -79,7 +83,7 @@ public class PaymentController {
             card.setDisable(false);
         }
 
-        if (paymentMessage.isMustPay()){
+        if (!paymentMessage.isMustPay()){
             payWithAmmoButton.setVisible(true);
         }
     }
@@ -119,6 +123,7 @@ public class PaymentController {
         int selection = (int) imageView.getUserData();
 
         sendPayMessage(selection);
+        closeWindow();
     }
 
     @FXML

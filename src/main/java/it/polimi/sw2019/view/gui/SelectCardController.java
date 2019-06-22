@@ -1,8 +1,10 @@
 package it.polimi.sw2019.view.gui;
 
+import it.polimi.sw2019.controller.AtomicActions;
 import it.polimi.sw2019.model.TypeOfAction;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -82,7 +84,7 @@ public class SelectCardController {
 
         List<IndexMessage> indexMessages = availableCards.getAvailableCards();
 
-        showCards(indexMessages, images, true);
+        showCards(indexMessages, images, false);
 
         closeButton.setVisible(noOption);
     }
@@ -93,8 +95,13 @@ public class SelectCardController {
     }
 
     public void showCards(List<IndexMessage> indexMessages, List<Image> images, boolean disable){
-        for (ImageView card : cards){
-            card.setImage(images.get(cards.indexOf(card)));
+        for (int i = 0; i<cards.size(); i++){
+            if (i<images.size()){
+                cards.get(i).setImage(images.get(i));
+            }
+            else {
+                cards.get(i).setVisible(false);
+            }
         }
 
         for (IndexMessage indexMessage : indexMessages){
@@ -165,26 +172,35 @@ public class SelectCardController {
         }
         else {
             Message message = new Message((client.getUsername()));
-            message.createSelectedCard((int) imageView.getUserData(), currentTypeOfAction);
+            message.createSelectedCard(((IndexMessage) imageView.getUserData()).getSelectionIndex(), currentTypeOfAction);
             setTypeFromImage(imageView);
             //Saves the weapon in the boardController for next use
             boardController.setSelectedWeapon(imageView);
             client.send(message);
+            closeWindow();
         }
 
 
     }
 
     @FXML
-    public void handleCloseButton(){
+    public void handleCloseButton(ActionEvent actionEvent){
         if (currentTypeOfAction == TypeOfAction.RELOAD || currentTypeOfAction == TypeOfAction.USEPOWERUP){
 
+            //TODO Check why
+            /*
             //If is a use powerup sends a message, if is a reload just closes the window
             if (currentTypeOfAction == TypeOfAction.USEPOWERUP){
                 Message message = new Message(client.getUsername());
                 message.createSelectionForUsePowerup(-1);
                 client.send(message);
             }
+
+             */
+            closeWindow();
+
+        }
+        else if (currentTypeOfAction == TypeOfAction.GRAB){
             closeWindow();
         }
         else {

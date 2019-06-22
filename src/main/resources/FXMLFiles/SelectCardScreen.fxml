@@ -16,17 +16,17 @@
             <Image url="@../images/StartScreenLogo.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="cardImage0" fitHeight="327.0" fitWidth="235.0" layoutX="14.0" layoutY="147.0" onMouseClicked="#handleSelection" onMouseEntered="#showSelection" onMouseExited="#disableEffect" opacity="0.4" preserveRatio="true">
+      <ImageView fx:id="cardImage0" disable="true" fitHeight="327.0" fitWidth="235.0" layoutX="14.0" layoutY="147.0" onMouseClicked="#handleSelection" onMouseEntered="#showSelection" onMouseExited="#disableEffect" opacity="0.4" preserveRatio="true">
          <image>
             <Image url="@../images/cards/weaponsBack.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="cardImage1" fitHeight="327.0" fitWidth="235.0" layoutX="303.0" layoutY="147.0" onMouseClicked="#handleSelection" onMouseEntered="#showSelection" onMouseExited="#disableEffect" opacity="0.4" preserveRatio="true">
+      <ImageView fx:id="cardImage1" disable="true" fitHeight="327.0" fitWidth="235.0" layoutX="303.0" layoutY="147.0" onMouseClicked="#handleSelection" onMouseEntered="#showSelection" onMouseExited="#disableEffect" opacity="0.4" preserveRatio="true">
          <image>
             <Image url="@../images/cards/weaponsBack.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="cardImage2" fitHeight="327.0" fitWidth="235.0" layoutX="592.0" layoutY="147.0" onMouseClicked="#handleSelection" onMouseEntered="#showSelection" onMouseExited="#disableEffect" opacity="0.4" preserveRatio="true">
+      <ImageView fx:id="cardImage2" disable="true" fitHeight="327.0" fitWidth="235.0" layoutX="592.0" layoutY="147.0" onMouseClicked="#handleSelection" onMouseEntered="#showSelection" onMouseExited="#disableEffect" opacity="0.4" preserveRatio="true">
          <image>
             <Image url="@../images/cards/weaponsBack.png" />
          </image>

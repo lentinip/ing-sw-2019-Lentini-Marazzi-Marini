@@ -1231,17 +1231,20 @@ public class BoardController extends Application {
                     myWeapon.setImage(newImage);
 
                     //Sets the type of the weapon in the weapon ImageView
-                    myWeapon.setUserData(cardController.getWeaponType(newWeaponName));
+                    int type = cardController.getWeaponType(newWeaponName);
+                    myWeapon.setUserData(type);
 
                     //Checks if the weapon is visible
                     boolean isVisible = privateHand.getWeaponsLoaded().contains(newWeaponName);
 
                     //Sets the visibility and shows it
-                    CardController.setUnavailable(myWeapon, isVisible);
+                    CardController.setUnavailable(myWeapon, !isVisible);
                     myWeapon.setVisible(true);
                 }
                 else {
                     //If the player doesn't have anymore weapons
+                    Image weaponsBack = cardController.getWeaponImage("weaponsBack.png");
+                    myWeapon.setImage(weaponsBack);
                     myWeapon.setVisible(false);
                 }
             }
@@ -1268,6 +1271,8 @@ public class BoardController extends Application {
                 }
                 else {
                     //If the player doesn't have anymore powerups
+                    Image powerupsBack = cardController.getPowerupImage("powerupsBack.png", Colors.BLUE);
+                    myPowerup.setImage(powerupsBack);
                     myPowerup.setVisible(false);
                 }
             }
@@ -1299,6 +1304,11 @@ public class BoardController extends Application {
         updateCurrentPlayer(matchState.getCurrentPlayer());
 
         if (matchState.getCurrentPlayer() == myPlayerBoard.getCharacter() && matchState.getCurrentPlayerLeftActions()==0){
+            disableActions();
+            endTurnButton.setDisable(false);
+            usePowerupButton.setDisable(false);
+        }
+        if (matchState.getCurrentPlayer() != myPlayerBoard.getCharacter()){
             disableActions();
         }
 
@@ -1366,6 +1376,7 @@ public class BoardController extends Application {
 
                 Image weaponImage = cardController.getWeaponImage(weaponName);
                 spawnCellWeapons.get(i).setImage(weaponImage);
+                spawnCellWeapons.get(i).setVisible(true);
             }
             else {
                 spawnCellWeapons.get(i).setVisible(false);
@@ -1582,6 +1593,7 @@ public class BoardController extends Application {
             message.createSelectedCellMessage(boardCoord, currentTypeOfAction, TypeOfMessage.SINGLE_ACTION);
         }
 
+        disableAvailableCells();
         client.send(message);
     }
 
@@ -1601,6 +1613,8 @@ public class BoardController extends Application {
 
     public void showAvailableCells(List<BoardCoord> cells, TypeOfAction typeOfAction){
         currentTypeOfAction = typeOfAction;
+
+        disableAvailableCells();
 
         for (BoardCoord cell : cells){
             selectableCells.get(cell.getCellNumber()).setVisible(true);
@@ -1642,7 +1656,9 @@ public class BoardController extends Application {
         }
 
         for (ImageView imageView : imageViewList){
-            result.add(imageView.getImage());
+            if (imageView.isVisible()){
+                result.add(imageView.getImage());
+            }
         }
 
         return result;
@@ -1777,6 +1793,12 @@ public class BoardController extends Application {
     public void handleEndTurn(ActionEvent actionEvent){
         Message message = new Message(client.getUsername());
         message.createEndTurnMessage();
+        client.send(message);
+    }
+
+    public void handleUsePowerup(ActionEvent actionEvent){
+        Message message = new Message(client.getUsername());
+        message.createAskMessage(TypeOfAction.USEPOWERUP);
         client.send(message);
     }
     }

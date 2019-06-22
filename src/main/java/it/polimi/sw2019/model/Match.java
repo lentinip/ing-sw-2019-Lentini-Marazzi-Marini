@@ -312,7 +312,7 @@ public class Match extends Observable {
          */
         for(int i = 0; i < players.size(); i++) {
 
-             if(players.get(i).isDead()) {
+             if(players.get(i).isDead() && players.get(i).getPosition()!=null) {
 
                  playerBoard = players.get(i).getPlayerBoard();
 

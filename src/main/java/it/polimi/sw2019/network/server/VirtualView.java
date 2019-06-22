@@ -233,6 +233,7 @@ public class VirtualView extends Observable implements Observer {
     }
 
     public void startSetupTimer(){
+        matchSetupChoiceTimer = new Timer();
 
         matchSetupChoiceTimer.schedule(new TimerTask() {
             @Override
@@ -253,15 +254,7 @@ public class VirtualView extends Observable implements Observer {
 
     public void startTimer(){
 
-        System.out.print("\n");
-        System.out.print("The first timer start\n");
-        System.out.print("\n");
-
-        System.out.print("\n");
-        System.out.print("Duration: \n");
-        System.out.print(matchCreationTimer);
-        System.out.print("\n");
-
+        timer = new Timer();
 
         timer.schedule(new TimerTask() {
             @Override
@@ -277,6 +270,8 @@ public class VirtualView extends Observable implements Observer {
      * @param currentPlayer the user of the player that is playing
      */
     public void startTurnTimer(String currentPlayer){
+
+        turn = new Timer();
 
         turn.schedule(new TimerTask() {
             @Override
@@ -313,6 +308,8 @@ public class VirtualView extends Observable implements Observer {
      */
     public void startResponseMessage(){
 
+        responseTimer = new Timer();
+
         responseTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -326,6 +323,8 @@ public class VirtualView extends Observable implements Observer {
      * if the timer elapses before the player chooses a spawn location we choose it for him
      */
     public void startSpawnMessage(){
+
+        spawningChoiceTimer = new Timer();
 
         spawningChoiceTimer.schedule(new TimerTask() {
             @Override

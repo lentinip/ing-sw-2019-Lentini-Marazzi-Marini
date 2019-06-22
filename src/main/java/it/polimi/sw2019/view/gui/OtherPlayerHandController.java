@@ -93,8 +93,9 @@ public class OtherPlayerHandController {
             //Shows the one the loaded ones cover
             for (int j=0; j<playerHand.getWeaponsHidden(); j++){
                 ImageView weapon = weapons.get(i);
-                weapon.setImage(cardController.getWeaponImage("weaponBack.png"));
+                weapon.setImage(cardController.getWeaponImage("weaponsBack.png"));
                 CardController.setUnavailable(weapon, false);
+                weapon.setVisible(true);
                 i++;
             }
 

@@ -748,7 +748,7 @@ public class CLI implements ViewInterface {
         }
         out.print("\nloaded weapons: ");
         for (String weapon: privateHand.getWeaponsLoaded()){
-            out.println("    " + weapon);
+            out.print("    " + weapon);
         }
         out.print("\npowerups: ");
         for (String powerup: privateHand.getPowerups()){

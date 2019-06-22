@@ -137,11 +137,14 @@ public class TurnManager {
      */
     public void refillSpawnCell(){
 
-        for(Cell spawnCell : emptySpawnCells){
+        List<Cell> cellList = new ArrayList<>(emptySpawnCells);
 
-            if (!match.getBoard().weaponsDeckIsEmpty()){
-                Weapon weapon = match.getBoard().drawWeapon();
-                spawnCell.getWeapons().add(weapon);
+        for(Cell spawnCell : cellList){
+            while (spawnCell.getWeapons().size()<3){
+                if (!match.getBoard().weaponsDeckIsEmpty()){
+                    Weapon weapon = match.getBoard().drawWeapon();
+                    spawnCell.getWeapons().add(weapon);
+                }
             }
 
             if (match.getBoard().weaponsDeckIsEmpty() || spawnCell.getWeapons().size()==3){
@@ -157,7 +160,9 @@ public class TurnManager {
      */
     public void refillCommonCell(){
 
-        for(Cell commonCell : emptyCommonCells){
+        List<Cell> cellList = new ArrayList<>(emptyCommonCells);
+
+        for(Cell commonCell : cellList){
 
             AmmoTile newAmmoTile = match.getBoard().drawAmmo();
             commonCell.setAmmo(newAmmoTile);
@@ -179,7 +184,9 @@ public class TurnManager {
         //Gets the powerup selected
         Powerup powerup = spawningPlayer.getPowerups().get(powerupIndex);
 
-        System.out.print("\n PowerupIndex: " + powerupIndex + "\n");
+        System.out.print("\nI'm inside the spawn\n");
+
+        //System.out.print("\n PowerupIndex: " + powerupIndex + "\n");
 
 
         //Gets the room with the color of the powerup
@@ -199,9 +206,22 @@ public class TurnManager {
         // checking if it is the first spawn or not
         if (isFirstRound){
 
-            // if it is the last player that has his first turn I set first round to false
-            if (match.getPlayers().indexOf(match.getCurrentPlayer()) == match.getPlayers().size()-1){
+            System.out.print("\n I'm in the first turn\n");
+            System.out.print("\n Current player : " + currentPlayer.getName() + "\n");
 
+
+            if (currentPlayer.getName().equals(spawningPlayer.getName())){
+                view.startTurnTimer(currentPlayer.getName());
+            }
+
+            System.out.print("\n Current player  index: " + match.getPlayers().indexOf(match.getCurrentPlayer()) + "\n");
+            System.out.print("\n Last player  index: " + (match.getPlayers().size()-1) + "\n");
+
+
+            // if it is the last player that has his first turn I set first round to false
+            if (match.getPlayers().indexOf(match.getCurrentPlayer()) == (match.getPlayers().size()-1)){
+
+                System.out.print("\nI'm inside the if that set the first round to false\n");
                 isFirstRound = false;
             }
 
@@ -237,6 +257,7 @@ public class TurnManager {
 
         if (!match.getDeadPlayers().isEmpty()){
 
+            System.out.print("\n Size of the dead players array: " + match.getDeadPlayers().size() + "\n");
             receiver = match.getDeadPlayers().get(0);
             singleActionManager.getAtomicActions().drawPowerup(receiver);
 
