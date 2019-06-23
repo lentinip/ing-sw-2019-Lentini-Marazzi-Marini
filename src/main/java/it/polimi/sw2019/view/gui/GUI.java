@@ -1,6 +1,7 @@
 package it.polimi.sw2019.view.gui;
 
 import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.model.Player;
 import it.polimi.sw2019.model.TypeOfAction;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.*;
@@ -106,11 +107,16 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void displayCanIShoot(boolean answer){
-        boardController.canIShoot(answer);
+        System.out.print("\n Can I shoot: " + answer + "\n");
+        Platform.runLater(()->{
+            boardController.canIShoot(answer);
+        });
     }
 
     public void displayAvailableCells(List<BoardCoord> cells, TypeOfAction typeOfAction){
-        boardController.showAvailableCells(cells, typeOfAction);
+        Platform.runLater(()->{
+            boardController.showAvailableCells(cells, typeOfAction);
+        });
     }
 
     public void displayAvailableCards(AvailableCards cards, TypeOfAction typeOfAction){
@@ -144,11 +150,15 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void displayAvailablePlayers(List<Character> players, TypeOfAction typeOfAction){
-        boardController.showSelectablePlayers(players, typeOfAction, false);
+        Platform.runLater(()->{
+            boardController.showSelectablePlayers(players, typeOfAction, false);
+        });
     }
 
     public void displayAvailablePlayersWithNoOption(List<Character> players, TypeOfAction typeOfAction){
-        boardController.showSelectablePlayers(players, typeOfAction, true);
+        Platform.runLater(()->{
+            boardController.showSelectablePlayers(players, typeOfAction, true);
+        });
     }
 
     public void displayPayment(PaymentMessage paymentInfo){

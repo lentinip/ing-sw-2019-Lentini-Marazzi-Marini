@@ -1193,7 +1193,11 @@ public class CLI implements ViewInterface {
         int cont = 0;
         Message selectedCard = new Message(username);
 
-        if (cards.areWeapons()){
+        if (cards.getAvailableCards().isEmpty()){
+            out.println("THERE ARE NO CARDS AVAILABLE, DO SOMETHING ELSE.");
+        }
+
+        else if (cards.areWeapons()){
             out.println("CHOOSE THE WEAPON:");
             for(IndexMessage indexMessage: cards.getAvailableCards()){
                 out.println(cont + ".  " + privateHand.getAllWeapons().get(indexMessage.getSelectionIndex()));

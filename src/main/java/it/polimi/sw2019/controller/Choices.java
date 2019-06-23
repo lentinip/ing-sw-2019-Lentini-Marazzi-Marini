@@ -168,7 +168,11 @@ public class Choices {
                 IndexMessage effectIndex = message.deserializeIndexMessage();
 
                 //useful for effect that need to shoot different players see cyberblade optional effect
-                Player alreadyShooted = shootedPlayers.get(0);
+                Player alreadyShooted = null;
+
+                if (!shootedPlayers.isEmpty()){
+                    alreadyShooted = shootedPlayers.get(0);
+                }
 
                 // clearing all the selections
                 reset();
@@ -188,7 +192,7 @@ public class Choices {
                     currentEffect = selectedWeapon.getEffects().get(effectIndex.getSelectionIndex());
 
                     // adding the already shooted player to shootedPlayers, saved before the reset, if it is needed
-                    if ( currentEffect.getTargets().isDifferentPlayers() ){
+                    if ( currentEffect.getTargets().isDifferentPlayers()){
 
                         shootedPlayers.add(alreadyShooted);
                     }

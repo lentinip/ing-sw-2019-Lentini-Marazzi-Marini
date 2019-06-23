@@ -331,7 +331,8 @@ public class SingleActionManager {
         // if I just used an additional effect then I can't use any other effect except for move type effects
         if ( choices.getCurrentEffect().isAdditionalEffect() ){
 
-            for (Effect effect: usableEffects){
+            List<Effect> effectList = new ArrayList<>(usableEffects);
+            for (Effect effect: effectList){
 
                 if (effect.getType() != EffectsKind.MOVE){
 

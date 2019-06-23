@@ -657,6 +657,10 @@ public class PlayerBoardController {
         grabAfterFirstAvailable.setVisible(false);
     }
 
+    public void showReload(){
+        reloadAvailable.setVisible(true);
+    }
+
     @FXML
     public void showSelection(MouseEvent actionEvent){
 

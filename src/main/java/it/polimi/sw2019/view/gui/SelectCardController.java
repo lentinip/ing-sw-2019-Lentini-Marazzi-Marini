@@ -166,6 +166,7 @@ public class SelectCardController {
                 else {
                     message.createSingleActionGrabWeapon(new GrabWeapon(indexMessage.getSelectionIndex(), -1, lastSelectedCell));
                 }
+
                 client.send(message);
                 closeWindow();
             }
@@ -176,6 +177,11 @@ public class SelectCardController {
             setTypeFromImage(imageView);
             //Saves the weapon in the boardController for next use
             boardController.setSelectedWeapon(imageView);
+
+            if (currentTypeOfAction==TypeOfAction.RELOAD){
+                boardController.showOnlyReload();
+            }
+
             client.send(message);
             closeWindow();
         }
@@ -185,18 +191,19 @@ public class SelectCardController {
 
     @FXML
     public void handleCloseButton(ActionEvent actionEvent){
+
+        //TODO order better the method
+
         if (currentTypeOfAction == TypeOfAction.RELOAD || currentTypeOfAction == TypeOfAction.USEPOWERUP){
 
-            //TODO Check why
-            /*
-            //If is a use powerup sends a message, if is a reload just closes the window
-            if (currentTypeOfAction == TypeOfAction.USEPOWERUP){
-                Message message = new Message(client.getUsername());
-                message.createSelectionForUsePowerup(-1);
-                client.send(message);
+            if (!boardController.iAmTheCurrentPlayer()){
+                if (currentTypeOfAction == TypeOfAction.USEPOWERUP){
+                    Message message = new Message(client.getUsername());
+                    message.createSelectionForUsePowerup(-1);
+                    client.send(message);
+                }
             }
 
-             */
             closeWindow();
 
         }

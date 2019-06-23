@@ -249,7 +249,7 @@ public class Client {
         TypeOfAction action = message.getTypeOfAction();
 
         //possible no answer (index selected < 0 )
-        if (action == TypeOfAction.RELOAD ||  action == TypeOfAction.USEPOWERUP || action == TypeOfAction.GRAB){
+        if (action == TypeOfAction.RELOAD ||  action == TypeOfAction.USEPOWERUP || (action == TypeOfAction.GRAB && message.deserializeAvailableCards().getAvailableCards().isEmpty())){
 
             view.displayAvailableCardsWithNoOption(message.deserializeAvailableCards(), message.getTypeOfAction());
         }

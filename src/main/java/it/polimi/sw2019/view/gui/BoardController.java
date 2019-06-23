@@ -1304,9 +1304,7 @@ public class BoardController extends Application {
         updateCurrentPlayer(matchState.getCurrentPlayer());
 
         if (matchState.getCurrentPlayer() == myPlayerBoard.getCharacter() && matchState.getCurrentPlayerLeftActions()==0){
-            disableActions();
-            endTurnButton.setDisable(false);
-            usePowerupButton.setDisable(false);
+            showOnlyReload();
         }
         if (matchState.getCurrentPlayer() != myPlayerBoard.getCharacter()){
             disableActions();
@@ -1319,9 +1317,14 @@ public class BoardController extends Application {
          */
     }
 
-    public void updateCells(List<MessageCell> messageCells){
+    public void showOnlyReload(){
+        disableActions();
+        endTurnButton.setDisable(false);
+        usePowerupButton.setDisable(false);
+        myPlayerBoard.showReload();
+    }
 
-        //TODO fix if there is not a cell in the board
+    public void updateCells(List<MessageCell> messageCells){
 
         if (oldMatchState == null || !oldMatchState.getCells().equals(messageCells)){
 
@@ -1801,6 +1804,11 @@ public class BoardController extends Application {
         message.createAskMessage(TypeOfAction.USEPOWERUP);
         client.send(message);
     }
+
+    public boolean iAmTheCurrentPlayer(){
+        return oldMatchState.getCurrentPlayer() == myPlayerBoard.getCharacter();
+    }
+
     }
 
 
