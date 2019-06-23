@@ -251,6 +251,12 @@ public class MoveEffect {
         List<Player> targets = new ArrayList<>(allPlayers);
         targets.remove(owner);
 
+        for (Player player : allPlayers){
+            if (player.getPosition()==null){
+                targets.remove(player);
+            }
+        }
+
         for (Player player: targets){
 
             List<Cell> reachableCells = player.getPosition().reachableCells(moveTargets);

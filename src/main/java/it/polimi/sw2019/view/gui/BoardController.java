@@ -2,7 +2,6 @@ package it.polimi.sw2019.view.gui;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import it.polimi.sw2019.model.Cell;
 import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.model.Colors;
 import it.polimi.sw2019.model.TypeOfAction;
@@ -11,7 +10,6 @@ import it.polimi.sw2019.network.messages.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -47,7 +45,7 @@ import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class BoardController extends Application {
+public class BoardController {
 
     /* Attributes */
 
@@ -609,23 +607,6 @@ public class BoardController extends Application {
 
 
     /* Methods */
-
-    public void start(Stage primaryStage) throws IOException {
-
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/BoardScreen.fxml"));
-
-        Parent root = fxmlLoader.load();
-
-        Scene scene = new Scene(root);
-
-        primaryStage.setScene(scene);
-
-        primaryStage.setTitle("Adrenalina");
-        primaryStage.setResizable(false);
-
-        primaryStage.show();
-    }
 
     //Initialization methods
 
@@ -1603,9 +1584,14 @@ public class BoardController extends Application {
     //Interactions
 
     public void canIShoot(boolean canIShoot){
-        myPlayerBoard.showPossibleActions(canIShoot);
-        endTurnButton.setDisable(false);
-        usePowerupButton.setDisable(false);
+        if (oldMatchState.getCurrentPlayerLeftActions()==0 && iAmTheCurrentPlayer()){
+            showOnlyReload();
+        }
+        else {
+            myPlayerBoard.showPossibleActions(canIShoot);
+            endTurnButton.setDisable(false);
+            usePowerupButton.setDisable(false);
+        }
     }
 
     public void disableActions(){
@@ -1681,6 +1667,7 @@ public class BoardController extends Application {
 
     public void showSelectablePlayers(List<Character> characters, TypeOfAction typeOfAction, boolean noOption){
         currentTypeOfAction = typeOfAction;
+        disablePositions();
 
         for (Character character : characters){
             switch (character){
@@ -1723,7 +1710,9 @@ public class BoardController extends Application {
     }
 
     public void disablePositions(){
-        for (Circle position : ablePositions){
+        List<Circle> circleList = new ArrayList<>(ablePositions);
+
+        for (Circle position : circleList){
             position.setDisable(true);
             ablePositions.remove(position);
         }

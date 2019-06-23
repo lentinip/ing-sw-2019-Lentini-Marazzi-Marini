@@ -192,22 +192,18 @@ public class SelectCardController {
     @FXML
     public void handleCloseButton(ActionEvent actionEvent){
 
-        //TODO order better the method
-
-        if (currentTypeOfAction == TypeOfAction.RELOAD || currentTypeOfAction == TypeOfAction.USEPOWERUP){
+        if (currentTypeOfAction == TypeOfAction.USEPOWERUP){
 
             if (!boardController.iAmTheCurrentPlayer()){
-                if (currentTypeOfAction == TypeOfAction.USEPOWERUP){
-                    Message message = new Message(client.getUsername());
-                    message.createSelectionForUsePowerup(-1);
-                    client.send(message);
-                }
+                Message message = new Message(client.getUsername());
+                message.createSelectionForUsePowerup(-1);
+                client.send(message);
             }
 
             closeWindow();
 
         }
-        else if (currentTypeOfAction == TypeOfAction.GRAB){
+        else if (currentTypeOfAction == TypeOfAction.GRAB || currentTypeOfAction == TypeOfAction.RELOAD ){
             closeWindow();
         }
         else {
