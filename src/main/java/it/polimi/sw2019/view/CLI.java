@@ -1220,9 +1220,9 @@ public class CLI implements ViewInterface {
         out.println(cont + ". NO THANKS");
         int choice = readNumbers(0, cont);
 
-        if (typeOfAction == TypeOfAction.RELOAD){
+        if (typeOfAction == TypeOfAction.RELOAD || typeOfAction == TypeOfAction.GRAB){
 
-            //no thanks
+            //no thanks if it is a grab I'm sure I enter in this if because there are no weapons to draw
             if (sameNumbers(choice, cont)){
                 displayCanIShoot(lastCanIshoot);
             }
@@ -1232,6 +1232,7 @@ public class CLI implements ViewInterface {
                 client.send(selectedCard);
             }
         }
+
         else if (typeOfAction == TypeOfAction.USEPOWERUP){
 
             //no thanks

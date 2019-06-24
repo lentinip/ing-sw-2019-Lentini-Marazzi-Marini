@@ -6,7 +6,6 @@ import it.polimi.sw2019.network.messages.BoardCoord;
 import it.polimi.sw2019.network.messages.IndexMessage;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.server.VirtualView;
-import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -172,10 +172,12 @@ public class  AtomicActions {
         //Finally adds the damage
         receiverDamage.addDamage(newDamage, shooter.getCharacter());
 
-        String report = "  DAMAGED ︻デ┳═ー  ";
-        Message message = new Message("All");
-        message.createActionReports(report, shooter.getCharacter(), receiver.getCharacter());
-        view.display(message);
+        if (damage > 0) {
+            String report = "  DAMAGED ︻デ┳═ー  ";
+            Message message = new Message("All");
+            message.createActionReports(report, shooter.getCharacter(), receiver.getCharacter());
+            view.display(message);
+        }
 
         int totalDamage = receiverDamage.getTotalDamage();
 
@@ -214,10 +216,12 @@ public class  AtomicActions {
 
         //Sets the match as changed
         match.notifyMatchState();
-        String report = "  MARKED ︻デ┳═ー  ";
-        Message message = new Message("All");
-        message.createActionReports(report, shooter.getCharacter(), receiver.getCharacter());
-        view.display(message);
+        if (mark > 0) {
+            String report = "  MARKED ︻デ┳═ー  ";
+            Message message = new Message("All");
+            message.createActionReports(report, shooter.getCharacter(), receiver.getCharacter());
+            view.display(message);
+        }
     }
 
     public void reload(Player reloader, Weapon reloadedWeapon){
