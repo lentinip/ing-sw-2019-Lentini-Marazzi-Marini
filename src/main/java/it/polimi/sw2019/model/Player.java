@@ -137,14 +137,14 @@ public class Player extends Observable {
      */
     public List<Powerup> getPowerupsAfterShoot(){
 
-        List<Powerup> availablePowerups = new ArrayList<>(powerups);
+        List<Powerup> availablePowerups = new ArrayList<>();
 
-        for (Powerup powerup: availablePowerups){
+        for (Powerup powerup: powerups){
 
             // checking if it is a targeting scope
-            if ( !powerup.isDuringYourTurn() && !powerup.isDuringDamageAction()){
+            if (powerup.isDuringYourTurn() && powerup.isDuringDamageAction()){
 
-                availablePowerups.remove(powerup);
+                availablePowerups.add(powerup);
             }
         }
 
@@ -440,7 +440,7 @@ public class Player extends Observable {
      */
     public int[] virtualAmmo(){
 
-        int virtualAmmo[] = new int[3];
+        int[] virtualAmmo = new int[3];
 
         virtualAmmo[0] = playerBoard.getAmmo().getRed();
         virtualAmmo[1] = playerBoard.getAmmo().getBlue();

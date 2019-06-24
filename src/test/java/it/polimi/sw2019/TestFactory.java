@@ -61,4 +61,26 @@ public class TestFactory {
 
         Assert.assertTrue(!deck.isEmpty());
     }
+
+    @Test
+    public void createWeaponTest(){
+        Factory factory = new Factory();
+
+        //Test for VortexCannon
+        Weapon weapon = factory.createWeapon("VortexCannon.json");
+
+        System.out.print("\nNumber of effects: ");
+        System.out.print(weapon.getEffects().size());
+        System.out.print("\n");
+
+        System.out.print("\n\nFIRST EFFECT\n\n");
+
+        System.out.print("\nName:");
+        System.out.print(weapon.getEffects().get(0).getName());
+        System.out.print("\nCost: ");
+        System.out.print(weapon.getEffects().get(0).getCost());
+        System.out.print("\n");
+        System.out.print("\n");
+
+    }
 }

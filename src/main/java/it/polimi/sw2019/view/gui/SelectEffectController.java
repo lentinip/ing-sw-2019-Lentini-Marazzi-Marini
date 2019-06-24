@@ -74,6 +74,8 @@ public class SelectEffectController {
 
     private int choice = -1;
 
+    private boolean fourthOption = false;
+
     @FXML
     Button closeButton;
 
@@ -178,7 +180,12 @@ public class SelectEffectController {
 
     public void ableControls(List<IndexMessage> indexMessages){
         for (IndexMessage indexMessage : indexMessages){
-            controls.get(indexMessage.getSelectionIndex()).setDisable(false);
+            if (indexMessage.getSelectionIndex() == 3){
+                fourthOption = true;
+            }
+            else {
+                controls.get(indexMessage.getSelectionIndex()).setDisable(false);
+            }
         }
     }
 
@@ -197,7 +204,18 @@ public class SelectEffectController {
         }
 
         else if (checkBox0.isSelected() && checkBox1.isSelected() && checkBox2.isSelected()){
-            choice = 3;
+            if (fourthOption){
+                choice = 3;
+            }
+            else {
+                Alert a = new Alert(Alert.AlertType.INFORMATION);
+                a.setHeaderText("You can't select all the three check boxes");
+                a.setContentText("Please select another effect");
+                a.show();
+                checkBox0.setSelected(false);
+                checkBox1.setSelected(false);
+                checkBox2.setSelected(false);
+            }
         }
 
         else {

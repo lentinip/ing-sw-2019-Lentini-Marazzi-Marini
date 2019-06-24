@@ -64,7 +64,7 @@ public class Factory {
      * @param fileName file name
      * @return weapon
      */
-    private Weapon createWeapon(String fileName) {
+    public Weapon createWeapon(String fileName) {
 
         Weapon weapon;
         Gson gson = new Gson();

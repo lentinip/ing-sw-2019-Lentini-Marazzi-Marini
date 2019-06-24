@@ -6,6 +6,7 @@ import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.PaymentMessage;
 import it.polimi.sw2019.network.messages.PlayerBoardMessage;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -53,6 +54,10 @@ public class PaymentController {
     private PlayerBoardMessage playerBoardMessage;
 
     private static Logger logger = Logger.getLogger("PaymentController");
+
+    private double xOffset = 0;
+
+    private double yOffset = 0;
 
     /* Methods */
 
@@ -145,10 +150,31 @@ public class PaymentController {
                 catch (IOException e){
                     logger.log(Level.SEVERE, "SelectAmmoColorScreen.fxml file not found in PaymentController");
                     scene = new Scene(new Label("ERROR"));
+                    root = null;
                 }
 
                 SelecAmmoColorController selecAmmoColorController = fxmlLoader.getController();
                 selecAmmoColorController.configure(client, playerBoardMessage, ammoGroup);
+
+                try {
+                    root.setOnMousePressed(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            xOffset = event.getSceneX();
+                            yOffset = event.getSceneY();
+                        }
+                    });
+                    root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            oldStage.setX(event.getScreenX() - xOffset);
+                            oldStage.setY(event.getScreenY() - yOffset);
+                        }
+                    });
+                }
+                catch (NullPointerException e){
+                    logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
+                }
 
                 oldStage.setScene(scene);
             });

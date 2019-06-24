@@ -7,6 +7,7 @@ import it.polimi.sw2019.network.messages.*;
 import it.polimi.sw2019.view.ViewInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,6 +16,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
@@ -44,6 +46,10 @@ public class GUI extends Application implements ViewInterface {
     private static Logger logger = Logger.getLogger("gui");
 
     private String errorString = "ERROR";
+
+    private double xOffset = 0;
+
+    private double yOffset = 0;
 
     /* Methods */
 
@@ -235,6 +241,7 @@ public class GUI extends Application implements ViewInterface {
         catch (IOException e){
             logger.log(Level.SEVERE, "SelectCardScreen.fxml not found");
             scene = new Scene(new Label(errorString));
+            root = null;
         }
 
         //Configures the controller
@@ -269,6 +276,26 @@ public class GUI extends Application implements ViewInterface {
         newWindow.initStyle(StageStyle.UNDECORATED);
         newWindow.initOwner(primaryStage);
 
+        try {
+            root.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    xOffset = event.getSceneX();
+                    yOffset = event.getSceneY();
+                }
+            });
+            root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    newWindow.setX(event.getScreenX() - xOffset);
+                    newWindow.setY(event.getScreenY() - yOffset);
+                }
+            });
+        }
+        catch (NullPointerException e){
+            logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
+        }
+
         newWindow.setScene(scene);
         newWindow.show();
     }
@@ -299,6 +326,26 @@ public class GUI extends Application implements ViewInterface {
                 newWindow.initModality(Modality.WINDOW_MODAL);
                 newWindow.initStyle(StageStyle.UNDECORATED);
                 newWindow.initOwner(primaryStage);
+
+                try {
+                    root.setOnMousePressed(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            xOffset = event.getSceneX();
+                            yOffset = event.getSceneY();
+                        }
+                    });
+                    root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            newWindow.setX(event.getScreenX() - xOffset);
+                            newWindow.setY(event.getScreenY() - yOffset);
+                        }
+                    });
+                }
+                catch (NullPointerException e){
+                    logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
+                }
 
                 newWindow.setScene(scene);
                 newWindow.show();
@@ -344,6 +391,26 @@ public class GUI extends Application implements ViewInterface {
                 newWindow.initStyle(StageStyle.UNDECORATED);
                 newWindow.initOwner(primaryStage);
 
+                try {
+                    root.setOnMousePressed(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            xOffset = event.getSceneX();
+                            yOffset = event.getSceneY();
+                        }
+                    });
+                    root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            newWindow.setX(event.getScreenX() - xOffset);
+                            newWindow.setY(event.getScreenY() - yOffset);
+                        }
+                    });
+                }
+                catch (NullPointerException e){
+                    logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
+                }
+
                 newWindow.setScene(scene);
                 newWindow.show();
             });
@@ -379,6 +446,26 @@ public class GUI extends Application implements ViewInterface {
                 newWindow.initModality(Modality.WINDOW_MODAL);
                 newWindow.initStyle(StageStyle.UNDECORATED);
                 newWindow.initOwner(primaryStage);
+
+                try {
+                    root.setOnMousePressed(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            xOffset = event.getSceneX();
+                            yOffset = event.getSceneY();
+                        }
+                    });
+                    root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            newWindow.setX(event.getScreenX() - xOffset);
+                            newWindow.setY(event.getScreenY() - yOffset);
+                        }
+                    });
+                }
+                catch (NullPointerException e){
+                    logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
+                }
 
                 newWindow.setScene(scene);
                 newWindow.show();
@@ -426,25 +513,24 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void askMatchSetting(Integer numberOfPlayers){
-
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/MatchSettingScreen.fxml"));
-
-        Parent board;
-        final Scene scene;
-
-        try {
-            board = fxmlLoader.load();
-
-        }
-        catch (IOException e) {
-            logger.log(Level.SEVERE, "MatchSettingScreen.fxml not found");
-            board = null;
-        }
-        scene = new Scene(board);
-
         Platform.runLater(() -> {
-            {
+
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/MatchSettingScreen.fxml"));
+
+                Parent board;
+                final Scene scene;
+
+                try {
+                    board = fxmlLoader.load();
+
+                }
+                catch (IOException e) {
+                    logger.log(Level.SEVERE, "MatchSettingScreen.fxml not found");
+                    board = null;
+                }
+                scene = new Scene(board);
+
                 //Creates a new window for the match setting
                 Stage newWindow = new Stage();
                 newWindow.setTitle("Match Settings");
@@ -461,9 +547,28 @@ public class GUI extends Application implements ViewInterface {
                 matchSettingController.setNumberOfPlayers(numberOfPlayers);
                 matchSettingController.setClient(client);
 
+                try {
+                    board.setOnMousePressed(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            xOffset = event.getSceneX();
+                            yOffset = event.getSceneY();
+                        }
+                    });
+                    board.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            newWindow.setX(event.getScreenX() - xOffset);
+                            newWindow.setY(event.getScreenY() - yOffset);
+                        }
+                    });
+                }
+                catch (NullPointerException e){
+                    logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
+                }
+
                 newWindow.setScene(scene);
                 newWindow.show();
-            }
         });
     }
 

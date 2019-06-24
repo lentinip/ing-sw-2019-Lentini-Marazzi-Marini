@@ -167,6 +167,8 @@ public class Choices {
 
                 IndexMessage effectIndex = message.deserializeIndexMessage();
 
+                System.out.print("\nSELECTED EFFECT: index = " + effectIndex.getSelectionIndex() + "\n" );
+
                 //useful for effect that need to shoot different players see cyberblade optional effect
                 Player alreadyShooted = null;
 
@@ -204,7 +206,7 @@ public class Choices {
                 }
 
                 // the effect has a cost and I enter the payment session
-                else if (currentEffect != null) {
+                else if (currentEffect != null && currentEffect.getCost()!=null) {
                     payment.paymentStarter(message);
                 }
 
@@ -716,8 +718,12 @@ public class Choices {
     @SuppressWarnings("squid:S3776")
     public void effectHandler(){
 
+        System.out.print("\nWe're in effect handler\n");
+
         // if I moved someone I have to apply the effect to the moved players see vortex or tractor beam
-        if (movedPlayers != null){
+        if (!movedPlayers.isEmpty()){
+
+            System.out.print("\nEffect handler - applying damage to moved players\n");
 
             shootedPlayers = movedPlayers;
             applyEffect();
@@ -725,6 +731,8 @@ public class Choices {
 
         // case where the player don't have to choose
         else if (currentEffect.getTargets().isForcedChoice()){
+
+            System.out.print("\nEffect handler - effect with forced choice\n");
 
             applyForcedChoiceEffect();
         }
@@ -759,11 +767,16 @@ public class Choices {
 
                 options.createAvailablePlayers(TypeOfAction.SHOOT, reachableCharacters);
             }
+
+            System.out.print("\nEffect handler - sending available players\n");
+
             view.display(options);
         }
 
         // a player is already selected
         else {
+
+            System.out.print("\nEffect handler - the player is already selected\n");
 
             // sending new options for a multiple target effect
             if (currentEffect.getType() == EffectsKind.MULTIPLE_TARGET || currentEffect.getType() == EffectsKind.SINGLE_TARGET){
@@ -992,10 +1005,14 @@ public class Choices {
     @SuppressWarnings("squid:S3776")
     public void effectAnalyzer(){
 
+        System.out.print("\nWe're in effect analyzer\n");
+
         Message options = new Message(match.getCurrentPlayer().getName());
 
         // if the effect contains a moveBefore I have to show to the client the available choices
         if (currentEffect.getMove() != null && currentEffect.getMove().iHaveAMoveBefore()){
+
+            System.out.print("\nEffect analyzer - move before\n");
 
             // if I have to choose to move a target then I'll show the targets available
             if (currentEffect.getMove().isMoveTargetBefore()){
@@ -1007,6 +1024,8 @@ public class Choices {
         }
 
         else if (currentEffect.getType() == EffectsKind.MOVE){
+
+            System.out.print("\nEffect analyzer - the weapon has a move\n");
 
             List<Cell> reachableCells = match.getCurrentPlayer().getPosition().reachableCells(currentEffect.getMove().getMoveYou());
 

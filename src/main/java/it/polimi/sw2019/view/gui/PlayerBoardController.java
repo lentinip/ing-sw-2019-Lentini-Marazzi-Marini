@@ -535,9 +535,9 @@ public class PlayerBoardController {
     }
 
     public void updateSequence(List<ImageView> sequence, List<Character> characters){
-        for (Character owner : characters){
-            ImageView token = sequence.get(characters.indexOf(owner));
-            changeTokenColor(token, owner);
+        for (int i = 0; i<characters.size(); i++){
+            ImageView token = sequence.get(i);
+            changeTokenColor(token, characters.get(i));
             token.setVisible(true);
         }
 
