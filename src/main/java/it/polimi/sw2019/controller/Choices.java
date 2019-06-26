@@ -377,7 +377,7 @@ public class Choices {
             atomicActions.dealDamage(match.getCurrentPlayer(), selectedPlayer, selectedPowerup.getValue());
 
             // removing the powerup from the player hand and putting it into the discarded pile
-            match.getCurrentPlayer().usePoweup(selectedPowerup);
+            match.getCurrentPlayer().usePowerup(selectedPowerup);
             match.getBoard().discardPowerup(selectedPowerup);
             match.notifyPrivateHand(match.getCurrentPlayer());
 
@@ -419,6 +419,8 @@ public class Choices {
         //case the player does not want to move anymore
         if (selection.getSelectionIndex() < 0){
 
+            System.out.print("\n MoveBeforeShootHandler - index <0\n");
+
             effectHandler();
         }
 
@@ -431,8 +433,12 @@ public class Choices {
             //if is the first player to be moved
             if (movedPlayers.isEmpty()){
 
+                System.out.print("\n MoveBeforeShootHandler - first player to be moved\n");
+
                 // case tractor beam second effect
                 if (move.isMoveTargetOnYourSquare()){
+
+                    System.out.print("\n MoveBeforeShootHandler - tractor beam second effect\n");
 
                     atomicActions.move(selectedPlayer, match.getCurrentPlayer().getPosition());
                     movedPlayers.add(selectedPlayer);
@@ -441,6 +447,8 @@ public class Choices {
 
                 // case vortex or tractor beam first effect
                 else {
+
+                    System.out.print("\n MoveBeforeShootHandler - sending cells for vortex o tractor beam\n");
 
                     //showing only the cells that the shooter can see and where the target can be moved in
                     List<BoardCoord> availableCells = new ArrayList<>();
@@ -463,6 +471,8 @@ public class Choices {
 
             //case moved players is not empty vortex second effect
             else {
+
+                System.out.print("\n MoveBeforeShootHandler - moved players is not empty\n");
 
                 atomicActions.move(selectedPlayer, moveCell);
                 movedPlayers.add(selectedPlayer);
@@ -532,7 +542,7 @@ public class Choices {
         // if I'm using newton
         else if (selectedPowerup.getMove() != null && selectedPowerup.getMove().getVisibility() == KindOfVisibility.ALL){
 
-           List<Player> availablePlayers = match.getPlayers();
+           List<Player> availablePlayers = new ArrayList<>(match.getPlayers());
            availablePlayers.remove(player);
            List<Player> playerList = new ArrayList<>(availablePlayers);
 
@@ -827,7 +837,10 @@ public class Choices {
             if (currentEffect.isSameDirection()){
 
                 newTargets.clear();
-                newTargets.addAll(currentEffect.getVisibilityClass().cellInSameDirection(match.getCurrentPlayer().getPosition(), shootedPlayers.get(0).getPosition()).playersInCell());
+                Cell cell = currentEffect.getVisibilityClass().cellInSameDirection(match.getCurrentPlayer().getPosition(), shootedPlayers.get(0).getPosition());
+                if (cell!=null){
+                    newTargets.addAll(cell.playersInCell());
+                }
             }
         }
 
@@ -1017,7 +1030,7 @@ public class Choices {
             if (currentEffect.getMove().isMoveTargetBefore()){
 
                 List<Character> availablePlayers = currentEffect.getMove().availablePlayersToMove(match.getPlayers(), match.getCurrentPlayer());
-                options.createAvailablePlayers(TypeOfAction.SHOOT, availablePlayers);
+                options.createAvailablePlayers(TypeOfAction.MOVEBEFORESHOOT, availablePlayers);
                 view.display(options);
             }
         }

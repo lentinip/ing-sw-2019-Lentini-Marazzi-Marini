@@ -67,7 +67,7 @@ public class TestFactory {
         Factory factory = new Factory();
 
         //Test for VortexCannon
-        Weapon weapon = factory.createWeapon("VortexCannon.json");
+        Weapon weapon = factory.createWeapon("Flamethrower.json");
 
         System.out.print("\nNumber of effects: ");
         System.out.print(weapon.getEffects().size());

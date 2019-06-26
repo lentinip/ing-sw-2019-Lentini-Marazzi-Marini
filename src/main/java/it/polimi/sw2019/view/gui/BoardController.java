@@ -11,6 +11,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
@@ -61,6 +63,8 @@ public class BoardController {
     private MatchStart configurationMessage;
 
     private MatchState oldMatchState;
+
+    private ActionReports actionReports;
 
     private static Logger logger = Logger.getLogger("BoardController");
 
@@ -605,6 +609,9 @@ public class BoardController {
     @FXML
     private Rectangle frenzyModeRectangle;
 
+    @FXML
+    private Pane pane;
+
 
     /* Methods */
 
@@ -651,6 +658,20 @@ public class BoardController {
      * @param configuration configuration message
      */
     public void configureBoard(Client client, MatchStart configuration){
+
+        Scene scene = pane.getScene();
+
+        double origW = 1261;
+        double origH = 901;
+
+        pane.setMinSize(origW, origH);
+        pane.setMaxSize(origW, origH);
+
+        NumberBinding maxScale = Bindings.min(scene.widthProperty().divide(origW),scene.heightProperty().divide(origH));
+        pane.scaleXProperty().bind(maxScale);
+        pane.scaleYProperty().bind(maxScale);
+
+
         this.client = client;
         configurationMessage = configuration;
 
@@ -731,6 +752,7 @@ public class BoardController {
     }
 
     public void startTimer() {
+        initializeTimer();
         timeline.playFromStart();
     }
 
@@ -1798,6 +1820,19 @@ public class BoardController {
         return oldMatchState.getCurrentPlayer() == myPlayerBoard.getCharacter();
     }
 
+    public void setActionReports(ActionReports actionReports) {
+        this.actionReports = actionReports;
     }
+
+    public boolean damageSession(){
+        try {
+            return actionReports.isDamageSession();
+        }
+        catch (NullPointerException e){
+            logger.log(Level.SEVERE, "There's no action report");
+            return false;
+        }
+    }
+}
 
 

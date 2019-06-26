@@ -175,7 +175,7 @@ public class  AtomicActions {
         if (damage > 0) {
             String report = "  DAMAGED ︻デ┳═ー  ";
             Message message = new Message("All");
-            message.createActionReports(report, shooter.getCharacter(), receiver.getCharacter());
+            message.createActionReports(report, shooter.getCharacter(), receiver.getCharacter(), true);
             view.display(message);
         }
 
@@ -198,7 +198,7 @@ public class  AtomicActions {
             receiver.setDead(true);
             String reportKill = "  KILLED ☠☠☠☠☠   ";
             Message messageKill = new Message("All");
-            messageKill.createActionReports(reportKill, shooter.getCharacter(), receiver.getCharacter());
+            messageKill.createActionReports(reportKill, shooter.getCharacter(), receiver.getCharacter(), true);
             view.display(messageKill);
 
         }
@@ -219,13 +219,14 @@ public class  AtomicActions {
         if (mark > 0) {
             String report = "  MARKED ︻デ┳═ー  ";
             Message message = new Message("All");
-            message.createActionReports(report, shooter.getCharacter(), receiver.getCharacter());
+            message.createActionReports(report, shooter.getCharacter(), receiver.getCharacter(), true);
             view.display(message);
         }
     }
 
     public void reload(Player reloader, Weapon reloadedWeapon){
         payAmmo(reloader, reloadedWeapon.getReloadCost());
+        reloadedWeapon.setIsLoaded(true);
 
         //Sets the match as changed
         match.notifyPrivateHand(reloader);

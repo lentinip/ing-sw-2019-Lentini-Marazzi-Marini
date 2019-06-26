@@ -227,19 +227,18 @@ public class Weapon {
                 int moves = getMoveTypeEffect().getMove().getMoveYou();
                 Cell startingPosition = owner.getPosition();    /* saving the starting position */
 
-                Player copy = new Player();
-
-                copy.setPosition(startingPosition);
-
                 for (Cell reachableCell: startingPosition.reachableCells(moves)){
 
-                    copy.setPosition(reachableCell);
+                    owner.setPosition(reachableCell);
 
                     if ( hasOneUsableEffect(allPlayers) ){
+                        owner.setPosition(startingPosition);
 
                         return true;
                     }
                 }
+
+                owner.setPosition(startingPosition);
             }
 
             else { return true; }

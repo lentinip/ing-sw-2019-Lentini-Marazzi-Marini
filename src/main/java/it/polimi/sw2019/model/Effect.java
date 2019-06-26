@@ -169,12 +169,12 @@ public class Effect {
             targetsPlayer.addAll(reachableCells.get(i).playersInCell()); /* removing the player who is shooting from the list of the possible targets */
 
             if (targetsPlayer.contains(owner)) {
-
+                System.out.print("\nShootable cells - Contains owner\n");
                 targetsPlayer.remove(owner);
             }
 
             if (!targetsPlayer.isEmpty()){
-
+                System.out.print("\nShootable cells - targetsPlayer: " + targetsPlayer.size() + "\n");
                 shootableCells.add(reachableCells.get(i));
             }
         }
@@ -228,6 +228,14 @@ public class Effect {
         }
 
         targetsPlayer.remove(owner);
+
+        List<Player> playerList = new ArrayList<>(targetsPlayer);
+
+        for (Player player : playerList){
+            if (player.getPosition()==null){
+                targetsPlayer.remove(player);
+            }
+        }
 
         if (move.iCanMoveTargetBefore()){  /* I can move targets and after the move I can shoot them */
 

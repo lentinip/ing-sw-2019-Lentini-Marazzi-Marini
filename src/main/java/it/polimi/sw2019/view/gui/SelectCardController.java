@@ -174,16 +174,19 @@ public class SelectCardController {
                 closeWindow();
             }
         }
+        else if (currentTypeOfAction == TypeOfAction.RELOAD){
+            Message message = new Message((client.getUsername()));
+            message.createSingleActionReload(((IndexMessage) imageView.getUserData()).getSelectionIndex());
+            boardController.showOnlyReload();
+            client.send(message);
+            closeWindow();
+        }
         else {
             Message message = new Message((client.getUsername()));
             message.createSelectedCard(((IndexMessage) imageView.getUserData()).getSelectionIndex(), currentTypeOfAction);
             setTypeFromImage(imageView);
             //Saves the weapon in the boardController for next use
             boardController.setSelectedWeapon(imageView);
-
-            if (currentTypeOfAction==TypeOfAction.RELOAD){
-                boardController.showOnlyReload();
-            }
 
             client.send(message);
             closeWindow();
@@ -197,7 +200,7 @@ public class SelectCardController {
 
         if (currentTypeOfAction == TypeOfAction.USEPOWERUP){
 
-            if (!boardController.iAmTheCurrentPlayer()){
+            if (boardController.damageSession()){
                 Message message = new Message(client.getUsername());
                 message.createSelectionForUsePowerup(-1);
                 client.send(message);

@@ -1,5 +1,6 @@
 package it.polimi.sw2019.network.messages;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentMessage {
@@ -14,7 +15,7 @@ public class PaymentMessage {
 
     private boolean mustPay;
 
-    private List<IndexMessage> usablePowerups;
+    private List<IndexMessage> usablePowerups = new ArrayList<>();
 
     /* Methods */
 

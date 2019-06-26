@@ -2,7 +2,6 @@ package it.polimi.sw2019;
 
 import it.polimi.sw2019.model.*;
 import it.polimi.sw2019.model.Character;
-import it.polimi.sw2019.network.client.socket.LineClient;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -80,7 +79,7 @@ public class TestPlayer {
         List<Powerup> powerups = new ArrayList<>();
         powerups.add(powerup2);
 
-        player.usePoweup(player.getPowerups().get(0));
+        player.usePowerup(player.getPowerups().get(0));
 
         assertEquals(powerups, player.getPowerups());
     }

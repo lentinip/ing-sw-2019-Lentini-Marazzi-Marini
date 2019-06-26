@@ -22,6 +22,9 @@ public class ActionReports {
 
     private Character receiver;
 
+    //Used to know in the view if we're in the damage session (Ex: Targeting Scope)
+    private boolean damageSession = false;
+
     /* Methods */
 
     public Character getReceiver() {
@@ -46,5 +49,13 @@ public class ActionReports {
 
     public void setSubject(Character subject) {
         this.subject = subject;
+    }
+
+    public void setDamageSession(boolean damageSession) {
+        this.damageSession = damageSession;
+    }
+
+    public boolean isDamageSession() {
+        return damageSession;
     }
 }

@@ -223,7 +223,9 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void displayActionReport(ActionReports actionReports){
-        //Do nothing: is for the CLI
+        if (boardController!=null){
+            boardController.setActionReports(actionReports);
+        }
     }
 
     public void showCardSelection(AvailableCards cards, TypeOfAction typeOfAction, List<Image> images, boolean noOption){
@@ -500,7 +502,7 @@ public class GUI extends Application implements ViewInterface {
             primaryStage.close();
             primaryStage.setScene(scene);
             primaryStage.setTitle("Adrenalina");
-            primaryStage.setResizable(false);
+            primaryStage.setResizable(true);
 
             boardController = fxmlLoader.getController();
 

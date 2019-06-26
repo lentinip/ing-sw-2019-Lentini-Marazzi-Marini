@@ -250,7 +250,7 @@ public class SingleActionManager {
         }
 
         //Discarding the powerup from the player hand
-        match.getPlayerByUsername(message.getUsername()).usePoweup(choices.getSelectedPowerup());
+        match.getPlayerByUsername(message.getUsername()).usePowerup(choices.getSelectedPowerup());
         match.getBoard().discardPowerup(choices.getSelectedPowerup());
         match.notifyPrivateHand(match.getPlayerByUsername(message.getUsername()));
 

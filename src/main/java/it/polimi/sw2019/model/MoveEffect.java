@@ -224,8 +224,9 @@ public class MoveEffect {
 
         // if I have to move the player in the same direction I accept only the cells that have the same column or the same row of the starting position cell
         if (moveTargetSameDirection){
+            List<Cell> cellList = new ArrayList<>(availableCells);
 
-            for (Cell cell: availableCells){
+            for (Cell cell: cellList){
 
                 if ( cell.getRow() != playerPosition.getRow() && cell.getColumn() != playerPosition.getColumn()){
                     availableCells.remove(cell);

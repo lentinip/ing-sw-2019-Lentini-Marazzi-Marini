@@ -498,6 +498,15 @@ public class Message implements Serializable {
         setJsonFile(serializeActionReport(new ActionReports(report, subject, receiver)));
     }
 
+    public void createActionReports(String report, Character subject, Character receiver, boolean isDamageSession){
+        setTypeOfMessage(TypeOfMessage.ACTION_REPORT);
+        setTypeOfAction(TypeOfAction.NONE);
+        ActionReports actionReports = new ActionReports(report, subject, receiver);
+        actionReports.setDamageSession(isDamageSession);
+        setJsonFile(serializeActionReport(actionReports));
+
+    }
+
     public void createReconnectionMessage() {
 
         setTypeOfMessage(TypeOfMessage.PLAYER_ALREADY_LOGGED);

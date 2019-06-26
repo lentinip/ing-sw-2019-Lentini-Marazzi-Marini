@@ -306,12 +306,15 @@ public class Payment {
 
         Message message = new Message(payingPlayer.getName());
 
+        List<IndexMessage> powerupsIndex = new ArrayList<>();
+
         if (powerups.isEmpty()){
-            message.createAskMessage(TypeOfAction.PAY);
+
+            message.createPaymentMessage(powerupsIndex, false);
+            message.setTypeOfMessage(TypeOfMessage.ASK);
         }
 
         else {
-            List<IndexMessage> powerupsIndex = new ArrayList<>();
 
             for (Powerup powerup : powerups){
                 powerupsIndex.add(new IndexMessage(payingPlayer.getPowerups().indexOf(powerup)));

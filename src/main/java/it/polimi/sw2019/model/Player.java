@@ -186,7 +186,7 @@ public class Player extends Observable {
         weapon.setIsLoaded(false);
     }
 
-    public void usePoweup(Powerup powerup){
+    public void usePowerup(Powerup powerup){
 
         powerups.remove(powerup);
     }
@@ -235,7 +235,7 @@ public class Player extends Observable {
      */
     public Boolean canIshootBeforeComplexAction() {
 
-        List<Player> allPlayers = position.getRoom().getPlayers();
+        List<Player> allPlayers = new ArrayList<>(position.getRoom().getPlayers());
 
         if (state == State.FRENZYAFTERFIRST || state == State.FRENZYBEFOREFIRST) { /* I can reload during the action */
 
