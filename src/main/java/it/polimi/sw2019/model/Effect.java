@@ -164,9 +164,20 @@ public class Effect {
         List<Cell> reachableCells = reachableCells(owner);
         List<Player> targetsPlayer = new ArrayList<>();
 
+        System.out.print("\nShootable cells - Size of reachable Cells " + reachableCells.size() + "\n");
+
         for (int i = 0; i < reachableCells.size(); i++) {
 
             targetsPlayer.addAll(reachableCells.get(i).playersInCell()); /* removing the player who is shooting from the list of the possible targets */
+
+            System.out.print("\nShootable cells - Size of targetsPlayer" + targetsPlayer.size() + "\n");
+
+            System.out.print("\nPlayer names: ");
+            for (Player player: targetsPlayer){
+                System.out.print("\nPlayer name: " + player.getCharacter());
+            }
+
+            System.out.print("\n");
 
             if (targetsPlayer.contains(owner)) {
                 System.out.print("\nShootable cells - Contains owner\n");
@@ -175,7 +186,9 @@ public class Effect {
 
             if (!targetsPlayer.isEmpty()){
                 System.out.print("\nShootable cells - targetsPlayer: " + targetsPlayer.size() + "\n");
+                System.out.print("\nShootable cells - first player name " + targetsPlayer.get(0).getCharacter() + "\n");
                 shootableCells.add(reachableCells.get(i));
+                targetsPlayer.clear();
             }
         }
         return shootableCells;
@@ -212,7 +225,7 @@ public class Effect {
 
         List<Player> targetsPlayer = new ArrayList<>(allPlayers);
 
-        if (!owner.canIPay(cost)) { /* can I pay the cost of the effect? */
+        if (cost!=null && !owner.canIPay(cost)) { /* can I pay the cost of the effect? */
 
             return false;
         }
@@ -255,19 +268,19 @@ public class Effect {
 
             Cell startingPosition = owner.getPosition(); /* saving my starting position */
 
-            Player copy = new Player();
-
-            copy.setPosition(startingPosition);
-
             for (Cell reachableCell: startingPosition.reachableCells(move.getMoveYou())){
 
-                copy.setPosition(reachableCell);
+                owner.setPosition(reachableCell);
 
-                if( !shootableCells(copy).isEmpty() ){
+                if( !shootableCells(owner).isEmpty() ){
+
+                    owner.setPosition(startingPosition);
 
                     return true;
                 }
             }
+
+            owner.setPosition(startingPosition);
         }
 
         return false;
@@ -284,19 +297,17 @@ public class Effect {
 
         Cell startingPosition = owner.getPosition(); /* saving my starting position */
 
-        Player copy = new Player();
-
-        copy.setPosition(startingPosition);
-
         for (Cell reachableCell : startingPosition.reachableCells(move.getMoveYou())) {
 
-            copy.setPosition(reachableCell);
+            owner.setPosition(reachableCell);
 
-            if (!shootableCells(copy).isEmpty()) {
+            if (!shootableCells(owner).isEmpty()) {
 
                 allowedCells.add(reachableCell);
             }
         }
+
+        owner.setPosition(startingPosition);
 
         return allowedCells;
     }

@@ -335,10 +335,6 @@ public class Player extends Observable {
 
         Cell startingPosition = position; /* saving the starting position */
 
-        Player copy = new Player();
-
-        copy.setPosition(startingPosition);
-
         if (state == State.NORMAL || state == State.ADRENALINIC1){
 
             return reachableCells;
@@ -346,13 +342,15 @@ public class Player extends Observable {
 
         for (Cell reachableCell: startingPosition.reachableCells(getMovesForShoot())) {
 
-            copy.setPosition(reachableCell);
+            this.setPosition(reachableCell);
 
             if (canIshootBeforeComplexAction()) {
 
                 reachableCells.add(reachableCell);
             }
         }
+
+        this.setPosition(startingPosition);
 
         return reachableCells;
     }

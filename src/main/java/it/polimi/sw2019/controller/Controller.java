@@ -141,7 +141,7 @@ public class Controller implements Observer {
                     answer.createAvailableCardsMessage(TypeOfAction.SHOOT, indexMessageList, true);
                 }
 
-                //Otherwise doSomething the available cells
+                //Otherwise calculates the available cells
                 else {
                     List<Cell> shootingCells = currentPlayer.allowedCellsShoot();
                     List<BoardCoord> shootCoord = new ArrayList<>();
@@ -149,7 +149,7 @@ public class Controller implements Observer {
                         shootCoord.add(cell.getCoord());
                     }
 
-                    answer.createAvailableCellsMessage(TypeOfAction.SHOOT, shootCoord);
+                    answer.createAvailableCellsMessage(TypeOfAction.MOVEBEFORESHOOT, shootCoord);
                 }
                 break;
             case USEPOWERUP:

@@ -324,14 +324,22 @@ public class SingleActionManager {
     public void endShootingAction(){
 
         System.out.print("\nWe're in endShootingAction\n");
+        List<Effect> usableEffects = new ArrayList<>();
 
-        List<Effect> usableEffects = choices.getSelectedWeapon().usableEffects(match.getPlayers());
+        try {
+            usableEffects.addAll(choices.getSelectedWeapon().usableEffects(match.getPlayers()));
+        }
+        catch (NullPointerException e){
+            System.out.print("\nNULLPOINTEREXCEPTION ENTERED CATCH\n");
+            LOGGER.log(Level.SEVERE, e.toString());
+            LOGGER.log(Level.SEVERE, e.getMessage());
+        }
 
         // removing the already executed effects
         usableEffects.removeAll(choices.getUsedEffect());
 
         // if I just used an additional effect then I can't use any other effect except for move type effects
-        if ( choices.getCurrentEffect().isAdditionalEffect() ){
+        if (choices.getCurrentEffect().isAdditionalEffect()){
 
             List<Effect> effectList = new ArrayList<>(usableEffects);
             for (Effect effect: effectList){
@@ -345,7 +353,7 @@ public class SingleActionManager {
 
         // this if is to make sure that I don't give the possibility to the player to choose again an effect that he has already chosen
         // I may have this problem for every weapon with a move effect (except for cyberblade, the only weapon with hasAnOrder)
-        if (choices.getCurrentEffect().getType() == EffectsKind.MOVE && !choices.getSelectedWeapon().hasAnOrder() && !usableEffects.isEmpty()){
+        if (choices.getCurrentEffect().getType() == EffectsKind.MOVE && !choices.getSelectedWeapon().hasAnOrder() && !usableEffects.isEmpty() && choices.getUsedEffect().size()>1){
 
             usableEffects.clear();
         }

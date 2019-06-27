@@ -1614,6 +1614,8 @@ public class BoardController {
             endTurnButton.setDisable(false);
             usePowerupButton.setDisable(false);
         }
+
+        actionReports.setDamageSession(false);
     }
 
     public void disableActions(){
@@ -1805,12 +1807,16 @@ public class BoardController {
     }
 
     public void handleEndTurn(ActionEvent actionEvent){
+        disableAvailableCells();
+
         Message message = new Message(client.getUsername());
         message.createEndTurnMessage();
         client.send(message);
     }
 
     public void handleUsePowerup(ActionEvent actionEvent){
+        disableAvailableCells();
+
         Message message = new Message(client.getUsername());
         message.createAskMessage(TypeOfAction.USEPOWERUP);
         client.send(message);

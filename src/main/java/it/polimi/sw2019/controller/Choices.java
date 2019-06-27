@@ -695,7 +695,7 @@ public class Choices {
         Message options = new Message(match.getCurrentPlayer().getName());
 
         // if the shooter can use targeting scope
-        if ( !afterShootPowerups.isEmpty()){
+        if ( !afterShootPowerups.isEmpty() && !damagedPlayers.isEmpty()){
 
             for (Powerup powerup: afterShootPowerups){
 
@@ -1046,9 +1046,6 @@ public class Choices {
 
             List<BoardCoord> cells = new ArrayList<>();
 
-            // after the effect is executed (case move effect) it is added to the usedEffects
-            usedEffect.add(currentEffect);
-
             //remember that if the player has not already shooted I'll have to show only the cells where he can shoot from
             //in this if I can move wherever I want (respecting the number of moves allowed by the effect)
             if (!usedEffect.isEmpty()){
@@ -1065,24 +1062,30 @@ public class Choices {
                 List<Effect> weaponsEffect = new ArrayList<>(selectedWeapon.getEffects());
                 weaponsEffect.removeAll(usedEffect);
 
-                Player copy = new Player();
-                copy.setPosition(match.getCurrentPlayer().getPosition());
+                Player currentPlayer = match.getCurrentPlayer();
+                Cell startPosition = currentPlayer.getPosition();
+
 
                 // I put a copy of the player in every reachable cell and if he can use one of his effects from there I'll add the cell to the list
                 for (Cell cell: reachableCells){
 
-                    copy.setPosition(cell);
+                    currentPlayer.setPosition(cell);
 
                     for (Effect effect: weaponsEffect){
 
-                        if ( effect.getType() != EffectsKind.MOVE && effect.usableEffect(copy, match.getPlayers())){
+                        if ( effect.getType() != EffectsKind.MOVE && effect.usableEffect(currentPlayer, match.getPlayers())){
 
                                 cells.add(cell.getCoord());
                                 break; // to avoid duplicates
                         }
                     }
                 }
+
+                currentPlayer.setPosition(startPosition);
             }
+
+            // after the effect is executed (case move effect) it is added to the usedEffects
+            usedEffect.add(currentEffect);
 
             options.createAvailableCellsMessage(TypeOfAction.SHOOT, cells);
             view.display(options);

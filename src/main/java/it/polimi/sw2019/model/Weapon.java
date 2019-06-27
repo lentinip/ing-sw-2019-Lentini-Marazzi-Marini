@@ -167,19 +167,19 @@ public class Weapon {
 
             Cell startingPosition = owner.getPosition(); /* saving the starting position */
 
-            Player copy = new Player();
-
-            copy.setPosition(startingPosition);
-
             for (Cell reachableCell: startingPosition.reachableCells(1)){
 
-                copy.setPosition(reachableCell);
+                owner.setPosition(reachableCell);
 
                 if (usableWeapon(allPlayers)){
+
+                    owner.setPosition(startingPosition);
 
                     return true;
                 }
             }
+
+            owner.setPosition(startingPosition);
 
             return false;
         }
@@ -188,19 +188,20 @@ public class Weapon {
 
             Cell startingPosition = owner.getPosition(); /* saving the starting position */
 
-            Player copy = new Player();
-
-            copy.setPosition(startingPosition);
-
             for (Cell reachableCell: startingPosition.reachableCells(2)){
 
-                copy.setPosition(reachableCell);
+                owner.setPosition(reachableCell);
 
                 if (usableWeapon(allPlayers)){
+
+                    owner.setPosition(startingPosition);
 
                     return true;
                 }
             }
+
+            owner.setPosition(startingPosition);
+
             return false;
         }
 

@@ -225,7 +225,6 @@ public class  AtomicActions {
     }
 
     public void reload(Player reloader, Weapon reloadedWeapon){
-        payAmmo(reloader, reloadedWeapon.getReloadCost());
         reloadedWeapon.setIsLoaded(true);
 
         //Sets the match as changed
