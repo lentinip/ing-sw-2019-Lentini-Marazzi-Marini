@@ -4,6 +4,8 @@ import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.client.ClientInterface;
 import it.polimi.sw2019.network.messages.Message;
 
+import java.net.ConnectException;
+
 /**
  * this class is used to notify the client by rmi connection
  */
