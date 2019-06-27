@@ -14,7 +14,7 @@
   "additionalEffect": false,
   "move": null,
   "targets": {
-    "damages": [2],
+    "damages": [0, 2],
     "marks": [0],
     "differentSquares": false,
     "sameSquare": false,

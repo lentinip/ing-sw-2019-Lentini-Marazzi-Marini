@@ -267,7 +267,7 @@ public class MoveEffect {
 
                 for (Cell cell: reachableCells){
 
-                    if (player.visibleCells().contains(cell)){
+                    if (owner.visibleCells().contains(cell)){
 
                         availablePlayers.add(player.getCharacter());
                         break; // to avoid duplicates

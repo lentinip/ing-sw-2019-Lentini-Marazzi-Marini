@@ -498,8 +498,13 @@ public class Choices {
                         options.add(player.getCharacter());
                     }
 
-                    message.createAvailablePlayers(TypeOfAction.MOVEBEFORESHOOT, options);
-                    view.display(message);
+                    if (options.isEmpty()){
+                        effectHandler();
+                    }
+                    else {
+                        message.createAvailablePlayers(TypeOfAction.MOVEBEFORESHOOT, options);
+                        view.display(message);
+                    }
                 }
 
                 // I cannot move anymore
@@ -622,7 +627,7 @@ public class Choices {
             List<IndexMessage> effectIndex = new ArrayList<>();
 
             // for cyberblade (only weapon that has an order for the moment) I want to remove the last effect beacuse I need to show only the free one and the move
-            if (selectedWeapon.hasAnOrder()){
+            if (selectedWeapon.hasAnOrder() && availableEffects.size()==3){
 
                 availableEffects.remove(2);
             }

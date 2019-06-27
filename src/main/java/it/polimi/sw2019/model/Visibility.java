@@ -231,7 +231,7 @@ public class Visibility {
             }
         }
 
-        else if (shootedPlayer.getPosition().getRow() >= shooter.getPosition().getRow()){
+        else if (shootedPlayer.getPosition().getRow() > shooter.getPosition().getRow()){
 
             for (Cell cell: allCells){
 
@@ -242,7 +242,7 @@ public class Visibility {
             }
         }
 
-        else if (shootedPlayer.getPosition().getRow() <= shooter.getPosition().getRow()){
+        else if (shootedPlayer.getPosition().getRow() < shooter.getPosition().getRow()){
 
             for (Cell cell: allCells){
 
