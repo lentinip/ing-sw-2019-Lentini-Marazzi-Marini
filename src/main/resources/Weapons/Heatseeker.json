@@ -11,7 +11,7 @@
     "yellow" : 1,
     "blue" : 0
   },
-  "type" : "SINGLE:EFFECT",
+  "type" : "SINGLE_EFFECT",
   "effects" : ["Heatseeker_1.json"],
   "hasAnOrder" : false,
   "hasAMoveTypeEffect" : false

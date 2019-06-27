@@ -197,7 +197,19 @@ public class Visibility {
         List<Cell> allCells = board.getField();
         List<Player> targets = new ArrayList<>();
 
-        if (shootedPlayer.getPosition().getColumn() >= shooter.getPosition().getColumn()) {
+        if (shootedPlayer.getPosition().getColumn() == shooter.getPosition().getColumn() && shootedPlayer.getPosition().getRow() == shooter.getPosition().getRow()){
+
+            for (Cell cell : allCells) {
+
+                if (cell.getRow() == shooter.getPosition().getRow() || cell.getColumn() == shooter.getPosition().getColumn()) {
+
+                    targets.addAll(cell.playersInCell());
+                }
+            }
+
+        }
+
+        else if (shootedPlayer.getPosition().getColumn() > shooter.getPosition().getColumn()) {
 
             for (Cell cell : allCells) {
 
@@ -208,7 +220,7 @@ public class Visibility {
             }
         }
 
-        if (shootedPlayer.getPosition().getColumn() <= shooter.getPosition().getColumn()){
+        else if (shootedPlayer.getPosition().getColumn() < shooter.getPosition().getColumn()){
 
             for (Cell cell: allCells){
 
@@ -219,7 +231,7 @@ public class Visibility {
             }
         }
 
-        if (shootedPlayer.getPosition().getRow() >= shooter.getPosition().getRow()){
+        else if (shootedPlayer.getPosition().getRow() >= shooter.getPosition().getRow()){
 
             for (Cell cell: allCells){
 
@@ -230,7 +242,7 @@ public class Visibility {
             }
         }
 
-        if (shootedPlayer.getPosition().getRow() <= shooter.getPosition().getRow()){
+        else if (shootedPlayer.getPosition().getRow() <= shooter.getPosition().getRow()){
 
             for (Cell cell: allCells){
 
@@ -241,8 +253,15 @@ public class Visibility {
             }
         }
 
-        targets.remove(shootedPlayer);
-        targets.remove(shooter);
+        List<Player> playerList = new ArrayList<>(targets);
+
+        //removing the shooter and the shooted player
+        for (Player player: playerList){
+
+            if (player.equals(shootedPlayer) || player.equals(shooter)){
+                targets.remove(player);
+            }
+        }
 
         return targets;
     }

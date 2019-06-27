@@ -323,7 +323,7 @@ public class Choices {
                 // he does not want to shoot anymore
                 if (playerChosen.getSelectionIndex() < 0){
 
-                    afterEffectHandler();
+                    applyEffect();
                 }
 
                 else {
@@ -1108,6 +1108,7 @@ public class Choices {
         List<Character> characters = new ArrayList<>();
 
         players.removeAll(movedPlayers);
+        players.remove(match.getCurrentPlayer()); //removing myself so I can't choose my character in vortex effect
 
         for (Player player : players){
             if (player.getPosition().reachableCells(1).contains(moveCell)){
