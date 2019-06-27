@@ -1,20 +1,16 @@
 package it.polimi.sw2019.view.gui;
 
-import it.polimi.sw2019.controller.AtomicActions;
 import it.polimi.sw2019.model.TypeOfAction;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.*;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -45,6 +41,8 @@ public class SelectCardController {
 
     @FXML
     private Label mainLabel;
+
+    private Stage weaponsManualStage;
 
     private List<ImageView> cards = new ArrayList<>();
 
@@ -234,4 +232,17 @@ public class SelectCardController {
         }
     }
 
+    public void setWeaponsManualStage(Stage weaponsManualStage){
+        this.weaponsManualStage = weaponsManualStage;
+    }
+
+    @FXML
+    public void handleWeaponsManualButton(ActionEvent actionEvent){
+        if (weaponsManualStage.isShowing()){
+            weaponsManualStage.toFront();
+        }
+        else {
+            weaponsManualStage.show();
+        }
+    }
 }

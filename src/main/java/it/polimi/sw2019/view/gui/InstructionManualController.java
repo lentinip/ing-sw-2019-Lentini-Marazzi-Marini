@@ -1,11 +1,15 @@
 package it.polimi.sw2019.view.gui;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.NumberBinding;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Pagination;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
 
@@ -18,6 +22,9 @@ public class InstructionManualController {
 
     @FXML
     AnchorPane anchorPane;
+
+    @FXML
+    Pane pane;
 
     @FXML
     private StackPane stackPane;
@@ -61,6 +68,20 @@ public class InstructionManualController {
             page.setFitWidth(760);
             pages.add(page);
         }
+    }
+
+    public void configure(){
+        Scene scene = pane.getScene();
+
+        double origW = 565;
+        double origH = 850;
+
+        pane.setMinSize(origW, origH);
+        pane.setMaxSize(origW, origH);
+
+        NumberBinding maxScale = Bindings.min(scene.widthProperty().divide(origW),scene.heightProperty().divide(origH));
+        pane.scaleXProperty().bind(maxScale);
+        pane.scaleYProperty().bind(maxScale);
     }
 
 }

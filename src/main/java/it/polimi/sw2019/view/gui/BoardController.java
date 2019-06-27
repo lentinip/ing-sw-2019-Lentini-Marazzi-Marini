@@ -612,6 +612,10 @@ public class BoardController {
     @FXML
     private Pane pane;
 
+    private Stage instructionManualStage;
+
+    private Stage weaponsManualStage;
+
 
     /* Methods */
 
@@ -1615,7 +1619,9 @@ public class BoardController {
             usePowerupButton.setDisable(false);
         }
 
-        actionReports.setDamageSession(false);
+        if (actionReports!=null){
+            actionReports.setDamageSession(false);
+        }
     }
 
     public void disableActions(){
@@ -1837,6 +1843,34 @@ public class BoardController {
         catch (NullPointerException e){
             logger.log(Level.SEVERE, "There's no action report");
             return false;
+        }
+    }
+
+    public void setInstructionManualStage(Stage instructionManualStage){
+        this.instructionManualStage = instructionManualStage;
+    }
+
+    @FXML
+    public void handleInstructionButton(ActionEvent actionEvent){
+        if (instructionManualStage.isShowing()){
+            instructionManualStage.toFront();
+        }
+        else {
+            instructionManualStage.show();
+        }
+    }
+
+    public void setWeaponsManualStage(Stage weaponsManualStage){
+        this.weaponsManualStage = weaponsManualStage;
+    }
+
+    @FXML
+    public void handleWeaponsManualButton(ActionEvent actionEvent){
+        if (weaponsManualStage.isShowing()){
+            weaponsManualStage.toFront();
+        }
+        else {
+            weaponsManualStage.show();
         }
     }
 }

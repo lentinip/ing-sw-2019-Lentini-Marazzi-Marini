@@ -51,6 +51,8 @@ public class GUI extends Application implements ViewInterface {
 
     private double yOffset = 0;
 
+    private Stage weaponsManualStage;
+
     /* Methods */
 
     public void displayLoginWindow(){
@@ -302,6 +304,8 @@ public class GUI extends Application implements ViewInterface {
             logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
         }
 
+        selectCardController.setWeaponsManualStage(weaponsManualStage);
+
         newWindow.setScene(scene);
         newWindow.show();
     }
@@ -352,6 +356,8 @@ public class GUI extends Application implements ViewInterface {
                 catch (NullPointerException e){
                     logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
                 }
+
+                selectEffectController.setWeaponsManualStage(weaponsManualStage);
 
                 newWindow.setScene(scene);
                 newWindow.show();
@@ -513,6 +519,8 @@ public class GUI extends Application implements ViewInterface {
 
             //Set the board parameters in the controller
             boardController.configureBoard(client, matchStart);
+            configureInstructionManualScreen();
+            configureWeaponsManualScreen();
 
             primaryStage.show();
         });
@@ -662,5 +670,69 @@ public class GUI extends Application implements ViewInterface {
         createAlertInfo(header, content);
         startScreenController.hidePleaseWait();
 
+    }
+
+
+    public void configureInstructionManualScreen(){
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/InstructionManualWindow.fxml"));
+
+        Parent root;
+        final Scene scene;
+
+        try {
+            root = fxmlLoader.load();
+        }
+
+        catch (Exception e){
+            logger.log(Level.SEVERE, "InstructionManualWindow.fxml not found");
+            logger.log(Level.SEVERE, e.getMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage());
+            root = null;
+        }
+        scene = new Scene(root);
+
+        Stage stage = new Stage();
+
+        stage.setScene(scene);
+        stage.setTitle("Instruction manual");
+        stage.setResizable(true);
+        stage.initOwner(primaryStage);
+
+        InstructionManualController instructionManualController = fxmlLoader.getController();
+        instructionManualController.configure();
+        boardController.setInstructionManualStage(stage);
+    }
+
+    public void configureWeaponsManualScreen(){
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/WeaponsManualWindow.fxml"));
+
+        Parent root;
+        final Scene scene;
+
+        try {
+            root = fxmlLoader.load();
+        }
+
+        catch (Exception e){
+            logger.log(Level.SEVERE, "WeaponsManualWindow.fxml not found");
+            logger.log(Level.SEVERE, e.getMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage());
+            root = null;
+        }
+        scene = new Scene(root);
+
+        Stage stage = new Stage();
+
+        stage.setScene(scene);
+        stage.setTitle("Weapons manual");
+        stage.setResizable(true);
+        stage.initOwner(primaryStage);
+
+        WeaponsManualController weaponsManualController = fxmlLoader.getController();
+        weaponsManualController.configure();
+        boardController.setWeaponsManualStage(stage);
+        weaponsManualStage = stage;
     }
 }

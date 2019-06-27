@@ -82,6 +82,8 @@ public class SelectEffectController {
     @FXML
     private ImageView weaponImageView;
 
+    private Stage weaponsManualStage;
+
     private static Logger logger = Logger.getLogger("SelectEffectController");
 
     /* Methods */
@@ -258,6 +260,20 @@ public class SelectEffectController {
     public void closeWindow(){
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
+    }
+
+    public void setWeaponsManualStage(Stage weaponsManualStage){
+        this.weaponsManualStage = weaponsManualStage;
+    }
+
+    @FXML
+    public void handleWeaponsManualButton(ActionEvent actionEvent){
+        if (weaponsManualStage.isShowing()){
+            weaponsManualStage.toFront();
+        }
+        else {
+            weaponsManualStage.show();
+        }
     }
 
 

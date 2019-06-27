@@ -82,5 +82,6 @@
       </Group>
       <Button layoutX="608.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleSendButton" text="SEND CHOICE" />
       <Button fx:id="closeButton" layoutX="631.0" layoutY="354.0" mnemonicParsing="false" onAction="#handleCloseButton" text="CLOSE" visible="false" />
+      <Button layoutX="590.0" layoutY="381.0" mnemonicParsing="false" onAction="#handleWeaponsManualButton" text="WEAPONS MANUAL" />
    </children>
 </AnchorPane>
