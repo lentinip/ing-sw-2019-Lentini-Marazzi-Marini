@@ -66,10 +66,11 @@ public class SocketServer extends Thread {
 
         while(true) {
 
+            Socket connection;
             try {
 
                 LOGGER.log(Level.INFO, "SocketServer is ready to accept a connection");
-                Socket connection = serverSocket.accept();
+                connection = serverSocket.accept();
                 (socketServerClientHandler = new SocketServerClientHandler(connection, this)).start();
             } catch (IOException e) {
 
@@ -93,13 +94,12 @@ public class SocketServer extends Thread {
      */
     public void disconnect(String username) {
 
-        if (server.getCurrentWaitingRoom().getUsernames().contains(username)){
+        /*if (server.getCurrentWaitingRoom().getUsernames().contains(username)){
             server.removeWaitingPlayer(username);
-        }
-        else {
-            server.getVirtualViewMap().get(username).getWaitingPlayers().get(username).setConnected(false);
+        }*/
+        //else {
             server.getVirtualViewMap().get(username).addDisconnectedPlayer(username);
-        }
+        //}
     }
 
 }

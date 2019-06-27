@@ -1,6 +1,11 @@
 package it.polimi.sw2019.network.server;
 
 import it.polimi.sw2019.network.client.ClientInterface;
+import it.polimi.sw2019.network.messages.Message;
+
+import java.net.ConnectException;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
 
 /**
  * this class represents the clients in server side
@@ -49,5 +54,17 @@ public class Client {
 
     public ClientInterface getClientInterface() {
         return clientInterface;
+    }
+
+    public void notify(Message message, Server server, String user) throws ConnectException {
+
+        try {
+
+            clientInterface.notify(message);
+        } catch (RemoteException e) {
+
+            server.removeWaitingPlayer(user);
+            server.getLOGGER().log(Level.WARNING, e.getMessage());
+        }
     }
 }

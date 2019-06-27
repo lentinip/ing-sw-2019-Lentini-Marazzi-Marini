@@ -54,8 +54,9 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
     @Override
     public void run() {
 
-        boolean go = true;
+
         try{
+            boolean go = true;
             while(go) {
 
                 LOGGER.log(Level.INFO, "SocketServer is ready to receive messages");
@@ -104,6 +105,7 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
             objectOut.flush();
         } catch (IOException e) {
 
+            System.out.print("il player è disconnesso, non posso inviare il messaggio!");
             LOGGER.log(Level.WARNING, e.getMessage());
         }
     }

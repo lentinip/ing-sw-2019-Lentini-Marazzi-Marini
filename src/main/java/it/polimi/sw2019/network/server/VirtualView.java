@@ -73,9 +73,19 @@ public class VirtualView extends Observable implements Observer {
 
     private static final Logger LOGGER = Logger.getLogger("virtual view");
 
+    private Message matchSetupMessage;
+
 
 
     /* Methods */
+
+    public void setMatchSetupMessage(Message matchSetupMessage) {
+        this.matchSetupMessage = matchSetupMessage;
+    }
+
+    public Message getMatchSetupMessage() {
+        return matchSetupMessage;
+    }
 
     public static void setMatchSetupTimer(long matchSetupTimer) {
         VirtualView.matchSetupTimer = matchSetupTimer;
@@ -195,6 +205,8 @@ public class VirtualView extends Observable implements Observer {
     public void addDisconnectedPlayer(String username){
 
         waitingPlayers.get(username).setConnected(false);
+        disconnectedPlayers.add(username);
+        System.out.print("\n Offline players:" + disconnectedPlayers);
 
         //sending a message to tell everybody the player is disconnected
         Message disconnectionMes = new Message("All");
@@ -400,6 +412,7 @@ public class VirtualView extends Observable implements Observer {
 
     public void notify(Message message) {
 
+        System.out.print("\n Sto gestendo il messaggio ricevuto");
         setChanged();
         notifyObservers(message);
     }

@@ -90,7 +90,7 @@ public class LineClient extends Thread implements ServerInterface {
     public void run() {
 
         boolean go = true;
-        while (go && !socketClient.isClosed()) {
+        while (go && !socketClient.isClosed() && connected) {
 
             try{
                 Message message = (Message) ObjectIn.readObject();

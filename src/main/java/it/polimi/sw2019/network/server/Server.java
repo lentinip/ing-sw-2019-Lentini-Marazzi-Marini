@@ -8,7 +8,7 @@ import it.polimi.sw2019.network.server.rmi.RmiServer;
 import it.polimi.sw2019.network.server.socket.SocketServer;
 
 
-import java.rmi.ConnectException;
+import java.net.ConnectException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
@@ -90,6 +90,10 @@ public class Server {
         return currentWaitingRoom;
     }
 
+    public static Logger getLOGGER() {
+        return LOGGER;
+    }
+
     public void startMatch() {
 
         Message loginReport = new Message(currentWaitingRoom.getUsernames().get(0));
@@ -97,6 +101,7 @@ public class Server {
         sendMessage(loginReport);
         currentWaitingRoom.startSetupTimer();
         currentWaitingRoom = new VirtualView(this);
+        System.out.print(virtualViewMap.keySet());
 
     }
 
@@ -137,7 +142,7 @@ public class Server {
             reconnectionMessage.createReconnectionMessage();
             try {
 
-                clientInterface.notify(loginMessage);
+                clientInterface.notify(reconnectionMessage);
             } catch (RemoteException e) {
 
                 LOGGER.log(Level.WARNING, e.getMessage());
@@ -147,6 +152,8 @@ public class Server {
         //If the username is usable
         else {
             try{
+                System.out.print("\nThird if");
+
                 Client client = new Client(username, clientInterface);
 
                 currentWaitingRoom.addWaitingPlayer(username, client);
@@ -220,6 +227,7 @@ public class Server {
 
                 virtualViewMap.get(user).addDisconnectedPlayer(user);
                 LOGGER.log(Level.WARNING, e.getMessage());
+                System.out.print("non sono riuscito a inviare un messaggio al client per verificare che sia connesso");
             }
         }
     }
@@ -235,11 +243,12 @@ public class Server {
 
             try {
 
-                virtualView.getWaitingPlayers().get(user).getClientInterface().notify(message);
-            } catch (RemoteException e) {
+                virtualView.getWaitingPlayers().get(user).notify(message, this, user);
+            } catch (ConnectException e1) {
 
                 removeWaitingPlayer(user);
-                LOGGER.log(Level.WARNING, e.getMessage());
+                LOGGER.log(Level.WARNING, e1.getMessage());
+                System.out.print("Ho rimosso il player con username:" + user);
             }
         }
     }
@@ -252,6 +261,8 @@ public class Server {
      * @param message message received
      */
     public void receiveMessage(Message message){
+
+        System.out.print("\n I received message from " + message.getUsername());
 
         if(message.getTypeOfMessage() == TypeOfMessage.RECONNECTION_REQUEST) {
 
@@ -270,8 +281,12 @@ public class Server {
 
         else if(virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).getConnected()) {
 
+            System.out.print("\n The message as been sent by an authorized player");
+
             //when the first player chooses the setup options we send to everyOne a message with the choices that the player has taken
             if (message.getTypeOfMessage() == TypeOfMessage.MATCH_SETUP) {
+
+                virtualViewMap.get(message.getUsername()).setMatchSetupMessage(message);
 
                 //stopping the timer
                 virtualViewMap.get(message.getUsername()).getMatchSetupChoiceTimer().cancel();
@@ -325,6 +340,26 @@ public class Server {
             virtualViewMap.get(username).getWaitingPlayers().get(username).setClientInterface(clientInterface);
             virtualViewMap.get(username).getDisconnectedPlayers().remove(username);
             virtualViewMap.get(username).getWaitingPlayers().get(username).setConnected(true);
+
+            Message matchStart = new Message(username);
+
+            List<Character> charactersInGame = new ArrayList<>();
+            int counter = 3; /* set to 3 because the smaller number of player allowed is 3 */
+
+            charactersInGame.add(Character.DISTRUCTOR);
+            charactersInGame.add(Character.BANSHEE);
+            charactersInGame.add(Character.DOZER);
+
+            if (counter < virtualViewMap.get(username).getNumOfWaitingPlayers()) {  /* if there are 4 players adding violet */
+                charactersInGame.add(Character.VIOLET);
+                counter++;
+            }
+            if (counter < virtualViewMap.get(username).getNumOfWaitingPlayers()) {  /* if there are 5 players adding also sprog */
+                charactersInGame.add(Character.SPROG);
+            }
+            MatchStart matchStartClass = new MatchStart(virtualViewMap.get(username).getMatchSetupMessage(), virtualViewMap.get(username).getUsernames(), charactersInGame);
+            matchStart.createMessageMatchStart(matchStartClass);
+            sendMessage(matchStart);
         }
     }
 
