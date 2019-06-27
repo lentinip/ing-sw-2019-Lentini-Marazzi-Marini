@@ -119,6 +119,10 @@ public class Ammo {
         blue = blue - toSubtract.getBlue();
     }
 
+    public boolean isZero(){
+        return (red + yellow + blue == 0);
+    }
+
     public Ammo copy(){
         Ammo result = new Ammo();
         result.setRed(red);

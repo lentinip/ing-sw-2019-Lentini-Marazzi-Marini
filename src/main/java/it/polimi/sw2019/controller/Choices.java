@@ -849,6 +849,7 @@ public class Choices {
             //players that can see the last shooted player
             newTargets = shootedPlayers.get(shootedPlayers.size() -1).visibilePlayer();
             newTargets.removeAll(shootedPlayers);
+            newTargets.remove(match.getCurrentPlayer());
         }
 
         else if (currentEffect.getVisibility() == KindOfVisibility.RAILGUN){

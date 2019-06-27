@@ -324,16 +324,7 @@ public class SingleActionManager {
     public void endShootingAction(){
 
         System.out.print("\nWe're in endShootingAction\n");
-        List<Effect> usableEffects = new ArrayList<>();
-
-        try {
-            usableEffects.addAll(choices.getSelectedWeapon().usableEffects(match.getPlayers()));
-        }
-        catch (NullPointerException e){
-            System.out.print("\nNULLPOINTEREXCEPTION ENTERED CATCH\n");
-            LOGGER.log(Level.SEVERE, e.toString());
-            LOGGER.log(Level.SEVERE, e.getMessage());
-        }
+        List<Effect> usableEffects = new ArrayList<>(choices.getSelectedWeapon().usableEffects(match.getPlayers()));
 
         // removing the already executed effects
         usableEffects.removeAll(choices.getUsedEffect());

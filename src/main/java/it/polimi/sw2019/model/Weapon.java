@@ -163,32 +163,11 @@ public class Weapon {
 
         State currentState = owner.getState();
 
-        if (currentState == State.ADRENALINIC2 || currentState == State.FRENZYBEFOREFIRST){
+        if (currentState == State.ADRENALINIC2 || currentState == State.FRENZYBEFOREFIRST || currentState == State.FRENZYAFTERFIRST){
 
             Cell startingPosition = owner.getPosition(); /* saving the starting position */
 
-            for (Cell reachableCell: startingPosition.reachableCells(1)){
-
-                owner.setPosition(reachableCell);
-
-                if (usableWeapon(allPlayers)){
-
-                    owner.setPosition(startingPosition);
-
-                    return true;
-                }
-            }
-
-            owner.setPosition(startingPosition);
-
-            return false;
-        }
-
-        else if ( currentState == State.FRENZYAFTERFIRST){
-
-            Cell startingPosition = owner.getPosition(); /* saving the starting position */
-
-            for (Cell reachableCell: startingPosition.reachableCells(2)){
+            for (Cell reachableCell: startingPosition.reachableCells(owner.getMovesForShoot())){
 
                 owner.setPosition(reachableCell);
 

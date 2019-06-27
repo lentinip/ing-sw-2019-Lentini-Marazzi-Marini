@@ -127,6 +127,10 @@ public class GUI extends Application implements ViewInterface {
         Platform.runLater(()->{
             List<Image> cardsImages = boardController.getImageCards(typeOfAction);
 
+            if (typeOfAction == TypeOfAction.SHOOT){
+                boardController.disableActions();
+            }
+
             showCardSelection(cards, typeOfAction, cardsImages, false);
         });
     }

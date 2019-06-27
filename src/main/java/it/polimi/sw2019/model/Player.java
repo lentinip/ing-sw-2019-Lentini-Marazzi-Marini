@@ -142,13 +142,29 @@ public class Player extends Observable {
         for (Powerup powerup: powerups){
 
             // checking if it is a targeting scope
-            if (powerup.isDuringYourTurn() && powerup.isDuringDamageAction()){
+            if (powerup.isDuringYourTurn() && powerup.isDuringDamageAction() && canIPayPowerup()){
 
                 availablePowerups.add(powerup);
             }
         }
 
         return availablePowerups;
+    }
+
+    /**
+     * For powerups with generic ammo
+     * @return true if the player can pay the powerup
+     */
+    public boolean canIPayPowerup(){
+        if (powerups.size()>2){
+            return true;
+        }
+        else {
+            if (!playerBoard.getAmmo().isZero()){
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -344,7 +360,7 @@ public class Player extends Observable {
 
             this.setPosition(reachableCell);
 
-            if (canIshootBeforeComplexAction()) {
+            if (!availableWeapons().isEmpty()) {
 
                 reachableCells.add(reachableCell);
             }

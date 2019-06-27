@@ -4,7 +4,7 @@
   "cost": {
     "red": 0,
     "yellow": 0,
-    "blue": 2
+    "blue": 1
   },
   "type": "MULTIPLE_TARGET",
   "visibility": "THOR",
