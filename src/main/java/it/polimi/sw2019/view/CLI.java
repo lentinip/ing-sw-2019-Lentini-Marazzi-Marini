@@ -59,6 +59,8 @@ public class CLI implements ViewInterface {
 
     private Boolean lastCanIshoot;
 
+    private Boolean damageSession;
+
     private String username; //player user
 
     private List<String> usernames = new ArrayList<>(); //username of all players
@@ -640,6 +642,7 @@ public class CLI implements ViewInterface {
 
         int choice = displayOptions(answer);
         lastCanIshoot = answer;
+        damageSession = false;
         Message mes = new Message(username);
 
         //info window
@@ -1237,7 +1240,7 @@ public class CLI implements ViewInterface {
 
             //no thanks
             if (sameNumbers(choice, cont)){
-                if (matchState.getCurrentPlayer() != characters.get(usernames.indexOf(username))) {
+                if (damageSession) {
                     selectedCard.createSelectionForUsePowerup(-1);
                     client.send(selectedCard);
                 }
@@ -1775,6 +1778,7 @@ public class CLI implements ViewInterface {
      */
     public void displayActionReport(ActionReports actionReports){
 
+        damageSession = actionReports.isDamageSession();
         out.print("  ACTION: ");
         printCharacterName(actionReports.getSubject());
         out.print(actionReports.getReport());
