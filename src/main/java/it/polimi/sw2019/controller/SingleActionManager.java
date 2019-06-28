@@ -366,7 +366,7 @@ public class SingleActionManager {
 
                 if (effect.getTargets().isDifferentPlayers()){
 
-                    List<Player> targets = match.getCurrentPlayer().getPosition().playersInCell();
+                    List<Player> targets = new ArrayList<>(match.getCurrentPlayer().getPosition().playersInCell());
                     targets.remove(match.getCurrentPlayer());
                     targets.removeAll(choices.getShootedPlayers());
                     if (targets.isEmpty()){

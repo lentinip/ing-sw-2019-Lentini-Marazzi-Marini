@@ -76,12 +76,12 @@
       <Group fx:id="selectable3" layoutX="365.0" layoutY="306.0" visible="false">
          <children>
             <CheckBox fx:id="checkBox0" disable="true" layoutX="111.0" mnemonicParsing="false" onAction="#handleCheckBoxSelection" />
-            <CheckBox fx:id="checkBox1" disable="true" layoutX="111.0" layoutY="104.0" mnemonicParsing="false" onAction="#handleCheckBoxSelection" />
-            <CheckBox fx:id="checkBox2" disable="true" layoutY="104.0" mnemonicParsing="false" onAction="#handleCheckBoxSelection" />
+            <CheckBox fx:id="checkBox2" disable="true" layoutX="111.0" layoutY="104.0" mnemonicParsing="false" onAction="#handleCheckBoxSelection" />
+            <CheckBox fx:id="checkBox1" disable="true" layoutY="104.0" mnemonicParsing="false" onAction="#handleCheckBoxSelection" />
          </children>
       </Group>
       <Button layoutX="608.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleSendButton" text="SEND CHOICE" />
       <Button fx:id="closeButton" layoutX="631.0" layoutY="354.0" mnemonicParsing="false" onAction="#handleCloseButton" text="CLOSE" visible="false" />
-      <Button layoutX="590.0" layoutY="381.0" mnemonicParsing="false" onAction="#handleWeaponsManualButton" text="WEAPONS MANUAL" />
+      <Button layoutX="590.0" layoutY="397.0" mnemonicParsing="false" onAction="#handleWeaponsManualButton" text="WEAPONS MANUAL" />
    </children>
 </AnchorPane>

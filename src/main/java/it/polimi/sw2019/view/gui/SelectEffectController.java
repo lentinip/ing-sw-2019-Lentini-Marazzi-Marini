@@ -219,7 +219,6 @@ public class SelectEffectController {
                 checkBox2.setSelected(false);
             }
         }
-
         else {
             choice = -2;
         }
@@ -236,6 +235,7 @@ public class SelectEffectController {
             if (choice == -2){
                 alert.setContentText("You have to select also the main effect");
             }
+            alert.show();
         }
         else {
             sendIndex(choice);

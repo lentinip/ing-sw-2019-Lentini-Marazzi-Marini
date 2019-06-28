@@ -140,11 +140,9 @@ public class TurnManager {
         List<Cell> cellList = new ArrayList<>(emptySpawnCells);
 
         for(Cell spawnCell : cellList){
-            while (spawnCell.getWeapons().size()<3){
-                if (!match.getBoard().weaponsDeckIsEmpty()){
-                    Weapon weapon = match.getBoard().drawWeapon();
-                    spawnCell.getWeapons().add(weapon);
-                }
+            while (spawnCell.getWeapons().size()<3 && !match.getBoard().weaponsDeckIsEmpty()){
+                Weapon weapon = match.getBoard().drawWeapon();
+                spawnCell.getWeapons().add(weapon);
             }
 
             if (match.getBoard().weaponsDeckIsEmpty() || spawnCell.getWeapons().size()==3){

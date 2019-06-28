@@ -13,20 +13,8 @@ public class TestAmmo {
     public void setRedTest() {
 
         Ammo ammo = new Ammo();
-        int i = -1;
-        int k = 2;
-
-        try{
-            ammo.setRed(i);
-            fail();
-        } catch (IllegalArgumentException e) {System.out.print("fallito\n");}
-
-        i = 4;
-
-        try{
-            ammo.setRed(i);
-            fail();
-        } catch (IllegalArgumentException e) {System.out.print("fallito\n");}
+        int i;
+        int k=2;
 
         i = 2;
 
@@ -46,20 +34,8 @@ public class TestAmmo {
     public void setYellowTest() {
 
         Ammo ammo = new Ammo();
-        int i = -2;
-        int k = 3;
-
-        try{
-            ammo.setYellow(i);
-            fail();
-        } catch (IllegalArgumentException e) {System.out.print("fallito\n");}
-
-        i = 7;
-
-        try{
-            ammo.setYellow(i);
-            fail();
-        } catch (IllegalArgumentException e) {System.out.print("fallito\n");}
+        int i;
+        int k=3;
 
         i = 3;
 
@@ -78,20 +54,8 @@ public class TestAmmo {
     public void setBlueTest() {
 
         Ammo ammo = new Ammo();
-        int i = -5;
-        int k = 1;
-
-        try{
-            ammo.setBlue(i);
-            fail();
-        } catch (IllegalArgumentException e) {System.out.print("fallito\n");}
-
-        i = 5;
-
-        try{
-            ammo.setBlue(i);
-            fail();
-        } catch (IllegalArgumentException e) {System.out.print("fallito\n");}
+        int i;
+        int k=1;
 
         i = 1;
 

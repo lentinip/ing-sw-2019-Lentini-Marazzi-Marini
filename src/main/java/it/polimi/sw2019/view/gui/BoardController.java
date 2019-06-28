@@ -1238,7 +1238,7 @@ public class BoardController {
                     myWeapon.setImage(newImage);
 
                     //Sets the type of the weapon in the weapon ImageView
-                    int type = cardController.getWeaponType(newWeaponName);
+                    Integer type = cardController.getWeaponType(newWeaponName);
                     myWeapon.setUserData(type);
 
                     //Checks if the weapon is visible
@@ -1691,8 +1691,8 @@ public class BoardController {
         return selectedWeapon.getImage();
     }
 
-    public int getSelectedWeaponType(){
-        return (int) selectedWeapon.getUserData();
+    public Integer getSelectedWeaponType(){
+        return (Integer) selectedWeapon.getUserData();
     }
 
     public void showSelectablePlayers(List<Character> characters, TypeOfAction typeOfAction, boolean noOption){

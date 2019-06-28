@@ -54,10 +54,6 @@ public class Ammo {
     }
 
     public void setRed(int red) {
-
-        if((red > 3) || (red < 0)) {
-            throw new IllegalArgumentException("illegal red ammo number");
-        }
         this.red = red;
     }
 
@@ -66,10 +62,6 @@ public class Ammo {
     }
 
     public void setYellow(int yellow) {
-
-        if((yellow > 3) || (yellow < 0)) {
-            throw new IllegalArgumentException("illegal yellow ammo number");
-        }
         this.yellow = yellow;
     }
 
@@ -78,10 +70,6 @@ public class Ammo {
     }
 
     public void setBlue(int blue) {
-
-        if((blue > 3) || (blue < 0)) {
-            throw new IllegalArgumentException("illegal blue ammo number");
-        }
         this.blue = blue;
     }
 

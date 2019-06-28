@@ -261,7 +261,7 @@ public class GUI extends Application implements ViewInterface {
         BoardCoord lastSelectedCell = boardController.getLastSelectedCell();
 
         //If is a grab and the player has already 3 weapons
-        if (numberOfWeapons == 3){
+        if (numberOfWeapons == 3 && typeOfAction==TypeOfAction.GRAB){
 
             List<ImageView> myWeapons = boardController.getMyWeapons();
             selectCardController.configure(client, boardController, cards, images, lastSelectedCell, myWeapons);

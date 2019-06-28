@@ -282,4 +282,35 @@ public class TestWeapon {
 
         //TODO continue
     }
+
+    @Test
+    public void listTest(){
+        List<Weapon> weapons = new ArrayList<>();
+        Weapon weapon1 = new Weapon();
+        weapon1.setName("weapon1");
+        Weapon weapon2 = new Weapon();
+        weapon2.setName("weapon2");
+        Weapon weapon3 = new Weapon();
+        weapon3.setName("weapon3");
+
+        weapons.add(weapon2);
+        weapons.add(weapon1);
+        weapons.add(weapon3);
+
+        for (Weapon weapon : weapons){
+            System.out.print("\n"+weapon.getName());
+        }
+
+        System.out.print("\n");
+
+        for (int i = 0; i<weapons.size(); i++){
+            System.out.print("\n"+weapons.get(i).getName());
+        }
+
+        System.out.print("\n");
+        System.out.print("\n");
+
+        System.out.print("\n"+weapons.get(0).getName());
+
+    }
 }

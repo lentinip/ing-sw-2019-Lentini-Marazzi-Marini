@@ -173,6 +173,7 @@ public class Choices {
 
                 if (!shootedPlayers.isEmpty()){
                     alreadyShooted = shootedPlayers.get(0);
+                    System.out.print("\nWe are in selected effect - Already shooted = "+ alreadyShooted.getCharacter() + "\n");
                 }
 
                 // clearing all the selections
@@ -329,6 +330,7 @@ public class Choices {
                 else {
 
                     shootedPlayers.add(match.getPlayers().get(playerChosen.getSelectionIndex()));
+                    System.out.print("\nShooted player added: " + match.getPlayers().get(playerChosen.getSelectionIndex()).getCharacter()+"\n");
                     //case he can choose other players
                     if (shootedPlayers.size() < currentEffect.getTargets().getMaxTargets()) {
 
@@ -1050,7 +1052,9 @@ public class Choices {
             List<Cell> reachableCells = match.getCurrentPlayer().getPosition().reachableCells(currentEffect.getMove().getMoveYou());
 
             // the player must move
-            reachableCells.remove(match.getCurrentPlayer().getPosition());
+            if (currentEffect.getMove().isObligatoryYou()){
+                reachableCells.remove(match.getCurrentPlayer().getPosition());
+            }
 
             List<BoardCoord> cells = new ArrayList<>();
 

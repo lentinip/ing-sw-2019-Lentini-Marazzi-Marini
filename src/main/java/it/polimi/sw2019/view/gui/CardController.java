@@ -65,7 +65,7 @@ public class CardController {
 
     public Integer getWeaponType(String name){
         try {
-            return weaponsTypes.get(name).intValue();
+            return new Integer(weaponsTypes.get(name).intValue());
         }
         catch (ClassCastException e){
             logger.log(Level.SEVERE, e.getMessage());

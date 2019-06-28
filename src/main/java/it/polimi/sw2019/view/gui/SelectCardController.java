@@ -99,6 +99,7 @@ public class SelectCardController {
         for (int i = 0; i<cards.size(); i++){
             if (i<images.size()){
                 cards.get(i).setImage(images.get(i));
+                cards.get(i).setVisible(true);
             }
             else {
                 cards.get(i).setVisible(false);
