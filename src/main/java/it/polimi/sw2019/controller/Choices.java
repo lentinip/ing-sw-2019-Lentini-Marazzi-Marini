@@ -825,7 +825,8 @@ public class Choices {
             // removing the players on the same squares of the shooted Players
             if (currentEffect.getTargets().isDifferentSquares()){
 
-                for (Player player: newTargets){
+                List<Player> playerList = new ArrayList<>(newTargets);
+                for (Player player: playerList){
 
                     for (Player shootedPlayer: shootedPlayers){
 
@@ -933,23 +934,23 @@ public class Choices {
         // normal all target effect
         else {
 
-            for (Cell shootedCell: shootedCells){
+            for (int i = 0; i < shootedCells.size(); i++){
 
                 // removing the current player in case he is dealing damage to all players on his square
-                List<Player> hittedPlayers = shootedCell.playersInCell();
+                List<Player> hittedPlayers = shootedCells.get(shootedCells.size() - 1 - i).playersInCell();
                 hittedPlayers.remove(match.getCurrentPlayer());
 
                 for (Player shootedPlayer: hittedPlayers){
 
                     shootedPlayers.add(shootedPlayer);
 
-                    if ( targets.getDamages()[shootedCells.indexOf(shootedCell)] > 0){
+                    if ( targets.getDamages()[i] > 0){
 
                         damagedPlayers.add(shootedPlayer);
-                        atomicActions.dealDamage(match.getCurrentPlayer(), shootedPlayer, targets.getDamages()[shootedCells.indexOf(shootedCell)]);
+                        atomicActions.dealDamage(match.getCurrentPlayer(), shootedPlayer, targets.getDamages()[i]);
                     }
 
-                    atomicActions.mark(match.getCurrentPlayer(), shootedPlayer, targets.getMarks()[shootedCells.indexOf(shootedCell)]);
+                    atomicActions.mark(match.getCurrentPlayer(), shootedPlayer, targets.getMarks()[i]);
                 }
             }
         }
@@ -990,11 +991,12 @@ public class Choices {
         for (int i = 0; i < shootedPlayers.size(); i++){
 
             if ( targets.getDamages()[i] > 0) {
-                atomicActions.dealDamage(match.getCurrentPlayer(), shootedPlayers.get(i), targets.getDamages()[i]);
+                System.out.println("\n giving " + targets.getDamages()[i] + "damages to " + shootedPlayers.get(i).getCharacter() +"\n");
+                atomicActions.dealDamage(match.getCurrentPlayer(), shootedPlayers.get(shootedPlayers.size() - 1 - i), targets.getDamages()[i]);
                 damagedPlayers.add(shootedPlayers.get(i));
             }
 
-            atomicActions.mark(match.getCurrentPlayer(), shootedPlayers.get(i), targets.getMarks()[i]);
+            atomicActions.mark(match.getCurrentPlayer(), shootedPlayers.get(shootedPlayers.size() -1 -i), targets.getMarks()[i]);
         }
 
         //this case is to deal an all target damage/mark like in hellion or rocket launcher second effect
@@ -1116,7 +1118,7 @@ public class Choices {
         players.remove(match.getCurrentPlayer()); //removing myself so I can't choose my character in vortex effect
 
         for (Player player : players){
-            if (player.getPosition().reachableCells(1).contains(moveCell)){
+            if (player.getPosition() != null && player.getPosition().reachableCells(1).contains(moveCell)){
                 characters.add(player.getCharacter());
             }
         }
