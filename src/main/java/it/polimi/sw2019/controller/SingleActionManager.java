@@ -349,11 +349,32 @@ public class SingleActionManager {
             usableEffects.clear();
         }
 
+
         //case cyberblade where the player has chosen move effect; I have to show him only the free effect
         else if (choices.getSelectedWeapon().hasAnOrder() && choices.getCurrentEffect().getType() == EffectsKind.MOVE && choices.getUsedEffect().size() == 1){
 
             //removing the additional one
             usableEffects.remove(usableEffects.size() - 1);
+        }
+
+        //this else is to solve a bug we found for cyberblade
+        else if(choices.getSelectedWeapon().hasAnOrder()){
+
+            List<Effect> effectList = new ArrayList<>(usableEffects);
+
+            for (Effect effect: effectList){
+
+                if (effect.getTargets().isDifferentPlayers()){
+
+                    List<Player> targets = match.getCurrentPlayer().getPosition().playersInCell();
+                    targets.remove(match.getCurrentPlayer());
+                    targets.removeAll(choices.getShootedPlayers());
+                    if (targets.isEmpty()){
+                        usableEffects.remove(effect);
+                    }
+
+                }
+            }
         }
 
         // I don't have any effect to execute

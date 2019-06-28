@@ -20,7 +20,7 @@
     "moveYouBefore" : false,
     "moveYouAfter" : false,
     "moveYouSameDirection" : false,
-    "obligatoryYou" : true,
+    "obligatoryYou" : false,
     "obligatoryTarget" : false
   },
   "targets": {
