@@ -204,6 +204,9 @@ public class VirtualView extends Observable implements Observer {
 
     public void addDisconnectedPlayer(String username){
 
+        Message message = new Message(username);
+        message.setTypeOfMessage(TypeOfMessage.EXIT_GAME);
+
         waitingPlayers.get(username).setConnected(false);
         disconnectedPlayers.add(username);
         System.out.print("\n Offline players:" + disconnectedPlayers);

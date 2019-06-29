@@ -102,8 +102,9 @@ public class Client {
                     break;
             }
         }
-        if(args.length > 2){
+        if(args.length > 1){
             client.setIpAddress(args[1]);
+            System.out.println(args[1]);
         }
 
         else {
@@ -227,6 +228,9 @@ public class Client {
                 break;
             case DISCONNECTION_SETUP:
                 view.displayDisconnectionDuringSetup();
+                break;
+            case EXIT_GAME:
+                //view.displayExitMessage();
                 break;
             default:
                 System.console().printf("TYPE OF MESSAGE UNKNOWN");

@@ -212,8 +212,13 @@ public class SingleActionManager {
             //Than calculates the player that can be moved
             if (choices.getMovedPlayers().size() < choices.getCurrentEffect().getMove().getMaxTargets()){
                 List<Character> characterList = choices.availablePlayersToMove();
-                answer.createAvailablePlayers(TypeOfAction.MOVEBEFORESHOOT, characterList);
-                view.display(answer);
+                if (characterList.isEmpty()){
+                    choices.effectHandler();
+                }
+                else {
+                    answer.createAvailablePlayers(TypeOfAction.MOVEBEFORESHOOT, characterList);
+                    view.display(answer);
+                }
             }
             else {
 
@@ -276,6 +281,8 @@ public class SingleActionManager {
         message.createMessageCanIShoot(choices.canIshoot());
 
         view.display(message);
+
+        match.notifyPrivateHand(match.getCurrentPlayer());
     }
 
     public List<IndexMessage> createReloadMessage(Player currentPlayer){
