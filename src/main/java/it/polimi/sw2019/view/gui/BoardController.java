@@ -1663,8 +1663,28 @@ public class BoardController {
             imageViewList = myWeapons;
         }
 
-        else if (typeOfAction == TypeOfAction.USEPOWERUP || typeOfAction == TypeOfAction.SPAWN){
+        else if (typeOfAction == TypeOfAction.USEPOWERUP){
             imageViewList = myPowerups;
+        }
+
+        else if (typeOfAction == TypeOfAction.SPAWN) {
+
+            //Is not going to be used
+            imageViewList = new ArrayList<>();
+
+            for (int i = 0; i < 4; i++) {
+                //For all the weapons the player has
+                if (i < oldPrivateHand.getPowerups().size()) {
+
+                    //Gets the Image of the powerup
+                    String newPowerupName = oldPrivateHand.getPowerups().get(i);
+                    Colors newPowerupColor = oldPrivateHand.getPowerupColors().get(i);
+                    Image newImage = cardController.getPowerupImage(newPowerupName, newPowerupColor);
+
+                    //Adds it to the result list
+                    result.add(newImage);
+                }
+            }
         }
 
         else {

@@ -238,7 +238,12 @@ public class GUI extends Application implements ViewInterface {
 
     public void showCardSelection(AvailableCards cards, TypeOfAction typeOfAction, List<Image> images, boolean noOption){
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/SelectCardScreen.fxml"));
+        if (typeOfAction == TypeOfAction.SPAWN){
+            fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/SelectCardScreenForSpawn.fxml"));
+        }
+        else {
+            fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/SelectCardScreen.fxml"));
+        }
 
         Parent root;
         Scene scene;

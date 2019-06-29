@@ -37,6 +37,9 @@ public class SelectCardController {
     private ImageView cardImage2;
 
     @FXML
+    private ImageView cardImage3;
+
+    @FXML
     private Button closeButton;
 
     @FXML
@@ -62,10 +65,12 @@ public class SelectCardController {
         cardImage0.setUserData(new IndexMessage(0));
         cardImage1.setUserData(new IndexMessage(1));
         cardImage2.setUserData(new IndexMessage(2));
+        cardImage3.setUserData(new IndexMessage(3));
 
         cards.add(cardImage0);
         cards.add(cardImage1);
         cards.add(cardImage2);
+        cards.add(cardImage3);
     }
 
     public void configure(Client client, BoardController boardController,  AvailableCards availableCards, TypeOfAction typeOfAction, List<Image> images, BoardCoord lastSelectedCell, boolean noOption){
@@ -77,10 +82,6 @@ public class SelectCardController {
 
         if (!availableCards.areWeapons() && typeOfAction != TypeOfAction.SPAWN){
             mainLabel.setText("CHOOSE A POWERUP");
-        }
-
-        if (typeOfAction == TypeOfAction.SPAWN){
-            mainLabel.setText("CHOOSE A POWERUP TO SPAWN");
         }
 
         List<IndexMessage> indexMessages = availableCards.getAvailableCards();
@@ -148,12 +149,7 @@ public class SelectCardController {
 
                 for (ImageView weapon : myWeapons){
                     weapons.add(weapon.getImage());
-
-                    //If the opacity is 1 is loaded
-                    if (weapon.getOpacity() == 1.0){
-                        int index = myWeapons.indexOf(weapon);
-                        areLoaded.add(new IndexMessage(index));
-                    }
+                    areLoaded.add(new IndexMessage(myWeapons.indexOf(weapon)));
                 }
 
                 showCards(areLoaded, weapons, false);

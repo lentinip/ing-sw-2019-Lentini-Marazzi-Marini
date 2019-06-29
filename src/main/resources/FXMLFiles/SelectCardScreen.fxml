@@ -38,5 +38,10 @@
       </Label>
       <Button fx:id="closeButton" layoutX="370.0" layoutY="492.0" mnemonicParsing="false" onAction="#handleCloseButton" text="CLOSE" visible="false" />
       <Button layoutX="39.0" layoutY="492.0" mnemonicParsing="false" onAction="#handleWeaponsManualButton" text="WEAPONS MANUAL" />
+      <ImageView fx:id="cardImage3" fitHeight="6.0" fitWidth="86.0" layoutX="583.0" layoutY="475.0" onMouseClicked="#handleSelection" onMouseEntered="#showSelection" onMouseExited="#disableEffect" opacity="0.4" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../images/cards/weaponsBack.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
