@@ -714,8 +714,6 @@ public class TestPlayer {
         player.addPowerup(powerup1);
         player.addPowerup(powerup2);
         player.addPowerup(powerup3);
-        player.addPowerup(powerup4);
-        player.addPowerup(powerup5);
 
         List<Powerup> powerups = new ArrayList<>();
         powerups.add(powerup1);

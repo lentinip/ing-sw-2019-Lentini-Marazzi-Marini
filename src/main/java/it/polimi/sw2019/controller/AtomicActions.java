@@ -304,17 +304,17 @@ public class  AtomicActions {
      * this method is used to add a powerup to the player and removing it from the powerups deck
      * @param drawer who draws
      */
-    public void drawPowerup(Player drawer){
+    public void drawPowerup(Player drawer) {
 
-        if ( drawer.getPowerups().size() < 3){
-
-            Powerup drawn = match.getBoard().drawPowerup();
+        Powerup drawn = match.getBoard().drawPowerup();
+        if (drawn != null) {
             drawer.addPowerup(drawn);
+            match.notifyPrivateHand(match.getCurrentPlayer());
+            String report = "  DREW a card";
+            Message message = new Message("All");
+            message.createActionReports(report, drawer.getCharacter(), null);
+            view.display(message);
         }
-        match.notifyPrivateHand(match.getCurrentPlayer());
-        String report = "  DREW a card";
-        Message message = new Message("All");
-        message.createActionReports(report, drawer.getCharacter(), null);
-        view.display(message);
     }
+
 }
