@@ -166,21 +166,17 @@ public class Choices {
 
                 IndexMessage effectIndex = message.deserializeIndexMessage();
 
-                System.out.print("\nSELECTED EFFECT: index = " + effectIndex.getSelectionIndex() + "\n" );
-
                 //useful for effect that need to shoot different players see cyberblade optional effect
                 Player alreadyShooted = null;
 
                 //debug
                 for (Player player: shootedPlayers){
                     if (player != null) {
-                        System.out.println("shooted player: " + player.getCharacter());
                     }
                 }
 
                 if (!shootedPlayers.isEmpty() && shootedPlayers.get(0) != null){
                     alreadyShooted = shootedPlayers.get(0);
-                    System.out.print("\nWe are in selected effect - Already shooted = "+ alreadyShooted.getCharacter() + "\n");
                 }
 
                 // clearing all the selections
@@ -337,7 +333,6 @@ public class Choices {
                 else {
 
                     shootedPlayers.add(match.getPlayers().get(playerChosen.getSelectionIndex()));
-                    System.out.print("\nShooted player added: " + match.getPlayers().get(playerChosen.getSelectionIndex()).getCharacter()+"\n");
                     //case he can choose other players
                     if (shootedPlayers.size() < currentEffect.getTargets().getMaxTargets()) {
 
@@ -428,8 +423,6 @@ public class Choices {
         //case the player does not want to move anymore
         if (selection.getSelectionIndex() < 0){
 
-            System.out.print("\n MoveBeforeShootHandler - index <0\n");
-
             effectHandler();
         }
 
@@ -442,12 +435,8 @@ public class Choices {
             //if is the first player to be moved
             if (movedPlayers.isEmpty()){
 
-                System.out.print("\n MoveBeforeShootHandler - first player to be moved\n");
-
                 // case tractor beam second effect
                 if (move.isMoveTargetOnYourSquare()){
-
-                    System.out.print("\n MoveBeforeShootHandler - tractor beam second effect\n");
 
                     atomicActions.move(selectedPlayer, match.getCurrentPlayer().getPosition());
                     movedPlayers.add(selectedPlayer);
@@ -456,8 +445,6 @@ public class Choices {
 
                 // case vortex or tractor beam first effect
                 else {
-
-                    System.out.print("\n MoveBeforeShootHandler - sending cells for vortex o tractor beam\n");
 
                     //showing only the cells that the shooter can see and where the target can be moved in
                     List<BoardCoord> availableCells = new ArrayList<>();
@@ -480,8 +467,6 @@ public class Choices {
 
             //case moved players is not empty vortex second effect
             else {
-
-                System.out.print("\n MoveBeforeShootHandler - moved players is not empty\n");
 
                 atomicActions.move(selectedPlayer, moveCell);
                 movedPlayers.add(selectedPlayer);
@@ -743,12 +728,8 @@ public class Choices {
     @SuppressWarnings("squid:S3776")
     public void effectHandler(){
 
-        System.out.print("\nWe're in effect handler\n");
-
         // if I moved someone I have to apply the effect to the moved players see vortex or tractor beam
         if (!movedPlayers.isEmpty()){
-
-            System.out.print("\nEffect handler - applying damage to moved players\n");
 
             shootedPlayers = movedPlayers;
             applyEffect();
@@ -756,8 +737,6 @@ public class Choices {
 
         // case where the player don't have to choose
         else if (currentEffect.getTargets().isForcedChoice()){
-
-            System.out.print("\nEffect handler - effect with forced choice\n");
 
             applyForcedChoiceEffect();
         }
@@ -793,15 +772,11 @@ public class Choices {
                 options.createAvailablePlayers(TypeOfAction.SHOOT, reachableCharacters);
             }
 
-            System.out.print("\nEffect handler - sending available players\n");
-
             view.display(options);
         }
 
         // a player is already selected
         else {
-
-            System.out.print("\nEffect handler - the player is already selected\n");
 
             // sending new options for a multiple target effect
             if (currentEffect.getType() == EffectsKind.MULTIPLE_TARGET || currentEffect.getType() == EffectsKind.SINGLE_TARGET){
@@ -1002,7 +977,6 @@ public class Choices {
         for (int i = 0; i < shootedPlayers.size(); i++){
 
             if ( targets.getDamages()[i] > 0) {
-                System.out.println("\n giving " + targets.getDamages()[i] + "damages to " + shootedPlayers.get(i).getCharacter() +"\n");
                 atomicActions.dealDamage(match.getCurrentPlayer(), shootedPlayers.get(i), targets.getDamages()[i]);
                 damagedPlayers.add(shootedPlayers.get(i));
             }
@@ -1036,14 +1010,10 @@ public class Choices {
     @SuppressWarnings("squid:S3776")
     public void effectAnalyzer(){
 
-        System.out.print("\nWe're in effect analyzer\n");
-
         Message options = new Message(match.getCurrentPlayer().getName());
 
         // if the effect contains a moveBefore I have to show to the client the available choices
         if (currentEffect.getMove() != null && currentEffect.getMove().iHaveAMoveBefore()){
-
-            System.out.print("\nEffect analyzer - move before\n");
 
             // if I have to choose to move a target then I'll show the targets available
             if (currentEffect.getMove().isMoveTargetBefore()){
@@ -1055,8 +1025,6 @@ public class Choices {
         }
 
         else if (currentEffect.getType() == EffectsKind.MOVE){
-
-            System.out.print("\nEffect analyzer - the weapon has a move\n");
 
             List<Cell> reachableCells = match.getCurrentPlayer().getPosition().reachableCells(currentEffect.getMove().getMoveYou());
 

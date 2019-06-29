@@ -164,29 +164,15 @@ public class Effect {
         List<Cell> reachableCells = reachableCells(owner);
         List<Player> targetsPlayer = new ArrayList<>();
 
-        System.out.print("\nShootable cells - Size of reachable Cells " + reachableCells.size() + "\n");
-
         for (int i = 0; i < reachableCells.size(); i++) {
 
             targetsPlayer.addAll(reachableCells.get(i).playersInCell()); /* removing the player who is shooting from the list of the possible targets */
 
-            System.out.print("\nShootable cells - Size of targetsPlayer" + targetsPlayer.size() + "\n");
-
-            System.out.print("\nPlayer names: ");
-            for (Player player: targetsPlayer){
-                System.out.print("\nPlayer name: " + player.getCharacter());
-            }
-
-            System.out.print("\n");
-
             if (targetsPlayer.contains(owner)) {
-                System.out.print("\nShootable cells - Contains owner\n");
                 targetsPlayer.remove(owner);
             }
 
             if (!targetsPlayer.isEmpty()){
-                System.out.print("\nShootable cells - targetsPlayer: " + targetsPlayer.size() + "\n");
-                System.out.print("\nShootable cells - first player name " + targetsPlayer.get(0).getCharacter() + "\n");
                 shootableCells.add(reachableCells.get(i));
                 targetsPlayer.clear();
             }

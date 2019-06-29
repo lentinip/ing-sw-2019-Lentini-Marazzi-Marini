@@ -330,11 +330,6 @@ public class Player extends Observable {
             }
         }
 
-        if (availableWeapons.isEmpty()) {
-
-            throw new NullPointerException("Can't use any weapon to shoot in this position");
-        }
-
         return availableWeapons;
     }
 

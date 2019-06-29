@@ -51,7 +51,12 @@ public class Score extends Tokens {
     /**
      * Method that returns a Map of Characters that represents the game LeaderBoard
      */
-    public Map<Character, Integer> getRankingMap() {
+    public Map<Character, Integer> getRankingMap(List<Character> characters) {
+
+        for (Character character : characters){
+            charactersMap.remove(character);
+        }
+
         Map<Character, Integer> sortedMap = sortByValues(charactersMap, Collections.reverseOrder(new RankingComparator()));
 
         Map<Character, Integer> ranking = new LinkedHashMap<>();

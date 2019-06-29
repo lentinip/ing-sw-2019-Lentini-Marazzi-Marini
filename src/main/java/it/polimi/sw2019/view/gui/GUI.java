@@ -115,7 +115,6 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void displayCanIShoot(boolean answer){
-        System.out.print("\n Can I shoot: " + answer + "\n");
         Platform.runLater(()->{
             boardController.canIShoot(answer);
         });

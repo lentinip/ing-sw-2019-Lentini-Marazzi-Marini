@@ -195,10 +195,16 @@ public class  AtomicActions {
 
         //If the player has more than 10 damages he's dead
         if (totalDamage>10){
+            if (!receiver.isDead()){
+                int oldNumberOfDeaths = receiver.getPlayerBoard().getNumOfDeaths();
+                receiver.getPlayerBoard().setNumOfDeaths(oldNumberOfDeaths+1);
+            }
+
             receiver.setDead(true);
 
-            int oldNumberOfDeaths = receiver.getPlayerBoard().getNumOfDeaths();
-            receiver.getPlayerBoard().setNumOfDeaths(oldNumberOfDeaths+1);
+            if (!match.getFrenzyMode()){
+                receiver.setState(State.NORMAL);
+            }
             
             String reportKill = "  KILLED ☠☠☠☠☠   ";
             Message messageKill = new Message("All");
@@ -309,7 +315,7 @@ public class  AtomicActions {
         Powerup drawn = match.getBoard().drawPowerup();
         if (drawn != null) {
             drawer.addPowerup(drawn);
-            match.notifyPrivateHand(match.getCurrentPlayer());
+            match.notifyPrivateHand(drawer);
             String report = "  DREW a card";
             Message message = new Message("All");
             message.createActionReports(report, drawer.getCharacter(), null);

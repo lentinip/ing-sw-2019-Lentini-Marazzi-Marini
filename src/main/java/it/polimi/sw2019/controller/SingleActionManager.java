@@ -330,7 +330,6 @@ public class SingleActionManager {
      */
     public void endShootingAction(){
 
-        System.out.print("\nWe're in endShootingAction\n");
         List<Effect> usableEffects = new ArrayList<>(choices.getSelectedWeapon().usableEffects(match.getPlayers()));
 
         // removing the already executed effects

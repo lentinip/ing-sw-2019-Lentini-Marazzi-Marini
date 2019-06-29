@@ -443,10 +443,6 @@ public class PlayerBoardController {
 
     public void initializePlayerHand(String username){
 
-        System.out.print("\n");
-        System.out.print("Inside initializePlayerHand\n");
-        System.out.print("\n");
-
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/OtherPlayerHandScreen.fxml"));
 
@@ -470,10 +466,6 @@ public class PlayerBoardController {
 
         otherPlayerHandController = fxmlLoader.getController();
         otherPlayerHandController.configure(username);
-        System.out.print("\n");
-        System.out.print("\nPlayerHandController: ");
-        System.out.print(otherPlayerHandController.toString());
-        System.out.print("\n");
 
         playerHandStage = new Stage();
         playerHandStage.initOwner(playerBoardImage.getScene().getWindow());

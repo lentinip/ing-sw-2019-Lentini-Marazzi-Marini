@@ -105,17 +105,19 @@ public class TurnManager {
         //sending the winner message if the match is ended
         if (match.isEnded()){
 
-            Map<Character, Integer> leaderboard = match.getScore().getRankingMap();
             Map<Character, Integer> pointsMap = match.getScore().getMap();
+            List<Character> disconnected = new ArrayList<>();
 
             //removing disconnected players from the leader board
             for (String name: view.getUsernames()){
 
                 if (!view.getWaitingPlayers().get(name).getConnected()) {
-                    leaderboard.remove(match.getPlayerByUsername(name).getCharacter());
+                    disconnected.add(match.getPlayerByUsername(name).getCharacter());
                     pointsMap.remove(match.getPlayerByUsername(name).getCharacter());
                 }
             }
+
+            Map<Character, Integer> leaderboard = match.getScore().getRankingMap(disconnected);
 
             Message endMessage = new Message("All");
             endMessage.createLeaderBoard(leaderboard, pointsMap);
@@ -184,7 +186,7 @@ public class TurnManager {
 
         System.out.print("\nI'm inside the spawn\n");
 
-        //System.out.print("\n PowerupIndex: " + powerupIndex + "\n");
+        System.out.print("\n PowerupIndex: " + powerupIndex + "\n");
 
 
         //Gets the room with the color of the powerup
@@ -201,25 +203,20 @@ public class TurnManager {
 
         match.notifyPrivateHand(spawningPlayer);
 
+        // updating the model and the player attribute isDead
+        spawningPlayer.setDead(false);
+        match.getDeadPlayers().remove(spawningPlayer);
+
         // checking if it is the first spawn or not
         if (isFirstRound){
-
-            System.out.print("\n I'm in the first turn\n");
-            System.out.print("\n Current player : " + currentPlayer.getName() + "\n");
-
 
             if (currentPlayer.getName().equals(spawningPlayer.getName())){
                 view.startTurnTimer(currentPlayer.getName());
             }
 
-            System.out.print("\n Current player  index: " + match.getPlayers().indexOf(match.getCurrentPlayer()) + "\n");
-            System.out.print("\n Last player  index: " + (match.getPlayers().size()-1) + "\n");
-
-
             // if it is the last player that has his first turn I set first round to false
             if (match.getPlayers().indexOf(match.getCurrentPlayer()) == (match.getPlayers().size()-1)){
 
-                System.out.print("\nI'm inside the if that set the first round to false\n");
                 isFirstRound = false;
             }
 
@@ -236,9 +233,6 @@ public class TurnManager {
 
         }
 
-        // updating the model and the player attribute isDead
-        spawningPlayer.setDead(false);
-        match.getDeadPlayers().remove(spawningPlayer);
         match.notifyPrivateHand(spawningPlayer);
         //sending the message
         view.display(message);

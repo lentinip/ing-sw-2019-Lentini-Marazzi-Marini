@@ -98,19 +98,7 @@ public class MatchSettingController {
     @FXML
     public void handleSetMatch(ActionEvent actionEvent){
 
-        System.out.print("\n");
-        System.out.print("We're in handleSetMatch\n");
-        System.out.print("1\n");
-        System.out.print("\n");
-
-
-
         MatchSetup matchSetup = new MatchSetup(frenzy, easyMode, selectedBoard);
-
-        System.out.print("\n");
-        System.out.print("We're in handleSetMatch\n");
-        System.out.print(client.getUsername());
-        System.out.print("\n");
 
         Message message = new Message(client.getUsername());
         message.createMessageMatchSetup(matchSetup);
