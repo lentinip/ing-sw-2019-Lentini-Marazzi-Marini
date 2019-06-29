@@ -445,6 +445,9 @@ public class Match extends Observable {
         currentMatchState.setOverkillSequence(board.getKillTrack().getOverkillSequence());
         currentMatchState.setWeaponsDeckSize(board.getWeaponsDeck().size());
         currentMatchState.setPowerupsDeckSize(board.getPowerupsDeck().size());
+        if(currentPlayer == null) {
+            currentPlayer = players.get(0);
+        }
         currentMatchState.setCurrentPlayer(currentPlayer.getCharacter());
         return currentMatchState;
     }
