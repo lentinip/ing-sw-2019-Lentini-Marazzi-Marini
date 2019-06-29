@@ -151,6 +151,17 @@ public class Player extends Observable {
         return availablePowerups;
     }
 
+    public boolean hasCounterAttackPowerups(){
+
+        for (Powerup powerup: getPowerups()){
+            if (powerup.isDuringDamageAction() && !powerup.isDuringYourTurn()){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * For powerups with generic ammo
      * @return true if the player can pay the powerup

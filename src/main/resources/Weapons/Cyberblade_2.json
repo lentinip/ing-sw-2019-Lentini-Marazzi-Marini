@@ -29,7 +29,7 @@
     "differentSquares": false,
     "sameSquare": false,
     "isRoom":false ,
-    "differentPlayers": false,
+    "differentPlayers": true,
     "maxTargets": 0,
     "forcedChoice": false
   }

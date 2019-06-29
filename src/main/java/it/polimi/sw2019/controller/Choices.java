@@ -171,7 +171,14 @@ public class Choices {
                 //useful for effect that need to shoot different players see cyberblade optional effect
                 Player alreadyShooted = null;
 
-                if (!shootedPlayers.isEmpty()){
+                //debug
+                for (Player player: shootedPlayers){
+                    if (player != null) {
+                        System.out.println("shooted player: " + player.getCharacter());
+                    }
+                }
+
+                if (!shootedPlayers.isEmpty() && shootedPlayers.get(0) != null){
                     alreadyShooted = shootedPlayers.get(0);
                     System.out.print("\nWe are in selected effect - Already shooted = "+ alreadyShooted.getCharacter() + "\n");
                 }
@@ -194,7 +201,7 @@ public class Choices {
                     currentEffect = selectedWeapon.getEffects().get(effectIndex.getSelectionIndex());
 
                     // adding the already shooted player to shootedPlayers, saved before the reset, if it is needed
-                    if ( currentEffect.getTargets().isDifferentPlayers()){
+                    if ( currentEffect.getTargets().isDifferentPlayers() && alreadyShooted != null){
 
                         shootedPlayers.add(alreadyShooted);
                     }
@@ -583,7 +590,9 @@ public class Choices {
 
             match.notifyPrivateHand(player);
 
-            damagedPlayers.remove(player);
+            if (!player.hasCounterAttackPowerups()){
+                damagedPlayers.remove(player);
+            }
 
             playersWithCounterAttackPowerup();
         }
@@ -1072,7 +1081,7 @@ public class Choices {
             else {
 
                 List<Effect> weaponsEffect = new ArrayList<>(selectedWeapon.getEffects());
-                weaponsEffect.removeAll(usedEffect);
+                weaponsEffect.remove(currentEffect);
 
                 Player currentPlayer = match.getCurrentPlayer();
                 Cell startPosition = currentPlayer.getPosition();
@@ -1139,13 +1148,8 @@ public class Choices {
 
         for (Player player: damagedPlayers){
 
-            for (Powerup powerup: player.getPowerups()){
-
-                if (powerup.isDuringDamageAction() && !powerup.isDuringYourTurn()){
-
-                    nextPlayers.add(player);
-                    break; // to avoid duplicates
-                }
+            if (player.hasCounterAttackPowerups()){
+                nextPlayers.add(player);
             }
         }
 

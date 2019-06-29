@@ -102,8 +102,9 @@ public class Client {
                     break;
             }
         }
-        if(args.length > 2){
+        if(args.length > 1){
             client.setIpAddress(args[1]);
+            System.out.println(args[1]);
         }
 
         else {
