@@ -1087,6 +1087,8 @@ public class BoardController {
         for (int i=0; i<3; i++){
             killTrackSkulls.get(0).setVisible(false);
             killTrackSkulls.remove(0);
+            killTrackKillTokens.remove(0);
+            killTrackOverKillTokens.remove(0);
         }
     }
 
@@ -1500,7 +1502,8 @@ public class BoardController {
 
         if (oldMatchState == null || !oldMatchState.getKillSequence().equals(killSequence)){
 
-            for (int i=0; i<killSequence.size() && i<8; i++){
+
+            for (int i=0; i<killSequence.size() && i<killTrackSkulls.size(); i++){
 
                 ImageView token = killTrackKillTokens.get(i);
                 PlayerBoardController.changeTokenColor(token, killSequence.get(i));

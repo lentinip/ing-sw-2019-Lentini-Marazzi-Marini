@@ -549,7 +549,7 @@ public class PlayerBoardController {
     }
 
     public void updateNumberOfDeaths(int numberOfDeaths){
-        for (int i=0; i<numberOfDeaths; i++){
+        for (int i=0; i<numberOfDeaths && i<skullList.size(); i++){
             skullList.get(i).setVisible(true);
         }
     }

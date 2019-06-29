@@ -196,6 +196,10 @@ public class  AtomicActions {
         //If the player has more than 10 damages he's dead
         if (totalDamage>10){
             receiver.setDead(true);
+
+            int oldNumberOfDeaths = receiver.getPlayerBoard().getNumOfDeaths();
+            receiver.getPlayerBoard().setNumOfDeaths(oldNumberOfDeaths+1);
+            
             String reportKill = "  KILLED ☠☠☠☠☠   ";
             Message messageKill = new Message("All");
             messageKill.createActionReports(reportKill, shooter.getCharacter(), receiver.getCharacter(), true);
