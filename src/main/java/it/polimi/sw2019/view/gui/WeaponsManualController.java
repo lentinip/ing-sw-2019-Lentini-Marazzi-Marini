@@ -39,14 +39,13 @@ public class WeaponsManualController {
         Pagination pagination = new Pagination(4);
         pagination.setMaxPageIndicatorCount(4);
 
+
         imageInitialization();
 
-        pagination.setPageFactory(new Callback<Integer, Node>() {
-            public Node call(Integer pageIndex) {
-                stackPane = new StackPane();
-                stackPane.getChildren().add(pages.get(pageIndex));
-                return stackPane;
-            }
+        pagination.setPageFactory((Integer pageIndex) -> {
+            stackPane = new StackPane();
+            stackPane.getChildren().add(pages.get(pageIndex));
+            return stackPane;
         });
 
         AnchorPane.setTopAnchor(pagination, 0.0);

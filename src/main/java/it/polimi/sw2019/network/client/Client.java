@@ -229,6 +229,9 @@ public class Client {
             case DISCONNECTION_SETUP:
                 view.displayDisconnectionDuringSetup();
                 break;
+            case EXIT_GAME:
+                //view.displayExitMessage();
+                break;
             default:
                 System.console().printf("TYPE OF MESSAGE UNKNOWN");
                 break;

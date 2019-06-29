@@ -197,7 +197,7 @@ public class Server {
         } catch (RemoteException e) {
 
             virtualViewMap.get(message.getUsername()).addDisconnectedPlayer(message.getUsername());
-            virtualViewMap.get(message.getUsername()).getDisconnectedPlayers().add(message.getUsername());
+            //virtualViewMap.get(message.getUsername()).getDisconnectedPlayers().add(message.getUsername());
             LOGGER.log(Level.WARNING, e.getMessage());
         }
     }
