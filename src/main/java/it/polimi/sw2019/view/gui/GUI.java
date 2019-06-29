@@ -8,6 +8,7 @@ import it.polimi.sw2019.view.ViewInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.fxml.LoadException;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -519,8 +520,16 @@ public class GUI extends Application implements ViewInterface {
 
             //Set the board parameters in the controller
             boardController.configureBoard(client, matchStart);
-            configureInstructionManualScreen();
-            configureWeaponsManualScreen();
+
+            try {
+                configureInstructionManualScreen();
+                configureWeaponsManualScreen();
+            }
+            catch (IOException e){
+                logger.log(Level.SEVERE, "Problems with InstructionManualScreen or WeaponsManualScreen");
+                logger.log(Level.SEVERE, e.getMessage());
+                logger.log(Level.SEVERE, e.getLocalizedMessage());
+            }
 
             primaryStage.show();
         });
@@ -673,24 +682,12 @@ public class GUI extends Application implements ViewInterface {
     }
 
 
-    public void configureInstructionManualScreen(){
+    public void configureInstructionManualScreen() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/InstructionManualWindow.fxml"));
 
-        Parent root;
-        final Scene scene;
-
-        try {
-            root = fxmlLoader.load();
-        }
-
-        catch (Exception e){
-            logger.log(Level.SEVERE, "InstructionManualWindow.fxml not found");
-            logger.log(Level.SEVERE, e.getMessage());
-            logger.log(Level.SEVERE, e.getLocalizedMessage());
-            root = null;
-        }
-        scene = new Scene(root);
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root);
 
         Stage stage = new Stage();
 
@@ -704,24 +701,14 @@ public class GUI extends Application implements ViewInterface {
         boardController.setInstructionManualStage(stage);
     }
 
-    public void configureWeaponsManualScreen(){
+    public void configureWeaponsManualScreen() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/WeaponsManualWindow.fxml"));
 
         Parent root;
-        final Scene scene;
 
-        try {
-            root = fxmlLoader.load();
-        }
-
-        catch (Exception e){
-            logger.log(Level.SEVERE, "WeaponsManualWindow.fxml not found");
-            logger.log(Level.SEVERE, e.getMessage());
-            logger.log(Level.SEVERE, e.getLocalizedMessage());
-            root = null;
-        }
-        scene = new Scene(root);
+        root = fxmlLoader.load();
+        Scene scene = new Scene(root);
 
         Stage stage = new Stage();
 
