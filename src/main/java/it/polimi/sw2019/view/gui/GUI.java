@@ -22,6 +22,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.util.List;
@@ -530,6 +531,11 @@ public class GUI extends Application implements ViewInterface {
                 logger.log(Level.SEVERE, e.getMessage());
                 logger.log(Level.SEVERE, e.getLocalizedMessage());
             }
+
+            primaryStage.setOnCloseRequest((WindowEvent t) -> {
+                Platform.exit();
+                System.exit(0);
+            });
 
             primaryStage.show();
         });

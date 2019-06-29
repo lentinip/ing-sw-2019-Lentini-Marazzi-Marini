@@ -1092,12 +1092,12 @@
                                     </Group>
                                  </children>
                               </Group>
-                              <Button fx:id="endTurnButton" layoutX="1054.0" layoutY="481.0" mnemonicParsing="false" onAction="#handleEndTurn" text="END TURN">
+                              <Button fx:id="endTurnButton" disable="true" layoutX="1054.0" layoutY="481.0" mnemonicParsing="false" onAction="#handleEndTurn" text="END TURN">
                                  <effect>
                                     <DropShadow />
                                  </effect>
                               </Button>
-                              <Button fx:id="usePowerupButton" layoutX="1040.0" layoutY="518.0" mnemonicParsing="false" onAction="#handleUsePowerup" text="USE POWERUP">
+                              <Button fx:id="usePowerupButton" disable="true" layoutX="1040.0" layoutY="518.0" mnemonicParsing="false" onAction="#handleUsePowerup" text="USE POWERUP">
                                  <effect>
                                     <DropShadow />
                                  </effect>
