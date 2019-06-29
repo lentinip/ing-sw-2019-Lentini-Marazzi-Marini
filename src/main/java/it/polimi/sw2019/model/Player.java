@@ -220,7 +220,7 @@ public class Player extends Observable {
 
     public void addPowerup(Powerup powerup){
 
-        if (powerups.size() < 3 && powerup != null)
+        if (powerup != null)
 
            { powerups.add(powerup); }
     }

@@ -257,6 +257,7 @@ public class TurnManager {
 
             System.out.print("\n Size of the dead players array: " + match.getDeadPlayers().size() + "\n");
             receiver = match.getDeadPlayers().get(0);
+
             singleActionManager.getAtomicActions().drawPowerup(receiver);
 
             //in the first round players draw 2 powerups before the spawn
