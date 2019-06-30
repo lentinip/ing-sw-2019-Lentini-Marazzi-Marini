@@ -365,6 +365,9 @@ public class Server {
 
             Message updateMatchState = new Message(username);
             virtualViewMap.get(username).notify(updateMatchState);
+            if (username.equals(virtualViewMap.get(username).getCurrentPlayer())){
+                sendMessage(virtualViewMap.get(username).getLastMessage());
+            }
         }
     }
 

@@ -78,9 +78,15 @@ public class VirtualView extends Observable implements Observer {
 
     private Message matchSetupMessage;
 
+    private Message lastMessage;
+
     private long timeLeft;
 
     /* Methods */
+
+    public Message getLastMessage() {
+        return lastMessage;
+    }
 
     public void setMatchSetupMessage(Message matchSetupMessage) {
         this.matchSetupMessage = matchSetupMessage;
@@ -350,6 +356,8 @@ public class VirtualView extends Observable implements Observer {
             public void run() {
 
                 sendAutomaticResponse();
+                sendReconnectionRequest(messageSender);
+                waitingPlayers.get(messageSender).setConnected(false);
             }
         }, quickResponseTimer);
     }
@@ -366,6 +374,8 @@ public class VirtualView extends Observable implements Observer {
             public void run() {
                 LOGGER.log(Level.INFO, "TIMER FOR SPAWN FINISHED");
                 sendAutomaticSpawn();
+                sendReconnectionRequest(messageSender);
+                waitingPlayers.get(messageSender).setConnected(false);
             }
         }, quickResponseTimer);
     }
@@ -426,15 +436,26 @@ public class VirtualView extends Observable implements Observer {
 
                 //otherwise I send a message to the controller to go to the next player because this one is disconnected
                 else {
-
                     sendEndTurnMessage();
                 }
             }
             //sending the message to the client
             else {
 
+                if (message.getUsername().equals(currentPlayer)){
+                    saveLastMessage(message);
+                }
                 server.sendMessage(message);
             }
+        }
+    }
+
+    public void saveLastMessage(Message message){
+
+        TypeOfMessage type = message.getTypeOfMessage();
+        if (type != TypeOfMessage.PRIVATE_HAND && type != TypeOfMessage.LOGIN_REPORT && type != TypeOfMessage.DISCONNECTED && type != TypeOfMessage.RECONNECTION_REQUEST && type != TypeOfMessage.RECONNECTION && type != TypeOfMessage.PLAYER_ALREADY_LOGGED){
+
+            lastMessage = message;
         }
     }
 
