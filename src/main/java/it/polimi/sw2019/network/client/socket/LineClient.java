@@ -22,7 +22,8 @@ public class LineClient extends Thread implements ServerInterface {
     public LineClient(int port, String host, ClientInterface clientInterface) {
         this.port = port;
         this.host = host;
-        startLine(port, host, clientInterface);
+
+        startLine(clientInterface);
     }
 
 
@@ -47,7 +48,7 @@ public class LineClient extends Thread implements ServerInterface {
 
     /* Methods */
 
-    private void startLine(int port, String host, ClientInterface clientInterface) {
+    private void startLine(ClientInterface clientInterface) {
 
         try {
             this.client = clientInterface;

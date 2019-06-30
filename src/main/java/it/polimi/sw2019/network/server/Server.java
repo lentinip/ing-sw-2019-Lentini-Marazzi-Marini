@@ -306,7 +306,7 @@ public class Server {
                 if (counter < virtualViewMap.get(message.getUsername()).getNumOfWaitingPlayers()) {  /* if there are 5 players adding also sprog */
                     charactersInGame.add(Character.SPROG);
                 }
-                MatchStart matchStartClass = new MatchStart(message, virtualViewMap.get(message.getUsername()).getUsernames(), charactersInGame);
+                MatchStart matchStartClass = new MatchStart(message, virtualViewMap.get(message.getUsername()).getUsernames(), charactersInGame, VirtualView.getTurnTimer());
                 matchStart.createMessageMatchStart(matchStartClass);
                 sendAll(matchStart, virtualViewMap.get(message.getUsername()));
             }
@@ -357,7 +357,8 @@ public class Server {
             if (counter < virtualViewMap.get(username).getNumOfWaitingPlayers()) {  /* if there are 5 players adding also sprog */
                 charactersInGame.add(Character.SPROG);
             }
-            MatchStart matchStartClass = new MatchStart(virtualViewMap.get(username).getMatchSetupMessage(), virtualViewMap.get(username).getUsernames(), charactersInGame);
+            MatchStart matchStartClass = new MatchStart(virtualViewMap.get(username).getMatchSetupMessage(), virtualViewMap.get(username).getUsernames(), charactersInGame, VirtualView.getTurnTimer());
+            matchStartClass.setTimeLeft(virtualViewMap.get(username).getTimeLeft());
             matchStart.createMessageMatchStart(matchStartClass);
             sendMessage(matchStart);
         }

@@ -19,7 +19,7 @@ public class MatchStart {
     /**
      * customize constructor
      */
-    public MatchStart(Message matchSetUpMessage, List<String> usernames, List<Character> characters){
+    public MatchStart(Message matchSetUpMessage, List<String> usernames, List<Character> characters, long turnDuration){
 
         MatchSetup matchSetup = matchSetUpMessage.deserializeMatchSetup();
         setBoardType(matchSetup.getBoardJsonName());
@@ -27,6 +27,8 @@ public class MatchStart {
         setEightSkulls(matchSetup.isEightSkulls());
         setUsernames(usernames);
         setCharacters(characters);
+        setTurnDuration(turnDuration);
+        timeLeft=-1;
     }
 
     /* Attributes */
@@ -40,6 +42,10 @@ public class MatchStart {
     private boolean eightSkulls; /* true if we want to play with 8, false for 5 */
 
     private boolean frenzy; /* true if we want to play with frenzy */
+
+    private long turnDuration;
+
+    private long timeLeft;
 
     /* Methods */
 
@@ -81,5 +87,21 @@ public class MatchStart {
 
     public boolean isFrenzy() {
         return frenzy;
+    }
+
+    public void setTurnDuration(long turnDuration) {
+        this.turnDuration = turnDuration;
+    }
+
+    public long getTurnDuration() {
+        return turnDuration;
+    }
+
+    public void setTimeLeft(long timeLeft) {
+        this.timeLeft = timeLeft;
+    }
+
+    public long getTimeLeft() {
+        return timeLeft;
     }
 }

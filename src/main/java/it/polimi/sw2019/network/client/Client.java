@@ -104,7 +104,6 @@ public class Client {
         }
         if(args.length > 1){
             client.setIpAddress(args[1]);
-            System.out.println(args[1]);
         }
 
         else {

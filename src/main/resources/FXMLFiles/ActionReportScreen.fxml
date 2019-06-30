@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane prefHeight="533.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.ActionReportController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="533.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
+      <ImageView fitHeight="533.0" fitWidth="800.0" opacity="0.5">
+         <image>
+            <Image url="@../images/StartScreenLogo.png" />
+         </image>
+      </ImageView>
+      <TextArea fx:id="textArea" editable="false" layoutX="32.0" layoutY="131.0" prefHeight="381.0" prefWidth="736.0" style="-fx-text-fill: white;" wrapText="true" />
+   </children>
+</AnchorPane>

@@ -71,11 +71,13 @@ public class VirtualView extends Observable implements Observer {
 
     private Timer matchSetupChoiceTimer = new Timer(); //used to manage the choice of setups
 
+    private Timer clientTimer = new Timer(); //used to track timeLeft for the client
+
     private static final Logger LOGGER = Logger.getLogger("virtual view");
 
     private Message matchSetupMessage;
 
-
+    private long timeLeft;
 
     /* Methods */
 
@@ -191,6 +193,10 @@ public class VirtualView extends Observable implements Observer {
         return matchSetupChoiceTimer;
     }
 
+    public long getTimeLeft() {
+        return timeLeft;
+    }
+
     public void addWaitingPlayer(String username, Client client) {
 
         waitingPlayers.put(username, client);
@@ -297,6 +303,19 @@ public class VirtualView extends Observable implements Observer {
                 sendEndTurnMessage();
             }
         }, turnTimer);
+
+        if (clientTimer!=null){
+            clientTimer.cancel();
+        }
+        timeLeft = turnTimer;
+        clientTimer = new Timer();
+        clientTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                timeLeft = timeLeft - 1000;
+            }
+        }, 0, 1000);
+
     }
 
     /**

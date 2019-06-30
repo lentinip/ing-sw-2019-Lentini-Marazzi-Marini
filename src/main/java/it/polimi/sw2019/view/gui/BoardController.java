@@ -82,13 +82,16 @@ public class BoardController {
     @FXML
     private ProgressBar timer;
 
-    //Timer in seconds
-    //TODO set!!!
-    private Integer timerDuration = 500;
+    //Timer in milliseconds
+    private Integer timerDuration;
 
-    private IntegerProperty timeSeconds = new SimpleIntegerProperty(timerDuration*1000);
+    private Double timeLeft;
+
+    private IntegerProperty timeSeconds;
 
     private Timeline timeline;
+
+    private boolean reconnected=false;
 
     @FXML
     private ImageView weaponsDeck;
@@ -616,6 +619,8 @@ public class BoardController {
 
     private Stage weaponsManualStage;
 
+    private Stage actionReportsStage;
+
 
     /* Methods */
 
@@ -649,9 +654,6 @@ public class BoardController {
 
         //Initialize the players positions
         initializePositions();
-
-        //Initialize timer
-        initializeTimer();
 
         //Initialize labels
         initializeLabels();
@@ -727,6 +729,25 @@ public class BoardController {
         //Set if there's the frenzy mode
         initializeFrenzyLabel(configuration.isFrenzy());
 
+        Long longValue = configuration.getTurnDuration();
+        timerDuration = longValue.intValue();
+
+        System.out.print("Time Turn: "+ configuration.getTurnDuration()+"\n");
+        System.out.print("Time Turn Long Value: "+ longValue+"\n");
+        System.out.print("Time Turn Integer Value: "+ timerDuration.toString() +"\n");
+        System.out.print("Time Left: "+ configuration.getTimeLeft()+"\n");
+
+
+        //Initialize timer
+        initializeTimer();
+
+        if(configuration.getTimeLeft()>=0){
+            //The timer already started
+            Long timerLeftLong = configuration.getTimeLeft();
+            Double time = timerLeftLong.doubleValue();
+            timeLeft = timerDuration.doubleValue() - time;
+            reconnected=true;
+        }
         /*
         runMutex.release();
 
@@ -747,17 +768,24 @@ public class BoardController {
     }
 
     public void initializeTimer(){
-        timer.progressProperty().bind(timeSeconds.divide(timerDuration*1000.0));
-        timeSeconds.set(timerDuration*1000);
+        timeSeconds = new SimpleIntegerProperty(timerDuration);
+        timer.progressProperty().bind(timeSeconds.divide(timerDuration.doubleValue()));
+        timeSeconds.set(timerDuration);
         timeline = new Timeline();
         timeline.getKeyFrames().add(
-                new KeyFrame(Duration.seconds(timerDuration),
+                new KeyFrame(Duration.seconds(timerDuration/1000),
                         new KeyValue(timeSeconds, 0)));
     }
 
     public void startTimer() {
-        initializeTimer();
-        timeline.playFromStart();
+        if (reconnected){
+            timeline.playFrom(new Duration(timeLeft));
+            reconnected=false;
+        }
+        else {
+            initializeTimer();
+            timeline.playFromStart();
+        }
     }
 
     public void initializeLabels(){
@@ -1894,6 +1922,24 @@ public class BoardController {
         }
         else {
             weaponsManualStage.show();
+        }
+    }
+
+    public void setActionReportsStage(Stage actionReportsStage) {
+        this.actionReportsStage = actionReportsStage;
+    }
+
+    public Stage getActionReportsStage(){
+        return actionReportsStage;
+    }
+
+    @FXML
+    public void handleActionReportsButton(ActionEvent actionEvent){
+        if (actionReportsStage.isShowing()){
+            actionReportsStage.toFront();
+        }
+        else {
+            actionReportsStage.show();
         }
     }
 }

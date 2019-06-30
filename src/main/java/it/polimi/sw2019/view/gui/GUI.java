@@ -45,6 +45,8 @@ public class GUI extends Application implements ViewInterface {
 
     private StartScreenController startScreenController;
 
+    private ActionReportController actionReportController;
+
     private static Logger logger = Logger.getLogger("gui");
 
     private String errorString = "ERROR";
@@ -54,6 +56,12 @@ public class GUI extends Application implements ViewInterface {
     private double yOffset = 0;
 
     private Stage weaponsManualStage;
+
+    private Stage selectCardControllerStage;
+
+    private Stage paymentStage;
+
+    private Stage selectEffectStage;
 
     /* Methods */
 
@@ -233,6 +241,9 @@ public class GUI extends Application implements ViewInterface {
         if (boardController!=null){
             boardController.setActionReports(actionReports);
         }
+        if (actionReportController!=null){
+            actionReportController.manageActionReport(actionReports);
+        }
     }
 
     public void showCardSelection(AvailableCards cards, TypeOfAction typeOfAction, List<Image> images, boolean noOption){
@@ -311,6 +322,7 @@ public class GUI extends Application implements ViewInterface {
         }
 
         selectCardController.setWeaponsManualStage(weaponsManualStage);
+        selectCardControllerStage = newWindow;
 
         newWindow.setScene(scene);
         newWindow.show();
@@ -364,6 +376,7 @@ public class GUI extends Application implements ViewInterface {
                 }
 
                 selectEffectController.setWeaponsManualStage(weaponsManualStage);
+                selectEffectStage = newWindow;
 
                 newWindow.setScene(scene);
                 newWindow.show();
@@ -428,6 +441,8 @@ public class GUI extends Application implements ViewInterface {
                 catch (NullPointerException e){
                     logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
                 }
+
+                paymentStage = newWindow;
 
                 newWindow.setScene(scene);
                 newWindow.show();
@@ -536,6 +551,15 @@ public class GUI extends Application implements ViewInterface {
                 logger.log(Level.SEVERE, e.getLocalizedMessage());
             }
 
+            try {
+                createActionReportScreen();
+            }
+            catch (IOException e){
+                logger.log(Level.SEVERE, "Problems with ActionReportScreen");
+                logger.log(Level.SEVERE, e.getMessage());
+                logger.log(Level.SEVERE, e.getLocalizedMessage());
+            }
+
             primaryStage.setOnCloseRequest((WindowEvent t) -> {
                 Platform.exit();
                 System.exit(0);
@@ -637,6 +661,29 @@ public class GUI extends Application implements ViewInterface {
 
     public void createAlertReconnect(){
         Platform.runLater(() -> {
+
+            if (selectCardControllerStage!=null && selectCardControllerStage.isShowing()){
+                selectCardControllerStage.close();
+                selectCardControllerStage = null;
+            }
+
+            if (selectEffectStage!=null && selectEffectStage.isShowing()){
+                selectEffectStage.close();
+                selectCardControllerStage = null;
+            }
+
+            if (paymentStage!=null && paymentStage.isShowing()){
+                paymentStage.close();
+                paymentStage = null;
+            }
+
+            if (boardController.getActionReportsStage()!=null && boardController.getActionReportsStage().isShowing()){
+                boardController.getActionReportsStage().close();
+                if (actionReportController!=null){
+                    actionReportController.clear();
+                }
+            }
+
             Alert a = new Alert(Alert.AlertType.CONFIRMATION);
             a.setTitle("Reconnection window");
             a.setHeaderText("You let the timer finish and now you are going to appear offline. Do you want to reconnect?");
@@ -674,8 +721,17 @@ public class GUI extends Application implements ViewInterface {
     public void start(Stage primaryStage){
         this.primaryStage = primaryStage;
 
+        List<String> args = getParameters().getRaw();
+
         client = new Client();
         client.setView(this);
+
+        if (args.size()>1){
+            client.setIpAddress(args.get(1));
+        }
+        else {
+            client.setIpAddress("localhost");
+        }
 
         displayLoginWindow();
     }
@@ -732,4 +788,25 @@ public class GUI extends Application implements ViewInterface {
         boardController.setWeaponsManualStage(stage);
         weaponsManualStage = stage;
     }
+
+    public void createActionReportScreen() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/ActionReportScreen.fxml"));
+
+        Parent root;
+
+        root = fxmlLoader.load();
+        Scene scene = new Scene(root);
+
+        Stage stage = new Stage();
+
+        stage.setScene(scene);
+        stage.setTitle("Action Reports");
+        stage.setResizable(false);
+        stage.initOwner(primaryStage);
+
+        actionReportController = fxmlLoader.getController();
+        boardController.setActionReportsStage(stage);
+    }
+
 }
