@@ -361,6 +361,9 @@ public class Server {
             matchStartClass.setTimeLeft(virtualViewMap.get(username).getTimeLeft());
             matchStart.createMessageMatchStart(matchStartClass);
             sendMessage(matchStart);
+
+            Message updateMatchState = new Message(username);
+            virtualViewMap.get(username).notify(updateMatchState);
         }
     }
 

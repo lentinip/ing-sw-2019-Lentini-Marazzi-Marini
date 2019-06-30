@@ -69,6 +69,8 @@ public class CLI implements ViewInterface {
 
     private boolean firstMatch = true;
 
+    private int turnDuration;
+
     private static final Map<Integer, String> boards;
 
     static {
@@ -632,6 +634,10 @@ public class CLI implements ViewInterface {
         }
 
         out.println("\n\nTURN OF THE FIRST PLAYER:\n");
+
+        //saving turn duration in seconds
+        Long longDuration = (matchStart.getTurnDuration()/60000);
+        turnDuration = longDuration.intValue();
     }
 
     /**
@@ -1001,7 +1007,7 @@ public class CLI implements ViewInterface {
 
             if (matchState.getCurrentPlayerLeftActions() == 2){
 
-                out.println("IT'S YOUR TURN CHOOSE AN ACTION:       (remember you only have 8 minutes!!!)\n");
+                out.println("IT'S YOUR TURN CHOOSE AN ACTION:       (remember you only have " + turnDuration + " minutes!!!)\n");
             }
 
             else{

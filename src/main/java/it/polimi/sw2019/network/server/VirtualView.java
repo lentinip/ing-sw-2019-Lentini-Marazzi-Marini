@@ -3,6 +3,7 @@ package it.polimi.sw2019.network.server;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import it.polimi.sw2019.controller.Controller;
+import it.polimi.sw2019.model.TypeOfAction;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.messages.TypeOfMessage;
 
@@ -412,8 +413,13 @@ public class VirtualView extends Observable implements Observer {
             // the player is disconnected
             if (!waitingPlayers.get(message.getUsername()).getConnected()) {
 
+                if (message.getTypeOfAction() == TypeOfAction.SPAWN && message.getTypeOfMessage() == TypeOfMessage.AVAILABLE_CARDS){
+
+                    sendAutomaticSpawn();
+                }
+
                 //if he has received an ask to use a tagback I answer no to the controller instantly
-                if (message.getTypeOfMessage() == TypeOfMessage.AVAILABLE_CARDS && !message.getUsername().equals(currentPlayer)) {
+                else if (message.getTypeOfMessage() == TypeOfMessage.AVAILABLE_CARDS && !message.getUsername().equals(currentPlayer)) {
 
                     sendAutomaticResponse();
                 }

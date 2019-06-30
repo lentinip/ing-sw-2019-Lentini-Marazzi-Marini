@@ -106,6 +106,13 @@ public class Controller implements Observer {
             turnManager.endTurn();
         }
 
+        else if (typeOfMessage == null &&  message.getTypeOfAction() == null){
+            match.notifyPrivateHand(match.getPlayerByUsername(message.getUsername()));
+            Message actionReport = new Message("All");
+            actionReport.createActionReports("  RECONNECTED to the game", match.getPlayerByUsername(message.getUsername()).getCharacter(), null);
+            view.display(actionReport);
+        }
+
         else {
             LOGGER.log(Level.SEVERE, "switch error");
         }
