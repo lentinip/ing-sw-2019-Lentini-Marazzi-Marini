@@ -267,6 +267,7 @@ public class Server {
         if(message.getTypeOfMessage() == TypeOfMessage.RECONNECTION_REQUEST) {
 
             virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).setConnected(true);
+            virtualViewMap.get(message.getUsername()).notify(new Message(message.getUsername()));
         }
 
         else if(message.getTypeOfMessage() == TypeOfMessage.LOGIN_REPORT) {

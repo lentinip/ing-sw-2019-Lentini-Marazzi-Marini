@@ -677,8 +677,10 @@ public class GUI extends Application implements ViewInterface {
                 paymentStage = null;
             }
 
-            if (boardController.getActionReportsStage()!=null && boardController.getActionReportsStage().isShowing()){
-                boardController.getActionReportsStage().close();
+            if (boardController.getActionReportsStage()!=null){
+                if (boardController.getActionReportsStage().isShowing()){
+                    boardController.getActionReportsStage().close();
+                }
                 if (actionReportController!=null){
                     actionReportController.clear();
                 }

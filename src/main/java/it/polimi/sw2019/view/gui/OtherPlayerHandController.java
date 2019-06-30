@@ -79,19 +79,21 @@ public class OtherPlayerHandController {
 
             //Shows the unavailable
             for (String weaponName : playerHand.getWeaponsUnloaded()){
+                if (i<weapons.size()){
 
-                Image weaponImage = cardController.getWeaponImage(weaponName);
-                ImageView weapon = weapons.get(i);
+                    Image weaponImage = cardController.getWeaponImage(weaponName);
+                    ImageView weapon = weapons.get(i);
 
-                weapon.setImage(weaponImage);
-                CardController.setUnavailable(weapon, true);
-                weapon.setVisible(true);
+                    weapon.setImage(weaponImage);
+                    CardController.setUnavailable(weapon, true);
+                    weapon.setVisible(true);
 
-                i++;
+                    i++;
+                }
             }
 
             //Shows the one the loaded ones cover
-            for (int j=0; j<playerHand.getWeaponsHidden(); j++){
+            for (int j=0; j<playerHand.getWeaponsHidden() && i<weapons.size(); j++){
                 ImageView weapon = weapons.get(i);
                 weapon.setImage(cardController.getWeaponImage("weaponsBack.png"));
                 CardController.setUnavailable(weapon, false);
@@ -100,7 +102,7 @@ public class OtherPlayerHandController {
             }
 
             //Hides the other imageViews
-            for (; i<3; i++){
+            for (; i<weapons.size(); i++){
                 weapons.get(i).setVisible(false);
             }
 
@@ -108,14 +110,14 @@ public class OtherPlayerHandController {
 
             //Shows the cover of the ones that the player has
             int p = 0;
-            for (int k = 0; k<playerHand.getPowerups(); k++){
+            for (int k = 0; k<playerHand.getPowerups() && p<powerups.size(); k++){
                 powerups.get(p).setVisible(true);
                 p++;
             }
 
             //Hides the other ones ImageView
 
-            for (; p<3; p++){
+            for (; p<powerups.size(); p++){
                 powerups.get(p).setVisible(false);
             }
 
