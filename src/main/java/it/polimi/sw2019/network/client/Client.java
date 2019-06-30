@@ -220,6 +220,7 @@ public class Client {
                 view.displayPlayerDisconnectedWindow(message.deserializeIndexMessage().getSelectionIndex());
                 break;
             case RECONNECTION_REQUEST:
+                System.out.print("\nReconnection request\n");
                 view.displayReconnectionWindow();
                 break;
             case PLAYER_ALREADY_LOGGED:

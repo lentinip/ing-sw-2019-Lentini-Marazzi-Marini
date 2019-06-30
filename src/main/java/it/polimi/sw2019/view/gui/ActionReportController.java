@@ -8,12 +8,6 @@ public class ActionReportController {
     @FXML
     TextArea textArea;
 
-    public void initialize(){
-        textArea.setStyle("text-area-background: black;");
-        textArea.setStyle("-fx-background-color: black;");
-        textArea.setStyle("-fx-text-inner-color: white;");
-    }
-
     public void manageActionReport(ActionReports actionReports){
         String stringToShow ="\n"+ actionReports.getSubject() + " " + actionReports.getReport();
 

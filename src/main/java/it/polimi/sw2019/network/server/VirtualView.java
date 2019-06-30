@@ -374,6 +374,7 @@ public class VirtualView extends Observable implements Observer {
             public void run() {
                 LOGGER.log(Level.INFO, "TIMER FOR SPAWN FINISHED");
                 sendAutomaticSpawn();
+                System.out.print("\n"+ waitingPlayers.get(currentPlayer).getConnected().toString()+"\n");
                 sendReconnectionRequest(messageSender);
                 waitingPlayers.get(messageSender).setConnected(false);
             }

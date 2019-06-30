@@ -5,6 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="533.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.ActionReportController">
    <children>
@@ -14,6 +15,9 @@
             <Image url="@../images/StartScreenLogo.png" />
          </image>
       </ImageView>
-      <TextArea fx:id="textArea" editable="false" layoutX="32.0" layoutY="131.0" prefHeight="381.0" prefWidth="736.0" style="-fx-text-fill: white;" wrapText="true" />
+      <TextArea fx:id="textArea" editable="false" layoutX="32.0" layoutY="131.0" opacity="0.8" prefHeight="381.0" prefWidth="736.0" style="-fx-control-inner-background: black; -fx-text-inner-color: white;" wrapText="true">
+         <font>
+            <Font size="18.0" />
+         </font></TextArea>
    </children>
 </AnchorPane>

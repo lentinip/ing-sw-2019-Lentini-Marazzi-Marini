@@ -366,8 +366,10 @@ public class Server {
             Message updateMatchState = new Message(username);
             virtualViewMap.get(username).notify(updateMatchState);
             if (username.equals(virtualViewMap.get(username).getCurrentPlayer())){
+                System.out.print("\nCurrent player reconnected\n");
                 sendMessage(virtualViewMap.get(username).getLastMessage());
             }
+            System.out.print("\nLast message :"+ virtualViewMap.get(username).getLastMessage().getTypeOfMessage());
         }
     }
 
