@@ -80,7 +80,13 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
             System.out.print("SocketServerClientHandler - Disconnect IOException ");
             System.out.print("\n");
 
-            socketServer.disconnect(sender);
+            if(socketServer.getServer().getCurrentWaitingRoom().getWaitingPlayers().containsKey(sender))
+            {
+                socketServer.getServer().removeWaitingPlayer(sender);
+            }
+            else {
+                socketServer.disconnect(sender);
+            }
         }
         catch(ClassNotFoundException e) {
 
@@ -88,7 +94,13 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
             System.out.print("SocketServerClientHandler - Disconnect ClassNotFoundException ");
             System.out.print("\n");
 
-            socketServer.disconnect(sender);
+            if(socketServer.getServer().getCurrentWaitingRoom().getWaitingPlayers().containsKey(sender))
+            {
+                socketServer.getServer().removeWaitingPlayer(sender);
+            }
+            else {
+                socketServer.disconnect(sender);
+            }
         }
 
     }

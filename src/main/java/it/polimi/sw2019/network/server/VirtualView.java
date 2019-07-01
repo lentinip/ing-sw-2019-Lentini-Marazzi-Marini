@@ -288,7 +288,14 @@ public class VirtualView extends Observable implements Observer {
             @Override
             public void run() {
 
-                server.startMatch();
+                System.out.print("\n sono prima della verifyOnline \n");
+                server.verifyOnline(new Message("all"), server.getCurrentWaitingRoom());
+                System.out.print("\n sono prima dell'if \n");
+                if(server.getCurrentWaitingRoom().getNumOfWaitingPlayers() > 2) {
+
+                    System.out.print("\n sono nell'if \n");
+                    server.startMatch();
+                }
             }
         }, matchCreationTimer);
     }
@@ -305,8 +312,8 @@ public class VirtualView extends Observable implements Observer {
             @Override
             public void run() {
 
-                waitingPlayers.get(currentPlayer).setConnected(false);
                 sendReconnectionRequest(currentPlayer);
+                waitingPlayers.get(currentPlayer).setConnected(false);
                 sendEndTurnMessage();
             }
         }, turnTimer);
@@ -374,7 +381,7 @@ public class VirtualView extends Observable implements Observer {
             public void run() {
                 LOGGER.log(Level.INFO, "TIMER FOR SPAWN FINISHED");
                 sendAutomaticSpawn();
-                System.out.print("\n"+ waitingPlayers.get(currentPlayer).getConnected().toString()+"\n");
+                System.out.print("\n"+ messageSender +"\n");
                 sendReconnectionRequest(messageSender);
                 waitingPlayers.get(messageSender).setConnected(false);
             }

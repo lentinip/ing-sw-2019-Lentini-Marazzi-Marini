@@ -12,7 +12,7 @@ public class Board {
      * default constructor
      */
     public Board(){
-        //default constructor
+
     }
 
     /* Attributes */
