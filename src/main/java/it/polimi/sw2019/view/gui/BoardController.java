@@ -786,6 +786,10 @@ public class BoardController {
         }
     }
 
+    public void stopTimer(){
+        timeline.stop();
+    }
+
     public void initializeLabels(){
         powerupsDeck.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override

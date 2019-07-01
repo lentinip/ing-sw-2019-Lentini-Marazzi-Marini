@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="360.0" minWidth="600.0" prefHeight="360.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.ReconnectController">
+   <children>
+      <ImageView fitHeight="360.0" fitWidth="600.0">
+         <image>
+            <Image url="@../images/StartScreenLogo.png" />
+         </image>
+      </ImageView>
+      <Group layoutX="207.0" layoutY="172.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#404040" height="188.0" layoutX="-187.0" layoutY="-69.0" stroke="BLACK" strokeType="INSIDE" width="568.0" />
+            <Label layoutX="-174.0" layoutY="-64.0" prefHeight="41.0" prefWidth="545.0" text="You let the timer finish and now you are going to appear offline. " textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="-27.0" layoutY="-12.0" prefHeight="37.0" prefWidth="248.0" text="Do you want to reconnect?" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button layoutX="-76.0" layoutY="60.0" mnemonicParsing="false" onAction="#handleReconnect" text="RECONNECT" />
+            <Button layoutX="177.0" layoutY="60.0" mnemonicParsing="false" onAction="#handleExit" text="EXIT GAME" />
+         </children>
+      </Group>
+   </children>
+</AnchorPane>
