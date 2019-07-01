@@ -8,7 +8,8 @@ import it.polimi.sw2019.view.ViewInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.fxml.LoadException;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,7 +25,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -721,7 +729,7 @@ public class GUI extends Application implements ViewInterface {
 
 
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
         primaryStage.setOnCloseRequest((WindowEvent t) -> {
@@ -734,14 +742,25 @@ public class GUI extends Application implements ViewInterface {
         client = new Client();
         client.setView(this);
 
-        if (args.size()>1){
+        if (args.size() > 1) {
             client.setIpAddress(args.get(1));
-        }
-        else {
+        } else {
             client.setIpAddress("localhost");
         }
 
         displayLoginWindow();
+
+        try {
+
+            Media sound = new Media(getClass().getResource("/Music/adrenalinaMusic.mp3").toExternalForm());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.play();
+        }
+        catch (Exception e){
+            logger.log(Level.WARNING, "exception in music line 759 GUI " + e.getMessage());
+        }
+
     }
 
     /**

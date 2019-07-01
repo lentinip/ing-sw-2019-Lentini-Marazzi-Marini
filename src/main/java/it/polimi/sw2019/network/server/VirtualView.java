@@ -239,10 +239,27 @@ public class VirtualView extends Observable implements Observer {
             }
         }
 
-        if(getNumOfWaitingPlayers() - counter < 3) {
+        if(tooManyDisconnected()) {
 
             sendEndMatchMessage();
         }
+    }
+
+    private boolean tooManyDisconnected() {
+
+        int counter = 0;
+
+        List<String> players = new ArrayList<>(waitingPlayers.keySet());
+
+        for (String user : players) {
+
+            if (!waitingPlayers.get(user).getConnected()) {
+
+                counter++;
+            }
+        }
+
+        return (getNumOfWaitingPlayers() - counter < 3);
     }
 
     /**
@@ -340,9 +357,14 @@ public class VirtualView extends Observable implements Observer {
      */
     public void sendEndTurnMessage(){
 
-        Message endTurnMessage = new Message(currentPlayer);
-        endTurnMessage.createEndTurnMessage();
-        notify(endTurnMessage);
+        if (tooManyDisconnected()){
+            sendEndMatchMessage();
+        }
+        else {
+            Message endTurnMessage = new Message(currentPlayer);
+            endTurnMessage.createEndTurnMessage();
+            notify(endTurnMessage);
+        }
     }
 
     public void sendReconnectionRequest(String currentPlayer){
@@ -436,7 +458,7 @@ public class VirtualView extends Observable implements Observer {
         }
         else {
             // the player is disconnected
-            if (!waitingPlayers.get(message.getUsername()).getConnected()) {
+            if (!waitingPlayers.get(message.getUsername()).getConnected() && message.getTypeOfMessage() != TypeOfMessage.PRIVATE_HAND) {
 
                 if (message.getTypeOfAction() == TypeOfAction.SPAWN && message.getTypeOfMessage() == TypeOfMessage.AVAILABLE_CARDS){
 

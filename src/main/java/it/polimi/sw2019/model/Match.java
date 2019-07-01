@@ -312,7 +312,7 @@ public class Match extends Observable {
          */
         for(int i = 0; i < players.size(); i++) {
 
-             if(players.get(i).isDead() && players.get(i).getPosition()!=null) {
+             if(players.get(i).isDead() && players.get(i).getPosition() != null) {
 
                  System.out.println("endTurn model- position not null and player = " + players.get(i).getName());
 

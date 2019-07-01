@@ -270,10 +270,14 @@ public class Server {
 
         System.out.print("\n I received message from " + message.getUsername());
 
-        if(message.getTypeOfMessage() == TypeOfMessage.RECONNECTION_REQUEST) {
+        if(message.getTypeOfMessage() == TypeOfMessage.RECONNECTION_REQUEST ) {
 
-            virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).setConnected(true);
-            virtualViewMap.get(message.getUsername()).notify(new Message(message.getUsername()));
+            if (virtualViewMap.get(message.getUsername()) != null){
+
+                virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).setConnected(true);
+                virtualViewMap.get(message.getUsername()).notify(new Message(message.getUsername()));
+            }
+
         }
 
         else if(message.getTypeOfMessage() == TypeOfMessage.LOGIN_REPORT) {
@@ -398,13 +402,10 @@ public class Server {
             currentWaitingRoom.getTimer().cancel();
         }
 
-        System.out.print("\n1");
         currentWaitingRoom.removeWaitingPlayer(username);
-        System.out.print("\n2");
         currentWaitingRoom.getUsernames().remove(username);
-        System.out.print("\n3");
         virtualViewMap.remove(username);
-        System.out.print("\n4");
+
     }
 
     /**
