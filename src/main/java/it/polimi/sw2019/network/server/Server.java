@@ -239,14 +239,20 @@ public class Server {
      */
     public void verifyOnline(Message message, VirtualView virtualView) {
 
-        for(String user : virtualView.getUsernames()) {
+        System.out.print("\n sono nella verifyOnline");
+
+        List<String> usernames = new ArrayList<>();
+        usernames.addAll(virtualView.getUsernames());
+
+        for(String user : usernames) {
 
             try {
 
+                System.out.print("\n" + user);
                 virtualView.getWaitingPlayers().get(user).notify(message, this, user);
             } catch (ConnectException e1) {
 
-                removeWaitingPlayer(user);
+                //removeWaitingPlayer(user);
                 LOGGER.log(Level.WARNING, e1.getMessage());
                 System.out.print("Ho rimosso il player con username:" + user);
             }
@@ -387,14 +393,18 @@ public class Server {
 
 
         //I have to reset the timer if I don't have 3 players anymore
-        if (currentWaitingRoom.getNumOfWaitingPlayers() == 3){
+        if (currentWaitingRoom.getNumOfWaitingPlayers() < 3){
 
             currentWaitingRoom.getTimer().cancel();
         }
 
+        System.out.print("\n1");
         currentWaitingRoom.removeWaitingPlayer(username);
+        System.out.print("\n2");
         currentWaitingRoom.getUsernames().remove(username);
+        System.out.print("\n3");
         virtualViewMap.remove(username);
+        System.out.print("\n4");
     }
 
     /**

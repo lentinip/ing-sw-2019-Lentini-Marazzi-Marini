@@ -41,6 +41,10 @@ public class SocketServer extends Thread {
         this.server = server;
     }
 
+    public Server getServer() {
+        return server;
+    }
+
     /**
      * creates the serverSocket and binds the port parameter to it
      * @param port
