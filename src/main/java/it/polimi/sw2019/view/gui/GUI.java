@@ -8,7 +8,6 @@ import it.polimi.sw2019.view.ViewInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.fxml.LoadException;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -63,7 +62,7 @@ public class GUI extends Application implements ViewInterface {
 
     private Stage selectEffectStage;
 
-    private Alert alertReconnect;
+    private Stage reconnectStage;
 
     /* Methods */
 
@@ -100,7 +99,7 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void displayReconnectionWindow(){
-        createAlertReconnect();
+        createReconnect();
     }
 
     public void displayPlayerDisconnectedWindow(int indexOfTheDisconnected){
@@ -472,7 +471,7 @@ public class GUI extends Application implements ViewInterface {
 
                 //Creates a new window for the match setting
                 Stage newWindow = new Stage();
-                newWindow.setTitle("Payment session");
+                newWindow.setTitle("Leaderboard");
 
 
                 //The next line sets that this new window will lock the parent window.
@@ -500,6 +499,14 @@ public class GUI extends Application implements ViewInterface {
                 }
                 catch (NullPointerException e){
                     logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
+                }
+
+                //Stops the timer in the boardcontroller
+                boardController.stopTimer();
+
+                //Closes the reconnect window if the player has one
+                if (reconnectStage!=null && reconnectStage.isShowing()){
+                    reconnectStage.close();
                 }
 
                 newWindow.setScene(scene);
@@ -656,57 +663,90 @@ public class GUI extends Application implements ViewInterface {
         });
     }
 
-    public void createAlertReconnect(){
+    public void createReconnect(){
 
-        if (alertReconnect==null) {
+        Platform.runLater(() -> {
+            if (selectCardControllerStage != null && selectCardControllerStage.isShowing()) {
+                selectCardControllerStage.close();
+                selectCardControllerStage = null;
+            }
 
-            Platform.runLater(() -> {
-                if (selectCardControllerStage != null && selectCardControllerStage.isShowing()) {
-                    selectCardControllerStage.close();
-                    selectCardControllerStage = null;
+            if (selectEffectStage != null && selectEffectStage.isShowing()) {
+                selectEffectStage.close();
+                selectCardControllerStage = null;
+            }
+
+            if (paymentStage != null && paymentStage.isShowing()) {
+                paymentStage.close();
+                paymentStage = null;
+            }
+
+            if (boardController.getActionReportsStage() != null) {
+                if (boardController.getActionReportsStage().isShowing()) {
+                    boardController.getActionReportsStage().close();
                 }
-
-                if (selectEffectStage != null && selectEffectStage.isShowing()) {
-                    selectEffectStage.close();
-                    selectCardControllerStage = null;
+                if (actionReportController != null) {
+                    actionReportController.clear();
                 }
+            }
 
-                if (paymentStage != null && paymentStage.isShowing()) {
-                    paymentStage.close();
-                    paymentStage = null;
-                }
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/ReconnectScreen.fxml"));
 
-                if (boardController.getActionReportsStage() != null) {
-                    if (boardController.getActionReportsStage().isShowing()) {
-                        boardController.getActionReportsStage().close();
+            Parent root;
+            Scene scene;
+            Stage newWindow;
+
+            try {
+                root = fxmlLoader.load();
+                scene = new Scene(root);
+            }
+            catch (IOException e){
+                logger.log(Level.SEVERE, "ReconnectScreen.fxml not found");
+                scene = new Scene(new Label(errorString));
+                root = null;
+            }
+
+            //Configures the controller
+            ReconnectController reconnectController = fxmlLoader.getController();
+            reconnectController.setClient(client);
+
+            //The next line sets that this new window will lock the parent window.
+            //Is impossible to interact with the parent window until this window is closed.
+            //The window doesn't have the close button
+            //Creates a new window for the match setting
+            newWindow = new Stage();
+            newWindow.setTitle("Reconnect Screen");
+
+            newWindow.initModality(Modality.WINDOW_MODAL);
+            newWindow.initStyle(StageStyle.UNDECORATED);
+            newWindow.initOwner(primaryStage);
+
+            try {
+                root.setOnMousePressed(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        xOffset = event.getSceneX();
+                        yOffset = event.getSceneY();
                     }
-                    if (actionReportController != null) {
-                        actionReportController.clear();
+                });
+                root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        newWindow.setX(event.getScreenX() - xOffset);
+                        newWindow.setY(event.getScreenY() - yOffset);
                     }
-                }
+                });
+            }
+            catch (NullPointerException e){
+                logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
+            }
 
-                Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-                alertReconnect = a;
-                a.setTitle("Reconnection window");
-                a.setHeaderText("You let the timer finish and now you are going to appear offline. Do you want to reconnect?");
-                a.setContentText("Click ok to reconnect. Click cancel or close to exit the game.");
+            reconnectStage = newWindow;
 
-                Optional<ButtonType> option = a.showAndWait();
-
-                if (option.isPresent()) {
-                    if (option.get() == ButtonType.OK) {
-
-                        Message reconnectionMessage = new Message(client.getUsername());
-                        reconnectionMessage.setTypeOfMessage(TypeOfMessage.RECONNECTION_REQUEST);
-                        client.send(reconnectionMessage);
-                        alertReconnect = null;
-                    } else {
-                        Platform.exit();
-                        System.exit(0);
-                    }
-                }
-            });
-        }
+            newWindow.setScene(scene);
+            newWindow.show();
+        });
     }
 
     public void resetClass(){

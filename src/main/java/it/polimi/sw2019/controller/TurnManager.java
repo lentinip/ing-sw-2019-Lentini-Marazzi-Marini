@@ -203,11 +203,14 @@ public class TurnManager {
         //The player is moved to the SpawnCell of the room
         spawningPlayer.setPosition(room.getSpawnCell());
 
-        match.notifyPrivateHand(spawningPlayer);
-
         // updating the model and the player attribute isDead
         spawningPlayer.setDead(false);
         match.getDeadPlayers().remove(spawningPlayer);
+
+        System.out.println("spawning player = " + spawningPlayer.getName());
+        System.out.println("spawning player is dead = " + spawningPlayer.isDead());
+
+        match.notifyPrivateHand(spawningPlayer);
 
         // checking if it is the first spawn or not
         if (isFirstRound){

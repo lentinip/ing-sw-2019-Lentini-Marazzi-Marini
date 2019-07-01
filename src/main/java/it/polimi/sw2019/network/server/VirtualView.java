@@ -436,7 +436,7 @@ public class VirtualView extends Observable implements Observer {
         }
         else {
             // the player is disconnected
-            if (!waitingPlayers.get(message.getUsername()).getConnected()) {
+            if (!waitingPlayers.get(message.getUsername()).getConnected() && message.getTypeOfMessage() != TypeOfMessage.PRIVATE_HAND) {
 
                 if (message.getTypeOfAction() == TypeOfAction.SPAWN && message.getTypeOfMessage() == TypeOfMessage.AVAILABLE_CARDS){
 
