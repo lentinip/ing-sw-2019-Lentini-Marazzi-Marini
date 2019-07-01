@@ -357,7 +357,7 @@ public class SingleActionManager {
 
 
         //case cyberblade where the player has chosen move effect; I have to show him only the free effect
-        else if (choices.getSelectedWeapon().hasAnOrder() && choices.getCurrentEffect().getType() == EffectsKind.MOVE && choices.getUsedEffect().size() == 1){
+        else if (choices.getSelectedWeapon().hasAnOrder() && choices.getCurrentEffect().getType() == EffectsKind.MOVE && choices.getUsedEffect().size() == 1 && usableEffects.size() == 2){
 
             //removing the additional one
             usableEffects.remove(usableEffects.size() - 1);
