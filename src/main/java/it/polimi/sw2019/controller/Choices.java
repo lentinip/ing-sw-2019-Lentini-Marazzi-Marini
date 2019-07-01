@@ -196,6 +196,11 @@ public class Choices {
 
                     currentEffect = selectedWeapon.getEffects().get(effectIndex.getSelectionIndex());
 
+                    Message report = new Message("All");
+                    String action = " has chosen the effect:  " + currentEffect.getName();
+                    report.createActionReports(action, match.getCurrentPlayer().getCharacter(), null);
+                    view.display(report);
+
                     // adding the already shooted player to shootedPlayers, saved before the reset, if it is needed
                     if ( currentEffect.getTargets().isDifferentPlayers() && alreadyShooted != null){
 
@@ -292,6 +297,10 @@ public class Choices {
                 IndexMessage weaponIndex = message.deserializeIndexMessage();
                 Player shooter = match.getCurrentPlayer();
                 selectedWeapon = shooter.getWeaponFromIndex(weaponIndex.getSelectionIndex());
+                Message report = new Message("All");
+                String action = " is using " + selectedWeapon.getName();
+                report.createActionReports(action, match.getCurrentPlayer().getCharacter(), null);
+                view.display(report);
                 //if the weapon is unloaded we are in frenzy and I have to reload it
                 if (!selectedWeapon.getIsLoaded()){
                     payment.setReloadInFrenzy(true);
@@ -520,6 +529,10 @@ public class Choices {
         IndexMessage indexMessage = message.deserializeIndexMessage();
         Player player = match.getPlayerByUsername(message.getUsername());
         selectedPowerup = player.getPowerupFromIndex(indexMessage.getSelectionIndex());
+
+        Message report = new Message("All");
+        String action = " is using " + selectedPowerup.getName();
+        report.createActionReports(action, player.getCharacter(), null);
         Message answer = new Message(message.getUsername());
 
         // entering the payment session if I'm using a powerup with a cost (targeting scope)
