@@ -362,8 +362,8 @@ public class VirtualView extends Observable implements Observer {
             @Override
             public void run() {
 
-                sendAutomaticResponse();
                 sendReconnectionRequest(messageSender);
+                sendAutomaticResponse();
                 waitingPlayers.get(messageSender).setConnected(false);
             }
         }, quickResponseTimer);
@@ -380,9 +380,9 @@ public class VirtualView extends Observable implements Observer {
             @Override
             public void run() {
                 LOGGER.log(Level.INFO, "TIMER FOR SPAWN FINISHED");
-                sendAutomaticSpawn();
                 System.out.print("\n"+ messageSender +"\n");
                 sendReconnectionRequest(messageSender);
+                sendAutomaticSpawn();
                 waitingPlayers.get(messageSender).setConnected(false);
             }
         }, quickResponseTimer);
