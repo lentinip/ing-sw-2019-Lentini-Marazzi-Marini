@@ -305,8 +305,8 @@ public class VirtualView extends Observable implements Observer {
             @Override
             public void run() {
 
-                addDisconnectedPlayer(currentPlayer);
                 sendReconnectionRequest(currentPlayer);
+                addDisconnectedPlayer(currentPlayer);
                 sendEndTurnMessage();
             }
         }, turnTimer);

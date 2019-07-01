@@ -272,26 +272,26 @@ public class PlayerBoardController {
 
         int i = 0;
 
-        for (; i<blue; i++){
+        for (; i<blue && i<blueAmmo.size(); i++){
             blueAmmo.get(i).setVisible(true);
         }
-        for(; i<3; i++)
+        for(; i<3 && i<blueAmmo.size(); i++)
             blueAmmo.get(i).setVisible(false);
 
         i=0;
 
-        for (; i<red; i++){
+        for (; i<red && i<redAmmo.size(); i++){
             redAmmo.get(i).setVisible(true);
         }
-        for(; i<3; i++)
+        for(; i<3  && i<redAmmo.size(); i++)
             redAmmo.get(i).setVisible(false);
 
         i=0;
 
-        for (; i<yellow; i++){
+        for (; i<yellow  && i<yellowAmmo.size(); i++){
             yellowAmmo.get(i).setVisible(true);
         }
-        for(; i<3; i++)
+        for(; i<3 && i<yellowAmmo.size(); i++)
             yellowAmmo.get(i).setVisible(false);
 
     }

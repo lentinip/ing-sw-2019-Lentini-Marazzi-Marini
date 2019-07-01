@@ -53,9 +53,9 @@ public class BoardController {
 
     private Client client;
 
-    /*
+
     private final Semaphore runMutex = new Semaphore(1);
-     */
+
     private TypeOfAction currentTypeOfAction;
 
     private CardController cardController = new CardController();
@@ -631,16 +631,6 @@ public class BoardController {
      */
     public void initialize(){
 
-        /*
-        try {
-            runMutex.acquire();
-        }
-        catch (InterruptedException e){
-            logger.log(Level.SEVERE, e.getMessage());
-        }
-
-         */
-
         //Initialize the cells (for selection) and the spots for the weapons in the spawn cells
         initializeCells();
         initializeSpawnCellWeapons();
@@ -664,6 +654,16 @@ public class BoardController {
      * @param configuration configuration message
      */
     public void configureBoard(Client client, MatchStart configuration){
+
+
+        try {
+            runMutex.acquire();
+        }
+        catch (InterruptedException e){
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+
+
 
         Scene scene = pane.getScene();
 
@@ -748,10 +748,8 @@ public class BoardController {
             timeLeft = timerDuration.doubleValue() - time;
             reconnected=true;
         }
-        /*
-        runMutex.release();
 
-         */
+        runMutex.release();
     }
 
     public String getBoardPath(String jsonName){
@@ -1258,7 +1256,7 @@ public class BoardController {
                 ImageView myWeapon = myWeapons.get(i);
 
                 //For all the weapons the player has
-                if (i<newWeapons.size()){
+                if (i<newWeapons.size() && i<myWeapons.size()){
 
                     //Gets the Image of the new weapon
                     String newWeaponName = newWeapons.get(i);
@@ -1320,15 +1318,12 @@ public class BoardController {
 
     public void updateMatch(MatchState matchState){
 
-        /*
         try {
             runMutex.acquire();
         }
         catch (InterruptedException e){
             logger.log(Level.SEVERE, e.getMessage());
         }
-
-         */
 
         updateCells(matchState.getCells());
         updatePlayerBoards(matchState.getPlayerBoardMessages(), matchState.getPlayerHands(), matchState.getCurrentPlayer());
@@ -1349,9 +1344,9 @@ public class BoardController {
 
         oldMatchState = matchState;
 
-        /*
+
         runMutex.release();
-         */
+
     }
 
     public void showOnlyReload(){
@@ -1603,6 +1598,7 @@ public class BoardController {
 
     //Handlers
     public void cellSelectionHandler(Pane cell){
+
         BoardCoord boardCoord = (BoardCoord) cell.getUserData();
 
         //If is a spawncell saves the cells weapons for the grab
@@ -1641,6 +1637,15 @@ public class BoardController {
     //Interactions
 
     public void canIShoot(boolean canIShoot){
+
+        try {
+            runMutex.acquire();
+        }
+        catch (InterruptedException e){
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+
+
         if (oldMatchState.getCurrentPlayerLeftActions()==0 && iAmTheCurrentPlayer()){
             showOnlyReload();
         }
@@ -1653,6 +1658,8 @@ public class BoardController {
         if (actionReports!=null){
             actionReports.setDamageSession(false);
         }
+
+        runMutex.release();
     }
 
     public void disableActions(){
@@ -1662,6 +1669,12 @@ public class BoardController {
     }
 
     public void showAvailableCells(List<BoardCoord> cells, TypeOfAction typeOfAction){
+        try {
+            runMutex.acquire();
+        }
+        catch (InterruptedException e){
+            logger.log(Level.SEVERE, e.getMessage());
+        }
         currentTypeOfAction = typeOfAction;
 
         disableAvailableCells();
@@ -1674,6 +1687,8 @@ public class BoardController {
         if (typeOfAction != TypeOfAction.MOVE && typeOfAction != TypeOfAction.GRAB){
             disableActions();
         }
+
+        runMutex.release();
     }
 
     public void disableAvailableCells(){
@@ -1683,6 +1698,13 @@ public class BoardController {
     }
 
     public List<Image> getImageCards(TypeOfAction typeOfAction){
+        try {
+            runMutex.acquire();
+        }
+        catch (InterruptedException e){
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+
         List<Image> result = new ArrayList<>();
         List<ImageView> imageViewList;
 
@@ -1730,6 +1752,7 @@ public class BoardController {
                 result.add(imageView.getImage());
             }
         }
+        runMutex.release();
 
         return result;
     }
@@ -1747,6 +1770,12 @@ public class BoardController {
     }
 
     public void showSelectablePlayers(List<Character> characters, TypeOfAction typeOfAction, boolean noOption){
+        try {
+            runMutex.acquire();
+        }
+        catch (InterruptedException e){
+            logger.log(Level.SEVERE, e.getMessage());
+        }
         currentTypeOfAction = typeOfAction;
         disablePositions();
 
@@ -1770,6 +1799,8 @@ public class BoardController {
                 default:
                     break;
             }
+            runMutex.release();
+
         }
 
         selectAPlayerGroup.setVisible(true);
