@@ -63,6 +63,8 @@ public class GUI extends Application implements ViewInterface {
 
     private Stage selectEffectStage;
 
+    private Alert alertReconnect;
+
     /* Methods */
 
     public void displayLoginWindow(){
@@ -560,11 +562,6 @@ public class GUI extends Application implements ViewInterface {
                 logger.log(Level.SEVERE, e.getLocalizedMessage());
             }
 
-            primaryStage.setOnCloseRequest((WindowEvent t) -> {
-                Platform.exit();
-                System.exit(0);
-            });
-
             primaryStage.show();
         });
     }
@@ -660,52 +657,56 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void createAlertReconnect(){
-        Platform.runLater(() -> {
 
-            if (selectCardControllerStage!=null && selectCardControllerStage.isShowing()){
-                selectCardControllerStage.close();
-                selectCardControllerStage = null;
-            }
+        if (alertReconnect==null) {
 
-            if (selectEffectStage!=null && selectEffectStage.isShowing()){
-                selectEffectStage.close();
-                selectCardControllerStage = null;
-            }
-
-            if (paymentStage!=null && paymentStage.isShowing()){
-                paymentStage.close();
-                paymentStage = null;
-            }
-
-            if (boardController.getActionReportsStage()!=null){
-                if (boardController.getActionReportsStage().isShowing()){
-                    boardController.getActionReportsStage().close();
+            Platform.runLater(() -> {
+                if (selectCardControllerStage != null && selectCardControllerStage.isShowing()) {
+                    selectCardControllerStage.close();
+                    selectCardControllerStage = null;
                 }
-                if (actionReportController!=null){
-                    actionReportController.clear();
+
+                if (selectEffectStage != null && selectEffectStage.isShowing()) {
+                    selectEffectStage.close();
+                    selectCardControllerStage = null;
                 }
-            }
 
-            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-            a.setTitle("Reconnection window");
-            a.setHeaderText("You let the timer finish and now you are going to appear offline. Do you want to reconnect?");
-            a.setContentText("Click ok to reconnect. Click cancel or close to exit the game.");
-
-            Optional<ButtonType> option = a.showAndWait();
-
-            if (option.isPresent()){
-                if (option.get() == ButtonType.OK){
-
-                    Message reconnectionMessage = new Message(client.getUsername());
-                    reconnectionMessage.setTypeOfMessage(TypeOfMessage.RECONNECTION_REQUEST);
-                    client.send(reconnectionMessage);
+                if (paymentStage != null && paymentStage.isShowing()) {
+                    paymentStage.close();
+                    paymentStage = null;
                 }
-                else {
-                    Platform.exit();
-                    System.exit(0);
+
+                if (boardController.getActionReportsStage() != null) {
+                    if (boardController.getActionReportsStage().isShowing()) {
+                        boardController.getActionReportsStage().close();
+                    }
+                    if (actionReportController != null) {
+                        actionReportController.clear();
+                    }
                 }
-            }
-        });
+
+                Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+                alertReconnect = a;
+                a.setTitle("Reconnection window");
+                a.setHeaderText("You let the timer finish and now you are going to appear offline. Do you want to reconnect?");
+                a.setContentText("Click ok to reconnect. Click cancel or close to exit the game.");
+
+                Optional<ButtonType> option = a.showAndWait();
+
+                if (option.isPresent()) {
+                    if (option.get() == ButtonType.OK) {
+
+                        Message reconnectionMessage = new Message(client.getUsername());
+                        reconnectionMessage.setTypeOfMessage(TypeOfMessage.RECONNECTION_REQUEST);
+                        client.send(reconnectionMessage);
+                        alertReconnect = null;
+                    } else {
+                        Platform.exit();
+                        System.exit(0);
+                    }
+                }
+            });
+        }
     }
 
     public void resetClass(){
@@ -722,6 +723,11 @@ public class GUI extends Application implements ViewInterface {
     @Override
     public void start(Stage primaryStage){
         this.primaryStage = primaryStage;
+
+        primaryStage.setOnCloseRequest((WindowEvent t) -> {
+            Platform.exit();
+            System.exit(0);
+        });
 
         List<String> args = getParameters().getRaw();
 

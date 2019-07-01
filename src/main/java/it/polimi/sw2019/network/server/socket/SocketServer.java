@@ -102,7 +102,9 @@ public class SocketServer extends Thread {
             server.removeWaitingPlayer(username);
         }*/
         //else {
+        if (server.getVirtualViewMap().containsKey(username)) {
             server.getVirtualViewMap().get(username).addDisconnectedPlayer(username);
+        }
         //}
     }
 

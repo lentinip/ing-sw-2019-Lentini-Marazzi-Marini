@@ -53,11 +53,11 @@ public class Score extends Tokens {
      */
     public Map<Character, Integer> getRankingMap(List<Character> characters) {
 
+        Map<Character, Integer> sortedMap = sortByValues(charactersMap, Collections.reverseOrder(new RankingComparator()));
+
         for (Character character : characters){
             charactersMap.remove(character);
         }
-
-        Map<Character, Integer> sortedMap = sortByValues(charactersMap, Collections.reverseOrder(new RankingComparator()));
 
         Map<Character, Integer> ranking = new LinkedHashMap<>();
         List<Map.Entry<Character, Integer>> list = new LinkedList<>(sortedMap.entrySet());
