@@ -382,8 +382,15 @@ public class Match extends Observable {
 
         }
 
+        int trulyDead = 0;
+        for (Player player : deadPlayers) {
+            if (player.getPosition() != null) {
+                trulyDead++;
+            }
+        }
+
         // if the player has done a multiple kill he gets one extra point
-        if (deadPlayers.size() > 1){
+        if (trulyDead > 1){
 
             score.addPoints(1, currentPlayer.getCharacter());
         }
