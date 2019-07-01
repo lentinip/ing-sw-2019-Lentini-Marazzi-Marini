@@ -314,6 +314,8 @@ public class Match extends Observable {
 
              if(players.get(i).isDead() && players.get(i).getPosition()!=null) {
 
+                 System.out.println("endTurn model- position not null and player = " + players.get(i).getName());
+
                  playerBoard = players.get(i).getPlayerBoard();
 
                  if (playerBoard.isFlipped()) {

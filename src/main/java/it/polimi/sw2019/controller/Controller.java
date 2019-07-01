@@ -59,6 +59,7 @@ public class Controller implements Observer {
 
         match = new Match(setupInfo.isFrenzy(), setupInfo.isEightSkulls(), view.getUsernames(), setupInfo.getBoardJsonName(), view);
         turnManager = new TurnManager(match, view);
+        view.setCurrentPlayer(match.getCurrentPlayer().getName());
 
         //sending the spawn message to the first player
         view.display(turnManager.spawningHandler());

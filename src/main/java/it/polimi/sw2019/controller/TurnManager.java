@@ -188,6 +188,8 @@ public class TurnManager {
 
         System.out.print("\n PowerupIndex: " + powerupIndex + "\n");
 
+        System.out.println("spawning player = " + spawningPlayer.getName());
+
 
         //Gets the room with the color of the powerup
         Room room = match.getBoard().getRoomByColor(powerup.getColor());

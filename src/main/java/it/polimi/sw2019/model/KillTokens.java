@@ -81,6 +81,10 @@ public class KillTokens extends Tokens{
         ranking = getRanking();
         int points;
 
+        if (ranking.isEmpty()){
+
+            return;
+        }
 
         for (int i = 0; i < ranking.size(); i++){
 

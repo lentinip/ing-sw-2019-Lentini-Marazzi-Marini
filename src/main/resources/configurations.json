@@ -1,6 +1,6 @@
 {
   "matchCreationTimer": 20,
-  "turnTimer": 30,
+  "turnTimer": 90,
   "counterAttackPowerupTimer": 20,
   "matchSetupTimer": 60
 }

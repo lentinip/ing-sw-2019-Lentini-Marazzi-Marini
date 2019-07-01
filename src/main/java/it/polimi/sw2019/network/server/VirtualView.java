@@ -312,8 +312,10 @@ public class VirtualView extends Observable implements Observer {
             @Override
             public void run() {
 
-                sendReconnectionRequest(currentPlayer);
-                waitingPlayers.get(currentPlayer).setConnected(false);
+                if (waitingPlayers.get(currentPlayer).getConnected()) {
+                    sendReconnectionRequest(currentPlayer);
+                    waitingPlayers.get(currentPlayer).setConnected(false);
+                }
                 sendEndTurnMessage();
             }
         }, turnTimer);
@@ -362,8 +364,10 @@ public class VirtualView extends Observable implements Observer {
             @Override
             public void run() {
 
-                sendReconnectionRequest(messageSender);
-                waitingPlayers.get(messageSender).setConnected(false);
+                if (waitingPlayers.get(messageSender).getConnected()) {
+                    sendReconnectionRequest(messageSender);
+                    waitingPlayers.get(messageSender).setConnected(false);
+                }
                 sendAutomaticResponse();
             }
         }, quickResponseTimer);
@@ -381,8 +385,10 @@ public class VirtualView extends Observable implements Observer {
             public void run() {
                 LOGGER.log(Level.INFO, "TIMER FOR SPAWN FINISHED");
                 System.out.print("\n"+ messageSender +"\n");
-                sendReconnectionRequest(messageSender);
-                waitingPlayers.get(messageSender).setConnected(false);
+                if (waitingPlayers.get(messageSender).getConnected()) {
+                    sendReconnectionRequest(messageSender);
+                    waitingPlayers.get(messageSender).setConnected(false);
+                }
                 sendAutomaticSpawn();
             }
         }, quickResponseTimer);
@@ -394,6 +400,7 @@ public class VirtualView extends Observable implements Observer {
     public void sendAutomaticSpawn(){
 
        Message automaticSpawn = new Message(messageSender);
+       System.out.println("automatic spawn : spawning player = " + messageSender);
        automaticSpawn.createSpawnSelection(0);
        notify(automaticSpawn);
 
@@ -433,6 +440,7 @@ public class VirtualView extends Observable implements Observer {
 
                 if (message.getTypeOfAction() == TypeOfAction.SPAWN && message.getTypeOfMessage() == TypeOfMessage.AVAILABLE_CARDS){
 
+                    System.out.println("display - message receiver disconnected = " + message.getUsername());
                     sendAutomaticSpawn();
                 }
 
@@ -469,7 +477,9 @@ public class VirtualView extends Observable implements Observer {
 
     public void notify(Message message) {
 
-        System.out.print("\n Sto gestendo il messaggio ricevuto");
+        System.out.println("\n Sto gestendo il messaggio ricevuto");
+        System.out.println(" type of message : " + message.getTypeOfMessage() + "  type of action: " + message.getTypeOfAction());
+        System.out.println(" sender : " + message.getUsername());
         setChanged();
         notifyObservers(message);
     }
