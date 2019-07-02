@@ -112,6 +112,7 @@ public class Server {
      */
     public void addPlayer(String username, ClientInterface clientInterface) {
 
+        verifyConnected();
         verifyOnline(new Message("All"), currentWaitingRoom);
 
         System.out.print("\n");
@@ -199,7 +200,6 @@ public class Server {
         } catch (RemoteException e) {
 
             virtualViewMap.get(message.getUsername()).addDisconnectedPlayer(message.getUsername());
-            //virtualViewMap.get(message.getUsername()).getDisconnectedPlayers().add(message.getUsername());
             LOGGER.log(Level.WARNING, e.getMessage());
         }
     }
@@ -429,4 +429,23 @@ public class Server {
         rmiServer.startServer(rmiPort);
     }
 
+    public void verifyConnected() {
+
+        for(String user : virtualViewMap.keySet()) {
+
+            if(!currentWaitingRoom.getWaitingPlayers().containsKey(user)) {
+
+                Message message = new Message(user);
+                try {
+
+                    System.out.print("\n" + user);
+                    virtualViewMap.get(user).getWaitingPlayers().get(user).getClientInterface().notify(message);
+                } catch (RemoteException e) {
+
+                   virtualViewMap.get(message.getUsername()).addDisconnectedPlayer(message.getUsername());
+                   LOGGER.log(Level.WARNING, e.getMessage());
+                }
+            }
+        }
+    }
 }

@@ -43,6 +43,9 @@ public class TestDamageTokens {
 
         assertEquals(resultCharacters, damageTokens.getDamageSequence());
         assertEquals(i, damageTokens.getTotalDamage());
+
+        damageTokens.addDamage(1, Character.DOZER);
+        assertEquals(i, damageTokens.getTotalDamage());
     }
 
     @Test
@@ -89,4 +92,49 @@ public class TestDamageTokens {
 
         assertEquals(resultCharacters, damageTokens.getRanking());
     }
+
+    @Test
+    public void setTotalDamageTest() {
+
+        List<Character> characters = new ArrayList<>();
+        characters.add(Character.BANSHEE);
+        characters.add(Character.DISTRUCTOR);
+        characters.add(Character.DOZER);
+        characters.add(Character.VIOLET);
+        DamageTokens damageTokens = new DamageTokens(characters);
+
+        damageTokens.setTotalDamage(5);
+
+        int i = damageTokens.getTotalDamage();
+
+        assertEquals(5, i);
+    }
+
+    @Test
+    public void setDamageSequenceTest() {
+
+        List<Character> characters = new ArrayList<>();
+        characters.add(Character.BANSHEE);
+        characters.add(Character.DISTRUCTOR);
+        characters.add(Character.DOZER);
+        characters.add(Character.VIOLET);
+        DamageTokens damageTokens = new DamageTokens(characters);
+
+        List<Character> damageSequence = new ArrayList<>();
+        damageSequence.add(Character.DISTRUCTOR);
+        damageSequence.add(Character.DISTRUCTOR);
+        damageSequence.add(Character.DOZER);
+        damageSequence.add(Character.VIOLET);
+        damageSequence.add(Character.VIOLET);
+        damageSequence.add(Character.VIOLET);
+        damageSequence.add(Character.BANSHEE);
+        damageSequence.add(Character.BANSHEE);
+
+        damageTokens.setDamageSequence(damageSequence);
+
+        List<Character> damageSequence1 =  damageTokens.getDamageSequence();
+
+        assertEquals(damageSequence, damageSequence1);
+    }
+
 }

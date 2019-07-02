@@ -15,7 +15,49 @@ import static org.junit.Assert.fail;
 public class TestCell {
 
     @Test
-    public void TestPlayersInCell() {
+    public void firstConstructorTest() {
+
+        Cell cell1 = new Cell();
+        Cell cell2 = new Cell();
+        Cell cell3 = new Cell();
+        Cell cell4 = new Cell();
+
+        Cell cell = new Cell(1, 2, cell1, cell2, cell3, cell4, true );
+
+        assertEquals(1, cell.getRow());
+        assertEquals(2, cell.getColumn());
+        assertEquals(cell1, cell.getUp());
+        assertEquals(cell2, cell.getDown());
+        assertEquals(cell3, cell.getLeft());
+        assertEquals(cell4, cell.getRight());
+        assertEquals(true, cell.isCommon());
+
+    }
+
+    @Test
+    public void secondCostructorTest() {
+
+        Cell cell1 = new Cell();
+        Cell cell2 = new Cell();
+        Cell cell3 = new Cell();
+        Cell cell4 = new Cell();
+        Room room = new Room();
+
+        Cell cell = new Cell(1, 2, cell1, cell2, cell3, cell4, true, room);
+
+        assertEquals(1, cell.getRow());
+        assertEquals(2, cell.getColumn());
+        assertEquals(cell1, cell.getUp());
+        assertEquals(cell2, cell.getDown());
+        assertEquals(cell3, cell.getLeft());
+        assertEquals(cell4, cell.getRight());
+        assertEquals(true, cell.isCommon());
+        assertEquals(room, cell.getRoom());
+
+    }
+
+    @Test
+    public void playersInCellTest() {
 
         Cell cell1 = new Cell();
         cell1.setRow(2);
@@ -60,6 +102,37 @@ public class TestCell {
         Room room2 = new Room();
         cell2.setRoom(room2);
         assertTrue(cell2.playersInCell().isEmpty());
+    }
+
+    @Test
+    public void setCellStructureTest() {
+
+        Cell cell = new Cell();
+        Room room = new Room();
+
+        cell.setCellStructure(room, 1, 2, true);
+
+        assertEquals(1, cell.getRow());
+        assertEquals(2, cell.getColumn());
+        assertEquals(true, cell.isCommon());
+        assertEquals(room, cell.getRoom());
+    }
+
+    @Test
+    public void setCellNeighborsTest() {
+
+        Cell cell = new Cell();
+        Cell cell1 = new Cell();
+        Cell cell2 = new Cell();
+        Cell cell3 = new Cell();
+        Cell cell4 = new Cell();
+
+        cell.setCellNeighbors(cell1, cell2, cell3, cell4);
+
+        assertEquals(cell1, cell.getUp());
+        assertEquals(cell2, cell.getDown());
+        assertEquals(cell3, cell.getLeft());
+        assertEquals(cell4, cell.getRight());
     }
 
     @Test

@@ -685,6 +685,8 @@ public class TestEffect {
         Player player5 = new Player("Sandra", Character.SPROG);
         player5.setPosition(cell8);
 
+        Player player6 = new Player("Sandro", null);
+
         List<Cell> list1 = new ArrayList<>();
         list1.add(cell);
         list1.add(cell1);
@@ -747,12 +749,11 @@ public class TestEffect {
 
         effect.setVisibilityClass(visibility);
         int[] movesAvay = new int[4];
-        movesAvay[0] = 1;
+        movesAvay[0] = 2;
         effect.setMovesAway(movesAvay);
         effect.setExactly(true);
         MoveEffect move = new MoveEffect();
         move.setMoveYou(0);
-        effect.setMove(move);
         effect.setVisibility(KindOfVisibility.VISIBLE);
 
         List<Player> players = new ArrayList<>();
@@ -761,6 +762,7 @@ public class TestEffect {
         players.add(player3);
         players.add(player4);
         players.add(player5);
+        players.add(player6);
 
         PlayerBoard playerBoard = new PlayerBoard();
         Ammo ammo = new Ammo();
@@ -791,9 +793,17 @@ public class TestEffect {
         assertFalse(effect.usableEffect(player4, players));
 
         move.setMoveTargetBefore(true);
+        move.setMoveTargets(1);
+        move.setMoveYouBefore(false);
         effect.setMove(move);
 
-        //TODO complete test
+        assertTrue(effect.usableEffect(player4, players));
+
+        move.setMoveTargetBefore(false);
+        move.setMoveYouBefore(true);
+        move.setMoveYou(2);
+
+        assertTrue(effect.usableEffect(player4, players));
     }
 
     /*

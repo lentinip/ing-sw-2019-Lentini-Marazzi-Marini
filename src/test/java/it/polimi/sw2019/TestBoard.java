@@ -2,6 +2,7 @@ package it.polimi.sw2019;
 
 import it.polimi.sw2019.model.*;
 import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.network.messages.BoardCoord;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class TestBoard {
      * test if we get the correct cell after the selection
      */
     @Test
-    public void getCellTest() {
+    public void firstGetCellTest() {
 
         Board board = new Board();
 
@@ -36,6 +37,59 @@ public class TestBoard {
         board.setField(field);
 
         assertEquals(board.getCell(0, 1), cell1);
+
+        assertNull(board.getCell(35, 12));
+    }
+
+    @Test
+    public void secondGetCellTest() {
+
+        Board board = new Board();
+
+        List<Cell> field = new ArrayList<>();
+        Cell cell = new Cell();
+        cell.setColumn(2);
+        cell.setRow(3);
+        Cell cell1 = new Cell();
+        cell1.setColumn(1);
+        cell1.setRow(0);
+        Cell cell2 = new Cell();
+        cell2.setColumn(2);
+        cell2.setRow(2);
+
+        field.add(cell);
+        field.add(cell1);
+        field.add(cell2);
+        board.setField(field);
+
+        BoardCoord boardCoord = new BoardCoord();
+        boardCoord.setRow(0);
+        boardCoord.setColumn(1);
+
+        BoardCoord boardCoord1 = new BoardCoord();
+        boardCoord1.setRow(30);
+        boardCoord1.setColumn(41);
+
+        assertEquals(board.getCell(boardCoord), cell1);
+
+        assertNull(board.getCell(boardCoord1));
+    }
+
+    @Test
+    public void getWeaponsDeckTest() {
+
+        Board board = new Board();
+
+        Factory factory = new Factory();
+
+        List<Weapon> weaponList = new ArrayList<>();
+        weaponList = factory.createWeaponDeck();
+
+        board.setWeaponsDeck(weaponList);
+        List<Weapon> weapons = new ArrayList<>();
+        weapons = board.getWeaponsDeck();
+
+        assertEquals(weaponList, weapons);
     }
 
     /**
@@ -57,6 +111,8 @@ public class TestBoard {
         board.setRooms(rooms);
 
         assertEquals(board.getRoomByColor(Colors.YELLOW), room);
+
+        assertNull(board.getRoomByColor(Colors.GREY));
     }
 
     /**
@@ -90,6 +146,8 @@ public class TestBoard {
         assertEquals(board.drawWeapon(), weapon);
 
         assertTrue(board.weaponsDeckIsEmpty());
+
+        assertNull(board.drawWeapon());
     }
 
     /**
@@ -112,8 +170,7 @@ public class TestBoard {
         assertEquals(board.drawPowerup(), powerup2);
         assertEquals(board.drawPowerup(), powerup1);
         assertEquals(board.drawPowerup(), powerup);
-        assertEquals(board.drawPowerup(), powerup2);
-        //TODO add powerups discarded
+        assertTrue(powerupsDeck.containsAll(board.getPowerupsDeck()));
     }
 
     @Test

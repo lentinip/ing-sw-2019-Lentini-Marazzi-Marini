@@ -62,13 +62,13 @@ public class Powerup {
         this.description = description;
     }
 
-    public TypeOfAction getTypeOfAction() {
+    /*public TypeOfAction getTypeOfAction() {
         return typeOfAction;
     }
 
     public void setTypeOfAction(TypeOfAction typeOfAction) {
         this.typeOfAction = typeOfAction;
-    }
+    }*/
 
     public int getValue() {
         return value;
@@ -106,9 +106,9 @@ public class Powerup {
         return iNeedToPay;
     }
 
-    public void setiNeedToPay(boolean iNeedToPay) {
+    /*public void setiNeedToPay(boolean iNeedToPay) {
         this.iNeedToPay = iNeedToPay;
-    }
+    }*/
 
     /**
      *

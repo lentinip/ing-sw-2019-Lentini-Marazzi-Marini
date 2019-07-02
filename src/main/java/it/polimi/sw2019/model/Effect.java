@@ -213,15 +213,21 @@ public class Effect {
 
         if (cost!=null && !owner.canIPay(cost)) { /* can I pay the cost of the effect? */
 
+            //System.out.print("\n 1");
+
             return false;
         }
 
         if (!shootableCells(owner).isEmpty()){ /* can I shoot someone? */
 
+            //System.out.print("\n 2");
+
             return true;
         }
 
         if (move == null){ /* I can't shoot anyone and I don't have a move */
+
+            System.out.print("\n 3");
 
             return false;
         }
@@ -231,12 +237,16 @@ public class Effect {
         List<Player> playerList = new ArrayList<>(targetsPlayer);
 
         for (Player player : playerList){
+
             if (player.getPosition()==null){
                 targetsPlayer.remove(player);
+                //System.out.print("\n rimosso player: " + player.getName());
             }
         }
 
         if (move.iCanMoveTargetBefore()){  /* I can move targets and after the move I can shoot them */
+
+            //System.out.print("\n 4");
 
            for(Player target: targetsPlayer){
 
@@ -251,6 +261,8 @@ public class Effect {
         }
 
         if (move.iCanMoveBefore()){ /* I can move myself and after the move I can shoot someone */
+
+            //System.out.print("\n 5");
 
             Cell startingPosition = owner.getPosition(); /* saving my starting position */
 
@@ -272,18 +284,20 @@ public class Effect {
         return false;
     }
 
+    /*
     /**
      * if the player has chosen to do a shoot action this method method is called when the player wants to do a move before the shooting using the effect
      * @param owner of the weapon
      * @return only the cells where he can move in order to be able to shoot someone
      */
+    /*
     public List<Cell> allowedCells(Player owner) {
 
         List<Cell> allowedCells = new ArrayList<>();
 
         Cell startingPosition = owner.getPosition(); /* saving my starting position */
 
-        for (Cell reachableCell : startingPosition.reachableCells(move.getMoveYou())) {
+     /*   for (Cell reachableCell : startingPosition.reachableCells(move.getMoveYou())) {
 
             owner.setPosition(reachableCell);
 
@@ -296,5 +310,5 @@ public class Effect {
         owner.setPosition(startingPosition);
 
         return allowedCells;
-    }
+    }*/
 }
