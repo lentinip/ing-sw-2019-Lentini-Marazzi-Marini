@@ -81,6 +81,13 @@ public class TestFactory {
         System.out.print(weapon.getEffects().get(0).getCost());
         System.out.print("\n");
         System.out.print("\n");
+    }
 
+    @Test
+    public void createAmmoDeckTest(){
+
+        Factory factory = new Factory();
+        List<AmmoTile> deck = factory.createAmmoDeck();
+        Assert.assertNotNull(deck);
     }
 }

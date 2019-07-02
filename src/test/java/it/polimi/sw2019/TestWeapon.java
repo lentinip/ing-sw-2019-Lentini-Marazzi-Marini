@@ -7,8 +7,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class TestWeapon {
 
@@ -160,12 +159,33 @@ public class TestWeapon {
 
         cell11.setDown(cell10);
 
-        Player player = new Player();
-        player.setState(State.FRENZYBEFOREFIRST);
-        player.setPosition(cell1);
+        Player player1 = new Player("Enzo", Character.BANSHEE);
+        player1.setPosition(cell1);
+        player1.setState(State.FRENZYBEFOREFIRST);
 
+        Player player2 = new Player("Carl", Character.DISTRUCTOR);
+        player2.setPosition(cell);
+
+        Player player3 = new Player("Anna", Character.VIOLET);
+        player3.setPosition(cell6);
+
+        Player player4 = new Player("Luca", Character.DOZER);
+        player4.setPosition(cell7);
+
+        Player player5 = new Player("Sandra", Character.SPROG);
+        player5.setPosition(cell8);
+
+        List<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        players.add(player3);
+        players.add(player4);
+        players.add(player5);
+
+        weapon.setOwner(player1);
+
+        //assertTrue(weapon.usableWeaponBeforeComplexAction(players));
         //TODO continue
-
     }
 
     @Test

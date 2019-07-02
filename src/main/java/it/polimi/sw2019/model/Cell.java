@@ -27,7 +27,7 @@ public class Cell {
 
     public Cell(int i, int k, Cell up, Cell down, Cell left, Cell right, boolean isCommon, Room room) {
 
-        setCellStructure(room, row, column, isCommon);
+        setCellStructure(room, i, k, isCommon);
         setCellNeighbors(up, down, left, right);
     }
 
