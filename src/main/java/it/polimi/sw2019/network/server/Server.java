@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,6 +35,8 @@ public class Server {
     }
 
     /* Attributes */
+    private final Semaphore runMutex = new Semaphore(1);
+
     private int rmiPort;
 
     private int socketPort;
@@ -109,9 +112,17 @@ public class Server {
      * @param username to add
      * @param clientInterface connection methods
      */
-    public void addPlayer(String username, ClientInterface clientInterface) {
+    public synchronized void addPlayer(String username, ClientInterface clientInterface){
 
         verifyConnected(username);
+        try {
+            runMutex.acquire();
+        }
+        catch (InterruptedException e){
+            LOGGER.log(Level.SEVERE, e.getMessage());
+        }
+
+
         verifyOnline(new Message("All"), currentWaitingRoom);
 
         System.out.print("\n");
@@ -428,7 +439,7 @@ public class Server {
         rmiServer.startServer(rmiPort);
     }
 
-    public void verifyConnected(String user) {
+    public synchronized void verifyConnected(String user) {
 
 
         if (!currentWaitingRoom.getWaitingPlayers().containsKey(user) && virtualViewMap.keySet().contains(user) && virtualViewMap.get(user).getWaitingPlayers().get(user).getConnected()) {
@@ -444,6 +455,8 @@ public class Server {
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
         }
+        
+        runMutex.release();
 
     }
 }

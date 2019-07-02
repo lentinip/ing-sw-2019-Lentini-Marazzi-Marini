@@ -10,6 +10,7 @@ import it.polimi.sw2019.network.messages.TypeOfMessage;
 
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -221,7 +222,9 @@ public class VirtualView extends Observable implements Observer {
         message.setTypeOfMessage(TypeOfMessage.EXIT_GAME);
 
         waitingPlayers.get(username).setConnected(false);
-        disconnectedPlayers.add(username);
+        if (!disconnectedPlayers.contains(username)) {
+            disconnectedPlayers.add(username);
+        }
         System.out.print("\n Offline players:" + disconnectedPlayers);
 
         //sending a message to tell everybody the player is disconnected
