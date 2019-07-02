@@ -1544,7 +1544,7 @@ public class CLI implements ViewInterface {
         }
 
         //he won
-        if (leaderBoard.getLeaderBoard().get(characters.get(usernames.indexOf(username))) == 1 && !isADraw(leaderBoard)){
+        if (!characters.isEmpty() && !usernames.isEmpty() && leaderBoard.getLeaderBoard().get(characters.get(usernames.indexOf(username))) == 1 && !isADraw(leaderBoard)){
 
             out.println("                         /$$     /$$ /$$$$$$  /$$   /$$                  \n" +
                     "                        |  $$   /$$//$$__  $$| $$  | $$                  \n" +

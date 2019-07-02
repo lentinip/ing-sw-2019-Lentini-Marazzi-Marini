@@ -535,7 +535,7 @@ public class PlayerBoardController {
                 token.setVisible(true);
             }
             else{
-                token.setVisible(true);
+                token.setVisible(false);
             }
         }
     }

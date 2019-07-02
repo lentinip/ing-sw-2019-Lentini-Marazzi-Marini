@@ -1,6 +1,5 @@
 package it.polimi.sw2019.network.server;
 
-import it.polimi.sw2019.controller.Controller;
 import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.network.client.ClientInterface;
 import it.polimi.sw2019.network.messages.*;
@@ -112,7 +111,7 @@ public class Server {
      */
     public void addPlayer(String username, ClientInterface clientInterface) {
 
-        verifyConnected();
+        verifyConnected(username);
         verifyOnline(new Message("All"), currentWaitingRoom);
 
         System.out.print("\n");
@@ -381,7 +380,7 @@ public class Server {
                 System.out.print("\nCurrent player reconnected\n");
                 sendMessage(virtualViewMap.get(username).getLastMessage());
             }
-            System.out.print("\nLast message :"+ virtualViewMap.get(username).getLastMessage().getTypeOfMessage());
+            System.out.print("\nLast message :"+ virtualViewMap.get(username).getLastMessage().getTypeOfMessage() + " receiver: " +  virtualViewMap.get(username).getLastMessage().getUsername());
         }
     }
 
@@ -429,23 +428,22 @@ public class Server {
         rmiServer.startServer(rmiPort);
     }
 
-    public void verifyConnected() {
+    public void verifyConnected(String user) {
 
-        for(String user : virtualViewMap.keySet()) {
 
-            if(!currentWaitingRoom.getWaitingPlayers().containsKey(user)) {
+        if (!currentWaitingRoom.getWaitingPlayers().containsKey(user) && virtualViewMap.keySet().contains(user) && virtualViewMap.get(user).getWaitingPlayers().get(user).getConnected()) {
 
-                Message message = new Message(user);
-                try {
+            Message message = new Message(user);
+            try {
 
-                    System.out.print("\n" + user);
-                    virtualViewMap.get(user).getWaitingPlayers().get(user).getClientInterface().notify(message);
-                } catch (RemoteException e) {
+                System.out.print("\n" + user);
+                virtualViewMap.get(user).getWaitingPlayers().get(user).getClientInterface().notify(message);
+            } catch (RemoteException e) {
 
-                   virtualViewMap.get(message.getUsername()).addDisconnectedPlayer(message.getUsername());
-                   LOGGER.log(Level.WARNING, e.getMessage());
-                }
+                virtualViewMap.get(message.getUsername()).addDisconnectedPlayer(message.getUsername());
+                LOGGER.log(Level.WARNING, e.getMessage());
             }
         }
+
     }
 }

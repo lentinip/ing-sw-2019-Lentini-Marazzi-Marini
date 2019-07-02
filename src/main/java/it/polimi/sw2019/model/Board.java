@@ -139,7 +139,6 @@ public class Board {
         if (!powerupsDeck.isEmpty()){
             Powerup result = powerupsDeck.get(powerupsDeck.size()-1);
             powerupsDeck.remove(powerupsDeck.size()-1);
-            powerupsDiscarded.add(result);
 
             //If the pile of powerups is empty the powerupDeck needs to be restored
             if (powerupsDeck.isEmpty()){
