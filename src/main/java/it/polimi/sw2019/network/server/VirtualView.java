@@ -83,6 +83,8 @@ public class VirtualView extends Observable implements Observer {
 
     private long timeLeft;
 
+    private boolean ended = false;
+
     /* Methods */
 
     public Message getLastMessage() {
@@ -273,6 +275,7 @@ public class VirtualView extends Observable implements Observer {
         Message message = new Message(null);
         message.setTypeOfMessage(TypeOfMessage.END_MATCH);
         notify(message);
+        ended = true;
     }
 
     public void removeDisconnectedPlayer(String username){
@@ -505,11 +508,13 @@ public class VirtualView extends Observable implements Observer {
 
     public void notify(Message message) {
 
-        System.out.println("\n Sto gestendo il messaggio ricevuto");
-        System.out.println(" type of message : " + message.getTypeOfMessage() + "  type of action: " + message.getTypeOfAction());
-        System.out.println(" sender : " + message.getUsername());
-        setChanged();
-        notifyObservers(message);
+        if (!ended) {
+            System.out.println("\n Sto gestendo il messaggio ricevuto");
+            System.out.println(" type of message : " + message.getTypeOfMessage() + "  type of action: " + message.getTypeOfAction());
+            System.out.println(" sender : " + message.getUsername());
+            setChanged();
+            notifyObservers(message);
+        }
     }
 
     @Override

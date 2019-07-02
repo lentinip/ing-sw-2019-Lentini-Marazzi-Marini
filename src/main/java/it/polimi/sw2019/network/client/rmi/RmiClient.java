@@ -63,7 +63,7 @@ public class RmiClient implements ClientActions {
     @Override
     public void doSomething(Message message) {
 
-        if(message.getTypeOfMessage() == TypeOfMessage.RECONNECTION_REQUEST) {
+        if(message.getTypeOfMessage() == TypeOfMessage.RECONNECTION) {
 
             try{
                 serverInterface.reconnect(message.getUsername(), clientInterface);

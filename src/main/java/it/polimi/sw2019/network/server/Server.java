@@ -112,15 +112,23 @@ public class Server {
      * @param username to add
      * @param clientInterface connection methods
      */
-    public synchronized void addPlayer(String username, ClientInterface clientInterface){
+    public  void addPlayer(String username, ClientInterface clientInterface){
 
-        verifyConnected(username);
-        try {
+        /*try {
             runMutex.acquire();
         }
         catch (InterruptedException e){
             LOGGER.log(Level.SEVERE, e.getMessage());
+        }*/
+
+        verifyConnected(username);
+
+        /*try {
+            runMutex.acquire();
         }
+        catch (InterruptedException e){
+            LOGGER.log(Level.SEVERE, e.getMessage());
+        }*/
 
 
         verifyOnline(new Message("All"), currentWaitingRoom);
@@ -439,7 +447,7 @@ public class Server {
         rmiServer.startServer(rmiPort);
     }
 
-    public synchronized void verifyConnected(String user) {
+    public void verifyConnected(String user) {
 
 
         if (!currentWaitingRoom.getWaitingPlayers().containsKey(user) && virtualViewMap.keySet().contains(user) && virtualViewMap.get(user).getWaitingPlayers().get(user).getConnected()) {
@@ -455,7 +463,7 @@ public class Server {
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
         }
-        
+
         runMutex.release();
 
     }
