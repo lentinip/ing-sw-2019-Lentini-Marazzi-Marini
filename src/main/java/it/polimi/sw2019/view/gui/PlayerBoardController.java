@@ -552,19 +552,19 @@ public class PlayerBoardController {
 
             switch (character){
                 case BANSHEE:
-                    url = "@../images/PlayerBoardBansheeBack.png";
+                    url = "/images/PlayerBoardBansheeBack.png";
                     break;
                 case DISTRUCTOR:
-                    url = "@../images/PlayerBoardDistruttoreBack.png";
+                    url = "/images/PlayerBoardDistruttoreBack.png";
                     break;
                 case DOZER:
-                    url = "@../images/PlayerBoardDozerBack.png";
+                    url = "/images/PlayerBoardDozerBack.png";
                     break;
                 case SPROG:
-                    url = "@../images/PlayerBoardSprogBack.png";
+                    url = "/images/PlayerBoardSprogBack.png";
                     break;
                 case VIOLET:
-                    url = "@../images/PlayerBoardVioletBack.png";
+                    url = "/images/PlayerBoardVioletBack.png";
                     break;
             }
 
@@ -584,19 +584,19 @@ public class PlayerBoardController {
 
             switch (character){
                 case BANSHEE:
-                    url = "@../images/actionTiles/BansheeActionTileFrenzy.png";
+                    url = "/images/actionTiles/BansheeActionTileFrenzy.png";
                     break;
                 case DISTRUCTOR:
-                    url = "@../images/actionTiles/DistructorActionTileFrenzy.png";
+                    url = "/images/actionTiles/DistructorActionTileFrenzy.png";
                     break;
                 case DOZER:
-                    url = "@../images/images/actionTiles/DozerActionTileFrenzy.png";
+                    url = "/images/actionTiles/DozerActionTileFrenzy.png";
                     break;
                 case SPROG:
-                    url = "@../images/actionTiles/SprogActionTileFrenzy.png";
+                    url = "/images/actionTiles/SprogActionTileFrenzy.png";
                     break;
                 case VIOLET:
-                    url = "@../images/actionTiles/VioletActionTileFrenzy.png";
+                    url = "/images/actionTiles/VioletActionTileFrenzy.png";
                     break;
             }
 
@@ -650,7 +650,9 @@ public class PlayerBoardController {
     }
 
     public void showReload(){
-        reloadAvailable.setVisible(true);
+        if (!frenzy){
+            reloadAvailable.setVisible(true);
+        }
     }
 
     @FXML

@@ -53,7 +53,7 @@ public class SelectCardController {
 
     private List<ImageView> myWeapons;
 
-    private IndexMessage firstSelection;
+    private Integer firstSelection;
 
     private BoardCoord lastSelectedCell;
 
@@ -62,10 +62,10 @@ public class SelectCardController {
     /* Methods */
 
     public void initialize(){
-        cardImage0.setUserData(new IndexMessage(0));
-        cardImage1.setUserData(new IndexMessage(1));
-        cardImage2.setUserData(new IndexMessage(2));
-        cardImage3.setUserData(new IndexMessage(3));
+        cardImage0.setUserData(new Integer(0));
+        cardImage1.setUserData(new Integer(1));
+        cardImage2.setUserData(new Integer(2));
+        cardImage3.setUserData(new Integer(3));
 
         cards.add(cardImage0);
         cards.add(cardImage1);
@@ -138,11 +138,11 @@ public class SelectCardController {
     @FXML
     public void handleSelection(MouseEvent actionEvent){
         ImageView imageView = (ImageView) actionEvent.getSource();
-        IndexMessage indexMessage = (IndexMessage) imageView.getUserData();
+        Integer integer = (Integer) imageView.getUserData();
 
         if (currentTypeOfAction == TypeOfAction.GRAB){
             if (myWeapons != null && firstSelection==null){
-                firstSelection = indexMessage;
+                firstSelection = integer;
 
                 List<Image> weapons = new ArrayList<>();
                 List<IndexMessage> areLoaded = new ArrayList<>();
@@ -159,10 +159,10 @@ public class SelectCardController {
             else{
                 Message message = new Message(client.getUsername());
                 if (firstSelection!=null){
-                    message.createSingleActionGrabWeapon(new GrabWeapon(firstSelection.getSelectionIndex(), indexMessage.getSelectionIndex(), lastSelectedCell));
+                    message.createSingleActionGrabWeapon(new GrabWeapon(firstSelection.intValue(), integer.intValue(), lastSelectedCell));
                 }
                 else {
-                    message.createSingleActionGrabWeapon(new GrabWeapon(indexMessage.getSelectionIndex(), -1, lastSelectedCell));
+                    message.createSingleActionGrabWeapon(new GrabWeapon(integer.intValue(), -1, lastSelectedCell));
                 }
 
                 client.send(message);
@@ -171,14 +171,14 @@ public class SelectCardController {
         }
         else if (currentTypeOfAction == TypeOfAction.RELOAD){
             Message message = new Message((client.getUsername()));
-            message.createSingleActionReload(((IndexMessage) imageView.getUserData()).getSelectionIndex());
+            message.createSingleActionReload(((Integer) imageView.getUserData()).intValue());
             boardController.showOnlyReload();
             client.send(message);
             closeWindow();
         }
         else {
             Message message = new Message((client.getUsername()));
-            message.createSelectedCard(((IndexMessage) imageView.getUserData()).getSelectionIndex(), currentTypeOfAction);
+            message.createSelectedCard(((Integer) imageView.getUserData()).intValue(), currentTypeOfAction);
             setTypeFromImage(imageView);
             //Saves the weapon in the boardController for next use
             boardController.setSelectedWeapon(imageView);

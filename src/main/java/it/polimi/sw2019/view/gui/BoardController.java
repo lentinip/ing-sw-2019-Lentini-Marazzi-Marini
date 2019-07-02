@@ -1324,33 +1324,34 @@ public class BoardController {
 
         try {
             runMutex.acquire();
+
+
+            updateCells(matchState.getCells());
+            updatePlayerBoards(matchState.getPlayerBoardMessages(), matchState.getPlayerHands(), matchState.getCurrentPlayer());
+            updateLeftActions(matchState.getCurrentPlayerLeftActions());
+            updateKillTrack(matchState.getKillSequence(), matchState.getOverkillSequence());
+            if (matchState.getKillSequence().size()>killTrackSkulls.size()){
+                updateKillTrackSummary(matchState.getKillSequence(), matchState.getOverkillSequence());
+            }
+            updateDecks(matchState.getWeaponsDeckSize(), matchState.getPowerupsDeckSize());
+            updateCurrentPlayer(matchState.getCurrentPlayer());
+
+            if (matchState.getCurrentPlayer() == myPlayerBoard.getCharacter() && matchState.getCurrentPlayerLeftActions()==0){
+                showOnlyReload();
+            }
+            if (matchState.getCurrentPlayer() != myPlayerBoard.getCharacter()){
+                disableActions();
+            }
+
+            oldMatchState = matchState;
+
+            runMutex.release();
+
         }
         catch (InterruptedException e){
+            Thread.currentThread().interrupt();
             logger.log(Level.SEVERE, e.getMessage());
         }
-
-        updateCells(matchState.getCells());
-        updatePlayerBoards(matchState.getPlayerBoardMessages(), matchState.getPlayerHands(), matchState.getCurrentPlayer());
-        updateLeftActions(matchState.getCurrentPlayerLeftActions());
-        updateKillTrack(matchState.getKillSequence(), matchState.getOverkillSequence());
-        if (matchState.getKillSequence().size()>killTrackSkulls.size()){
-            updateKillTrackSummary(matchState.getKillSequence(), matchState.getOverkillSequence());
-        }
-        updateDecks(matchState.getWeaponsDeckSize(), matchState.getPowerupsDeckSize());
-        updateCurrentPlayer(matchState.getCurrentPlayer());
-
-        if (matchState.getCurrentPlayer() == myPlayerBoard.getCharacter() && matchState.getCurrentPlayerLeftActions()==0){
-            showOnlyReload();
-        }
-        if (matchState.getCurrentPlayer() != myPlayerBoard.getCharacter()){
-            disableActions();
-        }
-
-        oldMatchState = matchState;
-
-
-        runMutex.release();
-
     }
 
     public void showOnlyReload(){
@@ -1644,26 +1645,27 @@ public class BoardController {
 
         try {
             runMutex.acquire();
+
+
+            if (oldMatchState.getCurrentPlayerLeftActions()==0 && iAmTheCurrentPlayer()){
+                showOnlyReload();
+            }
+            else {
+                myPlayerBoard.showPossibleActions(canIShoot);
+                endTurnButton.setDisable(false);
+                usePowerupButton.setDisable(false);
+            }
+
+            if (actionReports!=null){
+                actionReports.setDamageSession(false);
+            }
+
+            runMutex.release();
         }
         catch (InterruptedException e){
+            Thread.currentThread().interrupt();
             logger.log(Level.SEVERE, e.getMessage());
         }
-
-
-        if (oldMatchState.getCurrentPlayerLeftActions()==0 && iAmTheCurrentPlayer()){
-            showOnlyReload();
-        }
-        else {
-            myPlayerBoard.showPossibleActions(canIShoot);
-            endTurnButton.setDisable(false);
-            usePowerupButton.setDisable(false);
-        }
-
-        if (actionReports!=null){
-            actionReports.setDamageSession(false);
-        }
-
-        runMutex.release();
     }
 
     public void disableActions(){
@@ -1675,24 +1677,26 @@ public class BoardController {
     public void showAvailableCells(List<BoardCoord> cells, TypeOfAction typeOfAction){
         try {
             runMutex.acquire();
+
+            currentTypeOfAction = typeOfAction;
+
+            disableAvailableCells();
+
+            for (BoardCoord cell : cells){
+                selectableCells.get(cell.getCellNumber()).setVisible(true);
+            }
+
+            //For the move and the grab it doesn't disable the actions so you can change your mind
+            if (typeOfAction != TypeOfAction.MOVE && typeOfAction != TypeOfAction.GRAB){
+                disableActions();
+            }
+
+            runMutex.release();
         }
         catch (InterruptedException e){
+            Thread.currentThread().interrupt();
             logger.log(Level.SEVERE, e.getMessage());
         }
-        currentTypeOfAction = typeOfAction;
-
-        disableAvailableCells();
-
-        for (BoardCoord cell : cells){
-            selectableCells.get(cell.getCellNumber()).setVisible(true);
-        }
-
-        //For the move and the grab it doesn't disable the actions so you can change your mind
-        if (typeOfAction != TypeOfAction.MOVE && typeOfAction != TypeOfAction.GRAB){
-            disableActions();
-        }
-
-        runMutex.release();
     }
 
     public void disableAvailableCells(){
@@ -1704,61 +1708,65 @@ public class BoardController {
     public List<Image> getImageCards(TypeOfAction typeOfAction){
         try {
             runMutex.acquire();
-        }
-        catch (InterruptedException e){
-            logger.log(Level.SEVERE, e.getMessage());
-        }
 
-        List<Image> result = new ArrayList<>();
-        List<ImageView> imageViewList;
+            List<Image> result = new ArrayList<>();
+            List<ImageView> imageViewList;
 
-        if (typeOfAction == TypeOfAction.GRAB){
-            imageViewList = selectedSpawnCell;
-        }
+            if (typeOfAction == TypeOfAction.GRAB){
+                imageViewList = selectedSpawnCell;
+            }
 
-        else if (typeOfAction == TypeOfAction.RELOAD || typeOfAction == TypeOfAction.SHOOT){
-            imageViewList = myWeapons;
-        }
+            else if (typeOfAction == TypeOfAction.RELOAD || typeOfAction == TypeOfAction.SHOOT){
+                imageViewList = myWeapons;
+            }
 
-        else if (typeOfAction == TypeOfAction.USEPOWERUP){
-            imageViewList = myPowerups;
-        }
+            else if (typeOfAction == TypeOfAction.USEPOWERUP){
+                imageViewList = myPowerups;
+            }
 
-        else if (typeOfAction == TypeOfAction.SPAWN) {
+            else if (typeOfAction == TypeOfAction.SPAWN) {
 
-            //Is not going to be used
-            imageViewList = new ArrayList<>();
+                //Is not going to be used
+                imageViewList = new ArrayList<>();
 
-            for (int i = 0; i < 4; i++) {
-                //For all the weapons the player has
-                if (i < oldPrivateHand.getPowerups().size()) {
+                for (int i = 0; i < 4; i++) {
+                    //For all the weapons the player has
+                    if (i < oldPrivateHand.getPowerups().size()) {
 
-                    //Gets the Image of the powerup
-                    String newPowerupName = oldPrivateHand.getPowerups().get(i);
-                    Colors newPowerupColor = oldPrivateHand.getPowerupColors().get(i);
-                    Image newImage = cardController.getPowerupImage(newPowerupName, newPowerupColor);
+                        //Gets the Image of the powerup
+                        String newPowerupName = oldPrivateHand.getPowerups().get(i);
+                        Colors newPowerupColor = oldPrivateHand.getPowerupColors().get(i);
+                        Image newImage = cardController.getPowerupImage(newPowerupName, newPowerupColor);
 
-                    //Adds it to the result list
-                    result.add(newImage);
+                        //Adds it to the result list
+                        result.add(newImage);
+                    }
                 }
             }
-        }
 
-        else {
-            logger.log(Level.SEVERE, "Trying to get instances of Image of cards with a not implemented TypeOfAction in getImageCards");
+            else {
+                logger.log(Level.SEVERE, "Trying to get instances of Image of cards with a not implemented TypeOfAction in getImageCards");
 
-            //The new instance is for safety reasons
-            imageViewList = new ArrayList<>();
-        }
-
-        for (ImageView imageView : imageViewList){
-            if (imageView.isVisible()){
-                result.add(imageView.getImage());
+                //The new instance is for safety reasons
+                imageViewList = new ArrayList<>();
             }
-        }
-        runMutex.release();
 
-        return result;
+            for (ImageView imageView : imageViewList){
+                if (imageView.isVisible()){
+                    result.add(imageView.getImage());
+                }
+            }
+
+            runMutex.release();
+
+            return result;
+        }
+        catch (InterruptedException e){
+            Thread.currentThread().interrupt();
+            logger.log(Level.SEVERE, e.getMessage());
+            List<Image> imageList = new ArrayList<>();
+            return imageList;
+        }
     }
 
     public void setSelectedWeapon(ImageView imageView){
@@ -1776,44 +1784,46 @@ public class BoardController {
     public void showSelectablePlayers(List<Character> characters, TypeOfAction typeOfAction, boolean noOption){
         try {
             runMutex.acquire();
+
+            currentTypeOfAction = typeOfAction;
+            disablePositions();
+
+            for (Character character : characters){
+                switch (character){
+                    case BANSHEE:
+                        ablePositionSelection(bansheePositions);
+                        break;
+                    case DISTRUCTOR:
+                        ablePositionSelection(distructorPositions);
+                        break;
+                    case DOZER:
+                        ablePositionSelection(dozerPositions);
+                        break;
+                    case SPROG:
+                        ablePositionSelection(sprogPositions);
+                        break;
+                    case VIOLET:
+                        ablePositionSelection(violetPositions);
+                        break;
+                    default:
+                        break;
+                }
+                runMutex.release();
+
+            }
+
+            selectAPlayerGroup.setVisible(true);
+
+            if (noOption){
+                cancelSelectAplayerButton.setVisible(true);
+            }
+
+            disableActions();
         }
         catch (InterruptedException e){
+            Thread.currentThread().interrupt();
             logger.log(Level.SEVERE, e.getMessage());
         }
-        currentTypeOfAction = typeOfAction;
-        disablePositions();
-
-        for (Character character : characters){
-            switch (character){
-                case BANSHEE:
-                    ablePositionSelection(bansheePositions);
-                    break;
-                case DISTRUCTOR:
-                    ablePositionSelection(distructorPositions);
-                    break;
-                case DOZER:
-                    ablePositionSelection(dozerPositions);
-                    break;
-                case SPROG:
-                    ablePositionSelection(sprogPositions);
-                    break;
-                case VIOLET:
-                    ablePositionSelection(violetPositions);
-                    break;
-                default:
-                    break;
-            }
-            runMutex.release();
-
-        }
-
-        selectAPlayerGroup.setVisible(true);
-
-        if (noOption){
-            cancelSelectAplayerButton.setVisible(true);
-        }
-
-        disableActions();
     }
 
     public void ablePositionSelection(List<Circle> positions){
