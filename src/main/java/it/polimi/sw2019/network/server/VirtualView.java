@@ -239,13 +239,13 @@ public class VirtualView extends Observable implements Observer {
             }
         }
 
-        if(tooManyDisconnected()) {
+        if(tooManyDisconnected(3)) {
 
             sendEndMatchMessage();
         }
     }
 
-    private boolean tooManyDisconnected() {
+    private boolean tooManyDisconnected(int quantity) {
 
         int counter = 0;
 
@@ -259,7 +259,7 @@ public class VirtualView extends Observable implements Observer {
             }
         }
 
-        return (getNumOfWaitingPlayers() - counter < 3);
+        return (getNumOfWaitingPlayers() - counter < quantity);
     }
 
     /**
@@ -357,7 +357,10 @@ public class VirtualView extends Observable implements Observer {
      */
     public void sendEndTurnMessage(){
 
-        if (tooManyDisconnected()){
+        if (tooManyDisconnected(3) && getNumOfWaitingPlayers() > 3){
+            sendEndMatchMessage();
+        }
+        else if (tooManyDisconnected(2)){
             sendEndMatchMessage();
         }
         else {

@@ -372,7 +372,7 @@ public class CLI implements ViewInterface {
      * @return number read
      */
     public int readNumbers(int min, int max){
-
+        
         int number;
         do {
             out.println("enter the number corresponding your choice:\n");
@@ -1764,7 +1764,7 @@ public class CLI implements ViewInterface {
 
         int firstPlayers = 0;
 
-        for (Character character: characters){
+        for (Character character: leaderBoard.getLeaderBoard().keySet()){
 
             if (leaderBoard.getLeaderBoard().get(character) == 1){
 

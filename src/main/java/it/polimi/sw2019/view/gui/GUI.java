@@ -784,17 +784,21 @@ public class GUI extends Application implements ViewInterface {
 
         displayLoginWindow();
 
-        try {
 
-            Media sound = new Media(getClass().getResource("/Music/adrenalinaMusic.mp3").toExternalForm());
-            MediaPlayer mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            mediaPlayer.play();
-        }
-        catch (Exception e){
-            logger.log(Level.WARNING, "exception in music line 759 GUI " + e.getMessage());
-        }
+        Platform.runLater(() -> {
 
+        try{
+                Media sound = new Media(getClass().getResource("/Music/adrenalinaMusic.mp3").toExternalForm());
+                MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+                mediaPlayer.play();
+
+            }
+        catch(Exception e){
+                logger.log(Level.WARNING, "exception in music line 759 GUI " + e.getMessage());
+            }
+
+        });
     }
 
     /**
