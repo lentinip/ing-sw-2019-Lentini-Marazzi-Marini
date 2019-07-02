@@ -141,6 +141,8 @@ public class GUI extends Application implements ViewInterface {
 
     public void displayAvailableCards(AvailableCards cards, TypeOfAction typeOfAction){
         Platform.runLater(()->{
+            boardController.disableAvailableCells();
+
             List<Image> cardsImages = boardController.getImageCards(typeOfAction);
 
             if (typeOfAction == TypeOfAction.SHOOT){
@@ -153,6 +155,8 @@ public class GUI extends Application implements ViewInterface {
 
     public void displayAvailableCardsWithNoOption(AvailableCards cards, TypeOfAction typeOfAction){
         Platform.runLater(()->{
+            boardController.disableAvailableCells();
+
             List<Image> cardsImages = boardController.getImageCards(typeOfAction);
 
             showCardSelection(cards, typeOfAction, cardsImages, true);
