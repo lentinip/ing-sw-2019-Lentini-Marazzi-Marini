@@ -458,6 +458,10 @@ public class Choices {
                     //showing only the cells that the shooter can see and where the target can be moved in
                     List<BoardCoord> availableCells = new ArrayList<>();
                     List<Cell> options = selectedPlayer.getPosition().reachableCells(move.getMoveTargets());
+                    if (selectedWeapon.getType() == WeaponsType.OPTIONAL_EFFECTS){
+                        options.remove(match.getCurrentPlayer().getPosition());
+                    }
+
                     List<Cell> visibleCells = match.getCurrentPlayer().visibleCells();
 
                     for (Cell cell: options){

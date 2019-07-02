@@ -46,7 +46,7 @@ public class KillTokens extends Tokens{
     }
 
     /**
-     *
+     * adding a killer on the kill track
      * @param killer Player who killed someone
      */
     public void addKill(Character killer) {

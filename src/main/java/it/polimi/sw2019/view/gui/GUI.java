@@ -784,7 +784,6 @@ public class GUI extends Application implements ViewInterface {
 
         displayLoginWindow();
 
-
         Platform.runLater(() -> {
 
         try{

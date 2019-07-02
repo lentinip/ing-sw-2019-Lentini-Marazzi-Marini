@@ -193,7 +193,9 @@ public class Server {
 
         try {
 
-            virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).getClientInterface().notify(message);
+            if (virtualViewMap.get(message.getUsername()) != null) {
+                virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).getClientInterface().notify(message);
+            }
         } catch (RemoteException e) {
 
             virtualViewMap.get(message.getUsername()).addDisconnectedPlayer(message.getUsername());
@@ -290,7 +292,7 @@ public class Server {
             reconnectPlayer(message.getUsername(), socketServer.getSocketServerClientHandler());
         }
 
-        else if(virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).getConnected()) {
+        else if( virtualViewMap.get(message.getUsername()) != null && virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).getConnected()) {
 
             System.out.print("\n The message as been sent by an authorized player");
 

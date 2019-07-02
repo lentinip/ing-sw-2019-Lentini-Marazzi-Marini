@@ -84,6 +84,9 @@ public class TurnManager {
         //stopping the timer because the player ended his turn
         view.getTurn().cancel();
 
+        singleActionManager.getChoices().resetEverything();
+        singleActionManager.getPayment().reset();
+
         //Refills the CommonCells
         if(!emptyCommonCells.isEmpty()){
             refillCommonCell();

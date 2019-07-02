@@ -233,12 +233,12 @@ public class Client {
                 //view.displayExitMessage();
                 break;
             default:
-                System.console().printf("TYPE OF MESSAGE UNKNOWN");
+                LOGGER.log(Level.WARNING,"TYPE OF MESSAGE UNKNOWN");
                 break;
 
         }
 
-        if (message.getTypeOfMessage() != TypeOfMessage.MATCH_STATE || message.getTypeOfMessage() != TypeOfMessage.PRIVATE_HAND) {
+        if (message.getTypeOfMessage() != TypeOfMessage.MATCH_STATE && message.getTypeOfMessage() != TypeOfMessage.PRIVATE_HAND && message.getTypeOfMessage() != TypeOfMessage.ACTION_REPORT && message.getTypeOfMessage() != TypeOfMessage.DISCONNECTED && message.getTypeOfMessage() != null) {
             lastMessage = message;
         }
 

@@ -372,7 +372,7 @@ public class CLI implements ViewInterface {
      * @return number read
      */
     public int readNumbers(int min, int max){
-        
+
         int number;
         do {
             out.println("enter the number corresponding your choice:\n");
@@ -471,6 +471,7 @@ public class CLI implements ViewInterface {
      */
     public void displayReconnectionWindow(){
 
+
         out.println("DRIIIIIIN DRIIIIIN\n");
         out.println("       .-.-.\n" +
                 "  ((  (__I__)  ))\n" +
@@ -483,8 +484,8 @@ public class CLI implements ViewInterface {
                 "     /'-- --'\\\n" +
                 "    `\"\"\"\"\"\"\"\"\"`");
         out.println("YOUR TIME IS UP MY FRIEND!\n");
-        out.println("\nOoops it looks like you have been disconnected from the game!!!  (˘_˘٥) \n" +
-                "PRESS ENTER TO RECONNECT:\n");
+        out.println("\nOoops it looks like you have been disconnected from the game!!!  (˘_˘٥) \n");
+               // "PRESS ENTER TO RECONNECT:\n");
         in.nextLine();
         out.println("\nWe are trying to reconnect you to the game... ¯\\_( ͡° ͜ʖ ͡°)_/¯\n");
         Message reconnectionMes = new Message(username);
