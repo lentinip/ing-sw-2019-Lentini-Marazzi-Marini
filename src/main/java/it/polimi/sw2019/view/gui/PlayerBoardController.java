@@ -527,15 +527,15 @@ public class PlayerBoardController {
     }
 
     public void updateSequence(List<ImageView> sequence, List<Character> characters){
-        for (int i = 0; i<characters.size(); i++){
-            ImageView token = sequence.get(i);
-            changeTokenColor(token, characters.get(i));
-            token.setVisible(true);
-        }
 
-        if (characters.isEmpty()){
-            for(ImageView token : sequence){
-                token.setVisible(false);
+        for (int i = 0; i<sequence.size(); i++){
+            ImageView token = sequence.get(i);
+            if (i<characters.size()){
+                changeTokenColor(token, characters.get(i));
+                token.setVisible(true);
+            }
+            else{
+                token.setVisible(true);
             }
         }
     }

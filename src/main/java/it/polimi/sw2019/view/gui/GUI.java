@@ -571,6 +571,8 @@ public class GUI extends Application implements ViewInterface {
                 logger.log(Level.SEVERE, e.getLocalizedMessage());
             }
 
+            startMusic();
+
             primaryStage.show();
         });
     }
@@ -783,21 +785,7 @@ public class GUI extends Application implements ViewInterface {
         }
 
         displayLoginWindow();
-
-        Platform.runLater(() -> {
-
-        try{
-                Media sound = new Media(getClass().getResource("/Music/adrenalinaMusic.mp3").toExternalForm());
-                MediaPlayer mediaPlayer = new MediaPlayer(sound);
-                mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-                mediaPlayer.play();
-
-            }
-        catch(Exception e){
-                logger.log(Level.WARNING, "exception in music line 759 GUI " + e.getMessage());
-            }
-
-        });
+        startMusic();
     }
 
     /**
@@ -871,6 +859,23 @@ public class GUI extends Application implements ViewInterface {
 
         actionReportController = fxmlLoader.getController();
         boardController.setActionReportsStage(stage);
+    }
+
+    public void startMusic(){
+        Platform.runLater(() -> {
+
+            try{
+                Media sound = new Media(getClass().getResource("/Music/adrenalinaMusic.mp3").toExternalForm());
+                MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+                mediaPlayer.play();
+
+            }
+            catch(Exception e){
+                logger.log(Level.WARNING, "exception in music line 759 GUI " + e.getMessage());
+            }
+
+        });
     }
 
 }
