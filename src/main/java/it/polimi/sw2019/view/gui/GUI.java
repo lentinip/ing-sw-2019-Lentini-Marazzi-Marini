@@ -867,7 +867,10 @@ public class GUI extends Application implements ViewInterface {
 
     }
 
-
+    /**
+     * Loads the InstructionManualScreen and sets the stage in the BoardController attribute instructionManualStage
+     * @throws IOException thrown if there are problems with the FXMLLoader
+     */
     public void configureInstructionManualScreen() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/InstructionManualWindow.fxml"));
@@ -887,6 +890,10 @@ public class GUI extends Application implements ViewInterface {
         boardController.setInstructionManualStage(stage);
     }
 
+    /**
+     * Loads the WeaponsManualScreen and sets the stage in the BoardController and GUI attribute WeaponsManualStage
+     * @throws IOException thrown if there are problems with the FXMLLoader
+     */
     public void configureWeaponsManualScreen() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/WeaponsManualWindow.fxml"));
@@ -909,6 +916,10 @@ public class GUI extends Application implements ViewInterface {
         weaponsManualStage = stage;
     }
 
+    /**
+     * Loads the ActionReportScreen and sets the stage in the BoardController attribute ActionReportsStage
+     * @throws IOException thrown if there are problems with the FXMLLoader
+     */
     public void createActionReportScreen() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/ActionReportScreen.fxml"));
@@ -940,12 +951,14 @@ public class GUI extends Application implements ViewInterface {
 
             }
             catch(Exception e){
-                logger.log(Level.WARNING, "exception in music line 759 GUI " + e.getMessage());
+                logger.log(Level.WARNING, "exception in music line 932 GUI " + e.getMessage());
             }
 
         });
     }
 
-    public void displayConnectionErrorClient(Message messageToResend){}
+    public void displayConnectionErrorClient(Message messageToResend){
+
+    }
 
 }

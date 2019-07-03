@@ -309,25 +309,26 @@ public class Player extends Observable {
     public List<Weapon> availableWeapons(){
 
         List<Weapon> availableWeapons = new ArrayList<>();
-        List<Weapon> weapons;
+        List<Weapon> weaponList;
 
         if (state == State.FRENZYAFTERFIRST || state == State.FRENZYBEFOREFIRST){
-            weapons = new ArrayList<>(this.weapons);
-            for (Weapon weapon : weapons){
+            weaponList = new ArrayList<>(this.weapons);
+            List<Weapon> weaponCopy = new ArrayList<>(weaponList);
+            for (Weapon weapon : weaponCopy){
                 if (!weapon.getIsLoaded() && !canIPay(weapon.getReloadCost())){
-                    weapons.remove(weapon);
+                    weaponList.remove(weapon);
                 }
             }
         }
         else {
-            weapons = loadedWeapons();
+            weaponList = loadedWeapons();
         }
 
-        for (int i = 0; i < weapons.size(); i++ ) {
+        for (int i = 0; i < weaponList.size(); i++ ) {
 
-            if (weapons.get(i).usableWeapon(position.getRoom().getPlayers())) {
+            if (weaponList.get(i).usableWeapon(position.getRoom().getPlayers())) {
 
-                availableWeapons.add(weapons.get(i));
+                availableWeapons.add(weaponList.get(i));
             }
         }
 
