@@ -99,19 +99,12 @@ public class LineClient extends Thread implements ServerInterface {
                 } else {
                     client.notify(message);
                 }
-            } catch (IOException e) {
+            } catch (IOException|ClassNotFoundException e) {
 
                 go = false;
                 LOGGER.log(Level.WARNING, "failure: error occurred during connection to server");
                 clientClass.getView().displayConnectionFailure();
             }
-            catch (ClassNotFoundException e) {
-
-                go = false;
-                LOGGER.log(Level.WARNING, "failure: error occurred during connection to server");
-                clientClass.getView().displayConnectionFailure();
-            }
-
         }
     }
 

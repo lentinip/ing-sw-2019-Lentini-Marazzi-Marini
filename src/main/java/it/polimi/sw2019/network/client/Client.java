@@ -355,7 +355,6 @@ public class Client {
         } catch (IOException e) {
 
             LOGGER.log(Level.WARNING, "failure: connection error");
-            view.displayConnectionFailure();
         }
     }
 

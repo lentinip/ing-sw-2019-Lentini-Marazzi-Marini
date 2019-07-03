@@ -168,7 +168,7 @@ public class Player extends Observable {
      * @return true if the player can pay the powerup
      */
     public boolean canIPayPowerup(){
-        if (powerups.size()>2){
+        if (powerups.size()>1){
             return true;
         }
         else {
