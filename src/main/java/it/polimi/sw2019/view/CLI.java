@@ -1853,7 +1853,7 @@ public class CLI implements ViewInterface {
     public void displayConnectionErrorClient(Message mesToResend){
 
         out.println("\nWE CAN'T REACH THE SERVER! CHECK YOUR CONNECTION PLEASE! :( \nPRESS SOMETHING TO TRY AGAIN:");
-        in.nextLine();
+        in.next();
         out.println("\n\n. . .\n\n. . .\n\n. . .\n\n");
         if (mesToResend.getTypeOfMessage() == TypeOfMessage.LOGIN_REPORT) {
             client.connect(mesToResend);
