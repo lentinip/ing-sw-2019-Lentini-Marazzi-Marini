@@ -22,6 +22,56 @@ public class TestPlayer {
     }
 
     @Test
+    public void getPowerupsAfterShootTest() {
+
+        List<Character> characters = new ArrayList<>();
+        characters.add(Character.VIOLET);
+        characters.add(Character.DISTRUCTOR);
+        characters.add(Character.BANSHEE);
+
+        Player player = new Player("Carlo", Character.DISTRUCTOR, characters);
+
+        Powerup powerup = new Powerup();
+        Powerup powerup1 = new Powerup();
+        powerup1.setDuringDamageAction(true);
+        powerup1.setDuringYourTurn(true);
+        Powerup powerup2 = new Powerup();
+        player.addPowerup(powerup);
+        player.addPowerup(powerup1);
+        player.addPowerup(powerup2);
+
+        List<Powerup> powerups = new ArrayList<>();
+        powerups.add(powerup1);
+
+        assertEquals(powerups, player.getPowerupsAfterShoot());
+    }
+
+    @Test
+    public void hasCounterAttackPowerupTest() {
+
+        List<Character> characters = new ArrayList<>();
+        characters.add(Character.VIOLET);
+        characters.add(Character.DISTRUCTOR);
+        characters.add(Character.BANSHEE);
+
+        Player player = new Player("Carlo", Character.DISTRUCTOR, characters);
+
+        Powerup powerup = new Powerup();
+        Powerup powerup1 = new Powerup();
+        powerup1.setDuringDamageAction(true);
+        powerup1.setDuringYourTurn(false);
+        Powerup powerup2 = new Powerup();
+        player.addPowerup(powerup);
+        player.addPowerup(powerup1);
+        player.addPowerup(powerup2);
+
+        List<Powerup> powerups = new ArrayList<>();
+        powerups.add(powerup1);
+
+        assertEquals(true, player.hasCounterAttackPowerups());
+    }
+
+    @Test
     public void addWeaponTest() {
 
         Player player = new Player();
@@ -63,6 +113,79 @@ public class TestPlayer {
         player.useWeapon(player.getWeapons().get(0));
 
         assertFalse(player.getWeapons().get(0).getIsLoaded());
+    }
+
+    @Test
+    public void canIPayPowerupTest() {
+
+        List<Character> characters = new ArrayList<>();
+        characters.add(Character.VIOLET);
+        characters.add(Character.DISTRUCTOR);
+        characters.add(Character.BANSHEE);
+
+        Player player = new Player("Carlo", Character.DISTRUCTOR, characters);
+        PlayerBoard playerBoard = new PlayerBoard();
+        Ammo ammo = new Ammo(3, 3, 3);
+        playerBoard.setAmmo(ammo);
+
+        Powerup powerup = new Powerup();
+        Powerup powerup1 = new Powerup();
+        powerup1.setDuringDamageAction(true);
+        powerup1.setDuringYourTurn(true);
+        Powerup powerup2 = new Powerup();
+        player.addPowerup(powerup);
+        player.addPowerup(powerup1);
+
+        assertTrue(player.canIPayPowerup());
+
+        player.addPowerup(powerup2);
+
+        assertTrue(player.canIPayPowerup());
+    }
+
+    @Test
+    public void discardWeaponTest() {
+
+        Player player = new Player();
+
+        Weapon weapon = new Weapon();
+        Weapon weapon1 = new Weapon();
+        Weapon weapon2 = new Weapon();
+
+        player.addWeapon(weapon);
+        player.addWeapon(weapon1);
+        player.addWeapon(weapon2);
+
+        List<Weapon> weapons = new ArrayList<>();
+        weapons.add(weapon);
+        weapons.add(weapon2);
+
+        player.discardWeapon(1);
+
+        assertTrue(weapons.containsAll(player.getWeapons()));
+    }
+
+    @Test
+    public void discardPowerupTest() {
+
+        Player player = new Player();
+
+        player.discardPowerup(1);
+
+        Powerup powerup = new Powerup();
+        player.addPowerup(powerup);
+        Powerup powerup1 = new Powerup();
+        player.addPowerup(powerup1);
+        Powerup powerup2 = new Powerup();
+        player.addPowerup(powerup2);
+
+        List<Powerup> powerups = new ArrayList<>();
+        powerups.add(powerup);
+        powerups.add(powerup2);
+
+        player.discardPowerup(1);
+
+        assertTrue(powerups.containsAll(player.getPowerups()));
     }
 
     @Test

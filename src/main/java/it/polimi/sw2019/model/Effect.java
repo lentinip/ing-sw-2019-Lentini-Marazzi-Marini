@@ -284,20 +284,20 @@ public class Effect {
         return false;
     }
 
-    /*
+/*
     /**
      * if the player has chosen to do a shoot action this method method is called when the player wants to do a move before the shooting using the effect
      * @param owner of the weapon
      * @return only the cells where he can move in order to be able to shoot someone
      */
-
+/*
     public List<Cell> allowedCells(Player owner) {
 
         List<Cell> allowedCells = new ArrayList<>();
 
         Cell startingPosition = owner.getPosition(); /* saving my starting position */
 
-        for (Cell reachableCell : startingPosition.reachableCells(move.getMoveYou())) {
+        /*for (Cell reachableCell : startingPosition.reachableCells(move.getMoveYou())) {
 
             owner.setPosition(reachableCell);
 
@@ -310,5 +310,5 @@ public class Effect {
         owner.setPosition(startingPosition);
 
         return allowedCells;
-    }
+    }*/
 }

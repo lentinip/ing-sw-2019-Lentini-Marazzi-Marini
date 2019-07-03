@@ -1317,6 +1317,16 @@ public class TestVisibility {
         playerList.add(player4);
 
         assertEquals(playerList, visibility.railgunUpdate(player3, player1));
+
+        player3.setPosition(cell5);
+
+        assertEquals(playerList, visibility.railgunUpdate(player3, player1));
+
+        player3.setPosition(cell6);
+
+        List<Player> playerList1 = new ArrayList<>();
+
+        assertEquals(playerList1, visibility.railgunUpdate(player1, player3));
     }
 
     @Test
@@ -1490,6 +1500,12 @@ public class TestVisibility {
         Visibility visibility = new Visibility(board);
 
         assertEquals(cell8, visibility.cellInSameDirection(cell6, cell7));
+
+        assertEquals(cell6, visibility.cellInSameDirection(cell8, cell7));
+
+        assertEquals(cell4, visibility.cellInSameDirection(cell6, cell5));
+
+        assertEquals(cell6, visibility.cellInSameDirection(cell4, cell5));
     }
 
 }

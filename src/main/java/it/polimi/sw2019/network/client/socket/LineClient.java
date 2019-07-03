@@ -79,7 +79,7 @@ public class LineClient extends Thread implements ServerInterface {
             ObjectOut.flush();
         } catch (IOException e) {
 
-            LOGGER.log(Level.WARNING, "failure: message can't be doSomething");
+            LOGGER.log(Level.WARNING, "failure: message can't be sent");
         }
 
     }

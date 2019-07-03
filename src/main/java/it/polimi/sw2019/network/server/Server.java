@@ -111,7 +111,7 @@ public class Server {
      */
     public void addPlayer(String username, ClientInterface clientInterface) {
 
-        verifyConnected(username);
+        //verifyConnected(username);
         verifyOnline(new Message("All"), currentWaitingRoom);
 
         System.out.print("\n");
@@ -194,6 +194,7 @@ public class Server {
         try {
 
             if (virtualViewMap.get(message.getUsername()) != null) {
+                System.out.print("\n" + virtualViewMap.get(message.getUsername()).getWaitingPlayers());
                 virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).getClientInterface().notify(message);
             }
         } catch (RemoteException e) {
@@ -372,6 +373,7 @@ public class Server {
             MatchStart matchStartClass = new MatchStart(virtualViewMap.get(username).getMatchSetupMessage(), virtualViewMap.get(username).getUsernames(), charactersInGame, VirtualView.getTurnTimer());
             matchStartClass.setTimeLeft(virtualViewMap.get(username).getTimeLeft());
             matchStart.createMessageMatchStart(matchStartClass);
+            matchStart.setUsername(username);
             sendMessage(matchStart);
 
             Message updateMatchState = new Message(username);
@@ -428,7 +430,7 @@ public class Server {
         rmiServer.startServer(rmiPort);
     }
 
-    public void verifyConnected(String user) {
+    /*public void verifyConnected(String user) {
 
 
         if (!currentWaitingRoom.getWaitingPlayers().containsKey(user) && virtualViewMap.keySet().contains(user) && virtualViewMap.get(user).getWaitingPlayers().get(user).getConnected()) {
@@ -445,5 +447,5 @@ public class Server {
             }
         }
 
-    }
+    }*/
 }

@@ -3,6 +3,7 @@ package it.polimi.sw2019;
 import it.polimi.sw2019.model.Cell;
 import it.polimi.sw2019.model.Room;
 import it.polimi.sw2019.model.Player;
+import it.polimi.sw2019.network.messages.BoardCoord;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -246,6 +247,16 @@ public class TestCell {
         resultCells.add(cell2);
 
         assertEquals(resultCells, cell.reachableCells(2));
+    }
 
+    @Test
+    public void getCoordTest() {
+
+        Cell cell = new Cell();
+        cell.setRow(0);
+        cell.setColumn(1);
+
+        assertEquals(0, cell.getCoord().getRow());
+        assertEquals(1, cell.getCoord().getColumn());
     }
 }

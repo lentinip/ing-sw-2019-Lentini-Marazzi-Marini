@@ -2,12 +2,14 @@ package it.polimi.sw2019;
 
 import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.model.KillTokens;
+import it.polimi.sw2019.model.Score;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TestKillTokens {
 
@@ -93,5 +95,33 @@ public class TestKillTokens {
         resultCharacters.remove(Character.SPROG);
 
         assertEquals(resultCharacters, killTokens.getRanking());
+    }
+
+    @Test
+    public void updateScoreTest() {
+
+        List<Character> characters = new ArrayList<>();
+        characters.add(Character.DISTRUCTOR);
+        characters.add(Character.VIOLET);
+        characters.add(Character.SPROG);
+
+        KillTokens killTokens = new KillTokens(characters);
+
+        Score score = new Score(characters, killTokens);
+        killTokens.updateScore(score);
+
+        killTokens.addKill(Character.DISTRUCTOR);
+        killTokens.addKill(Character.DISTRUCTOR);
+        killTokens.addKill(Character.SPROG);
+
+        killTokens.updateScore(score);
+
+        int i = score.getMap().get(Character.DISTRUCTOR);
+
+        assertEquals(8, i);
+
+        int k = score.getMap().get(Character.SPROG);
+
+        assertEquals(6, k);
     }
 }

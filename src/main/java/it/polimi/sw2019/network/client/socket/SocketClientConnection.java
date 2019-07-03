@@ -82,6 +82,4 @@ public class SocketClientConnection implements ClientInterface, ClientActions {
         doSomething(loginMessage);
     }
 
-
-
 }
