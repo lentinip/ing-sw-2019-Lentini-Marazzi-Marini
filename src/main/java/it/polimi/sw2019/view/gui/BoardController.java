@@ -1503,13 +1503,15 @@ public class BoardController {
     public void updateIsFrenzy(Character currentCharacter){
         frenzyStarted=true;
 
-        boolean beforeFirst = true;
+        boolean beforeFirst = false;
         List<Character> characters = configurationMessage.getCharacters();
 
         for (int i=0; i<characters.size(); i++){
             if (characters.get(i).equals(currentCharacter)){
-                beforeFirst=false;
                 allPlayerBoards.get(i).setFrenzyMode(false);
+
+                //The before first is true before because the current player changes after the arrive of the first match state
+                beforeFirst=true;
             }
             else {
                 allPlayerBoards.get(i).setFrenzyMode(beforeFirst);
