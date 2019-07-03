@@ -71,16 +71,11 @@ public class LineClient extends Thread implements ServerInterface {
      * @param message to doSomething
      */
     @Override
-    public void send(Message message) {
+    public void send(Message message) throws IOException,NullPointerException {
 
-        try{
             ObjectOut.reset();
             ObjectOut.writeObject(message);
             ObjectOut.flush();
-        } catch (IOException e) {
-
-            LOGGER.log(Level.WARNING, "failure: message can't be doSomething");
-        }
 
     }
 
@@ -91,7 +86,7 @@ public class LineClient extends Thread implements ServerInterface {
     public void run() {
 
         boolean go = true;
-        while (go && !socketClient.isClosed() && connected) {
+        while (socketClient != null && go && !socketClient.isClosed() && connected) {
 
             try{
                 Message message = (Message) ObjectIn.readObject();

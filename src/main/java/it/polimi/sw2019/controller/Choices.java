@@ -652,7 +652,7 @@ public class Choices {
             }
 
             Message answer = new Message(message.getUsername());
-            answer.createAvailableEffects(effectIndex, names);
+            answer.createAvailableEffects(effectIndex, names, selectedWeapon.getName());
             view.display(answer);
         }
     }

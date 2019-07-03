@@ -370,7 +370,7 @@ public class SingleActionManager {
 
             for (Effect effect: effectList){
 
-                if (effect.getTargets().isDifferentPlayers()){
+                if (effect.getTargets().isDifferentPlayers() && choices.getCurrentEffect().getType() != EffectsKind.MOVE){
 
                     List<Player> targets = new ArrayList<>(match.getCurrentPlayer().getPosition().playersInCell());
                     targets.remove(match.getCurrentPlayer());
@@ -407,7 +407,7 @@ public class SingleActionManager {
             }
 
             Message options = new Message(match.getCurrentPlayer().getName());
-            options.createAvailableEffects(effects, names);
+            options.createAvailableEffects(effects, names, choices.getSelectedWeapon().getName());
             view.display(options);
         }
     }

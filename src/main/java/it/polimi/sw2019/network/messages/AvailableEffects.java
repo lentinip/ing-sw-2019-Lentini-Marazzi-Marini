@@ -9,16 +9,18 @@ public class AvailableEffects {
      */
     public AvailableEffects(){}
 
-    public AvailableEffects(List<IndexMessage> indexMessageList, List<String> names){
+    public AvailableEffects(List<IndexMessage> indexMessageList, List<String> names, String weaponName){
 
         setIndexes(indexMessageList);
         setNames(names);
+        setName(weaponName);
     }
 
     /* Attributes */
 
     private List<IndexMessage> indexes;
     private List<String> names;
+    private String name;
 
     /* Methods */
 
@@ -36,6 +38,14 @@ public class AvailableEffects {
 
     public void setIndexes(List<IndexMessage> indexes) {
         this.indexes = indexes;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }
 

@@ -376,11 +376,11 @@ public class Message implements Serializable {
         setJsonFile(serializePlayers(playersMessage));
     }
 
-    public void createAvailableEffects(List<IndexMessage> availableEffects, List<String> names){
+    public void createAvailableEffects(List<IndexMessage> availableEffects, List<String> names, String weaponName){
 
         setTypeOfMessage(TypeOfMessage.AVAILABLE_EFFECTS);
         setTypeOfAction(TypeOfAction.SHOOT);
-        AvailableEffects effects = new AvailableEffects(availableEffects, names);
+        AvailableEffects effects = new AvailableEffects(availableEffects, names, weaponName);
         setJsonFile(serializeAvailableEffects(effects));
     }
 
