@@ -30,6 +30,8 @@ public class Client {
 
     private Message lastMessage;  // here I save the last message received
 
+    private Message lastMessageForReconnection;
+
     private String ipAddress;
 
     private String username;
@@ -82,6 +84,9 @@ public class Client {
         this.rmi = rmi;
     }
 
+    public Message getLastMessageForReconnection() {
+        return lastMessageForReconnection;
+    }
 
     public static void main(String[] args){
 
@@ -342,8 +347,7 @@ public class Client {
         System.out.print("\nTypeOfAction: ");
         System.out.print(messageToSend.getTypeOfAction());
         System.out.print("\n");
-
-
+        lastMessageForReconnection = messageToSend;
 
 
         try {
@@ -351,7 +355,7 @@ public class Client {
         } catch (IOException e) {
 
             LOGGER.log(Level.WARNING, "failure: connection error");
-            view.displayConnectionErrorClient(messageToSend);
+            view.displayConnectionFailure();
         }
     }
 

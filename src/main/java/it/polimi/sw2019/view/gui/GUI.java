@@ -961,4 +961,6 @@ public class GUI extends Application implements ViewInterface {
 
     }
 
+    public void displayConnectionFailure(){}
+
 }
