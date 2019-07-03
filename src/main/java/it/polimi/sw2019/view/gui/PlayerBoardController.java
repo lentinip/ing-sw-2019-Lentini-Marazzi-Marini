@@ -626,11 +626,14 @@ public class PlayerBoardController {
             reloadAvailable.setVisible(true);
         }
         else {
-            shootBeforeFirstAvailable.setVisible(beforeFirst);
             moveBeforeFirstAvailable.setVisible(beforeFirst);
             grabBeforeFirstAvailable.setVisible(beforeFirst);
-            shootAfterFirstAvailable.setVisible(!beforeFirst);
             grabAfterFirstAvailable.setVisible(!beforeFirst);
+
+            if(canIShoot){
+                shootBeforeFirstAvailable.setVisible(beforeFirst);
+                shootAfterFirstAvailable.setVisible(!beforeFirst);
+            }
         }
     }
 
