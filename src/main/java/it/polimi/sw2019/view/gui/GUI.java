@@ -169,17 +169,11 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void displayAvailableEffects(AvailableEffects availableEffects){
-        Image card = boardController.getSelectedWeaponImage();
-        int type = boardController.getSelectedWeaponType();
-
-        showEffectSelection(availableEffects, card, type, false);
+        showEffectSelection(availableEffects, false);
     }
 
     public void displayAvailableEffectsWithNoOption(AvailableEffects availableEffects){
-        Image card = boardController.getSelectedWeaponImage();
-        int type = boardController.getSelectedWeaponType();
-
-        showEffectSelection(availableEffects, card, type, true);
+        showEffectSelection(availableEffects, true);
     }
 
     public void displayAvailablePlayers(List<Character> players, TypeOfAction typeOfAction){
@@ -368,11 +362,9 @@ public class GUI extends Application implements ViewInterface {
     /**
      * Loads the screen for the effect selection
      * @param availableEffects availableEffects message with the index of the usable effects
-     * @param card Image of the card to show
-     * @param type type of the weapon (determines how the effects are gonna be selected)
      * @param noOption true if the player can click close on the window
      */
-    public void showEffectSelection(AvailableEffects availableEffects, Image card, int type, boolean noOption){
+    public void showEffectSelection(AvailableEffects availableEffects, boolean noOption){
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/SelectEffectScreen.fxml"));
 
@@ -385,7 +377,7 @@ public class GUI extends Application implements ViewInterface {
 
                 //Configures the controller
                 SelectEffectController selectEffectController = fxmlLoader.getController();
-                selectEffectController.configure(client, availableEffects, card, type, noOption);
+                selectEffectController.configure(client, availableEffects, noOption);
 
                 //Creates a new window
                 Stage newWindow = new Stage();
@@ -705,11 +697,19 @@ public class GUI extends Application implements ViewInterface {
         });
     }
 
+    /**
+     * Creates an Info alert if another player leaves the game
+     * @param username of the player that left the game
+     */
     public void alertPlayerLeft(String username){
         String whatToShow = String.format("%s left the game.", username);
         createAlertInfo(whatToShow);
     }
 
+    /**
+     * Creates a Warning alert
+     * @param whatToShow String to show in the Content section of the alert
+     */
     public void createAlertWarning(String whatToShow){
         Platform.runLater(() ->{
             Alert a = new Alert(Alert.AlertType.WARNING);
@@ -718,6 +718,10 @@ public class GUI extends Application implements ViewInterface {
         });
     }
 
+    /**
+     * Creates an Info alert
+     * @param whatToShow String to show in the Content section of the alert
+     */
     public void createAlertInfo(String whatToShow){
         Platform.runLater(() -> {
             Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -726,6 +730,11 @@ public class GUI extends Application implements ViewInterface {
         });
     }
 
+    /**
+     * Creates an Info alert
+     * @param header String to show in the Header section of the alert
+     * @param whatToShow String to show in the Content section of the alert
+     */
     public void createAlertInfo(String header, String whatToShow){
         Platform.runLater(() ->{
             Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -735,6 +744,9 @@ public class GUI extends Application implements ViewInterface {
         });
     }
 
+    /**
+     * Loads the ReconnectScreen
+     */
     public void createReconnect(){
 
         Platform.runLater(() -> {
@@ -821,10 +833,19 @@ public class GUI extends Application implements ViewInterface {
         });
     }
 
+    /**
+     * Resets some attributes of the class for safety in case of a new game
+     */
     public void resetClass(){
         matchStart = null;
         boardController = null;
         startScreenController = null;
+        actionReportController = null;
+        weaponsManualStage = null;
+        selectCardControllerStage = null;
+        paymentStage = null;
+        selectEffectStage = null;
+        reconnectStage = null;
     }
 
     public Stage getPrimaryStage(){
@@ -958,9 +979,18 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void displayConnectionErrorClient(Message messageToResend){
-
+        Platform.runLater(()->{
+            createAlertWarning("The program can't reach the server. Please check your connection.");
+            startScreenController.hidePleaseWait();
+        });
     }
 
-    public void displayConnectionFailure(){}
+    public void displayConnectionFailure(){
+        Platform.runLater(()->{
+            primaryStage.close();
+            displayLoginWindow();
+            createAlertWarning("Connection failure: Please login again. \nYour username was: " + client.getUsername());
+        });
+    }
 
 }

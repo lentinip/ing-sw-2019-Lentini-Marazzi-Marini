@@ -564,8 +564,6 @@ public class BoardController {
 
     private List<ImageView> myWeapons = new ArrayList<>();
 
-    private ImageView selectedWeapon;
-
     @FXML
     private ImageView myPowerupCard0;
 
@@ -1269,10 +1267,6 @@ public class BoardController {
                     //Sets the image
                     myWeapon.setImage(newImage);
 
-                    //Sets the type of the weapon in the weapon ImageView
-                    Integer type = cardController.getWeaponType(newWeaponName);
-                    myWeapon.setUserData(type);
-
                     //Checks if the weapon is visible
                     boolean isVisible = privateHand.getWeaponsLoaded().contains(newWeaponName);
 
@@ -1767,18 +1761,6 @@ public class BoardController {
             List<Image> imageList = new ArrayList<>();
             return imageList;
         }
-    }
-
-    public void setSelectedWeapon(ImageView imageView){
-        selectedWeapon = imageView;
-    }
-
-    public Image getSelectedWeaponImage(){
-        return selectedWeapon.getImage();
-    }
-
-    public Integer getSelectedWeaponType(){
-        return (Integer) selectedWeapon.getUserData();
     }
 
     public void showSelectablePlayers(List<Character> characters, TypeOfAction typeOfAction, boolean noOption){
