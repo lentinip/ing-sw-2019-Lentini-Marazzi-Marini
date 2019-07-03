@@ -884,4 +884,6 @@ public class GUI extends Application implements ViewInterface {
         });
     }
 
+    public void displayConnectionErrorClient(Message messageToResend){}
+
 }

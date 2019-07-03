@@ -407,7 +407,7 @@ public class SingleActionManager {
             }
 
             Message options = new Message(match.getCurrentPlayer().getName());
-            options.createAvailableEffects(effects, names);
+            options.createAvailableEffects(effects, names, choices.getSelectedWeapon().getName());
             view.display(options);
         }
     }

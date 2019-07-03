@@ -46,14 +46,9 @@ public class RmiClient implements ClientActions {
      * @param username nickname chose by the player
      */
     @Override
-    public void register(String username) {
+    public void register(String username) throws RemoteException{
 
-        try {
             serverInterface.register(username, clientInterface);
-        } catch (RemoteException e) {
-
-            LOGGER.log(Level.WARNING, "connection failure");
-        }
     }
 
     /**

@@ -244,7 +244,12 @@ public class VirtualView extends Observable implements Observer {
             }
         }
 
-        if(tooManyDisconnected(3)) {
+        if (counter == getNumOfWaitingPlayers()){
+
+            server.endMatch(this);
+        }
+
+        else if(tooManyDisconnected(3)) {
 
             sendEndMatchMessage();
         }

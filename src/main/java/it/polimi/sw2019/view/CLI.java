@@ -458,12 +458,7 @@ public class CLI implements ViewInterface {
 
         Message loginMes = new Message(username);
         loginMes.createLoginMessage(username, sameNumbers(typeOfConnection, 2));
-        try {
-            client.connect(loginMes);
-        }
-        catch (Exception e){
-            LOGGER.log(Level.SEVERE, "Error in connect");
-        }
+        client.connect(loginMes);
     }
 
     /**
@@ -498,7 +493,9 @@ public class CLI implements ViewInterface {
      */
     public void displayPlayerDisconnectedWindow(int indexOfTheDisconnected){
 
-        out.println("\n Oh no! " + usernames.get(indexOfTheDisconnected) + " just disconnected from the game... (✖╭╮✖)\n");
+        if ( !usernames.isEmpty() && usernames.size() > indexOfTheDisconnected) {
+            out.println("\n Oh no! " + usernames.get(indexOfTheDisconnected) + " just disconnected from the game... (✖╭╮✖)\n");
+        }
     }
 
     /**
@@ -1850,6 +1847,18 @@ public class CLI implements ViewInterface {
         }
 
         displayLoginWindow();
+    }
 
+    public void displayConnectionErrorClient(Message mesToResend){
+
+        out.println("\nWE CAN'T REACH THE SERVER! CHECK YOUR CONNECTION PLEASE! :( \nPRESS SOMETHING TO TRY AGAIN:");
+        in.nextLine();
+        out.println("\n\n. . .\n\n. . .\n\n. . .\n\n");
+        if (mesToResend.getTypeOfMessage() == TypeOfMessage.LOGIN_REPORT) {
+            client.connect(mesToResend);
+        }
+        else {
+            client.send(mesToResend);
+        }
     }
 }
