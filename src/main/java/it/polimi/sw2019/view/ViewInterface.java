@@ -143,4 +143,6 @@ public interface ViewInterface {
      */
     void displayConnectionErrorClient(Message messageToResend);
 
+    void displayConnectionFailure();
+
 }

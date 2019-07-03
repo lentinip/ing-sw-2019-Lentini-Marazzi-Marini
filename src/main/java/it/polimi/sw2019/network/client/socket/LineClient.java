@@ -1,6 +1,7 @@
 package it.polimi.sw2019.network.client.socket;
 
 
+import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.client.ClientInterface;
 import it.polimi.sw2019.network.messages.Message;
 import it.polimi.sw2019.network.server.socket.ServerInterface;
@@ -19,9 +20,10 @@ public class LineClient extends Thread implements ServerInterface {
     /**
      * Constructor
      */
-    public LineClient(int port, String host, ClientInterface clientInterface) {
+    public LineClient(int port, String host, ClientInterface clientInterface, Client client) {
         this.port = port;
         this.host = host;
+        clientClass = client;
 
         startLine(clientInterface);
     }
@@ -45,6 +47,8 @@ public class LineClient extends Thread implements ServerInterface {
     private Boolean connected;
 
     private static Logger LOGGER = Logger.getLogger("Socket connection");
+
+    private Client clientClass;
 
     /* Methods */
 
@@ -99,11 +103,13 @@ public class LineClient extends Thread implements ServerInterface {
 
                 go = false;
                 LOGGER.log(Level.WARNING, "failure: error occurred during connection to server");
+                clientClass.getView().displayConnectionFailure();
             }
             catch (ClassNotFoundException e) {
 
                 go = false;
                 LOGGER.log(Level.WARNING, "failure: error occurred during connection to server");
+                clientClass.getView().displayConnectionFailure();
             }
 
         }

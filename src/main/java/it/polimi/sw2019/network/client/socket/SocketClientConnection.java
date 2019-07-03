@@ -20,7 +20,7 @@ public class SocketClientConnection implements ClientInterface, ClientActions {
     public SocketClientConnection(Client client) {
 
         this.client = client;
-        LineClient lineClient = new LineClient(port, client.getIpAddress(), this);
+        LineClient lineClient = new LineClient(port, client.getIpAddress(), this, client);
         lineClient.start();
         this.serverInterface = lineClient;
         loginMessage = new Message();

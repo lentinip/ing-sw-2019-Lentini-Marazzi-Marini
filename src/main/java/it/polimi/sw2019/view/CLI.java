@@ -6,6 +6,7 @@ import it.polimi.sw2019.model.*;
 import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.*;
+import sun.jvm.hotspot.oops.OopUtilities;
 
 import java.io.*;
 import java.util.*;
@@ -1860,5 +1861,11 @@ public class CLI implements ViewInterface {
         else {
             client.send(mesToResend);
         }
+    }
+
+    public void displayConnectionFailure(){
+        out.println("\nCONNECTION FAILURE... PLEASE LOGIN AGAIN WITH SAME USERNAME!!! (you name was: " + username +" \n\n\n");
+        clearAttributes();
+        displayLoginWindow();
     }
 }
