@@ -249,7 +249,7 @@ public class VirtualView extends Observable implements Observer {
             server.endMatch(this);
         }
 
-        else if(tooManyDisconnected(3)) {
+        else if(tooManyDisconnected(3) && !ended) {
 
             sendEndMatchMessage();
         }
@@ -368,10 +368,10 @@ public class VirtualView extends Observable implements Observer {
      */
     public void sendEndTurnMessage(){
 
-        if (tooManyDisconnected(3) && getNumOfWaitingPlayers() > 3){
+        if (tooManyDisconnected(3) && getNumOfWaitingPlayers() > 3 && !ended){
             sendEndMatchMessage();
         }
-        else if (tooManyDisconnected(2)){
+        else if (tooManyDisconnected(2) && !ended){
             sendEndMatchMessage();
         }
         else {
@@ -505,7 +505,7 @@ public class VirtualView extends Observable implements Observer {
     public void saveLastMessage(Message message){
 
         TypeOfMessage type = message.getTypeOfMessage();
-        if (type != TypeOfMessage.PRIVATE_HAND && type != TypeOfMessage.LOGIN_REPORT && type != TypeOfMessage.DISCONNECTED && type != TypeOfMessage.RECONNECTION_REQUEST && type != TypeOfMessage.RECONNECTION && type != TypeOfMessage.PLAYER_ALREADY_LOGGED){
+        if (type != TypeOfMessage.PRIVATE_HAND && type != TypeOfMessage.LOGIN_REPORT && type != TypeOfMessage.DISCONNECTED && type != TypeOfMessage.RECONNECTION_REQUEST && type != TypeOfMessage.RECONNECTION && type != TypeOfMessage.PLAYER_ALREADY_LOGGED && (type == TypeOfMessage.AVAILABLE_CARDS && message.getTypeOfAction() == TypeOfAction.GRAB) ){
 
             lastMessage = message;
         }

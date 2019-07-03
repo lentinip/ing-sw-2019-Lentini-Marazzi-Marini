@@ -233,7 +233,7 @@ public class SingleActionManager {
         Cell selectedCell = match.getBoard().getCell(message.deserializeBoardCoord());
 
         //moving first player shooted to the selected cell
-        atomicActions.move(choices.getShootedPlayers().get(0), selectedCell);
+        atomicActions.move(choices.getShootedPlayers().get(0), selectedCell, true);
 
         choices.powerupsAfterShoot();
     }
@@ -370,7 +370,7 @@ public class SingleActionManager {
 
             for (Effect effect: effectList){
 
-                if (effect.getTargets().isDifferentPlayers() && choices.getCurrentEffect().getType() != EffectsKind.MOVE){
+                if (effect.getTargets().isDifferentPlayers() && effect.getType() != EffectsKind.MOVE){
 
                     List<Player> targets = new ArrayList<>(match.getCurrentPlayer().getPosition().playersInCell());
                     targets.remove(match.getCurrentPlayer());

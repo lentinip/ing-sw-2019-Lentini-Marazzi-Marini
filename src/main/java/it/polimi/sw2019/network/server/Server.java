@@ -245,9 +245,11 @@ public class Server {
                 virtualView.getWaitingPlayers().get(user).getClientInterface().notify(message);
             } catch (RemoteException e) {
 
-                virtualViewMap.get(user).addDisconnectedPlayer(user);
-                LOGGER.log(Level.WARNING, e.getMessage());
-                System.out.print("non sono riuscito a inviare un messaggio al client per verificare che sia connesso");
+                if (virtualViewMap.get(user) != null) {
+                    virtualViewMap.get(user).addDisconnectedPlayer(user);
+                    LOGGER.log(Level.WARNING, e.getMessage());
+                    System.out.print("non sono riuscito a inviare un messaggio al client per verificare che sia connesso");
+                }
             }
         }
     }

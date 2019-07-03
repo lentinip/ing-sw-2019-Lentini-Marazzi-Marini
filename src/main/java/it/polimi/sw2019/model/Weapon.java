@@ -246,7 +246,9 @@ public class Weapon {
                 }
             }
 
-            else usableEffects.add(effect);
+            else if (owner.canIPay(effect.getCost())){
+                usableEffects.add(effect);
+            }
         }
 
         return usableEffects;

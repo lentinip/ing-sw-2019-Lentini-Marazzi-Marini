@@ -43,6 +43,21 @@ public class  AtomicActions {
 
     }
 
+
+    public void move(Player player, Cell selectedCell, boolean damageSession){
+
+        player.setPosition(selectedCell);
+
+        //Sets the match as changed
+        match.notifyMatchState();
+
+        String report = "  >>>>  in row: " + selectedCell.getRow() + ", column: " + selectedCell.getColumn();
+        Message message = new Message("All");
+        message.createActionReports(report, player.getCharacter(), null, damageSession);
+        view.display(message);
+
+    }
+
     /**
      * Moves the player to the selectedCell, performs the grab in a common Cell, adds the correct stuff to the Player and then discards the ammoTile.
      * The cell at the end of the method is empty and with Ammo = null.
