@@ -180,8 +180,11 @@ public class SelectCardController {
             Message message = new Message((client.getUsername()));
             message.createSelectedCard(((Integer) imageView.getUserData()).intValue(), currentTypeOfAction);
             setTypeFromImage(imageView);
-            //Saves the weapon in the boardController for next use
-            boardController.setSelectedWeapon(imageView);
+
+            if (currentTypeOfAction==TypeOfAction.SHOOT){
+                //Saves the weapon in the boardController for next use
+                boardController.setSelectedWeapon(imageView);
+            }
 
             client.send(message);
             closeWindow();

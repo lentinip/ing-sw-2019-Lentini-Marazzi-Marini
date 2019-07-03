@@ -172,6 +172,8 @@ public class SelectEffectController {
                 break;
             default:
                 logger.log(Level.SEVERE, "Type of weapon not defined in configure method in SelectEffectController");
+                String string = "Type of weapon number = " + type + " ";
+                logger.log(Level.SEVERE, string);
                 break;
         }
         showControls(controls);

@@ -112,8 +112,10 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void displayUsernameNotAvailable(){
-        createAlertWarning("The chosen username is not available.");
-        startScreenController.hidePleaseWait();
+        Platform.runLater(()->{
+            createAlertWarning("The chosen username is not available.");
+            startScreenController.hidePleaseWait();
+        });
     }
 
     public void displayLoginSuccessful(LoginReport loginReport){
@@ -139,8 +141,11 @@ public class GUI extends Application implements ViewInterface {
 
     public void displayAvailableCards(AvailableCards cards, TypeOfAction typeOfAction){
         Platform.runLater(()->{
+
+            //If the player has chosen already move or move and grab
             boardController.disableAvailableCells();
 
+            //Gets the images of the cards in the boardController
             List<Image> cardsImages = boardController.getImageCards(typeOfAction);
 
             if (typeOfAction == TypeOfAction.SHOOT){
@@ -194,7 +199,10 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void displayPaymentForPowerupsCost(PaymentMessage paymentMessage){
+
+        //Gets the images from the boardController
         List<Image> powerups = boardController.getImageCards(TypeOfAction.USEPOWERUP);
+
         PlayerBoardMessage playerBoardMessage = boardController.getMyCurrentPlayerBoardMessage();
         Group ammoGroup = boardController.getMyAmmoGroup();
 
@@ -245,16 +253,29 @@ public class GUI extends Application implements ViewInterface {
     }
 
     public void displayActionReport(ActionReports actionReports){
+
+        //Saves the last actionReport in the boardController
         if (boardController!=null){
             boardController.setActionReports(actionReports);
         }
+
+        //Manages it the last actionReport in the ActionReportScreen
         if (actionReportController!=null){
             actionReportController.manageActionReport(actionReports);
         }
     }
 
+    /**
+     * Loads the screen for the card selection
+     * @param cards AvailableCards message with the index of the usable cards
+     * @param typeOfAction typeOfAction associated with the use of the cards
+     * @param images List of Image of the cards to show
+     * @param noOption true if the player can click close on the window
+     */
     public void showCardSelection(AvailableCards cards, TypeOfAction typeOfAction, List<Image> images, boolean noOption){
         FXMLLoader fxmlLoader = new FXMLLoader();
+
+        //The fxml file changes if is a spawn
         if (typeOfAction == TypeOfAction.SPAWN){
             fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/SelectCardScreenForSpawn.fxml"));
         }
@@ -279,20 +300,25 @@ public class GUI extends Application implements ViewInterface {
         //Configures the controller
         SelectCardController selectCardController = fxmlLoader.getController();
 
-
+        //Gets the number of weapons
         PrivateHand privateHand = boardController.getPrivateHand();
         int numberOfWeapons = privateHand.getAllWeapons().size();
+
+        //Gets the lastSelectedCell boardCoord needed if is a grab
         BoardCoord lastSelectedCell = boardController.getLastSelectedCell();
 
         //If is a grab and the player has already 3 weapons
         if (numberOfWeapons == 3 && typeOfAction==TypeOfAction.GRAB){
 
+            //Gets also the ImageView for the discard of a weapon
             List<ImageView> myWeapons = boardController.getMyWeapons();
+
             selectCardController.configure(client, boardController, cards, images, lastSelectedCell, myWeapons);
         }
         else {
             selectCardController.configure(client, boardController, cards, typeOfAction, images, lastSelectedCell, noOption);
         }
+
         //The next line sets that this new window will lock the parent window.
         //Is impossible to interact with the parent window until this window is closed.
         //The window doesn't have the close button
@@ -308,6 +334,7 @@ public class GUI extends Application implements ViewInterface {
         newWindow.initStyle(StageStyle.UNDECORATED);
         newWindow.initOwner(primaryStage);
 
+        //This listeners able the movement of the window
         try {
             root.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
@@ -328,6 +355,7 @@ public class GUI extends Application implements ViewInterface {
             logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
         }
 
+        //Sets the stage in the controller and in the instance of the GUI
         selectCardController.setWeaponsManualStage(weaponsManualStage);
         selectCardControllerStage = newWindow;
 
@@ -335,6 +363,13 @@ public class GUI extends Application implements ViewInterface {
         newWindow.show();
     }
 
+    /**
+     * Loads the screen for the effect selection
+     * @param availableEffects availableEffects message with the index of the usable effects
+     * @param card Image of the card to show
+     * @param type type of the weapon (determines how the effects are gonna be selected)
+     * @param noOption true if the player can click close on the window
+     */
     public void showEffectSelection(AvailableEffects availableEffects, Image card, int type, boolean noOption){
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/SelectEffectScreen.fxml"));
@@ -350,7 +385,7 @@ public class GUI extends Application implements ViewInterface {
                 SelectEffectController selectEffectController = fxmlLoader.getController();
                 selectEffectController.configure(client, availableEffects, card, type, noOption);
 
-                //Creates a new window for the match setting
+                //Creates a new window
                 Stage newWindow = new Stage();
                 newWindow.setTitle("Select Effect");
 
@@ -362,6 +397,7 @@ public class GUI extends Application implements ViewInterface {
                 newWindow.initStyle(StageStyle.UNDECORATED);
                 newWindow.initOwner(primaryStage);
 
+                //This listeners able the movement of the window
                 try {
                     root.setOnMousePressed(new EventHandler<MouseEvent>() {
                         @Override
@@ -382,6 +418,7 @@ public class GUI extends Application implements ViewInterface {
                     logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
                 }
 
+                //Sets the stage in the controller and in the instance of the GUI
                 selectEffectController.setWeaponsManualStage(weaponsManualStage);
                 selectEffectStage = newWindow;
 
@@ -394,6 +431,14 @@ public class GUI extends Application implements ViewInterface {
         }
     }
 
+    /**
+     * Loads the screen for the payment
+     * @param paymentMessage paymentMessage with the index of the usable powerup for the payment
+     * @param images List of Image of the powerups
+     * @param playerBoardMessage playerBoardMessage where are saved the ammo of the player
+     * @param ammoGroup nodes that show the ammo of the player
+     * @param anyColor true if the player can pay with a single ammo of any color
+     */
     public void startPaymentSession(PaymentMessage paymentMessage, List<Image> images, PlayerBoardMessage playerBoardMessage, Group ammoGroup, boolean anyColor){
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/PaymentScreen.fxml"));
@@ -417,7 +462,7 @@ public class GUI extends Application implements ViewInterface {
                     paymentController.configure(client, paymentMessage, images);
                 }
 
-                //Creates a new window for the match setting
+                //Creates a new window
                 Stage newWindow = new Stage();
                 newWindow.setTitle("Payment session");
 
@@ -429,6 +474,7 @@ public class GUI extends Application implements ViewInterface {
                 newWindow.initStyle(StageStyle.UNDECORATED);
                 newWindow.initOwner(primaryStage);
 
+                //This listeners able the movement of the window
                 try {
                     root.setOnMousePressed(new EventHandler<MouseEvent>() {
                         @Override
@@ -460,6 +506,10 @@ public class GUI extends Application implements ViewInterface {
         }
     }
 
+    /**
+     * Loads the screen for the leaderboard
+     * @param leaderBoard leaderBoard message
+     */
     public void createLeaderboard(LeaderBoard leaderBoard){
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/LeaderBoardScreen.fxml"));
@@ -471,11 +521,11 @@ public class GUI extends Application implements ViewInterface {
             Platform.runLater(()-> {
                 Scene scene = new Scene(root);
 
-
+                //Configures the controller of the window
                 LeaderBoardController leaderBoardController = fxmlLoader.getController();
                 leaderBoardController.configure(this, leaderBoard, matchStart.getUsernames(), matchStart.getCharacters());
 
-                //Creates a new window for the match setting
+                //Creates a new window
                 Stage newWindow = new Stage();
                 newWindow.setTitle("Leaderboard");
 
@@ -487,6 +537,7 @@ public class GUI extends Application implements ViewInterface {
                 newWindow.initStyle(StageStyle.UNDECORATED);
                 newWindow.initOwner(primaryStage);
 
+                //This listeners able the movement of the window
                 try {
                     root.setOnMousePressed(new EventHandler<MouseEvent>() {
                         @Override
@@ -525,6 +576,9 @@ public class GUI extends Application implements ViewInterface {
         }
     }
 
+    /**
+     * Loads the screen for the board
+     */
     public void setBoard(){
         Platform.runLater(()-> {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -545,17 +599,19 @@ public class GUI extends Application implements ViewInterface {
             }
             scene = new Scene(board);
 
+            //Closes all the windows opened before
             primaryStage.close();
+
             primaryStage.setScene(scene);
             primaryStage.setTitle("Adrenalina");
             primaryStage.setResizable(true);
 
             boardController = fxmlLoader.getController();
 
-
             //Set the board parameters in the controller
             boardController.configureBoard(client, matchStart);
 
+            //Configures the manuals windows
             try {
                 configureInstructionManualScreen();
                 configureWeaponsManualScreen();
@@ -566,6 +622,7 @@ public class GUI extends Application implements ViewInterface {
                 logger.log(Level.SEVERE, e.getLocalizedMessage());
             }
 
+            //Creates a screen for the actionReport
             try {
                 createActionReportScreen();
             }
@@ -581,63 +638,68 @@ public class GUI extends Application implements ViewInterface {
         });
     }
 
+    /**
+     * Loads the screen for the match settings
+     * @param numberOfPlayers
+     */
     public void askMatchSetting(Integer numberOfPlayers){
         Platform.runLater(() -> {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/MatchSettingScreen.fxml"));
 
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/FXMLFiles/MatchSettingScreen.fxml"));
+            Parent board;
+            final Scene scene;
 
-                Parent board;
-                final Scene scene;
+            try {
+                board = fxmlLoader.load();
 
-                try {
-                    board = fxmlLoader.load();
+            }
+            catch (IOException e) {
+                logger.log(Level.SEVERE, "MatchSettingScreen.fxml not found");
+                board = null;
+            }
+            scene = new Scene(board);
 
-                }
-                catch (IOException e) {
-                    logger.log(Level.SEVERE, "MatchSettingScreen.fxml not found");
-                    board = null;
-                }
-                scene = new Scene(board);
-
-                //Creates a new window for the match setting
-                Stage newWindow = new Stage();
-                newWindow.setTitle("Match Settings");
+            //Creates a new window for the match setting
+            Stage newWindow = new Stage();
+            newWindow.setTitle("Match Settings");
 
 
-                //The next line sets that this new window will lock the parent window.
-                //Is impossible to interact with the parent window until this window is closed.
-                //The new window doesn't have a close button
-                newWindow.initModality(Modality.WINDOW_MODAL);
-                newWindow.initStyle(StageStyle.UNDECORATED);
-                newWindow.initOwner(primaryStage);
+            //The next line sets that this new window will lock the parent window.
+            //Is impossible to interact with the parent window until this window is closed.
+            //The new window doesn't have a close button
+            newWindow.initModality(Modality.WINDOW_MODAL);
+            newWindow.initStyle(StageStyle.UNDECORATED);
+            newWindow.initOwner(primaryStage);
 
-                MatchSettingController matchSettingController = fxmlLoader.getController();
-                matchSettingController.setNumberOfPlayers(numberOfPlayers);
-                matchSettingController.setClient(client);
+            //Configures the controller of the window
+            MatchSettingController matchSettingController = fxmlLoader.getController();
+            matchSettingController.setNumberOfPlayers(numberOfPlayers);
+            matchSettingController.setClient(client);
 
-                try {
-                    board.setOnMousePressed(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            xOffset = event.getSceneX();
-                            yOffset = event.getSceneY();
-                        }
-                    });
-                    board.setOnMouseDragged(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            newWindow.setX(event.getScreenX() - xOffset);
-                            newWindow.setY(event.getScreenY() - yOffset);
-                        }
-                    });
-                }
-                catch (NullPointerException e){
-                    logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
-                }
+            //This listeners able the movement of the window
+            try {
+                board.setOnMousePressed(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        xOffset = event.getSceneX();
+                        yOffset = event.getSceneY();
+                    }
+                });
+                board.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        newWindow.setX(event.getScreenX() - xOffset);
+                        newWindow.setY(event.getScreenY() - yOffset);
+                    }
+                });
+            }
+            catch (NullPointerException e){
+                logger.log(Level.SEVERE, "Problem with the listeners of the window: root may be null");
+            }
 
-                newWindow.setScene(scene);
-                newWindow.show();
+            newWindow.setScene(scene);
+            newWindow.show();
         });
     }
 
