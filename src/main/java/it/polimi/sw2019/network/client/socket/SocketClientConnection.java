@@ -7,6 +7,8 @@ import it.polimi.sw2019.network.messages.TypeOfMessage;
 import it.polimi.sw2019.network.server.socket.ServerInterface;
 import it.polimi.sw2019.network.client.Client;
 
+import java.io.IOException;
+
 /**
  * socket connection logic
  */
@@ -18,7 +20,7 @@ public class SocketClientConnection implements ClientInterface, ClientActions {
     public SocketClientConnection(Client client) {
 
         this.client = client;
-        LineClient lineClient = new LineClient(port, client.getIpAddress(), this);
+        LineClient lineClient = new LineClient(port, client.getIpAddress(), this, client);
         lineClient.start();
         this.serverInterface = lineClient;
         loginMessage = new Message();
@@ -55,7 +57,7 @@ public class SocketClientConnection implements ClientInterface, ClientActions {
      * @param message to be sent
      */
     @Override
-    public void doSomething(Message message) {
+    public void doSomething(Message message) throws IOException{
 
         System.out.print("\n");
         System.out.print("Do something - Username: ");
@@ -70,7 +72,7 @@ public class SocketClientConnection implements ClientInterface, ClientActions {
      * @param username nickname chose by the player
      */
     @Override
-    public void register(String username) {
+    public void register(String username) throws IOException{
 
         System.out.print("\n");
         System.out.print("Register - Username: ");

@@ -29,6 +29,7 @@ public class RmiClient implements ClientActions {
         serverInterface = (ServerInterface) registry.lookup("Server");
         ClientImplementation clientImplementation = new ClientImplementation(client);
         clientInterface = (ClientInterface) UnicastRemoteObject.exportObject(clientImplementation, 0); //Port 0 because I use a random available port
+        this.client = client;
     }
 
     /* Attributes */
@@ -36,6 +37,8 @@ public class RmiClient implements ClientActions {
     private ServerInterface serverInterface;
 
     private ClientInterface clientInterface;
+
+    private Client client;
 
     private static Logger LOGGER = Logger.getLogger("RmiClient");
 
@@ -46,14 +49,9 @@ public class RmiClient implements ClientActions {
      * @param username nickname chose by the player
      */
     @Override
-    public void register(String username) {
+    public void register(String username) throws RemoteException{
 
-        try {
             serverInterface.register(username, clientInterface);
-        } catch (RemoteException e) {
-
-            LOGGER.log(Level.WARNING, "connection failure");
-        }
     }
 
     /**
@@ -70,6 +68,7 @@ public class RmiClient implements ClientActions {
             } catch (RemoteException e) {
 
                 LOGGER.log(Level.WARNING, "connection failure");
+                client.getView().displayConnectionFailure();
             }
         }
         else {
@@ -78,6 +77,7 @@ public class RmiClient implements ClientActions {
             } catch (RemoteException e) {
 
                 LOGGER.log(Level.WARNING, "connection failure");
+                client.getView().displayConnectionFailure();
             }
         }
     }

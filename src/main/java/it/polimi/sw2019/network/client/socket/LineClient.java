@@ -19,9 +19,10 @@ public class LineClient extends Thread implements ServerInterface {
     /**
      * Constructor
      */
-    public LineClient(int port, String host, ClientInterface clientInterface) {
+    public LineClient(int port, String host, ClientInterface clientInterface, Client client) {
         this.port = port;
         this.host = host;
+        clientClass = client;
 
         startLine(clientInterface);
     }
@@ -45,6 +46,8 @@ public class LineClient extends Thread implements ServerInterface {
     private Boolean connected;
 
     private static Logger LOGGER = Logger.getLogger("Socket connection");
+
+    private Client clientClass;
 
     /* Methods */
 
@@ -71,16 +74,11 @@ public class LineClient extends Thread implements ServerInterface {
      * @param message to doSomething
      */
     @Override
-    public void send(Message message) {
+    public void send(Message message) throws IOException,NullPointerException {
 
-        try{
             ObjectOut.reset();
             ObjectOut.writeObject(message);
             ObjectOut.flush();
-        } catch (IOException e) {
-
-            LOGGER.log(Level.WARNING, "failure: message can't be sent");
-        }
 
     }
 
@@ -91,7 +89,7 @@ public class LineClient extends Thread implements ServerInterface {
     public void run() {
 
         boolean go = true;
-        while (go && !socketClient.isClosed() && connected) {
+        while (socketClient != null && go && !socketClient.isClosed() && connected) {
 
             try{
                 Message message = (Message) ObjectIn.readObject();
@@ -104,11 +102,13 @@ public class LineClient extends Thread implements ServerInterface {
 
                 go = false;
                 LOGGER.log(Level.WARNING, "failure: error occurred during connection to server");
+                clientClass.getView().displayConnectionFailure();
             }
             catch (ClassNotFoundException e) {
 
                 go = false;
                 LOGGER.log(Level.WARNING, "failure: error occurred during connection to server");
+                clientClass.getView().displayConnectionFailure();
             }
 
         }

@@ -2,6 +2,7 @@ package it.polimi.sw2019.network.client;
 
 import it.polimi.sw2019.network.messages.Message;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 /**
@@ -15,12 +16,12 @@ public interface ClientActions {
      * @param message to be sent
      * @throws RemoteException connection fail
      */
-    void doSomething(Message message) throws RemoteException;
+    void doSomething(Message message) throws IOException;
 
     /**
      * Used by RMI connection
      * add the client to the waitingPlayers list
      * @param username nickname chose by the player
      */
-    void register(String username);
+    void register(String username) throws IOException;
 }

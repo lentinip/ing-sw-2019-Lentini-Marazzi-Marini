@@ -11,6 +11,7 @@ import it.polimi.sw2019.view.ViewInterface;
 import it.polimi.sw2019.view.gui.GUI;
 import javafx.application.Application;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
@@ -28,6 +29,8 @@ public class Client {
     private static ViewInterface view;  // abstract class useful to show objects both on the gui and on the cli
 
     private Message lastMessage;  // here I save the last message received
+
+    private Message lastMessageForReconnection;
 
     private String ipAddress;
 
@@ -81,6 +84,9 @@ public class Client {
         this.rmi = rmi;
     }
 
+    public Message getLastMessageForReconnection() {
+        return lastMessageForReconnection;
+    }
 
     public static void main(String[] args){
 
@@ -128,7 +134,7 @@ public class Client {
      * @throws RemoteException exception
      * @throws NotBoundException exception
      */
-    public void connect(Message loginMessage) throws RemoteException, NotBoundException {
+    public void connect(Message loginMessage) {
 
         rmi = loginMessage.deserializeLoginMessage().isRmi();
         username = loginMessage.getUsername();
@@ -138,16 +144,30 @@ public class Client {
         System.out.print(username);
         System.out.print("\n");
 
+        try {
 
-        if(rmi) {
+            if (rmi) {
 
-            clientActions =  new RmiClient(this);
-            clientActions.register(username);
+                clientActions = new RmiClient(this);
+                clientActions.register(username);
+            }
         }
-        else{
+        catch (NotBoundException|IOException e){
 
-            clientActions = new SocketClientConnection(this);
-            clientActions.register(username);
+            LOGGER.log(Level.WARNING, "connection failure");
+            view.displayConnectionErrorClient(loginMessage);
+        }
+
+        try {
+            if (!rmi) {
+
+                clientActions = new SocketClientConnection(this);
+                clientActions.register(username);
+            }
+        }
+        catch (IOException|NullPointerException e){
+
+            view.displayConnectionErrorClient(loginMessage);
         }
     }
 
@@ -327,15 +347,15 @@ public class Client {
         System.out.print("\nTypeOfAction: ");
         System.out.print(messageToSend.getTypeOfAction());
         System.out.print("\n");
-
-
+        lastMessageForReconnection = messageToSend;
 
 
         try {
             clientActions.doSomething(messageToSend);
-        } catch (RemoteException e) {
+        } catch (IOException e) {
 
             LOGGER.log(Level.WARNING, "failure: connection error");
+            view.displayConnectionFailure();
         }
     }
 

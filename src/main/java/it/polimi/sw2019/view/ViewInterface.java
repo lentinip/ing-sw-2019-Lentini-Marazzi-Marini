@@ -137,4 +137,12 @@ public interface ViewInterface {
      */
     void displayDisconnectionDuringSetup();
 
+    /**
+     * if the client can't reach the server we try again until it works
+     * @param messageToResend message to send again
+     */
+    void displayConnectionErrorClient(Message messageToResend);
+
+    void displayConnectionFailure();
+
 }

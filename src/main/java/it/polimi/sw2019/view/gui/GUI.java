@@ -66,6 +66,8 @@ public class GUI extends Application implements ViewInterface {
 
     private Stage reconnectStage;
 
+    private static Media sound;
+
     /* Methods */
 
     public void displayLoginWindow(){
@@ -139,6 +141,8 @@ public class GUI extends Application implements ViewInterface {
 
     public void displayAvailableCards(AvailableCards cards, TypeOfAction typeOfAction){
         Platform.runLater(()->{
+            boardController.disableAvailableCells();
+
             List<Image> cardsImages = boardController.getImageCards(typeOfAction);
 
             if (typeOfAction == TypeOfAction.SHOOT){
@@ -151,6 +155,8 @@ public class GUI extends Application implements ViewInterface {
 
     public void displayAvailableCardsWithNoOption(AvailableCards cards, TypeOfAction typeOfAction){
         Platform.runLater(()->{
+            boardController.disableAvailableCells();
+
             List<Image> cardsImages = boardController.getImageCards(typeOfAction);
 
             showCardSelection(cards, typeOfAction, cardsImages, true);
@@ -571,7 +577,7 @@ public class GUI extends Application implements ViewInterface {
                 logger.log(Level.SEVERE, e.getLocalizedMessage());
             }
 
-            startMusic();
+            //startMusic();
 
             primaryStage.show();
         });
@@ -865,7 +871,7 @@ public class GUI extends Application implements ViewInterface {
         Platform.runLater(() -> {
 
             try{
-                Media sound = new Media(getClass().getResource("/Music/adrenalinaMusic.mp3").toExternalForm());
+                sound = new Media(getClass().getResource("/Music/adrenalinaMusic.mp3").toExternalForm());
                 MediaPlayer mediaPlayer = new MediaPlayer(sound);
                 mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
                 mediaPlayer.play();
@@ -877,5 +883,9 @@ public class GUI extends Application implements ViewInterface {
 
         });
     }
+
+    public void displayConnectionErrorClient(Message messageToResend){}
+
+    public void displayConnectionFailure(){}
 
 }

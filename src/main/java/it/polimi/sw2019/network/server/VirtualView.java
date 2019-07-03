@@ -10,6 +10,7 @@ import it.polimi.sw2019.network.messages.TypeOfMessage;
 
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -81,6 +82,8 @@ public class VirtualView extends Observable implements Observer {
     private Message lastMessage;
 
     private long timeLeft;
+
+    private boolean ended = false;
 
     /* Methods */
 
@@ -221,7 +224,9 @@ public class VirtualView extends Observable implements Observer {
         message.setTypeOfMessage(TypeOfMessage.EXIT_GAME);
 
         waitingPlayers.get(username).setConnected(false);
-        disconnectedPlayers.add(username);
+        if (!disconnectedPlayers.contains(username)) {
+            disconnectedPlayers.add(username);
+        }
         System.out.print("\n Offline players:" + disconnectedPlayers);
 
         //sending a message to tell everybody the player is disconnected
@@ -239,7 +244,12 @@ public class VirtualView extends Observable implements Observer {
             }
         }
 
-        if(tooManyDisconnected(3)) {
+        if (counter == getNumOfWaitingPlayers()){
+
+            server.endMatch(this);
+        }
+
+        else if(tooManyDisconnected(3)) {
 
             sendEndMatchMessage();
         }
@@ -270,6 +280,7 @@ public class VirtualView extends Observable implements Observer {
         Message message = new Message(null);
         message.setTypeOfMessage(TypeOfMessage.END_MATCH);
         notify(message);
+        ended = true;
     }
 
     public void removeDisconnectedPlayer(String username){
@@ -502,11 +513,13 @@ public class VirtualView extends Observable implements Observer {
 
     public void notify(Message message) {
 
-        System.out.println("\n Sto gestendo il messaggio ricevuto");
-        System.out.println(" type of message : " + message.getTypeOfMessage() + "  type of action: " + message.getTypeOfAction());
-        System.out.println(" sender : " + message.getUsername());
-        setChanged();
-        notifyObservers(message);
+        if (!ended) {
+            System.out.println("\n Sto gestendo il messaggio ricevuto");
+            System.out.println(" type of message : " + message.getTypeOfMessage() + "  type of action: " + message.getTypeOfAction());
+            System.out.println(" sender : " + message.getUsername());
+            setChanged();
+            notifyObservers(message);
+        }
     }
 
     @Override
