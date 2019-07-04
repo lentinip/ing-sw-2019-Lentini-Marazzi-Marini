@@ -3,21 +3,21 @@ package it.polimi.sw2019.view.gui;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.messages.MatchSetup;
 import it.polimi.sw2019.network.messages.Message;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.NumberBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
+/**
+ * Controller for the MatchSettingScreen
+ *
+ * @author lentinip
+ */
 public class MatchSettingController {
 
     /* Attributes */
@@ -60,12 +60,19 @@ public class MatchSettingController {
         this.client = client;
     }
 
+    /**
+     * Sets the number of the players in the match in the label labelNumberOfPlayers
+     * @param numberOfPlayers Integer with the number of the players in the match
+     */
     public void setNumberOfPlayers(Integer numberOfPlayers) {
 
         //Setting the number of players in the label
         labelNumberOfPlayers.setText(numberOfPlayers.toString());
     }
 
+    /**
+     * Initializes the toggles data
+     */
     public void initialize(){
 
         //Setting the toggles
@@ -85,16 +92,30 @@ public class MatchSettingController {
         });
     }
 
+    /**
+     * Handles the frenzy mode CheckBox selection
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleFrenzyModeCheckBox(ActionEvent actionEvent){
         frenzy = checkBoxFrenzyMode.isSelected();
     }
 
+    /**
+     * Handles the easy mode CheckBox selection
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleEasyModeCheckBox(ActionEvent actionEvent){
         easyMode = checkBoxEasyMode.isSelected();
     }
 
+    /**
+     * Handles the set match button.
+     *
+     * Sends the message with the selection and than closes the stage with the MatchSettingScreen
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleSetMatch(ActionEvent actionEvent){
 

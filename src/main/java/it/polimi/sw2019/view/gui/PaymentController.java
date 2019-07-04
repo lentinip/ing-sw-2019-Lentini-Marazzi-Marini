@@ -27,6 +27,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Controller for the PaymentControllerScreen
+ *
+ * @author lentinip
+ */
 public class PaymentController {
 
     /* Attributes */
@@ -61,6 +66,9 @@ public class PaymentController {
 
     /* Methods */
 
+    /**
+     * Initialize the structures with the imageViews
+     */
     public void initialize(){
         cardImage0.setUserData(0);
         cardImage1.setUserData(1);
@@ -71,6 +79,14 @@ public class PaymentController {
         cards.add(cardImage2);
     }
 
+    /**
+     * Method that needs to be called after the controller is instantiated (you can choose between two different configure methods).
+     *
+     * Manages everything to show
+     * @param client reference to the Client instance
+     * @param paymentMessage paymentMessage to show
+     * @param images List of Images to show
+     */
     public void configure(Client client, PaymentMessage paymentMessage, List<Image> images){
         this.client = client;
 
@@ -93,6 +109,18 @@ public class PaymentController {
         }
     }
 
+    /**
+     * Method that needs to be called after the controller is instantiated (you can choose between two different configure methods).
+     *
+     * This method has to be called if the payment involves a payment with the possibility to pay with an ammo of any color.
+     *
+     * @param client reference to the Client instance
+     * @param paymentMessage paymentMessage to show
+     * @param images List of Images to show
+     * @param playerBoardMessage playerBoardMessage of the player
+     * @param ammoGroup Group with the Nodes representing the ammo of the player
+     * @param anyColor true if the player can pay with an ammo of any color, false if he can't
+     */
     public void configure(Client client, PaymentMessage paymentMessage, List<Image> images, PlayerBoardMessage playerBoardMessage, Group ammoGroup, boolean anyColor){
         this.anyColor = anyColor;
         this.ammoGroup = ammoGroup;
@@ -101,8 +129,12 @@ public class PaymentController {
         configure(client, paymentMessage, images);
     }
 
+    /**
+     * Sets an effect to the ImageView when a specific mouseEvent is caught (onMouseEntered)
+     * @param mouseEvent mouseEvent caught
+     */
     @FXML
-    public void showSelection(MouseEvent actionEvent){
+    public void showSelection(MouseEvent mouseEvent){
 
         DropShadow dropShadow = new DropShadow();
 
@@ -111,26 +143,39 @@ public class PaymentController {
         dropShadow.setHeight(40.0);
         dropShadow.setSpread(0.6);
 
-        ImageView imageView = (ImageView) actionEvent.getSource();
+        ImageView imageView = (ImageView) mouseEvent.getSource();
 
         imageView.setEffect(dropShadow);
     }
 
+    /**
+     * Disables the effect to the ImageView when a specific mouseEvent is caught (onMouseExited)
+     * @param mouseEvent mouseEvent caught
+     */
     @FXML
-    public void disableEffect(MouseEvent actionEvent){
-        ImageView imageView = (ImageView) actionEvent.getSource();
+    public void disableEffect(MouseEvent mouseEvent){
+        ImageView imageView = (ImageView) mouseEvent.getSource();
         imageView.setEffect(null);
     }
 
+    /**
+     * Handles the selection of a card (ImageView with onMouseClicked listener)
+     * @param mouseEvent mouseEvent caught
+     */
     @FXML
-    public void handleSelection(MouseEvent actionEvent){
-        ImageView imageView = (ImageView) actionEvent.getSource();
+    public void handleSelection(MouseEvent mouseEvent){
+        ImageView imageView = (ImageView) mouseEvent.getSource();
         int selection = (int) imageView.getUserData();
 
         sendPayMessage(selection);
         closeWindow();
     }
 
+    /**
+     * Handles the pay with ammo button.
+     *
+     * If anyColor is true changes the scene to a SelectAmmoColorScreen, if false sends a pay message with index -1.
+     */
     @FXML
     public void payWithAmmo(){
 
@@ -153,8 +198,8 @@ public class PaymentController {
                     root = null;
                 }
 
-                SelecAmmoColorController selecAmmoColorController = fxmlLoader.getController();
-                selecAmmoColorController.configure(client, playerBoardMessage, ammoGroup);
+                SelectAmmoColorController selectAmmoColorController = fxmlLoader.getController();
+                selectAmmoColorController.configure(client, playerBoardMessage, ammoGroup);
 
                 try {
                     root.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -186,12 +231,19 @@ public class PaymentController {
         }
     }
 
+    /**
+     * Sends a paymentSelection message
+     * @param selection index of the selection
+     */
     public void sendPayMessage(int selection){
         Message message = new Message(client.getUsername());
         message.createPaymentSelection(selection);
         client.send(message);
     }
 
+    /**
+     * Closes the stage with the PaymentScreen
+     */
     public void closeWindow(){
         Stage stage = (Stage) payWithAmmoButton.getScene().getWindow();
         stage.close();

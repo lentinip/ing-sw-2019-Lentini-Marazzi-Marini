@@ -29,6 +29,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Controller for MyPlayerBoardGroup and PlayerBoardGroup
+ *
+ * @author lentinip
+ */
 public class PlayerBoardController {
 
     /* Attributes */
@@ -240,6 +245,9 @@ public class PlayerBoardController {
 
     /* Methods */
 
+    /**
+     * Initializes the structures needed in the class
+     */
     public void initialize(){
         initializeMySkulls();
         initializeDamageSequence();
@@ -248,6 +256,13 @@ public class PlayerBoardController {
         initializeActions();
     }
 
+    /**
+     * Method that needs to be called after the controller is instantiated if the group is a PlayerBoardGroup.
+     *
+     * @param username username of the player owner of the playerboard
+     * @param character character of the player owner of the playerboard
+     * @param isFirst true if the player owner of the playerboard is first, false otherwise
+     */
     public void configurePlayerBoard(String username, Character character, boolean isFirst){
         this.username = username;
         initializeUsername();
@@ -263,11 +278,24 @@ public class PlayerBoardController {
         }
     }
 
+    /**
+     * Method that needs to be called after the controller is instantiated if the group is a MyPlayerBoardGroup.
+     *
+     * @param client reference to the Client instance
+     * @param character character of the player of the client
+     * @param isFirst true if the player of the client is first, false otherwise
+     */
     public void configureMyPlayerBoard(Client client, Character character, boolean isFirst){
         this.client = client;
         configurePlayerBoard(client.getUsername(), character, isFirst);
     }
 
+    /**
+     * Updates the showing ammo of the player
+     * @param blue number of blue ammo that the player has
+     * @param red number of red ammo that the player has
+     * @param yellow number of yellow ammo that the player has
+     */
     public void updateAmmo(int blue, int red, int yellow){
 
         int i = 0;
@@ -296,6 +324,9 @@ public class PlayerBoardController {
 
     }
 
+    /**
+     * Puts the skulls in a List and set them not visible
+     */
     public void initializeMySkulls(){
         skullList.add(mySkull0);
         skullList.add(mySkull1);
@@ -309,6 +340,9 @@ public class PlayerBoardController {
         }
     }
 
+    /**
+     * Sets the data in the Panes with witch the player chooses the action to do
+     */
     public void initializeActions(){
         moveAvailable.setUserData(TypeOfAction.MOVE);
         grabAvailable.setUserData(TypeOfAction.GRAB);
@@ -321,7 +355,11 @@ public class PlayerBoardController {
         grabAfterFirstAvailable.setUserData(TypeOfAction.GRAB);
     }
 
-
+    /**
+     * Changes the Image if a specific token (ImageView) using the Character
+     * @param token ImageView of the token to change
+     * @param owner Character owner of the token
+     */
     public static void changeTokenColor(ImageView token, Character owner){
         String url = "";
 
@@ -347,6 +385,9 @@ public class PlayerBoardController {
 
     }
 
+    /**
+     * Sets the Image of the playerBoard using the Character of the player
+     */
     public void initializePlayerBoardImage(){
         String url = "";
 
@@ -371,6 +412,9 @@ public class PlayerBoardController {
         playerBoardImage.setImage(new Image(url));
     }
 
+    /**
+     * Puts the tokens of the damage sequence (ImageView) into a list and hides them
+     */
     public void initializeDamageSequence(){
         damageSequence.add(myDamageToken0);
         damageSequence.add(myDamageToken1);
@@ -390,6 +434,9 @@ public class PlayerBoardController {
         }
     }
 
+    /**
+     * Puts the tokens of the mark sequence (ImageView) into a list and hides them
+     */
     public void initializeMarkSequence(){
         markSequence.add(myMark0);
         markSequence.add(myMark1);
@@ -409,6 +456,9 @@ public class PlayerBoardController {
         }
     }
 
+    /**
+     * Puts the ammo of the player (Rectangle) in different lists (by color) and shows one for each color
+     */
     public void initializeAmmo(){
         redAmmo.add(myAmmoRed0);
         redAmmo.add(myAmmoRed1);
@@ -425,22 +475,36 @@ public class PlayerBoardController {
         updateAmmo(1,1,1);
     }
 
+    /**
+     * Sets the username of the player in the myUsername label
+     */
     public void initializeUsername(){
         myUsername.setText(username);
     }
 
+    /**
+     * Shows the first player marker if the player owner of the playerBoard is the first player
+     */
     public void initializeIsFirst(){
         if (!isFirst){
             myFirstPlayerMarker.setVisible(false);
         }
     }
 
+    /**
+     * Manages the frenzyMode in the playerBoard
+     * @param beforeFirst true if the player has the beforeFirst actions, false if has the afterFist
+     */
     public void setFrenzyMode(boolean beforeFirst){
         this.frenzy = true;
         this.beforeFirst=beforeFirst;
         showActionTile();
     }
 
+    /**
+     * Loads the OtherPlayerHandScreen and sets the parameters so that the player can choose to open the window in a next moment.
+     * @param username
+     */
     public void initializePlayerHand(String username){
 
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -476,6 +540,9 @@ public class PlayerBoardController {
         playerHandStage.setResizable(false);
     }
 
+    /**
+     * Shows the player owner of the playerBoard as the current player using an effect
+     */
     public void setAsCurrentPlayer(){
         DropShadow dropShadow = new DropShadow();
         dropShadow.setColor(Color.BLUE);
@@ -486,16 +553,28 @@ public class PlayerBoardController {
         playerBoardImage.setEffect(dropShadow);
     }
 
+    /**
+     * Disables the effects on the playerBoardImage.
+     */
     public void removeAsCurrentPlayer(){
         playerBoardImage.setEffect(null);
     }
 
+    /**
+     * Shows the playerHandStage
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void showPlayerPrivateHand(MouseEvent actionEvent){
         playerHandStage.show();
 
     }
 
+    /**
+     * Updates the playerboard using a playerBoardMessage.
+     * Checks if the playerBoardMessage is the same as the one arrived before.
+     * @param playerBoardMessage playerBoardMessage with the data for the update
+     */
     public void updatePlayerBoard(PlayerBoardMessage playerBoardMessage){
         if (oldPlayerBoardMessage == null || !oldPlayerBoardMessage.equals(playerBoardMessage)){
             //Updates the damage tokens and the marks
@@ -520,12 +599,21 @@ public class PlayerBoardController {
         }
     }
 
+    /**
+     * Updates the otherPlayerHandController
+     * @param playerHand playerHand message with the data for the update
+     */
     public void updatePlayerHand(PlayerHand playerHand){
         if (client == null){
             otherPlayerHandController.updatePlayerHand(playerHand);
         }
     }
 
+    /**
+     * Updates the damage sequence or the mark sequence using the characters received from the playerBoardMessage
+     * @param sequence list of ImageViews (damageSequence or markSequence)
+     * @param characters list of Characters from the playerBoardMessage
+     */
     public void updateSequence(List<ImageView> sequence, List<Character> characters){
 
         for (int i = 0; i<sequence.size(); i++){
@@ -540,12 +628,20 @@ public class PlayerBoardController {
         }
     }
 
+    /**
+     * Shows a skull for each number of deaths of the player owner of the playerBoard.
+     * If the number of deaths of the player is bigger than the number of skulls it shows only 6 skulls
+     * @param numberOfDeaths
+     */
     public void updateNumberOfDeaths(int numberOfDeaths){
         for (int i=0; i<numberOfDeaths && i<skullList.size(); i++){
             skullList.get(i).setVisible(true);
         }
     }
 
+    /**
+     * Updates the group to show the flipped board and hides the skulls
+     */
     public void updateFlipped(){
         if (!isFlipped){
             String url = "";
@@ -577,6 +673,10 @@ public class PlayerBoardController {
         }
     }
 
+    /**
+     * Shows the action tile (required if the mode is frenzy and the board is flipped).
+     * If the areActionsAvailable is true calls showPossibleActions(canIShoot).
+     */
     public void showActionTile(){
 
         if (!actionTileImage.isVisible()){
@@ -615,6 +715,12 @@ public class PlayerBoardController {
 
 
     //Interactions
+
+    /**
+     * Shows the Panes with which the player can choose the action to do.
+     * Manages the canIShoot boolean and the frenzy mode
+     * @param canIShoot true if the player can shoot
+     */
     public void showPossibleActions(boolean canIShoot){
         areActionsAvailable = true;
         this.canIShoot = canIShoot;
@@ -637,6 +743,9 @@ public class PlayerBoardController {
         }
     }
 
+    /**
+     * Hides all the Panes for the actions.
+     */
     public void disableActions(){
         areActionsAvailable = false;
 
@@ -652,14 +761,21 @@ public class PlayerBoardController {
         grabAfterFirstAvailable.setVisible(false);
     }
 
+    /**
+     * If is not the frenzy mode shows only the reload Pane
+     */
     public void showReload(){
         if (!frenzy){
             reloadAvailable.setVisible(true);
         }
     }
 
+    /**
+     * Sets an effect to the Group when a specific mouseEvent is caught (onMouseEntered)
+     * @param mouseEvent mouseEvent caught
+     */
     @FXML
-    public void showSelection(MouseEvent actionEvent){
+    public void showSelection(MouseEvent mouseEvent){
 
         DropShadow dropShadow = new DropShadow();
 
@@ -668,15 +784,19 @@ public class PlayerBoardController {
         dropShadow.setHeight(21.0);
         dropShadow.setSpread(0.0);
 
-        Group group = (Group) actionEvent.getSource();
+        Group group = (Group) mouseEvent.getSource();
 
         for (Node node : group.getChildren()){
             node.setEffect(dropShadow);
         }
     }
 
+    /**
+     * Sets the effect to the Group when a specific mouseEvent is caught (onMouseExited)
+     * @param mouseEvent mouseEvent caught
+     */
     @FXML
-    public void disableEffect(MouseEvent actionEvent){
+    public void disableEffect(MouseEvent mouseEvent){
 
         DropShadow dropShadow = new DropShadow();
 
@@ -686,7 +806,7 @@ public class PlayerBoardController {
         dropShadow.setSpread(0.0);
 
 
-        Group group = (Group) actionEvent.getSource();
+        Group group = (Group) mouseEvent.getSource();
 
         for (Node node : group.getChildren()){
             node.setEffect(null);
@@ -704,15 +824,25 @@ public class PlayerBoardController {
 
     //ACTIONS
 
+    /**
+     * Sends an ask message
+     * @param typeOfAction typeOfAction of the message to send.
+     */
     public void sendAskMessage(TypeOfAction typeOfAction){
         Message message = new Message(username);
         message.createAskMessage(typeOfAction);
         client.send(message);
     }
 
+    /**
+     * Handles the selection of an action Pane.
+     *
+     * Sends an ask message using the typeOfAction in the userData of the Pane
+     * @param mouseEvent mouseEvent caught
+     */
     @FXML
-    public void handleAction(MouseEvent actionEvent){
-        Pane pane = (Pane) actionEvent.getSource();
+    public void handleAction(MouseEvent mouseEvent){
+        Pane pane = (Pane) mouseEvent.getSource();
         TypeOfAction typeOfAction = (TypeOfAction) pane.getUserData();
         sendAskMessage(typeOfAction);
     }

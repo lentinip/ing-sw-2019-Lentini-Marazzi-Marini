@@ -9,6 +9,11 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller for the OtherPlayerHandScreen
+ *
+ * @author lentinip
+ */
 public class OtherPlayerHandController {
 
     /* Attributes */
@@ -47,6 +52,9 @@ public class OtherPlayerHandController {
 
     /* Methods */
 
+    /**
+     * Initializes the structures with the imageViews
+     */
     public void initialize(){
         weapons.add(weaponImage0);
         weapons.add(weaponImage1);
@@ -57,10 +65,19 @@ public class OtherPlayerHandController {
         powerups.add(powerupImage2);
     }
 
+    /**
+     * Method that needs to be called after the controller is instantiated.
+     *
+     * @param username String with the username of the player associated with the playerHands received by this controller.
+     */
     public void configure(String username){
         usernameLabel.setText(username);
     }
 
+    /**
+     * Updates the OtherPlayerHandScreen associated with this controller
+     * @param playerHand playerHand to show
+     */
     public void updatePlayerHand(PlayerHand playerHand){
         if (oldPlayerHandMessage == null || !oldPlayerHandMessage.equals(playerHand)){
 

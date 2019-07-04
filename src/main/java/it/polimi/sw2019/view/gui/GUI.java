@@ -31,6 +31,11 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Main GUI class for the Graphic User Interface
+ *
+ * @author lentinip
+ */
 public class GUI extends Application implements ViewInterface {
 
     /* Attributes */
@@ -961,6 +966,9 @@ public class GUI extends Application implements ViewInterface {
         boardController.setActionReportsStage(stage);
     }
 
+    /**
+     * Starts a mediaPlayer with the adrenalinaMusic
+     */
     public void startMusic(){
         Platform.runLater(() -> {
 

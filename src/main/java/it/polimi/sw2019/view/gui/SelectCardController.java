@@ -19,6 +19,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Controller for the SelectCardScreen and the SelectCardScreenForSpawn.
+ *
+ * @author lentinip
+ */
 public class SelectCardController {
 
     /* Attributes */
@@ -61,6 +66,9 @@ public class SelectCardController {
 
     /* Methods */
 
+    /**
+     * Initialize the structures for the ImageViews
+     */
     public void initialize(){
         cardImage0.setUserData(new Integer(0));
         cardImage1.setUserData(new Integer(1));
@@ -73,6 +81,19 @@ public class SelectCardController {
         cards.add(cardImage3);
     }
 
+    /**
+     * Method that needs to be called after the controller is instantiated (you can choose between two different configure methods).
+     *
+     * Manages everything to show
+     *
+     * @param client reference to the Client instance
+     * @param boardController reference to the boardController instance
+     * @param availableCards availableCards message
+     * @param typeOfAction typeOfAction in which the player is involved
+     * @param images List of images to show
+     * @param lastSelectedCell BoardCoord of the last selected cell in the screen (needed if the typeOfAction is a GRAB)
+     * @param noOption false if the player must choose
+     */
     public void configure(Client client, BoardController boardController,  AvailableCards availableCards, TypeOfAction typeOfAction, List<Image> images, BoardCoord lastSelectedCell, boolean noOption){
         this.client = client;
         this.boardController = boardController;
@@ -91,11 +112,30 @@ public class SelectCardController {
         closeButton.setVisible(noOption);
     }
 
+    /**
+     * Method that needs to be called after the controller is instantiated (you can choose between two different configure methods).
+     * This method has to be called if the player has already 3 weapons and the type of message is a GRAB.
+     *
+     * Manages everything to show and the discard of a weapon.
+     *
+     * @param client reference to the Client instance
+     * @param boardController reference to the boardController instance
+     * @param availableCards availableCards message
+     * @param images List of images to show
+     * @param lastSelectedCell BoardCoord of the last selected cell in the screen (needed if the typeOfAction is a GRAB)
+     * @param myWeapons List of the ImageViews of the weapons of the player of the client
+     */
     public void configure(Client client, BoardController boardController, AvailableCards availableCards, List<Image> images, BoardCoord lastSelectedCell, List<ImageView> myWeapons){
         this.myWeapons = myWeapons;
         configure(client, boardController, availableCards, TypeOfAction.GRAB, images, lastSelectedCell, true);
     }
 
+    /**
+     * Method that shows the cards and sets the opacity to 1.0 if the card is in the indexMessages
+     * @param indexMessages list of indexMessages from the availableCards message
+     * @param images list of images to show
+     * @param disable true if the showing cars are not selectable
+     */
     public void showCards(List<IndexMessage> indexMessages, List<Image> images, boolean disable){
         for (int i = 0; i<cards.size(); i++){
             if (i<images.size()){
@@ -114,8 +154,12 @@ public class SelectCardController {
         }
     }
 
+    /**
+     * Sets an effect to the ImageView when a specific mouseEvent is caught (onMouseEntered)
+     * @param mouseEvent mouseEvent caught
+     */
     @FXML
-    public void showSelection(MouseEvent actionEvent){
+    public void showSelection(MouseEvent mouseEvent){
 
         DropShadow dropShadow = new DropShadow();
 
@@ -124,20 +168,31 @@ public class SelectCardController {
         dropShadow.setHeight(40.0);
         dropShadow.setSpread(0.6);
 
-        ImageView imageView = (ImageView) actionEvent.getSource();
+        ImageView imageView = (ImageView) mouseEvent.getSource();
 
         imageView.setEffect(dropShadow);
     }
 
+    /**
+     * Disables the effect to the ImageView when a specific mouseEvent is caught (onMouseExited)
+     * @param mouseEvent mouseEvent caught
+     */
     @FXML
-    public void disableEffect(MouseEvent actionEvent){
-        ImageView imageView = (ImageView) actionEvent.getSource();
+    public void disableEffect(MouseEvent mouseEvent){
+        ImageView imageView = (ImageView) mouseEvent.getSource();
         imageView.setEffect(null);
     }
 
+    /**
+     * Handles the selection of a card (ImageView with onMouseClicked listener)
+     *
+     * Manages if the player has 3 cards and has to discard one
+     *
+     * @param mouseEvent mouseEvent caught
+     */
     @FXML
-    public void handleSelection(MouseEvent actionEvent){
-        ImageView imageView = (ImageView) actionEvent.getSource();
+    public void handleSelection(MouseEvent mouseEvent){
+        ImageView imageView = (ImageView) mouseEvent.getSource();
         Integer integer = (Integer) imageView.getUserData();
 
         if (currentTypeOfAction == TypeOfAction.GRAB){
@@ -187,6 +242,15 @@ public class SelectCardController {
 
     }
 
+    /**
+     * Handles the close button.
+     *
+     * If the currentTypeOfAction is a USEPOWERUP and the damageSession method returns true sends a message with index -1 and closes the window.
+     *
+     * Otherwise just closes the window.
+     *
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleCloseButton(ActionEvent actionEvent){
 
@@ -209,6 +273,9 @@ public class SelectCardController {
         }
     }
 
+    /**
+     * Closes the window with the SelectCardControllerStage
+     */
     public void closeWindow(){
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
@@ -218,6 +285,11 @@ public class SelectCardController {
         this.weaponsManualStage = weaponsManualStage;
     }
 
+    /**
+     * Handler for the WeaponsManual button.
+     * If clicked shows the weaponsManualStage.
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleWeaponsManualButton(ActionEvent actionEvent){
         if (weaponsManualStage.isShowing()){

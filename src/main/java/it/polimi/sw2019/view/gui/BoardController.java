@@ -47,12 +47,16 @@ import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Controller for the BoardScreen
+ *
+ * @author lentinip
+ */
 public class BoardController {
 
     /* Attributes */
 
     private Client client;
-
 
     private final Semaphore runMutex = new Semaphore(1);
 
@@ -86,8 +90,6 @@ public class BoardController {
     private Integer timerDuration;
 
     private Double timeLeft;
-
-    private IntegerProperty timeSeconds;
 
     private Timeline timeline;
 
@@ -648,7 +650,8 @@ public class BoardController {
     }
 
     /**
-     * This method configure the board using the message received from the main Controller
+     * This method configure the board using the message received from the main Controller.
+     * This method needs to be called after the controller is instantiated.
      * @param configuration configuration message
      */
     public void configureBoard(Client client, MatchStart configuration){
@@ -750,6 +753,11 @@ public class BoardController {
         runMutex.release();
     }
 
+    /**
+     * This method gets the path of the image of the board from the BoardsDictionary.json
+     * @param jsonName name of the json in the server
+     * @return the path of the image
+     */
     public String getBoardPath(String jsonName){
         Gson json = new Gson();
         Map <String, String> boards = new HashMap<>();
@@ -763,8 +771,11 @@ public class BoardController {
         return boards.get(jsonName);
     }
 
+    /**
+     * Initializes the timer that controls the progress bar
+     */
     public void initializeTimer(){
-        timeSeconds = new SimpleIntegerProperty(timerDuration);
+        IntegerProperty timeSeconds = new SimpleIntegerProperty(timerDuration);
         timer.progressProperty().bind(timeSeconds.divide(timerDuration.doubleValue()));
         timeSeconds.set(timerDuration);
         timeline = new Timeline();
@@ -773,6 +784,9 @@ public class BoardController {
                         new KeyValue(timeSeconds, 0)));
     }
 
+    /**
+     * Starts the timer
+     */
     public void startTimer() {
         if (reconnected){
             timeline.playFrom(new Duration(timeLeft));
@@ -784,10 +798,16 @@ public class BoardController {
         }
     }
 
+    /**
+     * Stops the timer
+     */
     public void stopTimer(){
         timeline.stop();
     }
 
+    /**
+     * Initializes the listeners of the labels over the decks
+     */
     public void initializeLabels(){
         powerupsDeck.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
@@ -819,6 +839,10 @@ public class BoardController {
         });
     }
 
+    /**
+     * Initializes the ammo tiles of a specific board
+     * @param url name of the json of the selected board
+     */
     public void initializeAmmoTiles(String url){
 
         board1AmmoTiles.add(board1AmmoTile0);
@@ -899,6 +923,9 @@ public class BoardController {
         }
     }
 
+    /**
+     * Initializes the graphic cells used for the selection
+     */
     public void initializeCells(){
 
         selectableCells.add(cell0);
@@ -940,6 +967,9 @@ public class BoardController {
         }
     }
 
+    /**
+     * Initializes the positions of the players
+     */
     public void initializePositions(){
         bansheePositions.add(blueCharacter0);
         bansheePositions.add(blueCharacter1);
@@ -1027,6 +1057,9 @@ public class BoardController {
         }
     }
 
+    /**
+     * initialize the ImageViews used for the spawn cells
+     */
     public void initializeSpawnCellWeapons(){
         blueSpawnCellWeapons.add(blueSpawnCellWeapon0);
         blueSpawnCellWeapons.add(blueSpawnCellWeapon1);
@@ -1053,6 +1086,9 @@ public class BoardController {
         }
     }
 
+    /**
+     * Initialize the ImageViews for the cards of the player of this client
+     */
     public void initializeMyCards(){
         myWeapons.add(myWeaponCard0);
         myWeapons.add(myWeaponCard1);
@@ -1071,6 +1107,9 @@ public class BoardController {
         }
     }
 
+    /**
+     * Initializes the killtrack
+     */
     public void initializeKilltrack(){
         killTrackKillTokens.add(killToken0);
         killTrackKillTokens.add(killToken1);
@@ -1111,6 +1150,9 @@ public class BoardController {
 
     }
 
+    /**
+     * Sets the easyMode (shows only 5 skulls on the killtrack)
+     */
     public void setEasyMode(){
         for (int i=0; i<3; i++){
             killTrackSkulls.get(0).setVisible(false);
@@ -1120,6 +1162,11 @@ public class BoardController {
         }
     }
 
+    /**
+     * Initializes the playerboard of the player of this client
+     * @param character Character of the playerboard to show
+     * @param first true if the player is the first player
+     */
     public void initializeMyPlayerBoard(Character character, boolean first){
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/FXMLFiles/MyPlayerBoardGroup.fxml"));
@@ -1143,6 +1190,13 @@ public class BoardController {
         allPlayerBoards.add(myPlayerBoard);
     }
 
+    /**
+     * Initializes the playerboards of the other clients players
+     * @param username username of the player
+     * @param character character of the player
+     * @param first true if the player is first
+     * @param index index of the player in the BoardScreen
+     */
     public void initializeOtherPlayerBoards(String username, Character character, boolean first, int index){
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/FXMLFiles/PlayerBoardGroup.fxml"));
@@ -1184,6 +1238,9 @@ public class BoardController {
         allPlayerBoards.add(playerBoardController);
     }
 
+    /**
+     * Orders the playerboards in the allPlayerBoards ArrayList (using the list of usernames in the configuration message)
+     */
     public void orderAllPlayerBoards(){
         List<PlayerBoardController> playerBoardControllers = new ArrayList<>();
         for (Character character : configurationMessage.getCharacters()){
@@ -1196,11 +1253,20 @@ public class BoardController {
         allPlayerBoards = playerBoardControllers;
     }
 
+    /**
+     * Gets the Image of an ammo tile
+     * @param name name of the ammo
+     * @return Image of the ammo with the specified name
+     */
     public Image getAmmoImage(String name){
         String path = "/images/ammo/"+name;
         return new Image(path);
     }
 
+    /**
+     * Initializes the frenzy label
+     * @param frenzyMode true if this game has the frenzy mode
+     */
     public void initializeFrenzyLabel(boolean frenzyMode){
         if (frenzyMode){
             frenzyModeLabel.setText("yes");
@@ -1210,6 +1276,9 @@ public class BoardController {
         }
     }
 
+    /**
+     * Initialize the window for the killtrack summary
+     */
     public void initializeKillTrackSummary(){
         Platform.runLater(()->{
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -1242,7 +1311,10 @@ public class BoardController {
 
     //Method for the update of the controller
 
-
+    /**
+     * Updates the private hand of the player of this client
+     * @param privateHand privateHand message
+     */
     public void updatePrivateHand(PrivateHand privateHand){
         if (oldPrivateHand == null || !oldPrivateHand.equals(privateHand)){
 
@@ -1314,6 +1386,10 @@ public class BoardController {
         oldPrivateHand = privateHand;
     }
 
+    /**
+     * Updates the BoardScreen
+     * @param matchState matchState message
+     */
     public void updateMatch(MatchState matchState){
 
         try {
@@ -1348,6 +1424,9 @@ public class BoardController {
         }
     }
 
+    /**
+     * Disables all the actions except for end turn, use powerup and reload
+     */
     public void showOnlyReload(){
         disableActions();
         endTurnButton.setDisable(false);
@@ -1355,6 +1434,10 @@ public class BoardController {
         myPlayerBoard.showReload();
     }
 
+    /**
+     * Updates the ammo tiles in the cells and the weapons of the spawn cells
+     * @param messageCells List of messageCells
+     */
     public void updateCells(List<MessageCell> messageCells){
 
         if (oldMatchState == null || !oldMatchState.getCells().equals(messageCells)){
@@ -1403,6 +1486,11 @@ public class BoardController {
         }
     }
 
+    /**
+     * Updates the weapons of a spawn cell
+     * @param messageCell messageCell message
+     * @param spawnCellWeapons List of ImageViews of the spawn cell associated to the messageCell
+     */
     public void updateSpawnCell(MessageCell messageCell, List<ImageView> spawnCellWeapons){
         for (int i=0; i<3; i++){
             if (i<messageCell.getWeapons().size()){
@@ -1418,6 +1506,11 @@ public class BoardController {
         }
     }
 
+    /**
+     * Method that calculates the position of the ammoTile in the board
+     * @param messageCell messageCell of the common cell
+     * @return the number of the position of the ammoTile in the boardAmmoTiles list
+     */
     public int getAmmoPosition(MessageCell messageCell){
         int result = messageCell.getAmmoPositionNumber();
 
@@ -1446,6 +1539,11 @@ public class BoardController {
         return result;
     }
 
+    /**
+     * Shows the position of a player on the board
+     * @param character character of the player
+     * @param cellNumber number of the cell where is the player
+     */
     public void showPlayerPosition(Character character, int cellNumber){
         List<Circle> positions = new ArrayList<>();
 
@@ -1476,6 +1574,12 @@ public class BoardController {
         positions.get(cellNumber).setVisible(true);
     }
 
+    /**
+     * Updates all the playerBoards
+     * @param playerBoardMessages list of playerBoardMessages
+     * @param playerHands list of playerHands
+     * @param currentCharacter current character
+     */
     public void updatePlayerBoards(List<PlayerBoardMessage> playerBoardMessages, List<PlayerHand> playerHands, Character currentCharacter){
 
         if (configurationMessage.isFrenzy()){
@@ -1500,6 +1604,10 @@ public class BoardController {
 
     }
 
+    /**
+     * Updates the board and the playerboards to the frenzy mode
+     * @param currentCharacter current character (the one that activates the frenzy mode)
+     */
     public void updateIsFrenzy(Character currentCharacter){
         frenzyStarted=true;
 
@@ -1522,6 +1630,11 @@ public class BoardController {
         frenzyModeRectangle.setFill(Color.RED);
     }
 
+    /**
+     * Updates the killtrack
+     * @param killSequence List of characters that killed somebody
+     * @param overkillSequence List of boolean of the overkills (true if it is an overkill)
+     */
     public void updateKillTrack(List<Character> killSequence, List<Boolean> overkillSequence){
 
         if (oldMatchState == null || !oldMatchState.getKillSequence().equals(killSequence)){
@@ -1544,6 +1657,11 @@ public class BoardController {
         }
     }
 
+    /**
+     * Updates the labels and the ImageViews of the decks
+     * @param weaponsDeckSize Integer of the size of the weaponsDeck
+     * @param powerupsDeckSize Integer of the size of the powerupsDeck
+     */
     public void updateDecks(Integer weaponsDeckSize, Integer powerupsDeckSize){
         weaponsDeckLabel.setText(weaponsDeckSize.toString());
         powerupsDeckLabel.setText(powerupsDeckSize.toString());
@@ -1553,10 +1671,18 @@ public class BoardController {
         }
     }
 
+    /**
+     * Updates the label for the current player left actions
+     * @param currentPlayerLeftActions Integer of the currentPlayerLeftActions
+     */
     public void updateLeftActions(Integer currentPlayerLeftActions){
         leftActionsLabel.setText(currentPlayerLeftActions.toString());
     }
 
+    /**
+     * Updates the current player (also the graphic) and starts the timer again
+     * @param currentPlayer character of the current player
+     */
     public void updateCurrentPlayer(Character currentPlayer){
         if (oldMatchState == null || oldMatchState.getCurrentPlayer() != currentPlayer){
             //Starts the turn timer
@@ -1574,6 +1700,11 @@ public class BoardController {
         }
     }
 
+    /**
+     * Updates the killTrackScreen
+     * @param killTrack List of characters that killed somebody
+     * @param overKillTrack List of boolean of the overkills (true if it is an overkill)
+     */
     public void updateKillTrackSummary(List<Character> killTrack, List<Boolean> overKillTrack){
         if (!extraKillToken.isVisible()){
             extraKillToken.setVisible(true);
@@ -1584,20 +1715,35 @@ public class BoardController {
         }
     }
 
+    /**
+     * Shows the stage of the killTrackScreen
+     * @param mouseEvent mouseEvent caught
+     */
     @FXML
-    public void showKillTrackSummary(MouseEvent actionEvent){
+    public void showKillTrackSummary(MouseEvent mouseEvent){
         killTrackStage.show();
     }
 
+    /**
+     * Shows a label
+     * @param label label to show
+     */
     public void showLabel(Label label){
         label.setVisible(true);
     }
 
+    /**
+     * Hides a label
+     * @param label label to hide
+     */
     public void hideLabel(Label label){
         label.setVisible(false);
     }
 
-    //Handlers
+    /**
+     * Handles the selection of a cell
+     * @param cell Pane clicked by the user
+     */
     public void cellSelectionHandler(Pane cell){
 
         BoardCoord boardCoord = (BoardCoord) cell.getUserData();
@@ -1637,6 +1783,10 @@ public class BoardController {
 
     //Interactions
 
+    /**
+     * Shows or hides the buttons for the actions depending if the player can shoot
+     * @param canIShoot true if the player can shoot
+     */
     public void canIShoot(boolean canIShoot){
 
         try {
@@ -1664,12 +1814,20 @@ public class BoardController {
         }
     }
 
+    /**
+     * Disables all the buttons for the actions
+     */
     public void disableActions(){
         myPlayerBoard.disableActions();
         endTurnButton.setDisable(true);
         usePowerupButton.setDisable(true);
     }
 
+    /**
+     * Shows specific Panes with onMouseClicked listeners on the BoardScreen representing the cells
+     * @param cells List of boardCoord of the cells to show
+     * @param typeOfAction typeOfAction in which the player is involved
+     */
     public void showAvailableCells(List<BoardCoord> cells, TypeOfAction typeOfAction){
         try {
             runMutex.acquire();
@@ -1695,12 +1853,20 @@ public class BoardController {
         }
     }
 
+    /**
+     * Hides all the Panes representing the cells
+     */
     public void disableAvailableCells(){
         for (Pane cell : selectableCells){
             cell.setVisible(false);
         }
     }
 
+    /**
+     * Gets a List of Images from the BoardController using the typeOfAction
+     * @param typeOfAction typeOfAction in which the player is involved
+     * @return List of Images required outside the BoardController
+     */
     public List<Image> getImageCards(TypeOfAction typeOfAction){
         try {
             runMutex.acquire();
@@ -1765,6 +1931,12 @@ public class BoardController {
         }
     }
 
+    /**
+     * Ables specific Circles with onMouseClicked listeners on the BoardScreen representing the players
+     * @param characters List of characters to able
+     * @param typeOfAction typeOfAction in which the player is involved
+     * @param noOption false if the player must chose a player
+     */
     public void showSelectablePlayers(List<Character> characters, TypeOfAction typeOfAction, boolean noOption){
         try {
             runMutex.acquire();
@@ -1810,6 +1982,10 @@ public class BoardController {
         }
     }
 
+    /**
+     * Ables, if visible, Circles with onMouseClicked listeners on the BoardScreen representing the players
+     * @param positions List of Circles (positions) of a Character
+     */
     public void ablePositionSelection(List<Circle> positions){
         for (Circle position : positions){
             if(position.isVisible()){
@@ -1819,6 +1995,9 @@ public class BoardController {
         }
     }
 
+    /**
+     * Disables all the Circles representing the positions of the players
+     */
     public void disablePositions(){
         List<Circle> circleList = new ArrayList<>(ablePositions);
 
@@ -1828,8 +2007,12 @@ public class BoardController {
         }
     }
 
+    /**
+     * Sets an effect to a Circle (Player position) when a specific mouseEvent is caught (onMouseEntered)
+     * @param mouseEvent mouseEvent caught
+     */
     @FXML
-    public void showEffectPosition(MouseEvent actionEvent){
+    public void showEffectPosition(MouseEvent mouseEvent){
         DropShadow dropShadow = new DropShadow();
 
         dropShadow.setHeight(30.0);
@@ -1837,19 +2020,27 @@ public class BoardController {
         dropShadow.setSpread(0.3);
         dropShadow.setColor(Color.BLUE);
 
-        Circle position = (Circle) actionEvent.getSource();
+        Circle position = (Circle) mouseEvent.getSource();
         position.setEffect(dropShadow);
     }
 
+    /**
+     * Disables the effect of a Circle (Player position) when a specific mouseEvent is caught (onMouseExited)
+     * @param mouseEvent mouseEvent caught
+     */
     @FXML
-    public void disableEffectPosition(MouseEvent actionEvent){
-        Circle position = (Circle) actionEvent.getSource();
+    public void disableEffectPosition(MouseEvent mouseEvent){
+        Circle position = (Circle) mouseEvent.getSource();
         position.setEffect(null);
     }
 
+    /**
+     * Handles the event onMouseClicked for the positions of the players
+     * @param mouseEvent mouseEvent caught
+     */
     @FXML
-    public void handlePositionSelection(MouseEvent actionEvent){
-        Circle position = (Circle) actionEvent.getSource();
+    public void handlePositionSelection(MouseEvent mouseEvent){
+        Circle position = (Circle) mouseEvent.getSource();
         Character selectedCharacter = (Character) position.getUserData();
 
         int positionInt = configurationMessage.getCharacters().indexOf(selectedCharacter);
@@ -1857,11 +2048,19 @@ public class BoardController {
         sendPosition(positionInt);
     }
 
+    /**
+     * Handles the choice of the player to don't select anyone
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleNoPositionSelection(ActionEvent actionEvent){
         sendPosition(-1);
     }
 
+    /**
+     * Sends the position to chosen to the server
+     * @param position int of the player chosen in the usernames List in the configuration message (-1 if no one)
+     */
     public void sendPosition(int position){
         disablePositions();
         selectAPlayerGroup.setVisible(false);
@@ -1871,6 +2070,7 @@ public class BoardController {
         message.createSelectedPlayer(position, currentTypeOfAction);
         client.send(message);
     }
+
 
     public Group getMyAmmoGroup(){
         return myPlayerBoard.getAmmoGroup();
@@ -1892,6 +2092,10 @@ public class BoardController {
         return lastSelectedCell;
     }
 
+    /**
+     * Handler for the button End Turn
+     * @param actionEvent actionEvent caught
+     */
     public void handleEndTurn(ActionEvent actionEvent){
         disableAvailableCells();
 
@@ -1900,6 +2104,10 @@ public class BoardController {
         client.send(message);
     }
 
+    /**
+     * Handler for the button Use Powerup
+     * @param actionEvent actionEvent caught
+     */
     public void handleUsePowerup(ActionEvent actionEvent){
         disableAvailableCells();
 
@@ -1908,6 +2116,10 @@ public class BoardController {
         client.send(message);
     }
 
+    /**
+     * Checks if the player of this client is the current player
+     * @return true if is the current player
+     */
     public boolean iAmTheCurrentPlayer(){
         return oldMatchState.getCurrentPlayer() == myPlayerBoard.getCharacter();
     }
@@ -1916,6 +2128,10 @@ public class BoardController {
         this.actionReports = actionReports;
     }
 
+    /**
+     * Checks if somebody has done damage and the shoot is not ended (Useful for Targeting Scope)
+     * @return true if somebody has done damage and the shoot is not ended
+     */
     public boolean damageSession(){
         try {
             return actionReports.isDamageSession();
@@ -1930,6 +2146,11 @@ public class BoardController {
         this.instructionManualStage = instructionManualStage;
     }
 
+    /**
+     * Handler for the InstructionManual button.
+     * If clicked shows the instructionManualStage.
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleInstructionButton(ActionEvent actionEvent){
         if (instructionManualStage.isShowing()){
@@ -1944,6 +2165,11 @@ public class BoardController {
         this.weaponsManualStage = weaponsManualStage;
     }
 
+    /**
+     * Handler for the WeaponsManual button.
+     * If clicked shows the weaponsManualStage.
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleWeaponsManualButton(ActionEvent actionEvent){
         if (weaponsManualStage.isShowing()){
@@ -1962,6 +2188,11 @@ public class BoardController {
         return actionReportsStage;
     }
 
+    /**
+     * Handler for the Action Reports button.
+     * If clicked shows the actionReportsStage.
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleActionReportsButton(ActionEvent actionEvent){
         if (actionReportsStage.isShowing()){

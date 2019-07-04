@@ -3,7 +3,6 @@ package it.polimi.sw2019.view.gui;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Pagination;
 import javafx.scene.image.Image;
@@ -11,11 +10,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.util.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller for the InstructionManualScreen
+ *
+ * @author lentinip
+ */
 public class InstructionManualController {
 
     /* Attributes */
@@ -35,6 +38,9 @@ public class InstructionManualController {
 
     /* Methods */
 
+    /**
+     * Initializes the pagination
+     */
     public void initialize(){
         Pagination pagination = new Pagination(12);
         pagination.setMaxPageIndicatorCount(12);
@@ -55,6 +61,9 @@ public class InstructionManualController {
 
     }
 
+    /**
+     * Initializes the images of the instruction manual and adds them in the page list
+     */
     public void imageInitialization(){
         for (int i = 0; i<12; i++){
             String url = String.format("/images/instructionManual/InstructionPage%d.png", i);
@@ -68,6 +77,11 @@ public class InstructionManualController {
         }
     }
 
+    /**
+     * Method that needs to be called after the controller is instantiated.
+     *
+     * This method sets some properties that allow the scaling of the content of the window
+     */
     public void configure(){
         Scene scene = pane.getScene();
 
