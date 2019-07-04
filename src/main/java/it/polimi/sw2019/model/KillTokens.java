@@ -45,6 +45,11 @@ public class KillTokens extends Tokens{
         return totalKills;
     }
 
+    //USED ONLY IN TESTS!
+    public void setTotalKills(int totalKills) {
+        this.totalKills = totalKills;
+    }
+
     /**
      * adding a killer on the kill track
      * @param killer Player who killed someone

@@ -188,13 +188,13 @@ public class Match extends Observable {
     public void setEasyMode(boolean easyMode) {
         this.easyMode = easyMode;
     }
-
+/*
     /**
      * Returns the Player with a specific Character
      * @param character The Character of the player
      * @return the Player reference (Can be null)
      */
-    public Player getPlayerByCharacter(Character character){
+    /*public Player getPlayerByCharacter(Character character){
 
         for (Player player: players){
 
@@ -205,7 +205,7 @@ public class Match extends Observable {
         }
 
         return null;
-    }
+    }*/
 
     /**
      * Get Player by username (if there is no player with that username returns null)
@@ -274,19 +274,23 @@ public class Match extends Observable {
     public void setNextPlayer(){
 
         int i = players.indexOf(currentPlayer);
+        //System.out.print("\n " + i);
 
         if (isEnded){
 
+            //System.out.print("\n ended ");
             currentPlayer = null;
+            return;
         }
 
         else if ( i < numberOfPlayers - 1){
 
+            //System.out.print("\n"+i);
             currentPlayer = players.get(i+1);
         }
 
         else {
-
+            //System.out.print("\n"+i);
             currentPlayer = players.get(0);
         }
 
@@ -312,7 +316,7 @@ public class Match extends Observable {
          */
         for(int i = 0; i < players.size(); i++) {
 
-             if(players.get(i).isDead() && players.get(i).getPosition() != null) {
+             if(players.get(i).getPosition() != null && players.get(i).isDead()) {
 
                  System.out.print("\nThe player is dead: " + players.get(i).isDead()+"\n");
                  System.out.print("\nThe player position is : " + players.get(i).getPosition().getCoord().getCellNumber()+"\n");
@@ -413,6 +417,7 @@ public class Match extends Observable {
         Message message = new Message("All");
         message.createMessageMatchState(createMatchState());
         setChanged();
+        //System.out.print("\n" + message.getUsername());
         notifyObservers(message);
     }
 

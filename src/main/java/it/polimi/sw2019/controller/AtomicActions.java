@@ -39,6 +39,8 @@ public class  AtomicActions {
         String report = "  >>>>  in row: " + selectedCell.getRow() + ", column: " + selectedCell.getColumn();
         Message message = new Message("All");
         message.createActionReports(report, player.getCharacter(), null);
+        //testing print
+        //System.out.print("\n" + report + "\n" + player.getCharacter());
         view.display(message);
 
     }
@@ -83,6 +85,8 @@ public class  AtomicActions {
         String report = "  GRABBED AMMO TILE in row: " + selectedCell.getRow() + ", column: " + selectedCell.getColumn();
         Message message = new Message("All");
         message.createActionReports(report, grabbingPlayer.getCharacter(), null);
+        //testing print
+        //System.out.print("\n" + report + "\n" + grabbingPlayer.getCharacter());
         view.display(message);
     }
 
@@ -118,6 +122,8 @@ public class  AtomicActions {
 
         Message message = new Message("All");
         message.createActionReports(report, grabbingPlayer.getCharacter(), null);
+        //testing print
+        //System.out.print("\n" + report + "\n" + grabbingPlayer.getCharacter() + "\n");
         view.display(message);
     }
 
@@ -150,6 +156,8 @@ public class  AtomicActions {
         String report = " LAID DOWN  " + weaponToReplace.getName();
         Message message = new Message("All");
         message.createActionReports(report, grabbingPlayer.getCharacter(), null);
+        //testing print
+        //System.out.print("\n" + report + "\n" + grabbingPlayer.getCharacter() + "\n");
         view.display(message);
     }
 
@@ -230,6 +238,8 @@ public class  AtomicActions {
             String report = "  MARKED ︻デ┳═ー  ";
             Message message = new Message("All");
             message.createActionReports(report, shooter.getCharacter(), receiver.getCharacter(), true);
+            //testing print
+            System.out.print("\n" + report + "\n" + shooter.getCharacter() + "\n");
             view.display(message);
         }
     }
@@ -242,6 +252,8 @@ public class  AtomicActions {
         String report = "  RELOADED ︻╦╤─  " + reloadedWeapon.getName();
         Message message = new Message("All");
         message.createActionReports(report, reloader.getCharacter(), null);
+        //testing print
+        //System.out.print("\n" + report + "\n" + reloader.getCharacter() + "\n");
         view.display(message);
 
     }
@@ -319,6 +331,8 @@ public class  AtomicActions {
             String report = "  DREW a card";
             Message message = new Message("All");
             message.createActionReports(report, drawer.getCharacter(), null);
+            //testing print
+            //System.out.print("\n" + report + "\n" + drawer.getCharacter() + "\n");
             view.display(message);
         }
     }

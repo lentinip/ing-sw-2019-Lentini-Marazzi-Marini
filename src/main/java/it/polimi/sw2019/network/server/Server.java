@@ -453,6 +453,7 @@ public class Server {
         if (!currentWaitingRoom.getWaitingPlayers().containsKey(user) && virtualViewMap.keySet().contains(user) && virtualViewMap.get(user).getWaitingPlayers().get(user).getConnected()) {
 
             Message message = new Message(user);
+
             try {
 
                 System.out.print("\n" + user);
