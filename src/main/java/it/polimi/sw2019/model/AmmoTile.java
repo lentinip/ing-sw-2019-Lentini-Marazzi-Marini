@@ -1,5 +1,9 @@
 package it.polimi.sw2019.model;
 
+/**
+ * @author lentinip
+ * this class is used as a structure to contain infos about the tiles on the board
+ */
 public class AmmoTile extends Ammo {
 
     /**
@@ -12,6 +16,13 @@ public class AmmoTile extends Ammo {
         setYellow(0);
     }
 
+    /**
+     * customized constructor
+     * @param blue ammo blue
+     * @param red ammo red
+     * @param yellow ammo yellow
+     * @param powerup if it has a powerup or not
+     */
     public AmmoTile(int blue, int red, int yellow, boolean powerup) {
 
         setBlue(blue);
@@ -42,22 +53,4 @@ public class AmmoTile extends Ammo {
         return ammoTileImg;
     }
 
-    public void setAmmoTileImg(String ammoTileImg) {
-        this.ammoTileImg = ammoTileImg;
-    }
-
-    /**
-     * used by the constructor class Factory
-     * @param red color
-     * @param blue color
-     * @param yellow color
-     * @param powerup color
-     */
-    public void setAmmoTileStructure(int red, int blue, int yellow, boolean powerup){
-
-        this.setRed(red);
-        this.setBlue(blue);
-        this.setYellow(yellow);
-        this.setPowerup(powerup);
-    }
 }

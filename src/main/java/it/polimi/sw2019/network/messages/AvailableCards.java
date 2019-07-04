@@ -2,6 +2,10 @@ package it.polimi.sw2019.network.messages;
 
 import java.util.List;
 
+/**
+ * @author poligenius
+ * class used to send info about cards that can be chosen by the player
+ */
 public class AvailableCards {
 
     /**
@@ -9,9 +13,6 @@ public class AvailableCards {
      */
     public AvailableCards(){}
 
-    /**
-     *  Customize constructor
-     */
     public AvailableCards(List<IndexMessage> availableCards, boolean areWeapons){
 
         setAvailableCards(availableCards);

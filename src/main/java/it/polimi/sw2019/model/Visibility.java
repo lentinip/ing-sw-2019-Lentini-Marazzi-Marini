@@ -3,11 +3,13 @@ package it.polimi.sw2019.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author poligenius
+ * class that contains some game logic, its method are used to know where a
+ * player can shoot
+ */
 public class Visibility {
 
-    /**
-     * Default Constructor
-     */
 
     public Visibility() {
     }
@@ -32,13 +34,12 @@ public class Visibility {
 
     /**
      * depending on the kindOfVisibility this method calls the correspondent method and give it the correct input
-     *
-     * @param visibility
-     * @param player
-     * @param movesAway
-     * @param exactly
-     * @param moves
-     * @return
+     * @param visibility visibility of the effect
+     * @param player owner of the weapon
+     * @param movesAway how many moves targets have to be away from the shooter
+     * @param exactly if they have to be away EXACTLY moves away
+     * @param moves how many moves the player can move during the effect
+     * @return list of reachable cells
      */
     public List<Cell> visibility(KindOfVisibility visibility, Player player, int movesAway, boolean exactly, int moves) {
 
@@ -66,6 +67,7 @@ public class Visibility {
 
 
     /**
+     * used to know targets for VISIBLE effects
      * @param player    the shooting player
      * @param movesAway number of moves the targets have to be away from  the shooter
      * @param exactly   true if movesAway has to be EXACTLY
@@ -111,7 +113,8 @@ public class Visibility {
     }
 
     /**
-     * @param player
+     * used to know targets for NONVISIBLE effects
+     * @param player shooter
      * @return the cells the player cannot see from his position
      */
     public List<Cell> nonVisible(Player player) {
@@ -134,7 +137,8 @@ public class Visibility {
     }
 
     /**
-     * @param player
+     * used to know targets for RAILGUN effects
+     * @param player shooter
      * @return the cells in cardinal direction from the player
      */
     public List<Cell> railGun(Player player) {
@@ -160,7 +164,8 @@ public class Visibility {
     }
 
     /**
-     * @param player
+     * used to know targets for DIFFROOM effects
+     * @param player shooter
      * @return the cells of the rooms the player can see in (excluding the one he is in)
      */
     public List<Cell> diffRoom(Player player) {
@@ -175,7 +180,8 @@ public class Visibility {
     }
 
     /**
-     * @param player
+     * used to know cells for MOVE effects
+     * @param player shooter
      * @param moves  max moves he can do
      * @return the cells that the player can reach
      */

@@ -4,6 +4,10 @@ import it.polimi.sw2019.model.Character;
 
 import java.util.List;
 
+/**
+ * @author poligenius
+ * this class contains info about characters in the game
+ */
 public class Players {
 
     /**
@@ -11,9 +15,6 @@ public class Players {
      */
     public Players(){}
 
-    /**
-     * customize constructor
-     */
     public Players(List<Character> characters){
 
         setCharacters(characters);

@@ -1,6 +1,9 @@
 package it.polimi.sw2019.model;
 
-
+/**
+ * @author poligenius
+ * this class contains infos about powerups and their effects
+ */
 public class Powerup {
 
     /**
@@ -62,14 +65,6 @@ public class Powerup {
         this.description = description;
     }
 
-    public TypeOfAction getTypeOfAction() {
-        return typeOfAction;
-    }
-
-    public void setTypeOfAction(TypeOfAction typeOfAction) {
-        this.typeOfAction = typeOfAction;
-    }
-
     public int getValue() {
         return value;
     }
@@ -111,8 +106,8 @@ public class Powerup {
     }
 
     /**
-     *
-     * @param cost
+     * tells if the powerup can be used to pay part of the cost
+     * @param cost cost I need to pay
      * @return true if the powerup can be used to pay part of the cost, false otherwise
      */
     public boolean useToPay(Ammo cost){

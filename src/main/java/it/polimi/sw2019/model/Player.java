@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+/**
+ * @author poligenius
+ * this class contains all the info about the player and a big part of the logic of the
+ * game to know what a player can do/pay/reload/etc.
+ */
 public class Player extends Observable {
 
     /**
@@ -152,6 +157,10 @@ public class Player extends Observable {
         return availablePowerups;
     }
 
+    /**
+     * method to know if a player ha a tagback grenade
+     * @return true if we have a tagback
+     */
     public boolean hasCounterAttackPowerups(){
 
         for (Powerup powerup: getPowerups()){
@@ -182,7 +191,6 @@ public class Player extends Observable {
 
     /**
      * Removes a weapon from the weapons array
-     *
      * @param i The index of the weapon in the array
      */
     public void discardWeapon(int i){
@@ -193,7 +201,6 @@ public class Player extends Observable {
 
     /**
      * Adds a weapon into the weapons array
-     *
      * @param weapon The weapon that has to be added to the array
      */
     public void addWeapon(Weapon weapon) { //Adds a weapon into the weapons array
@@ -304,7 +311,8 @@ public class Player extends Observable {
     }
 
     /**
-     * Checks if a weapon is loaded and if there are targets available for the weapons
+     * to know the weapons we can shoot with
+     * @return the weapons we can use to shoot
      */
     public List<Weapon> availableWeapons(){
 
@@ -335,6 +343,10 @@ public class Player extends Observable {
         return availableWeapons;
     }
 
+    /**
+     * used to know weapons we can reload
+     * @return a list of weapons that can be reloaded
+     */
     public List<Weapon> reloadableWeapons(){
         List<Weapon> unloadedWeapons = new ArrayList<>(weapons);
         List<Weapon> reloadableWeapons = new ArrayList<>();
@@ -493,7 +505,7 @@ public class Player extends Observable {
     }
 
     /**
-     *
+     * tells if the player can pay a cost
      * @param cost the cost I have to pay
      * @return true if I can pay the cost (considering also powerup)
      */
@@ -527,7 +539,7 @@ public class Player extends Observable {
 
     /**
      * this method has to be called only when I'm sure I can pay the cost ( canIpay returns true )
-     * @param cost
+     * @param cost cost to pay
      * @return the powerups that I can use to pay a cost, returns an empty list if I don't have powerups or they are not of the right color
      */
     public List<Powerup> payingPoweups(Ammo cost){
@@ -564,6 +576,10 @@ public class Player extends Observable {
         else { return 2; /* FRENZY AFTER FIRST */ }
     }
 
+    /**
+     * Called by method in player
+     * @return the number of moves you can do before a grab based on your state
+     */
     public int getMovesForGrab(){
 
         if (state == State.NORMAL){
@@ -579,6 +595,10 @@ public class Player extends Observable {
         else { return 3; /* FRENZY AFTER FIRST */ }
     }
 
+    /**
+     * Called by method in player
+     * @return the number of moves you can do based on your state
+     */
     public int getMoves(){
 
         if ( state == State.NORMAL || state == State.ADRENALINIC1 || state == State.ADRENALINIC2 ){
@@ -594,6 +614,10 @@ public class Player extends Observable {
         return 0; /* this is the case of FRENZY AFTER FIRST, but in this case the move action is not available */
     }
 
+    /**
+     * used to know powerups that can be used
+     * @return a list of the powerups that can be used
+     */
     public List<Powerup> usablePowerups(){
 
         List<Powerup> usablePowerups = new ArrayList<>();
@@ -609,6 +633,10 @@ public class Player extends Observable {
         return usablePowerups;
     }
 
+    /**
+     * create infos about the hadn of the player to send to its view
+     * @return a message containing the infos
+     */
     public Message notifyPrivateHand(){
 
         //First creates the message

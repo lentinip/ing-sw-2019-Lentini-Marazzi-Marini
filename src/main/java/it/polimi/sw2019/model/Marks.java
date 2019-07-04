@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author lentinip
+ * class written to keep track of the marks that a player has received
+ */
 public class Marks extends Tokens {
 
-    /**
-     * Default constructor
-     */
+
 
     public Marks(List<Character> charactersInGame) {
         super(charactersInGame);

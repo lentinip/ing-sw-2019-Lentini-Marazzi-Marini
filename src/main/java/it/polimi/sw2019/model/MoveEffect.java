@@ -3,13 +3,17 @@ package it.polimi.sw2019.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author poligenius
+ * this class contains all the info about effects that move other players/yourself
+ */
 public class MoveEffect {
 
 
     /**
      * Default Constructor
      */
-    public MoveEffect(){};
+    public MoveEffect(){}
 
     /* Attributes */
 
@@ -148,6 +152,7 @@ public class MoveEffect {
 
     /**
      * Method that tells you if you can choose when to move the targets
+     * @return true if I can choose when move a target
      */
     public boolean iCanChooseWhenMoveTarget(){
 
@@ -158,6 +163,7 @@ public class MoveEffect {
 
     /**
      * Method that tells you if you can choose when to do the move
+     * @return true if I can choose when move
      */
     public boolean iCanChooseWhenMove(){
 
@@ -196,6 +202,7 @@ public class MoveEffect {
 
     /**
      * tells if class contains a move after effect
+     * @return true if i have a move after, false instead
      */
     public boolean iHaveAMoveAfter(){
 

@@ -1,12 +1,12 @@
 package it.polimi.sw2019.network.messages;
 
 import it.polimi.sw2019.model.Character;
-import it.polimi.sw2019.model.Match;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author poligenius
  *  Class used to doSomething the info about the board and the game to the view
  */
 public class MatchStart {
@@ -16,9 +16,7 @@ public class MatchStart {
      */
     public MatchStart(){}
 
-    /**
-     * customize constructor
-     */
+
     public MatchStart(Message matchSetUpMessage, List<String> usernames, List<Character> characters, long turnDuration){
 
         MatchSetup matchSetup = matchSetUpMessage.deserializeMatchSetup();

@@ -14,11 +14,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-
+/**
+ * @author poligenius
+ * SIMPLY the CLI
+ */
 public class CLI implements ViewInterface {
 
     /**
      * Customized constructor
+     * @param client reference to the client
      */
     public CLI(Client client){
 
@@ -685,7 +689,7 @@ public class CLI implements ViewInterface {
     }
 
     /**
-     * ised to show the first display
+     * used to show the first display
      * @param answer can I shoot answer
      */
     private void goBackActionWindow(boolean answer){
@@ -694,6 +698,10 @@ public class CLI implements ViewInterface {
         displayCanIShoot(answer);
     }
 
+    /**
+     * display the info window
+     * @param answer can I shoot received
+     */
     private void displayInfoWindow(boolean answer){
 
         out.println("\nWhat do you want to know?\n");
@@ -744,6 +752,10 @@ public class CLI implements ViewInterface {
         }
     }
 
+    /**
+     * display your status window
+     * @param answer canIshoot received
+     */
     private void displayYourStatus(boolean answer){
 
         printCharacterName(characters.get(usernames.indexOf(username)));
@@ -840,6 +852,10 @@ public class CLI implements ViewInterface {
         goBackActionWindow(answer);
     }
 
+    /**
+     * dysplay the cards of the player
+     * @param answer canIshoot received
+     */
     private void displayPlayerCards(Boolean answer){
 
         out.println("PLAYERS' CARDS:\n");
@@ -928,6 +944,7 @@ public class CLI implements ViewInterface {
 
     /**
      * Used to print powerup names colored
+     * @param index of the powerup
      */
     private void printPowerupName(int index){
 
@@ -948,6 +965,10 @@ public class CLI implements ViewInterface {
     }
 
 
+    /**
+     * displays the board
+     * @param answer canIshoot received
+     */
     private void displayBattlefield(boolean answer){
 
         out.println( "\n" + matchState.getWeaponsDeckSize() + " weapons and " + matchState.getPowerupsDeckSize() + " powerups left in the deck\n");
@@ -1849,6 +1870,10 @@ public class CLI implements ViewInterface {
         displayLoginWindow();
     }
 
+    /**
+     * display a connection error
+     * @param mesToResend resend last message
+     */
     public void displayConnectionErrorClient(Message mesToResend){
 
         out.println("\nWE CAN'T REACH THE SERVER! CHECK YOUR CONNECTION PLEASE! :( \nPRESS SOMETHING TO TRY AGAIN:");
@@ -1857,13 +1882,13 @@ public class CLI implements ViewInterface {
         if (mesToResend.getTypeOfMessage() == TypeOfMessage.LOGIN_REPORT) {
             client.connect(mesToResend);
         }
-        else {
-            client.send(mesToResend);
-        }
     }
 
+    /**
+     * display a connection failure
+     */
     public void displayConnectionFailure(){
-        out.println("\nCONNECTION FAILURE... PLEASE LOGIN AGAIN WITH SAME USERNAME!!! (you name was: " + username +" \n\n\n");
+        out.println("\nCONNECTION FAILURE... PLEASE LOGIN AGAIN WITH SAME USERNAME!!! (your name was: " + username +" \n\n\n");
         clearAttributes();
         displayLoginWindow();
     }

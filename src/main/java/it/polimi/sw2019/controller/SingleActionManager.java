@@ -14,12 +14,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class handles a single action
+ * @author poligenius, lentinip
+ * This class handles  single actions made by the client
+ * and message with type of message SINGLE ACTION, it is connected to the class AtomicActions because calls its methods
+ * to change the model
  */
 public class SingleActionManager {
 
     /**
      * Default Constructor
+     * @param match match class
+     * @param turnManager turn manager reference
+     * @param view view reference to call display
      */
     public SingleActionManager(Match match, VirtualView view, TurnManager turnManager) {
         this.match = match;
@@ -69,6 +75,10 @@ public class SingleActionManager {
         return turnManager;
     }
 
+    /**
+     * this method applies a first filter to the message received
+     * @param message mes received
+     */
     public void singleActionHandler(Message message){
 
         switch (message.getTypeOfAction()){
@@ -113,6 +123,10 @@ public class SingleActionManager {
         reducePlayerNumberOfActions();
     }
 
+    /**
+     * this method handles grab action
+     * @param message mes received
+     */
     public void grabHandler(Message message){
 
         Player player = match.getPlayerByUsername(message.getUsername());
@@ -152,6 +166,10 @@ public class SingleActionManager {
 
     }
 
+    /**
+     * this method handles grab of weapons
+     * @param message mes received
+     */
     public void grabWeaponHandler(Message message){
 
         Player player = match.getPlayerByUsername(message.getUsername());
@@ -174,6 +192,10 @@ public class SingleActionManager {
 
     }
 
+    /**
+     * this method handles a move before a shoot action
+     * @param message mes received
+     */
     public void moveBeforeShootHandler(Message message){
 
         Message answer = new Message(message.getUsername());
@@ -228,16 +250,24 @@ public class SingleActionManager {
 
     }
 
+    /**
+     * this method handles a move after a shoot action
+     * @param message mes received
+     */
     public void moveAfterShootHandler(Message message){
 
         Cell selectedCell = match.getBoard().getCell(message.deserializeBoardCoord());
 
         //moving first player shooted to the selected cell
-        atomicActions.move(choices.getShootedPlayers().get(0), selectedCell);
+        atomicActions.move(choices.getShootedPlayers().get(0), selectedCell, true);
 
         choices.powerupsAfterShoot();
     }
 
+    /**
+     * this method handles the use of a powerup and applies its effect
+     * @param message mes received
+     */
     public void usePowerupHandler(Message message){
 
         Cell selectedCell = match.getBoard().getCell(message.deserializeBoardCoord());
@@ -285,6 +315,11 @@ public class SingleActionManager {
         match.notifyPrivateHand(match.getCurrentPlayer());
     }
 
+    /**
+     * this method is used to know which weapons we can reload
+     * @param currentPlayer current player
+     * @return a message containing the reloadable weapons
+     */
     public List<IndexMessage> createReloadMessage(Player currentPlayer){
         List<Weapon> reloadableWeapons = currentPlayer.reloadableWeapons();
         List<IndexMessage> indexMessageList = new ArrayList<>();
@@ -296,6 +331,11 @@ public class SingleActionManager {
         return indexMessageList;
     }
 
+    /**
+     * this method is used to know which weapons we can use to shoot
+     * @param currentPlayer current player
+     * @return a list of the index of weapons we can use to shoot
+     */
     public List<IndexMessage> createShootMessage(Player currentPlayer){
         List<Weapon> usableWeapon = currentPlayer.availableWeapons();
         List<IndexMessage> indexMessageList = new ArrayList<>();
@@ -307,6 +347,10 @@ public class SingleActionManager {
         return indexMessageList;
     }
 
+    /**
+     * this method handles the reload of a weapon
+     * @param message mes received
+     */
     public void reloadHandler(Message message){
         IndexMessage indexMessage = message.deserializeIndexMessage();
         Player player = match.getCurrentPlayer();
@@ -321,6 +365,7 @@ public class SingleActionManager {
         //The view checks if the indexMessageList is empty
         answer.createAvailableCardsMessage(TypeOfAction.RELOAD, indexMessageList, true);
 
+        match.setCurrentPlayerLeftActions(0);
         view.display(answer);
     }
 
@@ -370,7 +415,7 @@ public class SingleActionManager {
 
             for (Effect effect: effectList){
 
-                if (effect.getTargets().isDifferentPlayers() && choices.getCurrentEffect().getType() != EffectsKind.MOVE){
+                if (effect.getTargets().isDifferentPlayers() && effect.getType() != EffectsKind.MOVE){
 
                     List<Player> targets = new ArrayList<>(match.getCurrentPlayer().getPosition().playersInCell());
                     targets.remove(match.getCurrentPlayer());

@@ -4,7 +4,6 @@ import it.polimi.sw2019.network.messages.*;
 import it.polimi.sw2019.network.server.VirtualView;
 import static it.polimi.sw2019.network.messages.TypeOfMessage.*;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -12,10 +11,15 @@ import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author poligenius
+ * this class is used to apply a first filter to the message received
+ */
 public class Controller implements Observer {
 
     /**
-     * Customized constructor
+     * customized constructor
+     * @param view reference to the virtual view used to call its display method
      */
     public Controller(VirtualView view) {
 
@@ -39,14 +43,6 @@ public class Controller implements Observer {
 
     public Match getMatch() {
         return match;
-    }
-
-    public void setTurnManager(TurnManager turnManager) {
-        this.turnManager = turnManager;
-    }
-
-    public TurnManager getTurnManager() {
-        return turnManager;
     }
 
     /**
@@ -120,6 +116,10 @@ public class Controller implements Observer {
 
     }
 
+    /**
+     * this method handles every message received with type ASK
+     * @param message mes received
+     */
     public void askManager(Message message){
         Message answer = new Message(message.getUsername());
         Player currentPlayer = match.getCurrentPlayer();
@@ -197,7 +197,6 @@ public class Controller implements Observer {
                 break;
             case RELOAD:
                 //If the player asks for a reload, can't do other actions
-                match.setCurrentPlayerLeftActions(0);
 
                 List<IndexMessage> indexMessageList = turnManager.getSingleActionManager().createReloadMessage(currentPlayer);
                 //The view checks if the indexMessageList is empty

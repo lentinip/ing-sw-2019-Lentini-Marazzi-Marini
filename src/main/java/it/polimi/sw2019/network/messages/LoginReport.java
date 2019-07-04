@@ -1,5 +1,9 @@
 package it.polimi.sw2019.network.messages;
 
+/**
+ * @author Mi97ch
+ * this class contains infos to tell if a login was successful or not
+ */
 public class LoginReport {
 
 

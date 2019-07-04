@@ -2,6 +2,10 @@ package it.polimi.sw2019.network.messages;
 
 import java.util.List;
 
+/**
+ * @author poligenius
+ * class written to send infos about the effects a player can choose
+ */
 public class AvailableEffects {
 
     /**
@@ -20,7 +24,7 @@ public class AvailableEffects {
 
     private List<IndexMessage> indexes;
     private List<String> names;
-    private String name;
+    private String name;  //name of the weapon that the player is using
 
     /* Methods */
 

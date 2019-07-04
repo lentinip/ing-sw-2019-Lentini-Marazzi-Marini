@@ -1,5 +1,9 @@
 package it.polimi.sw2019.network.messages;
 
+/**
+ * @author poligenius
+ * this class was written to put into it coordinates of cell position on the board
+ */
 public class BoardCoord {
 
     /**
@@ -7,9 +11,6 @@ public class BoardCoord {
      */
     public BoardCoord(){}
 
-    /**
-     * customize Constructor
-     */
     public BoardCoord(int row, int column){
 
         setColumn(column);

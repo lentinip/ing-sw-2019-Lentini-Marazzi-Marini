@@ -1,6 +1,7 @@
 package it.polimi.sw2019.network.messages;
 
 /**
+ * @author poligenius
  * info sent to the controller to create the match
  */
 public class MatchSetup {
@@ -10,9 +11,6 @@ public class MatchSetup {
      */
     public MatchSetup(){}
 
-    /**
-     * customize constructor
-     */
     public MatchSetup(boolean frenzy, boolean eightSkulls, String boardJsonName){
 
         setFrenzy(frenzy);

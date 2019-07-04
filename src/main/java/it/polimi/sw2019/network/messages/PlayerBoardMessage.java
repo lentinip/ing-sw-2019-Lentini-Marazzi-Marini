@@ -4,6 +4,10 @@ import it.polimi.sw2019.model.Character;
 
 import java.util.List;
 
+/**
+ * @author poligenius
+ * this class contains infos about a player board
+ */
 public class PlayerBoardMessage {
 
     public PlayerBoardMessage(){}

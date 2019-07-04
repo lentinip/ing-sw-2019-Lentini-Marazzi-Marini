@@ -3,6 +3,7 @@ package it.polimi.sw2019.model;
 import java.util.List;
 
 /**
+ * @author poligenius
  * this class was written to put into it the information inside the board.json files
  */
 public class CellFactory {
@@ -96,6 +97,12 @@ public class CellFactory {
         return isCommon;
     }
 
+    /**
+     * this method is used to initialize every cell on the board
+     * @param field all the cells of the board
+     * @param index index of the cell to initialize
+     * @param rooms all the rooms of the board
+     */
     public void setCell(List<Cell> field, int index, List<Room> rooms){
 
         Cell cell = field.get(index);

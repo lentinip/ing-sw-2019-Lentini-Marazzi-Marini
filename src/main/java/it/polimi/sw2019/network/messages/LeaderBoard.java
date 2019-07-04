@@ -2,9 +2,12 @@ package it.polimi.sw2019.network.messages;
 
 import it.polimi.sw2019.model.Character;
 
-import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * @author poligenius
+ * this class contains infos about the leaderboard when the match ends
+ */
 public class LeaderBoard {
 
     public LeaderBoard(Map<Character, Integer> map, Map<Character, Integer> pointsMap){

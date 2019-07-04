@@ -3,6 +3,10 @@ package it.polimi.sw2019.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author poligenius, Mi97ch
+ * this class contains infos about the room and what it contains
+ */
 public class Room {
 
     /**
@@ -64,6 +68,10 @@ public class Room {
         this.players = players;
     }
 
+    /**
+     * tells what players are inside the room
+     * @return a list of players inside the room
+     */
     public List<Player> playersInside(){
 
     List<Player> playersInside = new ArrayList<>();
