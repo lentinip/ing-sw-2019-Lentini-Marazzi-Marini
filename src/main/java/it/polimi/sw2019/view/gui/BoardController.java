@@ -564,8 +564,6 @@ public class BoardController {
 
     private List<ImageView> myWeapons = new ArrayList<>();
 
-    private ImageView selectedWeapon;
-
     @FXML
     private ImageView myPowerupCard0;
 
@@ -1269,10 +1267,6 @@ public class BoardController {
                     //Sets the image
                     myWeapon.setImage(newImage);
 
-                    //Sets the type of the weapon in the weapon ImageView
-                    Integer type = cardController.getWeaponType(newWeaponName);
-                    myWeapon.setUserData(type);
-
                     //Checks if the weapon is visible
                     boolean isVisible = privateHand.getWeaponsLoaded().contains(newWeaponName);
 
@@ -1509,13 +1503,15 @@ public class BoardController {
     public void updateIsFrenzy(Character currentCharacter){
         frenzyStarted=true;
 
-        boolean beforeFirst = true;
+        boolean beforeFirst = false;
         List<Character> characters = configurationMessage.getCharacters();
 
         for (int i=0; i<characters.size(); i++){
             if (characters.get(i).equals(currentCharacter)){
-                beforeFirst=false;
                 allPlayerBoards.get(i).setFrenzyMode(false);
+
+                //The before first is true before because the current player changes after the arrive of the first match state
+                beforeFirst=true;
             }
             else {
                 allPlayerBoards.get(i).setFrenzyMode(beforeFirst);
@@ -1767,18 +1763,6 @@ public class BoardController {
             List<Image> imageList = new ArrayList<>();
             return imageList;
         }
-    }
-
-    public void setSelectedWeapon(ImageView imageView){
-        selectedWeapon = imageView;
-    }
-
-    public Image getSelectedWeaponImage(){
-        return selectedWeapon.getImage();
-    }
-
-    public Integer getSelectedWeaponType(){
-        return (Integer) selectedWeapon.getUserData();
     }
 
     public void showSelectablePlayers(List<Character> characters, TypeOfAction typeOfAction, boolean noOption){

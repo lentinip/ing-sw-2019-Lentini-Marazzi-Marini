@@ -311,7 +311,6 @@ public class Payment {
         if (powerups.isEmpty()){
 
             message.createPaymentMessage(powerupsIndex, false);
-            message.setTypeOfMessage(TypeOfMessage.ASK);
         }
 
         else {
@@ -323,6 +322,7 @@ public class Payment {
             //Creates the Payment Message checking if the player MUST pay with powerups
             message.createPaymentMessage(powerupsIndex, !payingPlayer.getPlayerBoard().hasAtLeastOneAmmo());
         }
+        message.setTypeOfMessage(TypeOfMessage.ASK);
 
         view.display(message);
 

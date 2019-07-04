@@ -179,9 +179,6 @@ public class SelectCardController {
         else {
             Message message = new Message((client.getUsername()));
             message.createSelectedCard(((Integer) imageView.getUserData()).intValue(), currentTypeOfAction);
-            setTypeFromImage(imageView);
-            //Saves the weapon in the boardController for next use
-            boardController.setSelectedWeapon(imageView);
 
             client.send(message);
             closeWindow();
@@ -215,18 +212,6 @@ public class SelectCardController {
     public void closeWindow(){
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
-    }
-
-    public void setTypeFromImage(ImageView imageView){
-        Image selectedImage = imageView.getImage();
-
-        List<ImageView> myWeapons = boardController.getMyWeapons();
-
-        for (ImageView weapon : myWeapons){
-            if (selectedImage == weapon.getImage()){
-                imageView.setUserData(weapon.getUserData());
-            }
-        }
     }
 
     public void setWeaponsManualStage(Stage weaponsManualStage){

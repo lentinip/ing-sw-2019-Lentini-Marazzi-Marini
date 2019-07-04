@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import javax.smartcardio.Card;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,6 +25,8 @@ public class SelectEffectController {
     /* Attributes */
 
     private Client client;
+
+    private CardController cardController = new CardController();
 
     @FXML
     private Group optional1;
@@ -144,7 +147,7 @@ public class SelectEffectController {
         }
     }
 
-    public void configure(Client client, AvailableEffects availableEffects, Image weapon, int type, boolean noOption){
+    public void configure(Client client, AvailableEffects availableEffects, boolean noOption){
 
         this.client = client;
 
@@ -153,7 +156,11 @@ public class SelectEffectController {
         }
 
         //First sets the image
-        weaponImageView.setImage(weapon);
+        Image image = cardController.getWeaponImage(availableEffects.getName());
+        weaponImageView.setImage(image);
+
+        //Gets the type of the image
+        Integer type = cardController.getWeaponType(availableEffects.getName());
 
         //Shows the possible selections depending on the type of the weapon
         switch (type){
@@ -172,6 +179,8 @@ public class SelectEffectController {
                 break;
             default:
                 logger.log(Level.SEVERE, "Type of weapon not defined in configure method in SelectEffectController");
+                String string = "Type of weapon number = " + type + " ";
+                logger.log(Level.SEVERE, string);
                 break;
         }
         showControls(controls);
