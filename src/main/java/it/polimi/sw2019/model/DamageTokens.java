@@ -5,12 +5,16 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author lentinip
+ * this clas was made to keep track of the damage tokens
+ */
 public class DamageTokens extends Tokens {
 
     /**
      * Default constructor
+     * @param charactersInGame list of the characters in game
      */
-
     public DamageTokens(List<Character> charactersInGame) {
         super(charactersInGame);
     }
@@ -40,11 +44,10 @@ public class DamageTokens extends Tokens {
     }
 
     /**
-     *
+     * method to add damage
      * @param i number of damage you are adding
      * @param opponent Player who is doing damage
      */
-
     public void addDamage(int i, Character opponent) {
 
         if (totalDamage<12){
@@ -95,7 +98,7 @@ public class DamageTokens extends Tokens {
     }
 
     /**
-     *
+     * used to know a list ordered by the player who did more damages
      * @return an ArrayList of Character ordered by the rules of the damageSequence
      */
     public List<Character>  getRanking(){

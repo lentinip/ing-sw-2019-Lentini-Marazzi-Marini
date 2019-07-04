@@ -16,13 +16,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * @author Mi97ch
  * this class represents the logic of rmi connection on client side
  */
 public class RmiClient implements ClientActions {
 
-    /**
-     * Constructor
-     */
     public RmiClient(Client client) throws RemoteException, NotBoundException {
 
         Registry registry = LocateRegistry.getRegistry(client.getIpAddress(), 1099);

@@ -2,11 +2,12 @@ package it.polimi.sw2019.model;
 
 import java.util.*;
 
+/**
+ * @author lentinip
+ * this clss is used to keep track of the points
+ */
 public class Score extends Tokens {
 
-    /**
-     * Customized constructor
-     */
     public Score(List<Character> charactersInGame, KillTokens killTrack) {
         super(charactersInGame);
         this.killTrack = killTrack;
@@ -19,6 +20,11 @@ public class Score extends Tokens {
 
     /* Methods */
 
+    /**
+     * method used to add points to a character
+     * @param points points to add
+     * @param character who made that points
+     */
     public void addPoints(int points, Character character){
         addTokens(points, character);
     }
@@ -50,6 +56,8 @@ public class Score extends Tokens {
 
     /**
      * Method that returns a Map of Characters that represents the game LeaderBoard
+     * @param characters characters in game
+     * @return a map with every character and its position on the leader board
      */
     public Map<Character, Integer> getRankingMap(List<Character> characters) {
 

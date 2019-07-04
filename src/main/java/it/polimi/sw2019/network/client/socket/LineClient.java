@@ -8,18 +8,16 @@ import it.polimi.sw2019.network.server.socket.ServerInterface;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * @author Mi97ch
  * creates the connection between client and server and uses ServerInterface methods to communicate with the server
  */
 public class LineClient extends Thread implements ServerInterface {
 
-    /**
-     * Constructor
-     */
+
     public LineClient(int port, String host, ClientInterface clientInterface, Client client) {
         this.port = port;
         this.host = host;
@@ -52,6 +50,10 @@ public class LineClient extends Thread implements ServerInterface {
 
     /* Methods */
 
+    /**
+     * creates socket connection client side
+     * @param clientInterface client interface for socket
+     */
     private void startLine(ClientInterface clientInterface) {
 
         try {
@@ -61,10 +63,9 @@ public class LineClient extends Thread implements ServerInterface {
             ObjectOut.flush();
             ObjectIn = new ObjectInputStream(new BufferedInputStream(socketClient.getInputStream()));
             connected = true;
-        } catch (UnknownHostException e) {
-            connected = false;
         } catch (IOException e) {
             connected = false;
+            clientClass.getView().displayConnectionFailure();
         }
 
 

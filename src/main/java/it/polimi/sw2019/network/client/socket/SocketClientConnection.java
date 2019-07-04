@@ -10,12 +10,14 @@ import it.polimi.sw2019.network.client.Client;
 import java.io.IOException;
 
 /**
+ * @author Mi97ch
  * socket connection logic
  */
 public class SocketClientConnection implements ClientInterface, ClientActions {
 
     /**
      * Constructor
+     * @param client client reference
      */
     public SocketClientConnection(Client client) {
 

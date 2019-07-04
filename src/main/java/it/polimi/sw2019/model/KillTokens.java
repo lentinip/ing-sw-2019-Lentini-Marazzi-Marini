@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * @author lentinip
  * Class that represents the killTrack
  */
 public class KillTokens extends Tokens{
 
     /**
      * Default constructor
+     * @param charactersInGame characters in the game
      */
     public KillTokens(List<Character> charactersInGame) {
         super(charactersInGame);
@@ -73,7 +75,8 @@ public class KillTokens extends Tokens{
     }
 
     /**
-     *  method called by the class Score to update the score when the game ends
+     * method called by the class Score to update the score when the game ends
+     * @param score score class
      */
     public void updateScore(Score score){
 

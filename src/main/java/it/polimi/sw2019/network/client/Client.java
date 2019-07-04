@@ -13,10 +13,13 @@ import javafx.application.Application;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author poligenius, Mi97ch
+ * this class represents the client and shows the message received on the gui or cli
+ */
 public class Client {
 
     /**
@@ -88,6 +91,10 @@ public class Client {
         return lastMessageForReconnection;
     }
 
+    /**
+     * starts the client based on the console input
+     * @param args console input (cli/gui and ip address)
+     */
     public static void main(String[] args){
 
         Client client = new Client();
@@ -131,8 +138,7 @@ public class Client {
 
     /**
      * creates the connection and tries to register the client
-     * @throws RemoteException exception
-     * @throws NotBoundException exception
+     * @param loginMessage login message to send
      */
     public void connect(Message loginMessage) {
 
@@ -148,6 +154,10 @@ public class Client {
 
             if (rmi) {
 
+                if (clientActions != null){
+                    clientActions = null;
+                    System.gc();
+                }
                 clientActions = new RmiClient(this);
                 clientActions.register(username);
             }

@@ -6,13 +6,16 @@ import it.polimi.sw2019.network.messages.Message;
 
 import java.net.ConnectException;
 
+
 /**
+ * @author Mi97ch
  * this class is used to notify the client by rmi connection
  */
 public class ClientImplementation implements ClientInterface {
 
     /**
      * Constructor
+     * @param client reference to the client
      */
     public ClientImplementation(Client client) {
 
@@ -34,6 +37,10 @@ public class ClientImplementation implements ClientInterface {
         return client;
     }
 
+    /**
+     * method to send the message to the client
+     * @param message to be notified
+     */
     @Override
     public void notify(Message message) {
 

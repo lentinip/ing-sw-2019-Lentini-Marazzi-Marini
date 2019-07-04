@@ -1,6 +1,7 @@
 package it.polimi.sw2019.network.messages;
 
 /**
+ * @author poligenius
  * contains the answer of a yes or no question
  */
 public class BooleanMessage {
@@ -10,9 +11,7 @@ public class BooleanMessage {
      */
     public BooleanMessage(){}
 
-    /**
-     * customize constructor
-     */
+
     public BooleanMessage(boolean answer){
 
         setAnswer(answer);

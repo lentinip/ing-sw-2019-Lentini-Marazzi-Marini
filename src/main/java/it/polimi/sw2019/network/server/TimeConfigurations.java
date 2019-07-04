@@ -1,5 +1,9 @@
 package it.polimi.sw2019.network.server;
 
+/**
+ * @author poligenius
+ * class written to contains every timer of the game
+ */
 public class TimeConfigurations {
 
     public TimeConfigurations(){}

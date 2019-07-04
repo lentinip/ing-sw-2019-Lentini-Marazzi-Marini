@@ -3,6 +3,10 @@ package it.polimi.sw2019.network.messages;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author poligenius
+ * this class contains infos about a payment
+ */
 public class PaymentMessage {
 
     public PaymentMessage(boolean mustPay, List<IndexMessage> usablePowerups){

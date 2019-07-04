@@ -1,5 +1,9 @@
 package it.polimi.sw2019.network.messages;
 
+/**
+ * @author poligenius
+ * this class was written to contain infos about a grab of a weapon
+ */
 public class GrabWeapon {
 
     /**
@@ -7,9 +11,6 @@ public class GrabWeapon {
      */
     public GrabWeapon(){}
 
-    /**
-     * customize constructor
-     */
     public GrabWeapon(int grabbedWeapon, int discardedWeapon, BoardCoord spawnCell){
 
         setSpawnCell(spawnCell);

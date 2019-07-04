@@ -1,13 +1,19 @@
 package it.polimi.sw2019.model;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
+/**
+ * @author lentinip
+ * class that is extended by marks, damage tokens, score
+ * contains methods used by all these classes
+ */
 public class Tokens {
 
     /**
      * Default constructor
+     * @param charactersInGame list of characters in game
      */
-
     public Tokens(List<Character> charactersInGame) {
 
         for (Character character : charactersInGame) {
@@ -35,8 +41,8 @@ public class Tokens {
     }
 
     /**
-     *
-     * @param player
+     * to know how many tokens a character has
+     * @param player player we are interested in
      * @return the number of tokens of the player
      */
     public int getTokensOfCharacter(Character player){
@@ -51,8 +57,9 @@ public class Tokens {
     }
 
     /**
-     *
-     * @param mapComparator Comparator<Map.Entry<Character, Integer>>
+     * order the list of characters
+     * @param mapComparator Comparator Map.Entry Character, Integer
+     * @param map map analyzed
      * @return an ArrayList of Characters in decreasing order by the enumMapComparator
      */
     protected ArrayList<Character> orderArrayByComparator(Map<Character, Integer> map, Comparator<Map.Entry<Character, Integer>> mapComparator) {
@@ -86,7 +93,8 @@ public class Tokens {
     }
 
     /**
-     * Sorts an EnumMap<Character, Integer> by values (Integer)
+     * Sorts an EnumMap Character, Integer by values (Integer)
+     * @param mapComparator map comparator
      * @param map Map that is going to be sorted
      * @return an HashMap sorted
      */

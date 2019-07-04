@@ -7,6 +7,7 @@ import it.polimi.sw2019.model.Character;
 import java.util.List;
 
 /**
+ * @author poligenius
  * this class is sent to the client to update the gui or the cli
  */
 public class MatchState {

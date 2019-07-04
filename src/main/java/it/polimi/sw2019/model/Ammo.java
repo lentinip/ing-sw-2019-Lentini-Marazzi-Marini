@@ -1,5 +1,9 @@
 package it.polimi.sw2019.model;
 
+/**
+ * @author lentinip
+ * this class is used as data struction for the ammo that a player owns
+ */
 public class Ammo {
 
     /**
@@ -107,6 +111,9 @@ public class Ammo {
         blue = blue - toSubtract.getBlue();
     }
 
+    /**
+     * @return if a player has zero ammo
+     */
     public boolean isZero(){
         return (red + yellow + blue == 0);
     }

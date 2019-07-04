@@ -6,8 +6,6 @@ import it.polimi.sw2019.network.messages.*;
 import it.polimi.sw2019.network.server.rmi.RmiServer;
 import it.polimi.sw2019.network.server.socket.SocketServer;
 
-
-import java.net.ConnectException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +16,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
+/**
+ * @author Mi97ch
+ * class used to manage login by new players and creation of new matches
+ * every message passes from this class
+ */
 public class Server {
 
     /**
@@ -35,7 +38,6 @@ public class Server {
     }
 
     /* Attributes */
-    private final Semaphore runMutex = new Semaphore(1);
 
     private int rmiPort;
 
@@ -58,6 +60,10 @@ public class Server {
 
     /* Methods */
 
+    /**
+     * main to start the server
+     * @param args usually it takes no args
+     */
     @SuppressWarnings("squid:S106")
     public static void main(String[] args) {
 
@@ -96,6 +102,9 @@ public class Server {
         return LOGGER;
     }
 
+    /**
+     * method to start the match
+     */
     public void startMatch() {
 
         Message loginReport = new Message(currentWaitingRoom.getUsernames().get(0));
@@ -114,22 +123,7 @@ public class Server {
      */
     public  void addPlayer(String username, ClientInterface clientInterface){
 
-        /*try {
-            runMutex.acquire();
-        }
-        catch (InterruptedException e){
-            LOGGER.log(Level.SEVERE, e.getMessage());
-        }*/
-
         verifyConnected(username);
-
-        /*try {
-            runMutex.acquire();
-        }
-        catch (InterruptedException e){
-            LOGGER.log(Level.SEVERE, e.getMessage());
-        }*/
-
 
         verifyOnline(new Message("All"), currentWaitingRoom);
 
@@ -225,6 +219,7 @@ public class Server {
     /**
      * send a message to all clients (except for disconnected ones)
      * @param message to be sent
+     * @param virtualView reference to the virtual view
      */
     public void sendAll(Message message, VirtualView virtualView){
 
@@ -245,9 +240,11 @@ public class Server {
                 virtualView.getWaitingPlayers().get(user).getClientInterface().notify(message);
             } catch (RemoteException e) {
 
-                virtualViewMap.get(user).addDisconnectedPlayer(user);
-                LOGGER.log(Level.WARNING, e.getMessage());
-                System.out.print("non sono riuscito a inviare un messaggio al client per verificare che sia connesso");
+                if (virtualViewMap.get(user) != null) {
+                    virtualViewMap.get(user).addDisconnectedPlayer(user);
+                    LOGGER.log(Level.WARNING, e.getMessage());
+                    System.out.print("non sono riuscito a inviare un messaggio al client per verificare che sia connesso");
+                }
             }
         }
     }
@@ -270,7 +267,7 @@ public class Server {
 
                 System.out.print("\n" + user);
                 virtualView.getWaitingPlayers().get(user).notify(message, this, user);
-            } catch (ConnectException e1) {
+            } catch (RemoteException e1) {
 
                 //removeWaitingPlayer(user);
                 LOGGER.log(Level.WARNING, e1.getMessage());
@@ -399,7 +396,7 @@ public class Server {
                 System.out.print("\nCurrent player reconnected\n");
                 sendMessage(virtualViewMap.get(username).getLastMessage());
             }
-            System.out.print("\nLast message :"+ virtualViewMap.get(username).getLastMessage().getTypeOfMessage() + " receiver: " +  virtualViewMap.get(username).getLastMessage().getUsername());
+            //System.out.print("\nLast message :"+ virtualViewMap.get(username).getLastMessage().getTypeOfMessage() + " receiver: " +  virtualViewMap.get(username).getLastMessage().getUsername());
         }
     }
 
@@ -440,6 +437,12 @@ public class Server {
         }
     }
 
+    /**
+     * method to start rmi and socket server
+     * @param socketPort socket port
+     * @param rmiPort rmi port
+     * @throws RemoteException error of connection
+     */
     private void start(int socketPort, int rmiPort) throws RemoteException {
 
         socketServer.startServer(socketPort);
@@ -447,6 +450,10 @@ public class Server {
         rmiServer.startServer(rmiPort);
     }
 
+    /**
+     * method to verify if the user is still connected
+     * @param user user to verify
+     */
     public void verifyConnected(String user) {
 
 
@@ -463,8 +470,5 @@ public class Server {
                 LOGGER.log(Level.WARNING, e.getMessage());
             }
         }
-
-        runMutex.release();
-
     }
 }

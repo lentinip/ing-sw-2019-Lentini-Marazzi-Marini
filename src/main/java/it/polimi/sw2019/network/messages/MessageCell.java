@@ -5,6 +5,10 @@ import it.polimi.sw2019.model.Character;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author poligenius
+ * this class contains infos about a cell
+ */
 public class MessageCell {
 
     /**
@@ -12,9 +16,6 @@ public class MessageCell {
      */
     public MessageCell(){}
 
-    /**
-     * Default Constructor
-     */
     public MessageCell(int row, int column, List<Character> characters, boolean isEmpty, String ammoTile, List<String> weapons){
 
         setRow(row);

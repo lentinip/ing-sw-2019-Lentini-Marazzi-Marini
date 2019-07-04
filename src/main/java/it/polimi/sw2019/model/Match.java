@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+/**
+ * @author poligenius
+ * this class is the facade of the model, contains reference to all the data structures
+ * and methods to initialize the match and end it
+ */
 public class Match extends Observable {
 
     /**
@@ -16,6 +21,11 @@ public class Match extends Observable {
 
     /**
      * customized constructor
+     * @param iWantFrenzyMode if the player wants the frenzy
+     * @param easyMode if the player wants 5 skulls or 8
+     * @param usernames usernames of the players
+     * @param boardJsonName board chosen
+     * @param view reference to the view
      */
     public Match(boolean iWantFrenzyMode, boolean easyMode, List<String> usernames, String boardJsonName, VirtualView view){
 
@@ -52,8 +62,6 @@ public class Match extends Observable {
 
     /* Attributes */
 
-    private int idPartita;
-
     private Board board;
 
     private List<Player> players = new ArrayList<>(); /* max five players */
@@ -83,21 +91,8 @@ public class Match extends Observable {
 
     /* Methods */
 
-
-    public int getNumberOfPlayers() {
-        return numberOfPlayers;
-    }
-
     public void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
-    }
-
-    public int getIdPartita() {
-        return idPartita;
-    }
-
-    public void setIdPartita(int idPartita) {
-        this.idPartita = idPartita;
     }
 
     public Board getBoard() {
@@ -120,10 +115,6 @@ public class Match extends Observable {
         return currentPlayer;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
     public int getCurrentPlayerLeftActions() {
         return currentPlayerLeftActions;
     }
@@ -141,10 +132,6 @@ public class Match extends Observable {
         this.score = score;
     }
 
-    public boolean getIWantFrenzyMode() {
-        return iWantFrenzyMode;
-    }
-
     public void setIWantFrenzyMode(boolean iWantFrenzyMode) {
         this.iWantFrenzyMode = iWantFrenzyMode;
     }
@@ -153,59 +140,14 @@ public class Match extends Observable {
         return frenzyMode;
     }
 
-    public void setFrenzyMode(boolean frenzyMode) {
-        this.frenzyMode = frenzyMode;
-    }
-
-    public void setLastPlayer(Player lastPlayer) {
-        this.lastPlayer = lastPlayer;
-    }
-
-    public Player getLastPlayer() {
-        return lastPlayer;
-    }
-
-    public Factory getFactory() {
-        return factory;
-    }
-
-    public void setFactory(Factory factory) {
-        this.factory = factory;
-    }
-
     public List<Player> getDeadPlayers() {
         return deadPlayers;
-    }
-
-    public void setDeadPlayers(List<Player> deadPlayers) {
-        this.deadPlayers = deadPlayers;
-    }
-
-    public boolean isEasyMode() {
-        return easyMode;
     }
 
     public void setEasyMode(boolean easyMode) {
         this.easyMode = easyMode;
     }
 
-    /**
-     * Returns the Player with a specific Character
-     * @param character The Character of the player
-     * @return the Player reference (Can be null)
-     */
-    public Player getPlayerByCharacter(Character character){
-
-        for (Player player: players){
-
-            if (player.getCharacter() == character){
-
-               return player;
-            }
-        }
-
-        return null;
-    }
 
     /**
      * Get Player by username (if there is no player with that username returns null)
@@ -232,6 +174,7 @@ public class Match extends Observable {
 
     /**
      * this method creates the board and everything it contains
+     * @param boardFileName board chosen
      */
     public void initializeMatch(String boardFileName){
 
@@ -299,6 +242,10 @@ public class Match extends Observable {
         }
     }
 
+    /**
+     * this method updates board and points at the end of the turn
+     * and checks if we entered frenzy mode, if the match is ended, etc.
+     */
     @SuppressWarnings("squid:S3776")
     public void endTurn() {
 
@@ -409,6 +356,9 @@ public class Match extends Observable {
     }
 
 
+    /**
+     * method used to send infos about the match to the view
+     */
     public void notifyMatchState(){
         Message message = new Message("All");
         message.createMessageMatchState(createMatchState());
@@ -416,6 +366,10 @@ public class Match extends Observable {
         notifyObservers(message);
     }
 
+    /**
+     * method used to send info about the hand of a player to the view
+     * @param player specific player
+     */
     public void notifyPrivateHand(Player player){
         Message message = player.notifyPrivateHand();
         setChanged();
@@ -423,6 +377,10 @@ public class Match extends Observable {
         notifyMatchState();
     }
 
+    /**
+     * method used to create the match state
+     * @return match state with all the infos about the status of the match
+     */
     public MatchState createMatchState(){
 
         MatchState currentMatchState = new MatchState();

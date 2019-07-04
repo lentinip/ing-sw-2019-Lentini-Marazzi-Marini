@@ -6,11 +6,13 @@ import it.polimi.sw2019.network.messages.Message;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * @author Mi97ch
  * This class manages the communication with the client matched with the socket assigned.
  * It uses the ClientAction methods to communicate with the client
  */
@@ -18,6 +20,8 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
 
     /**
      * Constructor
+     * @param socket reference to socket
+     * @param socketServer reference to socket server
      */
     public SocketServerClientHandler(Socket socket, SocketServer socketServer) {
         this.connection = socket;

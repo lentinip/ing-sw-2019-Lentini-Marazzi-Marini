@@ -12,10 +12,19 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author poligenius
+ * this class is very important and used to manage choices made from the player and a large part of the logic of the game
+ */
 public class Choices {
 
     /**
-     * Default constructor
+     * customize constructor
+     * @param match match class
+     * @param view reference to the virtual view
+     * @param payment payment class
+     * @param atomicActions atomic action class
+     * @param singleActionManager single action manager class
      */
     public Choices(Match match, VirtualView view, Payment payment, AtomicActions atomicActions, SingleActionManager singleActionManager) {
         this.match = match;
@@ -61,16 +70,8 @@ public class Choices {
 
     /* Methods */
 
-    public void setShootedPlayers(List<Player> shootedPlayers) {
-        this.shootedPlayers = shootedPlayers;
-    }
-
     public List<Player> getShootedPlayers() {
         return shootedPlayers;
-    }
-
-    public void setUsedEffect(List<Effect> usedEffect) {
-        this.usedEffect = usedEffect;
     }
 
     public List<Effect> getUsedEffect() {
@@ -89,14 +90,6 @@ public class Choices {
         return currentEffect;
     }
 
-    public void setCurrentEffect(Effect currentEffect) {
-        this.currentEffect = currentEffect;
-    }
-
-    public Cell getMoveCell() {
-        return moveCell;
-    }
-
     public void setMoveCell(Cell moveCell) {
         this.moveCell = moveCell;
     }
@@ -105,16 +98,8 @@ public class Choices {
         return selectedPlayer;
     }
 
-    public void setSelectedPlayer(Player selectedPlayer) {
-        this.selectedPlayer = selectedPlayer;
-    }
-
     public List<Player> getMovedPlayers() {
         return movedPlayers;
-    }
-
-    public void setMovedPlayers(List<Player> movedPlayers) {
-        this.movedPlayers = movedPlayers;
     }
 
     public Powerup getSelectedPowerup() {
@@ -619,6 +604,7 @@ public class Choices {
 
     /**
      * Method that receive the weapon and analyze it to doSomething options to the view
+     * @param message message received
      */
     public void weaponHandler(Message message){
 

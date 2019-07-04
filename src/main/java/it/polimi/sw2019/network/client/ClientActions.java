@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 /**
+ * @author Mi97ch
  * implemented by SocketClientConnection
  */
 public interface ClientActions {
@@ -22,6 +23,7 @@ public interface ClientActions {
      * Used by RMI connection
      * add the client to the waitingPlayers list
      * @param username nickname chose by the player
+     * @exception IOException error in connection
      */
     void register(String username) throws IOException;
 }
