@@ -3,8 +3,7 @@ package it.polimi.sw2019;
 import it.polimi.sw2019.model.Target;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TestTarget {
 
@@ -62,5 +61,41 @@ public class TestTarget {
         target.setMaxTargets(2);
 
         assertEquals(2, target.getMaxTargets());
+    }
+
+    @Test
+    public void setSameSquareTest() {
+
+        Target target = new Target();
+
+        assertFalse(target.isSameSquare());
+
+        target.setSameSquare(true);
+
+        assertTrue(target.isSameSquare());
+    }
+
+    @Test
+    public void setForcedChoiceTest() {
+
+        Target target = new Target();
+
+        assertFalse(target.isForcedChoice());
+
+        target.setForcedChoice(true);
+
+        assertTrue(target.isForcedChoice());
+    }
+
+    @Test
+    public void setRoomTest() {
+
+        Target target = new Target();
+
+        assertFalse(target.isRoom());
+
+        target.setRoom(true);
+
+        assertTrue(target.isRoom());
     }
 }

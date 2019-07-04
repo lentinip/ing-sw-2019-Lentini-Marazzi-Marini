@@ -223,6 +223,8 @@ public class Effect {
 
         if (!shootableCells(owner).isEmpty()){ /* can I shoot someone? */
 
+            //System.out.print("\n 2");
+
             return true;
         }
 

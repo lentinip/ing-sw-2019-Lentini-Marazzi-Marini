@@ -540,6 +540,7 @@ public class VirtualView extends Observable implements Observer {
     public void update(Observable match, Object mes){
 
         Message message = (Message) mes;
+        //System.out.print("\n" + message.getUsername());
         display(message);
     }
 }

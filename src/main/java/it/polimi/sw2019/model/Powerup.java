@@ -101,6 +101,10 @@ public class Powerup {
         return iNeedToPay;
     }
 
+    public void setiNeedToPay(boolean iNeedToPay) {
+        this.iNeedToPay = iNeedToPay;
+    }
+
     /**
      * tells if the powerup can be used to pay part of the cost
      * @param cost cost I need to pay

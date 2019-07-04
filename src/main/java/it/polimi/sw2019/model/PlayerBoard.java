@@ -42,6 +42,10 @@ public class PlayerBoard {
 
     /* Methods */
 
+    public void setFirstPlayer(boolean firstPlayer) {
+        this.firstPlayer = firstPlayer;
+    }
+
     public boolean isFirstPlayer(){
         return this.firstPlayer;
     }

@@ -91,6 +91,34 @@ public class Match extends Observable {
 
     /* Methods */
 
+    public void setLastPlayer(Player lastPlayer) {
+        this.lastPlayer = lastPlayer;
+    }
+
+    public void setFrenzyMode(boolean frenzyMode) {
+        this.frenzyMode = frenzyMode;
+    }
+
+    public void setiWantFrenzyMode(boolean iWantFrenzyMode) {
+        this.iWantFrenzyMode = iWantFrenzyMode;
+    }
+
+    public Player getLastPlayer() {
+        return lastPlayer;
+    }
+
+    public void setFactory(Factory factory) {
+        this.factory = factory;
+    }
+
+    public boolean isiWantFrenzyMode() {
+        return iWantFrenzyMode;
+    }
+
+    public void setDeadPlayers(List<Player> deadPlayers) {
+        this.deadPlayers = deadPlayers;
+    }
+
     public void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
     }
@@ -148,6 +176,17 @@ public class Match extends Observable {
         this.easyMode = easyMode;
     }
 
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public Factory getFactory() {
+        return factory;
+    }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
 
     /**
      * Get Player by username (if there is no player with that username returns null)
@@ -220,16 +259,19 @@ public class Match extends Observable {
 
         if (isEnded){
 
+            //System.out.print("\n ended ");
             currentPlayer = null;
+            return;
         }
 
         else if ( i < numberOfPlayers - 1){
 
+            //System.out.print("\n"+i);
             currentPlayer = players.get(i+1);
         }
 
         else {
-
+            //System.out.print("\n"+i);
             currentPlayer = players.get(0);
         }
 
@@ -259,7 +301,7 @@ public class Match extends Observable {
          */
         for(int i = 0; i < players.size(); i++) {
 
-             if(players.get(i).isDead() && players.get(i).getPosition() != null) {
+             if(players.get(i).getPosition() != null && players.get(i).isDead()) {
 
                  System.out.print("\nThe player is dead: " + players.get(i).isDead()+"\n");
                  System.out.print("\nThe player position is : " + players.get(i).getPosition().getCoord().getCellNumber()+"\n");

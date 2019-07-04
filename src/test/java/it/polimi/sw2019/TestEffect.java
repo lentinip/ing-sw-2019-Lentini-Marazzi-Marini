@@ -806,9 +806,74 @@ public class TestEffect {
         assertTrue(effect.usableEffect(player4, players));
     }
 
-    /*
+    @Test
+    public void setNameTest() {
+
+        Effect effect = new Effect();
+
+        effect.setName("effect");
+
+        assertEquals("effect", effect.getName());
+    }
 
     @Test
+    public void setDescriptionTest() {
+
+        Effect effect = new Effect();
+
+        effect.setDescription("effect");
+
+        assertEquals("effect", effect.getDescription());
+    }
+
+    @Test
+    public void setSameDirectionTest() {
+
+        Effect effect = new Effect();
+
+        assertFalse(effect.isSameDirection());
+
+        effect.setSameDirection(true);
+
+        assertTrue(effect.isSameDirection());
+    }
+
+    @Test
+    public void setAdditionalEffectTest() {
+
+        Effect effect = new Effect();
+
+        assertFalse(effect.isAdditionalEffect());
+
+        effect.setAdditionalEffect(true);
+
+        assertTrue(effect.isAdditionalEffect());
+    }
+
+    @Test
+    public void setTargetTest() {
+
+        Effect effect = new Effect();
+
+        Target target = new Target();
+        effect.setTargets(target);
+
+        assertEquals(target, effect.getTargets());
+    }
+
+    @Test
+    public void setExactlyTest() {
+
+        Effect effect = new Effect();
+
+        assertFalse(effect.isExactly());
+
+        effect.setExactly(true);
+
+        assertTrue(effect.isExactly());
+    }
+
+    /*@Test
     public void allowedCellsTest() {
 
         Effect effect = new Effect();
@@ -992,11 +1057,10 @@ public class TestEffect {
 
         List<Cell> cells = new ArrayList<>();
         cells.add(cell1);
-        cells.add(cell5);
         cells.add(cell);
         cells.add(cell2);
 
         assertEquals(cells, effect.allowedCells(player1));
-    }
-    */
+    }*/
+
 }

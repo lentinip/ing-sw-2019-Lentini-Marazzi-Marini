@@ -30,6 +30,10 @@ public class PowerupFactory {
         this.powerupKind = powerup;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     /**
      * this method creates the exact number of powerups of the same kind
      * @return the list of powerups created
