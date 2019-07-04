@@ -2,6 +2,10 @@ package it.polimi.sw2019.network.messages;
 
 import it.polimi.sw2019.model.Colors;
 
+/**
+ * @author poligenius
+ * this class contains infos about the selection of a color
+ */
 public class SelectedColor {
 
     public SelectedColor(Colors color){

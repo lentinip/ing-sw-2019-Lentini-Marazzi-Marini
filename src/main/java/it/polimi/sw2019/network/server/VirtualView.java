@@ -10,16 +10,18 @@ import it.polimi.sw2019.network.messages.TypeOfMessage;
 
 import java.io.InputStreamReader;
 import java.util.*;
-import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author poligenius, Mi97ch
+ */
 public class VirtualView extends Observable implements Observer {
 
     /**
      * Default constructor
+     * @param server reference to the server
      */
-
     public VirtualView(Server server){
         setServer(server);
 
@@ -127,16 +129,8 @@ public class VirtualView extends Observable implements Observer {
         return waitingPlayers;
     }
 
-    public void setWaitingPlayers(Map<String, Client> waitingPlayers) {
-        this.waitingPlayers = waitingPlayers;
-    }
-
     public void setUsernames(List<String> usernames) {
         this.userNames = usernames;
-    }
-
-    public static long getQuickResponseTimer() {
-        return quickResponseTimer;
     }
 
     public static void setQuickResponseTimer(long quickResponseTimer) {
@@ -159,20 +153,8 @@ public class VirtualView extends Observable implements Observer {
         return disconnectedPlayers;
     }
 
-    public void setDisconnectedPlayers(List<String> disconnectedPlayers) {
-        this.disconnectedPlayers = disconnectedPlayers;
-    }
-
-    public String getMessageSender() {
-        return messageSender;
-    }
-
     public void setMessageSender(String messageSender) {
         this.messageSender = messageSender;
-    }
-
-    public static long getMatchCreationTimer() {
-        return matchCreationTimer;
     }
 
     public static void setMatchCreationTimer(long matchCreationTimer) {
@@ -218,6 +200,10 @@ public class VirtualView extends Observable implements Observer {
         userNames.remove(username);
     }
 
+    /**
+     * method to add a disconnected player
+     * @param username player to add to the disconnected
+     */
     public void addDisconnectedPlayer(String username){
 
         Message message = new Message(username);
@@ -255,6 +241,11 @@ public class VirtualView extends Observable implements Observer {
         }
     }
 
+    /**
+     * check how many players are offline
+     * @param quantity quantity to check
+     * @return true if the match has to end false if not
+     */
     private boolean tooManyDisconnected(int quantity) {
 
         int counter = 0;
@@ -288,6 +279,9 @@ public class VirtualView extends Observable implements Observer {
         disconnectedPlayers.remove(username);
     }
 
+    /**
+     * starts the setup timer, when it ends it closes the game
+     */
     public void startSetupTimer(){
         matchSetupChoiceTimer = new Timer();
 
@@ -308,6 +302,9 @@ public class VirtualView extends Observable implements Observer {
         server.endMatch(this);
     }
 
+    /**
+     * starts the timer to create the match when we reach three players
+     */
     public void startTimer(){
 
         timer = new Timer();
@@ -381,6 +378,10 @@ public class VirtualView extends Observable implements Observer {
         }
     }
 
+    /**
+     * send a reconnection request
+     * @param currentPlayer player who received the request
+     */
     public void sendReconnectionRequest(String currentPlayer){
 
        Message reconnectionRequest = new Message(currentPlayer);
@@ -502,6 +503,10 @@ public class VirtualView extends Observable implements Observer {
         }
     }
 
+    /**
+     * method to save last message in case of reconnection
+     * @param message mess to save
+     */
     public void saveLastMessage(Message message){
 
         TypeOfMessage type = message.getTypeOfMessage();
@@ -511,6 +516,10 @@ public class VirtualView extends Observable implements Observer {
         }
     }
 
+    /**
+     * this method sends the message to the controller
+     * @param message message to send
+     */
     public void notify(Message message) {
 
         if (!ended) {
@@ -522,6 +531,11 @@ public class VirtualView extends Observable implements Observer {
         }
     }
 
+    /**
+     * this method receives match state from match
+     * @param match match class
+     * @param mes message received
+     */
     @Override
     public void update(Observable match, Object mes){
 

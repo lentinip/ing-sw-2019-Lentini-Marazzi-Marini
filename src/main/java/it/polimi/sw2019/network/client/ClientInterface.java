@@ -6,6 +6,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
+ * @author Mi97ch
  * implemented by SocketClientConnection, SocketServerClientHandler
  */
 public interface ClientInterface extends Remote {
@@ -15,6 +16,6 @@ public interface ClientInterface extends Remote {
      * @param message to be notified
      * @throws RemoteException connection fail
      */
-    public void notify(Message message) throws RemoteException;
+     void notify(Message message) throws RemoteException;
 
 }

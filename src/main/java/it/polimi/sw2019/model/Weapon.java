@@ -3,6 +3,10 @@ package it.polimi.sw2019.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author poligenius
+ * class written to keep track of weapons, contains some logic to apply effects
+ */
 public class Weapon {
 
     /**
@@ -156,8 +160,8 @@ public class Weapon {
 
     /**
      * Call this method before showing the possibility to do a shooting action
-     * @param allPlayers
-     * @return
+     * @param allPlayers all players
+     * @return true if the weapon can be used before a complex action
      */
     public boolean usableWeaponBeforeComplexAction(List<Player> allPlayers){
 
@@ -257,7 +261,7 @@ public class Weapon {
 
     /**
      * this method is useful to implement usableWeapon()
-     * @param allPlayers
+     * @param allPlayers all players
      * @return true if the weapon has at least one usable effect (excluding move type effect)
      */
     public boolean hasOneUsableEffect(List<Player> allPlayers){

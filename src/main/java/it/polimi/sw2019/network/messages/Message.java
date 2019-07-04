@@ -11,7 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * generic class used from view and controller to doSomething information
+ * @author poligenius, lentinip, Mi97ch
+ * THIS CLASS IS THE KEY OF THE NETWORK,
+ * IT CAN CONTAIN EVERY INFOS TO SEND FROM THE CLIENT TO THE SERVER AND FROM THE SERVER TO THE CLIENT
+ * BY CHECKIN TYPE OF MESSAGE AND TYPE OF ACTION SERVER/CONTROLLER AND CLIENT KNOW EXACTLY WHAT TO DO
+ * IT CONTAINS A CLASS SERIALIZED INTO A JSON STRING SO WE JUST HAVE TO DESERIALIZE IT
+ * IT IS A REALLY COOL AND BRILLIANT IDEA BECAUSE IN THIS WAY WE DID NOT USE CAST AT ALL!!!!!!!!
  */
 public class Message implements Serializable {
 
@@ -292,6 +297,11 @@ public class Message implements Serializable {
 
     /* the following methods are called to create different types of Message Class */
 
+    /**
+     * creates a message containing login infos
+     * @param username username of the player
+     * @param rmi true if it uses rmi false if it uses socket
+     */
     public void createLoginMessage(String username, boolean rmi){
 
         setTypeOfMessage(TypeOfMessage.LOGIN_REPORT);
@@ -299,6 +309,10 @@ public class Message implements Serializable {
         setJsonFile(serializeLoginMessage(new LoginMessage(username,rmi)));
     }
 
+    /**
+     * creates a message containing a match state to update gui/cli
+     * @param matchState matchstate to serialize in the message
+     */
     public void createMessageMatchState(MatchState matchState){
 
         setTypeOfMessage(TypeOfMessage.MATCH_STATE);
@@ -306,6 +320,10 @@ public class Message implements Serializable {
         setJsonFile(serializeMatchState(matchState));
     }
 
+    /**
+     * creates a message containing a private hand to update gui/cli of a specific client
+     * @param privateHand private hand to serialize in the message
+     */
     public void createMessagePrivateHand(PrivateHand privateHand){
 
         setTypeOfMessage(TypeOfMessage.PRIVATE_HAND);
@@ -313,6 +331,10 @@ public class Message implements Serializable {
         setJsonFile(serializePrivateHand(privateHand));
     }
 
+    /**
+     * creates a message containing the match setup chosen by the client
+     * @param matchSetup match setup infos to serialize into the message
+     */
     public void createMessageMatchSetup(MatchSetup matchSetup){
 
         setTypeOfMessage(TypeOfMessage.MATCH_SETUP);
@@ -320,6 +342,10 @@ public class Message implements Serializable {
         setJsonFile(serializeMatchSetup(matchSetup));
     }
 
+    /**
+     * creates a message containing the setups chosen by the first player
+     * @param matchStart match start infos to serialize into the message
+     */
     public void createMessageMatchStart(MatchStart matchStart){
 
         setTypeOfAction(TypeOfAction.NONE);
@@ -327,6 +353,10 @@ public class Message implements Serializable {
         setJsonFile(serializeMatchStart(matchStart));
     }
 
+    /**
+     * creates a message containing the info to tell a player if he can shoot or not
+     * @param canIShoot true if he can do a shoot action, false instead
+     */
     public void createMessageCanIShoot(boolean canIShoot){
 
         setTypeOfAction(TypeOfAction.NONE);
@@ -337,6 +367,10 @@ public class Message implements Serializable {
 
     }
 
+    /**
+     * creates a generic ask message
+     * @param typeOfAction type of message specified by who is making the ask question
+     */
     public void createAskMessage(TypeOfAction typeOfAction){
 
         setTypeOfAction(typeOfAction);
@@ -344,6 +378,11 @@ public class Message implements Serializable {
         setJsonFile(null);                        /* no content */
     }
 
+    /**
+     * creates a message containing infos about the cells a player can choose
+     * @param typeOfAction type of action specified by who is creating the message
+     * @param cells cells that the player can select
+     */
     public void createAvailableCellsMessage(TypeOfAction typeOfAction, List<BoardCoord> cells){
 
         setTypeOfMessage(TypeOfMessage.AVAILABLE_CELLS);
@@ -352,6 +391,12 @@ public class Message implements Serializable {
         setJsonFile(serializeAvailableCells(availableCells));
     }
 
+    /**
+     * creates a message containing infos about the cards a player can choose
+     * @param typeOfAction type of action specified by who is creating the message
+     * @param indexMessageList indexes of the cards the player can select
+     * @param areWeapons tells if these cards are powerups or weapons
+     */
     public void createAvailableCardsMessage(TypeOfAction typeOfAction, List<IndexMessage> indexMessageList, boolean areWeapons){
 
         setTypeOfMessage(TypeOfMessage.AVAILABLE_CARDS);
@@ -360,6 +405,11 @@ public class Message implements Serializable {
         setJsonFile(serializeAvailableCards(availableCards));
     }
 
+    /**
+     * creates a message containing payment infos
+     * @param powerups tells the powerups that can be used
+     * @param mustPay tells if the player must pay the cost with a powerup or can pay woth ammo too
+     */
     public void createPaymentMessage(List<IndexMessage> powerups, boolean mustPay){
 
         setTypeOfMessage(TypeOfMessage.PAYMENT);
@@ -369,6 +419,11 @@ public class Message implements Serializable {
 
     }
 
+    /**
+     * creates a message containing infos about players that the client can choose
+     * @param typeOfAction type of action specified by who is creating the message
+     * @param players players that the player can select
+     */
     public void createAvailablePlayers(TypeOfAction typeOfAction, List<Character> players){
         setTypeOfMessage(TypeOfMessage.AVAILABLE_PLAYERS);
         setTypeOfAction(typeOfAction);
@@ -376,6 +431,12 @@ public class Message implements Serializable {
         setJsonFile(serializePlayers(playersMessage));
     }
 
+    /**
+     * creates a message containing infos about the effects a player can select
+     * @param availableEffects effects available
+     * @param names name of the effects
+     * @param weaponName name of the weapon
+     */
     public void createAvailableEffects(List<IndexMessage> availableEffects, List<String> names, String weaponName){
 
         setTypeOfMessage(TypeOfMessage.AVAILABLE_EFFECTS);
@@ -384,6 +445,11 @@ public class Message implements Serializable {
         setJsonFile(serializeAvailableEffects(effects));
     }
 
+    /**
+     * creates a message containing the infos about the leaderboard
+     * @param map map containing the players in order of points
+     * @param pointsMap map containing how many points every player did
+     */
     public void createLeaderBoard(Map<Character, Integer> map, Map<Character, Integer> pointsMap){
 
         setTypeOfMessage(TypeOfMessage.END_MATCH);
@@ -392,6 +458,10 @@ public class Message implements Serializable {
         setJsonFile(serializeLeaderBoard(leaderBoard));
     }
 
+    /**
+     * creates a message containing infos about a login
+     * @param connected tells if the login was succesful or not
+     */
     public void createLoginReport(Boolean connected) {
 
         setTypeOfMessage(TypeOfMessage.LOGIN_REPORT);
@@ -400,6 +470,10 @@ public class Message implements Serializable {
         setJsonFile(serializeLoginReport(loginReport));
     }
 
+    /**
+     * creates a message containing infos about a login
+     * @param numOfPlayers number of players connected at the moment
+     */
     public void createLoginReport(int numOfPlayers) {
 
         setTypeOfMessage(TypeOfMessage.LOGIN_REPORT);
@@ -408,6 +482,12 @@ public class Message implements Serializable {
         setJsonFile(serializeLoginReport(loginReport));
     }
 
+    /**
+     * creates a message containing infos about the cell selected by a player
+     * @param cellSelected cell selected by the player
+     * @param typeOfAction type of action specified by who is creating the message
+     * @param typeOfMessage type of message specified by who is creating the message
+     */
     public void createSelectedCellMessage(BoardCoord cellSelected, TypeOfAction typeOfAction, TypeOfMessage typeOfMessage){
 
         setTypeOfMessage(typeOfMessage);
@@ -415,6 +495,10 @@ public class Message implements Serializable {
         setJsonFile(serializeBoardCoord(cellSelected));
     }
 
+    /**
+     * creates a message containing infos for a grab weapon
+     * @param grabWeapon GrabWeapon to serialize in the message
+     */
     public void createSingleActionGrabWeapon(GrabWeapon grabWeapon){
 
         setTypeOfMessage(TypeOfMessage.SINGLE_ACTION);
@@ -422,6 +506,10 @@ public class Message implements Serializable {
         setJsonFile(serializeGrabWeapon(grabWeapon));
     }
 
+    /**
+     * creates a message containing infos about the reload
+     * @param weaponReloaded weapon to reload
+     */
     public void createSingleActionReload(int weaponReloaded){
 
         setTypeOfMessage(TypeOfMessage.SINGLE_ACTION);
@@ -429,6 +517,10 @@ public class Message implements Serializable {
         setJsonFile(serializeIndexMessage(new IndexMessage(weaponReloaded)));
     }
 
+    /**
+     * creates a message containing infos about a powerup chosen
+     * @param selectedPowerup powerup chosen
+     */
     public void createSelectionForUsePowerup(int selectedPowerup){
 
         setTypeOfMessage(TypeOfMessage.SELECTED_CARD);
@@ -436,6 +528,11 @@ public class Message implements Serializable {
         setJsonFile(serializeIndexMessage(new IndexMessage(selectedPowerup)));
     }
 
+    /**
+     * creates a message containing infos about a player chosen
+     * @param selectedCharacter player chosen
+     * @param typeOfAction type of action specified by who is creating the message
+     */
     public void createSelectedPlayer(int selectedCharacter, TypeOfAction typeOfAction){
 
         setTypeOfMessage(TypeOfMessage.SELECTED_PLAYER);
@@ -443,6 +540,9 @@ public class Message implements Serializable {
         setJsonFile(serializeIndexMessage(new IndexMessage(selectedCharacter)));
     }
 
+    /**
+     * creates a message containing infos to end a turn
+     */
     public void createEndTurnMessage(){
 
         setTypeOfMessage(TypeOfMessage.SINGLE_ACTION);
@@ -450,6 +550,10 @@ public class Message implements Serializable {
         setJsonFile(null);
     }
 
+    /**
+     * creates a message containing infos about the disconnection of a player
+     * @param userDisconnected player disconnected
+     */
     public void createDisconnectionMessage(int userDisconnected){
 
         setTypeOfMessage(TypeOfMessage.DISCONNECTED);
@@ -457,6 +561,10 @@ public class Message implements Serializable {
         setJsonFile(serializeIndexMessage(new IndexMessage(userDisconnected)));
     }
 
+    /**
+     * creates a message containing infos for a spawn
+     * @param powerupIndex powerup selected to spawn
+     */
     public void createSpawnSelection(int powerupIndex){
 
         setTypeOfMessage(TypeOfMessage.SELECTED_CARD);
@@ -464,6 +572,11 @@ public class Message implements Serializable {
         setJsonFile(serializeIndexMessage(new IndexMessage(powerupIndex)));
     }
 
+    /**
+     * creates a message containing infos about a selected card
+     * @param indexSelected selected card
+     * @param typeOfAction type of action specified by who is creating the message
+     */
     public void createSelectedCard(int indexSelected, TypeOfAction typeOfAction){
 
         setTypeOfMessage(TypeOfMessage.SELECTED_CARD);
@@ -471,12 +584,20 @@ public class Message implements Serializable {
         setJsonFile(serializeIndexMessage(new IndexMessage(indexSelected)));
     }
 
+    /**
+     * creates a message containing infos related a payment choice
+     * @param indexSelected powerup selected to pay
+     */
     public void createPaymentSelection(int indexSelected){
         setTypeOfMessage(TypeOfMessage.PAYMENT);
         setTypeOfAction(TypeOfAction.PAY);
         setJsonFile(serializeIndexMessage(new IndexMessage(indexSelected)));
     }
 
+    /**
+     * creates a message containing infos about the selection of a color
+     * @param color color selected
+     */
     public void createColorSelection(Colors color){
 
         setTypeOfMessage(TypeOfMessage.SELECTED_COLOR);
@@ -484,6 +605,10 @@ public class Message implements Serializable {
         setJsonFile(serializeSelectedColor(new SelectedColor(color)));
     }
 
+    /**
+     * creates a message containing infos about the selection of an effect
+     * @param selection effect selected
+     */
     public void createSelectedEffect(int selection){
 
         setTypeOfMessage(TypeOfMessage.SELECTED_EFFECT);
@@ -491,6 +616,12 @@ public class Message implements Serializable {
         setJsonFile(serializeIndexMessage(new IndexMessage(selection)));
     }
 
+    /**
+     * creates a message containing textual information about actions made by a player
+     * @param report tells what a player just did
+     * @param subject who made the action
+     * @param receiver who received the action (ex: who has been damaged)
+     */
     public void createActionReports(String report, Character subject, Character receiver){
 
         setTypeOfMessage(TypeOfMessage.ACTION_REPORT);
@@ -498,6 +629,13 @@ public class Message implements Serializable {
         setJsonFile(serializeActionReport(new ActionReports(report, subject, receiver)));
     }
 
+    /**
+     * creates a message containing textual information about actions made by a player
+     * @param report tells what a player just did
+     * @param subject who made the action
+     * @param receiver who received the action (ex: who has been damaged)
+     * @param isDamageSession tells if we are in damage session
+     */
     public void createActionReports(String report, Character subject, Character receiver, boolean isDamageSession){
         setTypeOfMessage(TypeOfMessage.ACTION_REPORT);
         setTypeOfAction(TypeOfAction.NONE);
@@ -507,16 +645,12 @@ public class Message implements Serializable {
 
     }
 
+    /**
+     * creates a message to ask a player if he wants to reconnect
+     */
     public void createReconnectionMessage() {
 
         setTypeOfMessage(TypeOfMessage.PLAYER_ALREADY_LOGGED);
-        setTypeOfAction(TypeOfAction.NONE);
-        setJsonFile(null);
-    }
-
-    public void createReconnectionRequest(Boolean rmi) {
-
-        setTypeOfMessage(TypeOfMessage.RECONNECTION);
         setTypeOfAction(TypeOfAction.NONE);
         setJsonFile(null);
     }

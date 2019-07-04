@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * @author poligenius
  * this class was written to call its methods to create the board, the powerup, weapon and ammoTile decks; by reading JSON files
  */
 public class Factory {
@@ -144,6 +145,7 @@ public class Factory {
      * THIS METHOD DOES NOT SET THE "PLAYERS" ATTRIBUTE IN THE ROOMS, IT MUST BE DONE IN MATCH CLASS AND DOES NOT SET
      * THE "KILLTRACK"
      * @param fileName the name of the json file correspondent to the kind of board chosen by logged client
+     * @param players list of the players
      * @return board created
      */
     public Board createBoard(String fileName, List<Player> players){

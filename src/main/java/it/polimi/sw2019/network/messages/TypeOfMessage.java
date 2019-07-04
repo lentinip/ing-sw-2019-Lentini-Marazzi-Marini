@@ -1,5 +1,9 @@
 package it.polimi.sw2019.network.messages;
 
+/**
+ * @author poligenius, Mi97ch, lentinip
+ * enumeration of all the type of messages
+ */
 public enum TypeOfMessage {
     SINGLEACTION,
     SHOOTINGMESSAGE,

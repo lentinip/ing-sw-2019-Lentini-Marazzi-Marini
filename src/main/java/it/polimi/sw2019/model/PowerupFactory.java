@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author poligenius
  * this class was written to have more references of the powerup useful in Factory class
  */
 public class PowerupFactory {
@@ -21,14 +22,6 @@ public class PowerupFactory {
 
     /* Methods */
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     public Powerup getPowerup() {
         return powerupKind;
     }
@@ -37,6 +30,10 @@ public class PowerupFactory {
         this.powerupKind = powerup;
     }
 
+    /**
+     * this method creates the exact number of powerups of the same kind
+     * @return the list of powerups created
+     */
     public List<Powerup> createPowerups(){
 
         List<Powerup> powerups = new ArrayList<>();

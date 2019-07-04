@@ -6,10 +6,17 @@ import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.List;
 
+/**
+ * @author lentinip
+ * this class contains all the useful methods to modify the model
+ */
 public class  AtomicActions {
 
+
     /**
-     * Default Constructor
+     * customized constructor
+     * @param match match class
+     * @param view reference to virtual view
      */
     public AtomicActions(Match match, VirtualView view){
 
@@ -43,7 +50,12 @@ public class  AtomicActions {
 
     }
 
-
+    /**
+     * this second move was made for moveAfterShoot, to know in the action report if we are in damage session
+     * @param player player who is moving
+     * @param selectedCell destination
+     * @param damageSession if we are in damage session
+     */
     public void move(Player player, Cell selectedCell, boolean damageSession){
 
         player.setPosition(selectedCell);
@@ -235,6 +247,12 @@ public class  AtomicActions {
     }
 
 
+    /**
+     * method to assign mark to players
+     * @param shooter who give marks
+     * @param receiver who receives marks
+     * @param mark number of marks given
+     */
     public void mark(Player shooter, Player receiver, int mark){
         Marks receiverMarks = receiver.getPlayerBoard().getMarks();
         receiverMarks.addMark(mark, shooter.getCharacter());
@@ -249,6 +267,11 @@ public class  AtomicActions {
         }
     }
 
+    /**
+     * method to reload a weapon
+     * @param reloader who reloads
+     * @param reloadedWeapon weapon reloaded
+     */
     public void reload(Player reloader, Weapon reloadedWeapon){
         reloadedWeapon.setIsLoaded(true);
 

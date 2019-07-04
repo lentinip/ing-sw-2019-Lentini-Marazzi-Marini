@@ -1,6 +1,7 @@
 package it.polimi.sw2019.model;
 
 /**
+ * @author poligenius
  * this class contains information about the target choices that the weapon user can make
  */
 public class Target {

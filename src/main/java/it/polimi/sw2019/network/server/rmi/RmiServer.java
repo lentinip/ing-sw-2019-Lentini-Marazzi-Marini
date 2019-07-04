@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * @author Mi97ch
  * RMIserver runned by the main server
  */
 public class RmiServer implements Remote {
@@ -37,6 +38,11 @@ public class RmiServer implements Remote {
         this.server = server;
     }
 
+    /**
+     * method to start the server for RMI
+     * @param port port to connect
+     * @throws RemoteException in case of error in connection
+     */
     public void startServer(int port) throws RemoteException {
 
         Registry registry = LocateRegistry.createRegistry(port);

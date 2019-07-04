@@ -2,10 +2,12 @@ package it.polimi.sw2019.model;
 
 import it.polimi.sw2019.network.messages.PlayerBoardMessage;
 
-import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * @author poligenius
+ * this class contains infos about the playerboard
+ */
 public class PlayerBoard {
 
     /**
@@ -42,10 +44,6 @@ public class PlayerBoard {
 
     public boolean isFirstPlayer(){
         return this.firstPlayer;
-    }
-
-    public void setFirstPlayer(boolean firstPlayer){
-        this.firstPlayer = firstPlayer;
     }
 
     public boolean isFlipped() {
@@ -88,6 +86,10 @@ public class PlayerBoard {
         return ammo;
     }
 
+    /**
+     *  used to know if the player can pay targeting scope
+     * @return true if the player has at least one ammo
+     */
     public boolean hasAtLeastOneAmmo(){
         if (ammo.getRed()>0||ammo.getYellow()>0||ammo.getBlue()>0){
             return true;
@@ -136,8 +138,8 @@ public class PlayerBoard {
     }
 
     /**
-     * update the score when the board is flipped in frenzy
-     * @param score
+     * updates the score when the board is flipped in frenzy
+     * @param score class score
      */
     public void updateFrenzyScore(Score score){
 
@@ -165,6 +167,10 @@ public class PlayerBoard {
 
     }
 
+    /**
+     * creade a playerBoardMessage included in the match state sent to the view
+     * @return PlayerBoardMessage
+     */
     public PlayerBoardMessage createPlayerBoard(){
 
         PlayerBoardMessage playerBoardMessage = new PlayerBoardMessage();

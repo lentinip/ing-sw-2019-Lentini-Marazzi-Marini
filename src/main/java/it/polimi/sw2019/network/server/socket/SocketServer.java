@@ -10,12 +10,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * @author Mi97ch
  * Socket server runned by the main server
  */
 public class SocketServer extends Thread {
 
     /**
      * Constructor
+     * @param server server
      */
     public SocketServer(Server server) {
         setServer(server);
@@ -47,7 +49,7 @@ public class SocketServer extends Thread {
 
     /**
      * creates the serverSocket and binds the port parameter to it
-     * @param port
+     * @param port port to connect
      */
     public void startServer(int port) {
 

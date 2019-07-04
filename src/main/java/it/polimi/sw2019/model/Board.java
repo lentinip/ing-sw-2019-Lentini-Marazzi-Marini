@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author poligenius, lentinip, Mi97ch
+ * this class contains all the useful infos about the board
+ */
 public class Board {
 
     /**
@@ -119,6 +123,10 @@ public class Board {
         return weaponsDeck.isEmpty();
     }
 
+    /**
+     * method used to draw a weapon
+     * @return the weapon drawn
+     */
     public Weapon drawWeapon(){
         if (!weaponsDeck.isEmpty()){
             Weapon result = weaponsDeck.get(weaponsDeck.size()-1);

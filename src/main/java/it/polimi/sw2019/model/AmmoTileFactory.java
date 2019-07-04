@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author poligenius
  * This class was written to create the ammoTiles based on the quantity attribute and then returns the list to the Factory class
  */
 public class AmmoTileFactory {
@@ -45,6 +46,10 @@ public class AmmoTileFactory {
         return ammoTileKind;
     }
 
+    /**
+     * this method is used to create the exact number of ammo tiles of a specific type
+     * @return list of ammo tiles created
+     */
     public List<AmmoTile> createAmmoTiles(){
 
         List<AmmoTile> ammoTiles = new ArrayList<>();

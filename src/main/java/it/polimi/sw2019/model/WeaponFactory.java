@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Paths;
 
 /**
+ * @author poligenius
  * This class was written to create the weapon by reading a json File, it creates a weapon class and read the json
  * correspondent to the effects of the weapon and then creates the Effect classes and the real Weapon
  */

@@ -6,6 +6,11 @@ import it.polimi.sw2019.network.messages.*;
 
 import java.util.List;
 
+/**
+ * @author poligenius
+ * this interface is implemented by cli and gui
+ * to show windows and stuff on console/gui
+ */
 public interface ViewInterface {
 
     /* Methods */
@@ -33,6 +38,7 @@ public interface ViewInterface {
 
     /**
      * shows the window after the login the one with match setups
+     * @param loginReport message received
      */
     void displayLoginSuccessful(LoginReport loginReport);
 
@@ -51,30 +57,35 @@ public interface ViewInterface {
     /**
      * show the cells the player can click (player must click one)
      * @param cells List of coords of the cell that can be choosed
+     * @param typeOfAction type of action chosen
      */
     void displayAvailableCells(List<BoardCoord> cells, TypeOfAction typeOfAction);
 
     /**
      * shows the cards the player can choose
      * @param cards contains options
+     * @param typeOfAction type of action chosen
      */
     void displayAvailableCards(AvailableCards cards, TypeOfAction typeOfAction);
 
     /**
      * shows the cards the player can choose with the "no" button
      * @param cards contains options
+     * @param typeOfAction type of action chosen
      */
     void displayAvailableCardsWithNoOption(AvailableCards cards, TypeOfAction typeOfAction);
 
     /**
      * shows the characters the player can choose
      * @param players contains options
+     * @param typeOfAction type of action chosen
      */
     void displayAvailablePlayers(List<Character> players, TypeOfAction typeOfAction);
 
     /**
      * shows the characters the player can choose with the "no" button
      * @param players contains options
+     * @param typeOfAction type of action chosen
      */
     void displayAvailablePlayersWithNoOption(List<Character> players, TypeOfAction typeOfAction);
 
@@ -123,7 +134,7 @@ public interface ViewInterface {
 
     /**
      * shows a textual message with the action a player has done (used onli in cli)
-     * @param actionReports mesage
+     * @param actionReports message
      */
     void displayActionReport(ActionReports actionReports);
 
@@ -143,6 +154,9 @@ public interface ViewInterface {
      */
     void displayConnectionErrorClient(Message messageToResend);
 
+    /**
+     * this method displays a connection error
+     */
     void displayConnectionFailure();
 
 }

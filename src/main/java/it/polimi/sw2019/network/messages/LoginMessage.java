@@ -1,7 +1,9 @@
 package it.polimi.sw2019.network.messages;
 
-import it.polimi.sw2019.network.client.ClientInterface;
-
+/**
+ * @author poligenius
+ * this class contains infos about the login of a player
+ */
 public class LoginMessage {
 
     public LoginMessage(String username, boolean rmi){

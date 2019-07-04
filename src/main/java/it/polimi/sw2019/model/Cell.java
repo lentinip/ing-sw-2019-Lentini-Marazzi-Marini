@@ -7,6 +7,10 @@ import it.polimi.sw2019.network.messages.MessageCell;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author poligenius
+ * this class contains all the infos about a cell and whats it contains
+ */
 public class Cell {
 
     /**
@@ -260,6 +264,10 @@ public class Cell {
         return reachableCells;
     }
 
+    /**
+     * returns the coord of the cell
+     * @return a Boardcoord
+     */
     public BoardCoord getCoord(){
         return new BoardCoord(row, column);
     }

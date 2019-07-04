@@ -3,6 +3,7 @@ package it.polimi.sw2019.network.messages;
 import it.polimi.sw2019.model.Character;
 
 /**
+ * @author poligenius
  * class used to send reports about players actions
  */
 public class ActionReports {
@@ -39,16 +40,8 @@ public class ActionReports {
         return report;
     }
 
-    public void setReceiver(Character receiver) {
-        this.receiver = receiver;
-    }
-
     public void setReport(String report) {
         this.report = report;
-    }
-
-    public void setSubject(Character subject) {
-        this.subject = subject;
     }
 
     public void setDamageSession(boolean damageSession) {

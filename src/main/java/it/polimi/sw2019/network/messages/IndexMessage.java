@@ -1,6 +1,7 @@
 package it.polimi.sw2019.network.messages;
 
 /**
+ * @author poligenius
  * this class contains the index of a selection
  */
 public class IndexMessage {
@@ -12,6 +13,7 @@ public class IndexMessage {
 
     /**
      * customize constructor
+     * @param selectionIndex index of the selection
      */
     public IndexMessage(int selectionIndex){
 

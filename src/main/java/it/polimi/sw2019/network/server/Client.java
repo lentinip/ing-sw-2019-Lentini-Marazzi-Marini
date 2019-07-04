@@ -3,17 +3,20 @@ package it.polimi.sw2019.network.server;
 import it.polimi.sw2019.network.client.ClientInterface;
 import it.polimi.sw2019.network.messages.Message;
 
-import java.net.ConnectException;
+import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 
 /**
+ * @author Mi97ch
  * this class represents the clients in server side
  */
 public class Client {
 
     /**
      * Constructor
+     * @param clientInterface reference to the client Interface
+     * @param username username of the player who is connecting
      */
     public Client(String username, ClientInterface clientInterface) {
 
@@ -56,7 +59,14 @@ public class Client {
         return clientInterface;
     }
 
-    public void notify(Message message, Server server, String user) throws ConnectException {
+    /**
+     * method to send a message to the client
+     * @param message mes to send
+     * @param server reference to the server in case of exception (to remove disconnected player)
+     * @param user player that is going to receive the message
+     * @exception RemoteException exception for connection
+     */
+    public void notify(Message message, Server server, String user) throws RemoteException {
 
         try {
 

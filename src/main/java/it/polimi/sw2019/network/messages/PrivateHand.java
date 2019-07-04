@@ -6,13 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author poligenius
  * This class is sent only to one client, contains its weapons and powerups that are secret to everyone else
  */
 public class PrivateHand {
 
-    /**
-     * Default constructor
-     */
+
     public PrivateHand(List<String> weaponsLoaded, List<String> weaponsUnloaded, List<String> powerups, List<String> allWeapons, List<Colors> powerupColors){
         setWeaponsLoaded(weaponsLoaded);
         setWeaponsUnloaded(weaponsUnloaded);

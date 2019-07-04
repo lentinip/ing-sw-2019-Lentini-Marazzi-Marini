@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author poligenius, lentinip
+ * this class was written to manage all the choices made by the client related to a payment of a weapon or a powerup or an effect
+ */
 public class Payment {
 
     public Payment(Match match, VirtualView view, SingleActionManager singleActionManager){
@@ -46,48 +50,12 @@ public class Payment {
     private static final Logger LOGGER = Logger.getLogger("Payment");
 
 
-    public boolean isReloadInFrenzy() {
-        return reloadInFrenzy;
-    }
-
     public void setSpawnCell(Cell spawnCell) {
         this.spawnCell = spawnCell;
     }
 
     public void setReloadInFrenzy(boolean reloadInFrenzy) {
         this.reloadInFrenzy = reloadInFrenzy;
-    }
-
-    public Ammo getLeftCost() {
-        return leftCost;
-    }
-
-    public void setLeftCost(Ammo leftCost) {
-        this.leftCost = leftCost;
-    }
-
-    public Ammo getInitialCost() {
-        return initialCost;
-    }
-
-    public void setInitialCost(Ammo initialCost) {
-        this.initialCost = initialCost;
-    }
-
-    public Message getPendingMessage() {
-        return pendingMessage;
-    }
-
-    public void setPendingMessage(Message pendingMessage) {
-        this.pendingMessage = pendingMessage;
-    }
-
-    public List<Powerup> getSelectedPowerups() {
-        return selectedPowerups;
-    }
-
-    public void setSelectedPowerups(List<Powerup> selectedPowerups) {
-        this.selectedPowerups = selectedPowerups;
     }
 
     /**
@@ -144,6 +112,7 @@ public class Payment {
     /**
      * Pay the Ammo cost with Ammo  and continue the pending action based on the pendingMessage.
      * used to pay targeting scope
+     * @param color color selected
      */
     public void payAndThanUsePowerup(Colors color){
         Ammo toPay = new Ammo(color);

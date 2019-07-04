@@ -2,6 +2,10 @@ package it.polimi.sw2019.network.messages;
 
 import java.util.List;
 
+/**
+ * @author poligenius
+ * class written to send infos about the cells the player can choose
+ */
 public class AvailableCells {
 
     /**
@@ -9,9 +13,6 @@ public class AvailableCells {
      */
     public  AvailableCells(){}
 
-    /**
-     * customizeConstructors
-     */
     public AvailableCells(List<BoardCoord> availableCells){
 
         setAvailableCells(availableCells);

@@ -10,10 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author poligenius, lentinip
+ * this class was written to manage the different transation between the numberous phases of a turn
+ */
 public class TurnManager {
 
     /**
-     * Default constructor
+     * customized constructor
+     * @param match match class
+     * @param view reference to virtual view to call the display
      */
     public TurnManager(Match match, VirtualView view){
         this.match = match;
@@ -31,8 +37,6 @@ public class TurnManager {
     private VirtualView view;
 
     private Player currentPlayer;
-
-    private Player firstPlayer;
 
     private boolean isFirstRound = true;
 
@@ -59,26 +63,14 @@ public class TurnManager {
         return singleActionManager;
     }
 
-    public void setSingleActionManager(SingleActionManager singleActionManager) {
-        this.singleActionManager = singleActionManager;
-    }
-
-    public Player getFirstPlayer() {
-        return firstPlayer;
-    }
-
-    public void setFirstPlayer(Player firstPlayer) {
-        this.firstPlayer = firstPlayer;
-    }
-
     public boolean isFirstRound() {
         return isFirstRound;
     }
 
-    public void setFirstRound(boolean firstRound) {
-        isFirstRound = firstRound;
-    }
-
+    /**
+     * this methodo call the corresponding method in the model
+     * and do everything necessary to end a turn and start a new one
+     */
     public void endTurn(){
 
         //stopping the timer because the player ended his turn
@@ -138,7 +130,7 @@ public class TurnManager {
     }
 
     /**
-     * refills the empty spawn cell
+     * refills the empty spawn cell at the end of the turn
      */
     public void refillSpawnCell(){
 
@@ -159,7 +151,7 @@ public class TurnManager {
     }
 
     /**
-     * refills the empty common cells
+     * refills the empty common cells at the end of the turn
      */
     public void refillCommonCell(){
 
