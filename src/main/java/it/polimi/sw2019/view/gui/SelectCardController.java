@@ -1,8 +1,8 @@
 package it.polimi.sw2019.view.gui;
 
-import it.polimi.sw2019.model.TypeOfAction;
+import it.polimi.sw2019.commons.TypeOfAction;
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.messages.*;
+import it.polimi.sw2019.commons.messages.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

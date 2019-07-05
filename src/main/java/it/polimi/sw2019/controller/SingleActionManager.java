@@ -1,11 +1,12 @@
 package it.polimi.sw2019.controller;
 
+import it.polimi.sw2019.commons.TypeOfAction;
 import it.polimi.sw2019.model.*;
-import it.polimi.sw2019.model.Character;
-import it.polimi.sw2019.network.messages.BoardCoord;
-import it.polimi.sw2019.network.messages.GrabWeapon;
-import it.polimi.sw2019.network.messages.IndexMessage;
-import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.messages.BoardCoord;
+import it.polimi.sw2019.commons.messages.GrabWeapon;
+import it.polimi.sw2019.commons.messages.IndexMessage;
+import it.polimi.sw2019.commons.messages.Message;
 import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
@@ -57,6 +58,10 @@ public class SingleActionManager {
 
     public Match getMatch() {
         return match;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
     }
 
     public AtomicActions getAtomicActions() {

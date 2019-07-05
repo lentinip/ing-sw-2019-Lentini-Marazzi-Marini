@@ -2,7 +2,7 @@ package it.polimi.sw2019.network.client.socket;
 
 
 import it.polimi.sw2019.network.client.ClientInterface;
-import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.commons.messages.Message;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.server.socket.ServerInterface;
 

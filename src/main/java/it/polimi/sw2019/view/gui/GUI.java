@@ -1,9 +1,9 @@
 package it.polimi.sw2019.view.gui;
 
-import it.polimi.sw2019.model.Character;
-import it.polimi.sw2019.model.TypeOfAction;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.TypeOfAction;
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.messages.*;
+import it.polimi.sw2019.commons.messages.*;
 import it.polimi.sw2019.view.ViewInterface;
 import javafx.application.Application;
 import javafx.application.Platform;

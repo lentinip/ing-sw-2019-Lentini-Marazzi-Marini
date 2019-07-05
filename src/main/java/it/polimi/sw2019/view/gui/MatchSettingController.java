@@ -1,22 +1,17 @@
 package it.polimi.sw2019.view.gui;
 
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.messages.MatchSetup;
-import it.polimi.sw2019.network.messages.Message;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.NumberBinding;
+import it.polimi.sw2019.commons.messages.MatchSetup;
+import it.polimi.sw2019.commons.messages.Message;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 public class MatchSettingController {
 

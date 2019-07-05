@@ -1,7 +1,8 @@
 package it.polimi.sw2019;
 
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.Colors;
 import it.polimi.sw2019.model.*;
-import it.polimi.sw2019.model.Character;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -108,16 +109,16 @@ public class TestEffect {
 
         board.setField(field);
 
-        Player player1 = new Player("Enzo", it.polimi.sw2019.model.Character.BANSHEE);
+        Player player1 = new Player("Enzo", Character.BANSHEE);
         player1.setPosition(cell1);
 
-        Player player2 = new Player("Carl", it.polimi.sw2019.model.Character.DISTRUCTOR);
+        Player player2 = new Player("Carl", Character.DISTRUCTOR);
         player2.setPosition(cell3);
 
-        Player player3 = new Player("Anna", it.polimi.sw2019.model.Character.VIOLET);
+        Player player3 = new Player("Anna", Character.VIOLET);
         player3.setPosition(cell6);
 
-        Player player4 = new Player("Luca", it.polimi.sw2019.model.Character.DOZER);
+        Player player4 = new Player("Luca", Character.DOZER);
         player4.setPosition(cell11);
 
         Player player5 = new Player("Sandra", Character.SPROG);
@@ -293,16 +294,16 @@ public class TestEffect {
 
         board.setField(field);
 
-        Player player1 = new Player("Enzo", it.polimi.sw2019.model.Character.BANSHEE);
+        Player player1 = new Player("Enzo", Character.BANSHEE);
         player1.setPosition(cell1);
 
-        Player player2 = new Player("Carl", it.polimi.sw2019.model.Character.DISTRUCTOR);
+        Player player2 = new Player("Carl", Character.DISTRUCTOR);
         player2.setPosition(cell3);
 
-        Player player3 = new Player("Anna", it.polimi.sw2019.model.Character.VIOLET);
+        Player player3 = new Player("Anna", Character.VIOLET);
         player3.setPosition(cell5);
 
-        Player player4 = new Player("Luca", it.polimi.sw2019.model.Character.DOZER);
+        Player player4 = new Player("Luca", Character.DOZER);
         player4.setPosition(cell11);
 
         Player player5 = new Player("Sandra", Character.SPROG);
@@ -481,16 +482,16 @@ public class TestEffect {
 
         board.setField(field);
 
-        Player player1 = new Player("Enzo", it.polimi.sw2019.model.Character.BANSHEE);
+        Player player1 = new Player("Enzo", Character.BANSHEE);
         player1.setPosition(cell1);
 
-        Player player2 = new Player("Carl", it.polimi.sw2019.model.Character.DISTRUCTOR);
+        Player player2 = new Player("Carl", Character.DISTRUCTOR);
         player2.setPosition(cell3);
 
-        Player player3 = new Player("Anna", it.polimi.sw2019.model.Character.VIOLET);
+        Player player3 = new Player("Anna", Character.VIOLET);
         player3.setPosition(cell5);
 
-        Player player4 = new Player("Luca", it.polimi.sw2019.model.Character.DOZER);
+        Player player4 = new Player("Luca", Character.DOZER);
         player4.setPosition(cell11);
 
         Player player5 = new Player("Sandra", Character.SPROG);
@@ -670,16 +671,16 @@ public class TestEffect {
 
         board.setField(field);
 
-        Player player1 = new Player("Enzo", it.polimi.sw2019.model.Character.BANSHEE);
+        Player player1 = new Player("Enzo", Character.BANSHEE);
         player1.setPosition(cell1);
 
-        Player player2 = new Player("Carl", it.polimi.sw2019.model.Character.DISTRUCTOR);
+        Player player2 = new Player("Carl", Character.DISTRUCTOR);
         player2.setPosition(cell3);
 
-        Player player3 = new Player("Anna", it.polimi.sw2019.model.Character.VIOLET);
+        Player player3 = new Player("Anna", Character.VIOLET);
         player3.setPosition(cell5);
 
-        Player player4 = new Player("Luca", it.polimi.sw2019.model.Character.DOZER);
+        Player player4 = new Player("Luca", Character.DOZER);
         player4.setPosition(cell11);
 
         Player player5 = new Player("Sandra", Character.SPROG);
@@ -970,16 +971,16 @@ public class TestEffect {
 
         board.setField(field);
 
-        Player player1 = new Player("Enzo", it.polimi.sw2019.model.Character.BANSHEE);
+        Player player1 = new Player("Enzo", it.polimi.sw2019.commons.Character.BANSHEE);
         player1.setPosition(cell1);
 
-        Player player2 = new Player("Carl", it.polimi.sw2019.model.Character.DISTRUCTOR);
+        Player player2 = new Player("Carl", it.polimi.sw2019.commons.Character.DISTRUCTOR);
         player2.setPosition(cell3);
 
-        Player player3 = new Player("Anna", it.polimi.sw2019.model.Character.VIOLET);
+        Player player3 = new Player("Anna", it.polimi.sw2019.commons.Character.VIOLET);
         player3.setPosition(cell5);
 
-        Player player4 = new Player("Luca", it.polimi.sw2019.model.Character.DOZER);
+        Player player4 = new Player("Luca", it.polimi.sw2019.commons.Character.DOZER);
         player4.setPosition(cell11);
 
         Player player5 = new Player("Sandra", Character.SPROG);

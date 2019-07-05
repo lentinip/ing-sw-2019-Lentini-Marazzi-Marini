@@ -1,9 +1,8 @@
 package it.polimi.sw2019.view.gui;
 
-import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.commons.Character;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 
 import java.util.EnumMap;
 import java.util.List;

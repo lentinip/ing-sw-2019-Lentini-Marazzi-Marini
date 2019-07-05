@@ -1,5 +1,8 @@
 package it.polimi.sw2019.model;
 
+import it.polimi.sw2019.commons.Colors;
+import it.polimi.sw2019.commons.TypeOfAction;
+
 /**
  * @author poligenius
  * this class contains infos about powerups and their effects

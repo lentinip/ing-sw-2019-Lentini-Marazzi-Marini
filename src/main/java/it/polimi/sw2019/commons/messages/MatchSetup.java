@@ -1,4 +1,4 @@
-package it.polimi.sw2019.network.messages;
+package it.polimi.sw2019.commons.messages;
 
 /**
  * @author poligenius
@@ -11,10 +11,10 @@ public class MatchSetup {
      */
     public MatchSetup(){}
 
-    public MatchSetup(boolean frenzy, boolean eightSkulls, String boardJsonName){
+    public MatchSetup(boolean frenzy, boolean easyMode, String boardJsonName){
 
         setFrenzy(frenzy);
-        setEightSkulls(eightSkulls);
+        setEasyMode(easyMode);
         setBoardJsonName(boardJsonName);
     }
 
@@ -22,7 +22,7 @@ public class MatchSetup {
 
     private boolean frenzy;
 
-    private boolean eightSkulls;
+    private boolean easyMode;
 
     private String boardJsonName;
 
@@ -36,12 +36,12 @@ public class MatchSetup {
         this.frenzy = frenzy;
     }
 
-    public boolean isEightSkulls() {
-        return eightSkulls;
+    public boolean isEasyMode() {
+        return easyMode;
     }
 
-    public void setEightSkulls(boolean eightSkulls) {
-        this.eightSkulls = eightSkulls;
+    public void setEasyMode(boolean eightSkulls) {
+        this.easyMode = eightSkulls;
     }
 
     public boolean isFrenzy() {

@@ -1,6 +1,6 @@
 package it.polimi.sw2019.network.server.socket;
 
-import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.commons.messages.Message;
 import it.polimi.sw2019.network.server.Server;
 
 import java.io.IOException;

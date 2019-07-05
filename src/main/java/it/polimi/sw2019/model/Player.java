@@ -1,7 +1,9 @@
 package it.polimi.sw2019.model;
-import it.polimi.sw2019.network.messages.Message;
-import it.polimi.sw2019.network.messages.PlayerHand;
-import it.polimi.sw2019.network.messages.PrivateHand;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.Colors;
+import it.polimi.sw2019.commons.messages.Message;
+import it.polimi.sw2019.commons.messages.PlayerHand;
+import it.polimi.sw2019.commons.messages.PrivateHand;
 
 import java.util.ArrayList;
 import java.util.List;

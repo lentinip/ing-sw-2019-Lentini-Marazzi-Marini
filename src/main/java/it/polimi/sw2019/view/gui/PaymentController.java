@@ -1,10 +1,10 @@
 package it.polimi.sw2019.view.gui;
 
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.messages.IndexMessage;
-import it.polimi.sw2019.network.messages.Message;
-import it.polimi.sw2019.network.messages.PaymentMessage;
-import it.polimi.sw2019.network.messages.PlayerBoardMessage;
+import it.polimi.sw2019.commons.messages.IndexMessage;
+import it.polimi.sw2019.commons.messages.Message;
+import it.polimi.sw2019.commons.messages.PaymentMessage;
+import it.polimi.sw2019.commons.messages.PlayerBoardMessage;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

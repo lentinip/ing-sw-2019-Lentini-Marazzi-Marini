@@ -1,8 +1,8 @@
 package it.polimi.sw2019.network.server;
 
-import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.commons.Character;
 import it.polimi.sw2019.network.client.ClientInterface;
-import it.polimi.sw2019.network.messages.*;
+import it.polimi.sw2019.commons.messages.*;
 import it.polimi.sw2019.network.server.rmi.RmiServer;
 import it.polimi.sw2019.network.server.socket.SocketServer;
 
@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

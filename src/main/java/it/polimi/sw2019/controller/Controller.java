@@ -1,8 +1,9 @@
 package it.polimi.sw2019.controller;
+import it.polimi.sw2019.commons.TypeOfAction;
 import it.polimi.sw2019.model.*;
-import it.polimi.sw2019.network.messages.*;
+import it.polimi.sw2019.commons.messages.*;
 import it.polimi.sw2019.network.server.VirtualView;
-import static it.polimi.sw2019.network.messages.TypeOfMessage.*;
+import static it.polimi.sw2019.commons.messages.TypeOfMessage.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,10 @@ public class Controller implements Observer {
         return match;
     }
 
+    public TurnManager getTurnManager() {
+        return turnManager;
+    }
+
     /**
      * this method creates the match and all the data structures useful in the game
      * @param message with the setup info
@@ -53,7 +58,7 @@ public class Controller implements Observer {
 
         MatchSetup setupInfo = message.deserializeMatchSetup();
 
-        match = new Match(setupInfo.isFrenzy(), setupInfo.isEightSkulls(), view.getUsernames(), setupInfo.getBoardJsonName(), view);
+        match = new Match(setupInfo.isFrenzy(), setupInfo.isEasyMode(), view.getUsernames(), setupInfo.getBoardJsonName(), view);
         turnManager = new TurnManager(match, view);
         view.setCurrentPlayer(match.getCurrentPlayer().getName());
 

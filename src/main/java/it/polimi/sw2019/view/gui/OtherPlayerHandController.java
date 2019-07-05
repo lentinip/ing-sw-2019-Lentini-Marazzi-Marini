@@ -1,6 +1,6 @@
 package it.polimi.sw2019.view.gui;
 
-import it.polimi.sw2019.network.messages.PlayerHand;
+import it.polimi.sw2019.commons.messages.PlayerHand;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;

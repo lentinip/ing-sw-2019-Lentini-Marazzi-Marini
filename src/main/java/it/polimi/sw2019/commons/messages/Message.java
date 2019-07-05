@@ -1,10 +1,9 @@
-package it.polimi.sw2019.network.messages;
+package it.polimi.sw2019.commons.messages;
 
 import com.google.gson.Gson;
-import it.polimi.sw2019.model.Character;
-import it.polimi.sw2019.model.Colors;
-import it.polimi.sw2019.model.TypeOfAction;
-import it.polimi.sw2019.network.client.ClientInterface;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.Colors;
+import it.polimi.sw2019.commons.TypeOfAction;
 
 import java.io.Serializable;
 import java.util.List;

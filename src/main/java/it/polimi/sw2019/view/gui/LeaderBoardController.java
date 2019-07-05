@@ -1,7 +1,7 @@
 package it.polimi.sw2019.view.gui;
 
-import it.polimi.sw2019.model.Character;
-import it.polimi.sw2019.network.messages.LeaderBoard;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.messages.LeaderBoard;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

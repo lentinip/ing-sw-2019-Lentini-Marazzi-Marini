@@ -1,6 +1,6 @@
-package it.polimi.sw2019.network.messages;
+package it.polimi.sw2019.commons.messages;
 
-import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.commons.Character;
 
 import java.util.ArrayList;
 import java.util.List;

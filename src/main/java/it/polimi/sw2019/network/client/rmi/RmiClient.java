@@ -3,8 +3,8 @@ package it.polimi.sw2019.network.client.rmi;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.client.ClientActions;
 import it.polimi.sw2019.network.client.ClientInterface;
-import it.polimi.sw2019.network.messages.Message;
-import it.polimi.sw2019.network.messages.TypeOfMessage;
+import it.polimi.sw2019.commons.messages.Message;
+import it.polimi.sw2019.commons.messages.TypeOfMessage;
 import it.polimi.sw2019.network.server.rmi.ServerInterface;
 
 import java.rmi.NotBoundException;

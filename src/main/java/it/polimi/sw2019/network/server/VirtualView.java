@@ -3,9 +3,9 @@ package it.polimi.sw2019.network.server;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import it.polimi.sw2019.controller.Controller;
-import it.polimi.sw2019.model.TypeOfAction;
-import it.polimi.sw2019.network.messages.Message;
-import it.polimi.sw2019.network.messages.TypeOfMessage;
+import it.polimi.sw2019.commons.TypeOfAction;
+import it.polimi.sw2019.commons.messages.Message;
+import it.polimi.sw2019.commons.messages.TypeOfMessage;
 
 
 import java.io.InputStreamReader;
@@ -18,8 +18,14 @@ import java.util.logging.Logger;
  */
 public class VirtualView extends Observable implements Observer {
 
+
     /**
-     * Default constructor
+     * Default constructor (for testing)
+     */
+    public VirtualView(){}
+
+    /**
+     * Customize constructor
      * @param server reference to the server
      */
     public VirtualView(Server server){

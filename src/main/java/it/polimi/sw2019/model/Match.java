@@ -1,6 +1,7 @@
 package it.polimi.sw2019.model;
 
-import it.polimi.sw2019.network.messages.*;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.messages.*;
 import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
@@ -174,6 +175,10 @@ public class Match extends Observable {
 
     public void setEasyMode(boolean easyMode) {
         this.easyMode = easyMode;
+    }
+
+    public boolean isEasyMode() {
+        return easyMode;
     }
 
     public void setCurrentPlayer(Player currentPlayer) {

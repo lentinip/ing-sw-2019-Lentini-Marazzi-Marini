@@ -1,5 +1,7 @@
 package it.polimi.sw2019.model;
 
+import it.polimi.sw2019.commons.Colors;
+
 import java.util.ArrayList;
 import java.util.List;
 

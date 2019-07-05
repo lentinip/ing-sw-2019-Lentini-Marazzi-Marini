@@ -1,9 +1,9 @@
 package it.polimi.sw2019.view.gui;
 
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.messages.AvailableEffects;
-import it.polimi.sw2019.network.messages.IndexMessage;
-import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.commons.messages.AvailableEffects;
+import it.polimi.sw2019.commons.messages.IndexMessage;
+import it.polimi.sw2019.commons.messages.Message;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -14,7 +14,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import javax.smartcardio.Card;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
