@@ -1,12 +1,10 @@
-package it.polimi.sw2019.network.messages;
+package it.polimi.sw2019.commons.messages;
 
 /**
  * @author poligenius, Mi97ch, lentinip
  * enumeration of all the type of messages
  */
 public enum TypeOfMessage {
-    SINGLEACTION,
-    SHOOTINGMESSAGE,
     MATCH_SETUP,
     MESSAGE_CELL,
     PLAYER_HAND,

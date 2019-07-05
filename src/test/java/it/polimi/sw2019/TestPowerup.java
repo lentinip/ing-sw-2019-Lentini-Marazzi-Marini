@@ -1,9 +1,8 @@
 package it.polimi.sw2019;
 
 import it.polimi.sw2019.model.Ammo;
-import it.polimi.sw2019.model.Colors;
+import it.polimi.sw2019.commons.Colors;
 import it.polimi.sw2019.model.Powerup;
-import it.polimi.sw2019.model.TypeOfAction;
 import org.junit.Test;
 
 import static junit.framework.TestCase.*;

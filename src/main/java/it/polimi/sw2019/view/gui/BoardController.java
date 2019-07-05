@@ -2,11 +2,11 @@ package it.polimi.sw2019.view.gui;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import it.polimi.sw2019.model.Character;
-import it.polimi.sw2019.model.Colors;
-import it.polimi.sw2019.model.TypeOfAction;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.Colors;
+import it.polimi.sw2019.commons.TypeOfAction;
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.messages.*;
+import it.polimi.sw2019.commons.messages.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;

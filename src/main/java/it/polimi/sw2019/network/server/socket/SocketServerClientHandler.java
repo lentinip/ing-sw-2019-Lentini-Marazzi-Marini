@@ -1,12 +1,11 @@
 package it.polimi.sw2019.network.server.socket;
 
 import it.polimi.sw2019.network.client.ClientInterface;
-import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.commons.messages.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ConnectException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,7 +63,13 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
             while(go) {
 
                 LOGGER.log(Level.INFO, "SocketServer is ready to receive messages");
-                Message message = (Message) objectIn.readObject(); //message received
+                Message message = null;
+                try {
+                    message = (Message) objectIn.readObject(); //message received
+                }
+                catch (NullPointerException e){
+                    go = false;
+                }
                 if(message == null) {
                     go = false;
                 } else {
@@ -123,6 +128,9 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
 
             System.out.print("il player è disconnesso, non posso inviare il messaggio!");
             LOGGER.log(Level.WARNING, e.getMessage());
+        }
+        catch (NullPointerException e){
+            //DO nothing
         }
     }
 

@@ -1,6 +1,6 @@
-package it.polimi.sw2019.network.messages;
+package it.polimi.sw2019.commons.messages;
 
-import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.commons.Character;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class MatchStart {
         MatchSetup matchSetup = matchSetUpMessage.deserializeMatchSetup();
         setBoardType(matchSetup.getBoardJsonName());
         setFrenzy(matchSetup.isFrenzy());
-        setEightSkulls(matchSetup.isEightSkulls());
+        setEightSkulls(matchSetup.isEasyMode());
         setUsernames(usernames);
         setCharacters(characters);
         setTurnDuration(turnDuration);

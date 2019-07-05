@@ -1,8 +1,8 @@
 package it.polimi.sw2019.view.gui;
 
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.messages.Message;
-import it.polimi.sw2019.network.messages.TypeOfMessage;
+import it.polimi.sw2019.commons.messages.Message;
+import it.polimi.sw2019.commons.messages.TypeOfMessage;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

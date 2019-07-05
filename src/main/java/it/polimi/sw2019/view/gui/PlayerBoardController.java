@@ -1,11 +1,11 @@
 package it.polimi.sw2019.view.gui;
 
-import it.polimi.sw2019.model.Character;
-import it.polimi.sw2019.model.TypeOfAction;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.TypeOfAction;
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.messages.Message;
-import it.polimi.sw2019.network.messages.PlayerBoardMessage;
-import it.polimi.sw2019.network.messages.PlayerHand;
+import it.polimi.sw2019.commons.messages.Message;
+import it.polimi.sw2019.commons.messages.PlayerBoardMessage;
+import it.polimi.sw2019.commons.messages.PlayerHand;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.LoadException;

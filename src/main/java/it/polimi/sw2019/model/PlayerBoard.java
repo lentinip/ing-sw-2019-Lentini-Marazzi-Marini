@@ -1,6 +1,7 @@
 package it.polimi.sw2019.model;
 
-import it.polimi.sw2019.network.messages.PlayerBoardMessage;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.messages.PlayerBoardMessage;
 
 import java.util.List;
 

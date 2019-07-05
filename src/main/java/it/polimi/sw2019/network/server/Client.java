@@ -1,9 +1,8 @@
 package it.polimi.sw2019.network.server;
 
 import it.polimi.sw2019.network.client.ClientInterface;
-import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.commons.messages.Message;
 
-import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 

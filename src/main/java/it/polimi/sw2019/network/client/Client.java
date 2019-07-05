@@ -1,11 +1,11 @@
 package it.polimi.sw2019.network.client;
 
-import it.polimi.sw2019.model.TypeOfAction;
+import it.polimi.sw2019.commons.TypeOfAction;
 import it.polimi.sw2019.network.client.rmi.RmiClient;
 import it.polimi.sw2019.network.client.socket.SocketClientConnection;
-import it.polimi.sw2019.network.messages.LoginReport;
-import it.polimi.sw2019.network.messages.Message;
-import it.polimi.sw2019.network.messages.TypeOfMessage;
+import it.polimi.sw2019.commons.messages.LoginReport;
+import it.polimi.sw2019.commons.messages.Message;
+import it.polimi.sw2019.commons.messages.TypeOfMessage;
 import it.polimi.sw2019.view.CLI;
 import it.polimi.sw2019.view.ViewInterface;
 import it.polimi.sw2019.view.gui.GUI;

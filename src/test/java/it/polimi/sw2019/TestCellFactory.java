@@ -1,5 +1,6 @@
 package it.polimi.sw2019;
 
+import it.polimi.sw2019.commons.Colors;
 import it.polimi.sw2019.model.*;
 import org.junit.Test;
 

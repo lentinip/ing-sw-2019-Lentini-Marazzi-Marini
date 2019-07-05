@@ -1,7 +1,7 @@
 package it.polimi.sw2019.network.server.rmi;
 
 import it.polimi.sw2019.network.client.ClientInterface;
-import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.commons.messages.Message;
 import it.polimi.sw2019.network.server.Server;
 
 import java.rmi.RemoteException;

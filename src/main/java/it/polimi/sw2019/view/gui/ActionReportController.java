@@ -1,6 +1,6 @@
 package it.polimi.sw2019.view.gui;
 
-import it.polimi.sw2019.network.messages.ActionReports;
+import it.polimi.sw2019.commons.messages.ActionReports;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 

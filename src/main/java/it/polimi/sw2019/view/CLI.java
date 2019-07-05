@@ -2,10 +2,11 @@ package it.polimi.sw2019.view;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import it.polimi.sw2019.model.*;
-import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.commons.Colors;
+import it.polimi.sw2019.commons.TypeOfAction;
+import it.polimi.sw2019.commons.Character;
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.messages.*;
+import it.polimi.sw2019.commons.messages.*;
 
 import java.io.*;
 import java.util.*;

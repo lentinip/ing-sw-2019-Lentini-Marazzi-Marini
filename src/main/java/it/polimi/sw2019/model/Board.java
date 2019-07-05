@@ -1,6 +1,7 @@
 package it.polimi.sw2019.model;
 
-import it.polimi.sw2019.network.messages.BoardCoord;
+import it.polimi.sw2019.commons.Colors;
+import it.polimi.sw2019.commons.messages.BoardCoord;
 
 import java.util.ArrayList;
 import java.util.Collections;

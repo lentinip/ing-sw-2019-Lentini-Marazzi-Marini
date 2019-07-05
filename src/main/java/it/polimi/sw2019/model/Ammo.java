@@ -1,5 +1,7 @@
 package it.polimi.sw2019.model;
 
+import it.polimi.sw2019.commons.Colors;
+
 /**
  * @author lentinip
  * this class is used as data struction for the ammo that a player owns

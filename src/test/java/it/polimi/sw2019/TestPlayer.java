@@ -1,14 +1,14 @@
 package it.polimi.sw2019;
 
-import com.sun.org.apache.regexp.internal.RE;
+import it.polimi.sw2019.commons.Colors;
 import it.polimi.sw2019.model.*;
-import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.commons.Character;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.sw2019.model.Colors.*;
+import static it.polimi.sw2019.commons.Colors.*;
 import static org.junit.Assert.*;
 
 public class TestPlayer {

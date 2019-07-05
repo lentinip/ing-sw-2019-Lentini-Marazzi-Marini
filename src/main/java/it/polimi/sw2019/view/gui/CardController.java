@@ -2,7 +2,7 @@ package it.polimi.sw2019.view.gui;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import it.polimi.sw2019.model.Colors;
+import it.polimi.sw2019.commons.Colors;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 

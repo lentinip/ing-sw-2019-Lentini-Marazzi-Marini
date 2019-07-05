@@ -35,20 +35,4 @@ public class TimeConfigurations {
     public long getMatchSetupTimer() {
         return matchSetupTimer;
     }
-
-    public void setMatchSetupTimer(long matchSetupTimer) {
-        this.matchSetupTimer = matchSetupTimer;
-    }
-
-    public void setTurnTimer(int turnTimer) {
-        this.turnTimer = turnTimer;
-    }
-
-    public void setCounterAttackPowerupTimer(int counterAttackPowerupTimer) {
-        this.counterAttackPowerupTimer = counterAttackPowerupTimer;
-    }
-
-    public void setMatchCreationTime(int matchCreationTime) {
-        this.matchCreationTimer = matchCreationTime;
-    }
 }

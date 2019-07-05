@@ -1,8 +1,7 @@
 package it.polimi.sw2019;
 
-import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.commons.Character;
 import it.polimi.sw2019.model.DamageTokens;
-import it.polimi.sw2019.model.Tokens;
 import org.junit.Test;
 
 import java.util.ArrayList;

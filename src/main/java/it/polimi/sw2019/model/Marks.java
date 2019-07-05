@@ -1,5 +1,7 @@
 package it.polimi.sw2019.model;
 
+import it.polimi.sw2019.commons.Character;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

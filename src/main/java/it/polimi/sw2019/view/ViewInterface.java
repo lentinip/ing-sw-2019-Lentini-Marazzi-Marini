@@ -1,8 +1,8 @@
 package it.polimi.sw2019.view;
 
-import it.polimi.sw2019.model.Character;
-import it.polimi.sw2019.model.TypeOfAction;
-import it.polimi.sw2019.network.messages.*;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.TypeOfAction;
+import it.polimi.sw2019.commons.messages.*;
 
 import java.util.List;
 

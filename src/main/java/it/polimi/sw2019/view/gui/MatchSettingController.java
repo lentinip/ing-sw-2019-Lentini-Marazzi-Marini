@@ -1,8 +1,8 @@
 package it.polimi.sw2019.view.gui;
 
+import it.polimi.sw2019.commons.messages.MatchSetup;
+import it.polimi.sw2019.commons.messages.Message;
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.messages.MatchSetup;
-import it.polimi.sw2019.network.messages.Message;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
