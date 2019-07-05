@@ -74,20 +74,11 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
                     go = false;
                 } else {
 
-                    System.out.print("\n");
-                    System.out.print("SocketServerClientHandler - Username: ");
-                    System.out.print(message.getUsername());
-                    System.out.print("\n");
-
                     sender = message.getUsername();
                     socketServer.receive(message);
                 }
             }
         } catch (IOException e) {
-
-            System.out.print("\n");
-            System.out.print("SocketServerClientHandler - Disconnect IOException ");
-            System.out.print("\n");
 
             if(socketServer.getServer().getCurrentWaitingRoom().getWaitingPlayers().containsKey(sender))
             {
@@ -98,10 +89,6 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
             }
         }
         catch(ClassNotFoundException e) {
-
-            System.out.print("\n");
-            System.out.print("SocketServerClientHandler - Disconnect ClassNotFoundException ");
-            System.out.print("\n");
 
             if(socketServer.getServer().getCurrentWaitingRoom().getWaitingPlayers().containsKey(sender))
             {
@@ -126,7 +113,6 @@ public class SocketServerClientHandler extends Thread implements ClientInterface
             objectOut.flush();
         } catch (IOException e) {
 
-            System.out.print("il player è disconnesso, non posso inviare il messaggio!");
             LOGGER.log(Level.WARNING, e.getMessage());
         }
         catch (NullPointerException e){

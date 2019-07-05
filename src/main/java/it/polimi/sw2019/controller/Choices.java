@@ -97,6 +97,10 @@ public class Choices {
         this.moveCell = moveCell;
     }
 
+    public Cell getMoveCell() {
+        return moveCell;
+    }
+
     public Player getSelectedPlayer() {
         return selectedPlayer;
     }
@@ -109,8 +113,28 @@ public class Choices {
         return selectedPowerup;
     }
 
+    public void setSelectedPowerup(Powerup selectedPowerup) {
+        this.selectedPowerup = selectedPowerup;
+    }
+
     public void setSelectedPlayer(Player selectedPlayer) {
         this.selectedPlayer = selectedPlayer;
+    }
+
+    public void setCurrentEffect(Effect currentEffect) {
+        this.currentEffect = currentEffect;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setShootedPlayers(List<Player> shootedPlayers) {
+        this.shootedPlayers = shootedPlayers;
+    }
+
+    public void setMovedPlayers(List<Player> movedPlayers) {
+        this.movedPlayers = movedPlayers;
     }
 
     /**
@@ -160,12 +184,6 @@ public class Choices {
 
                 //useful for effect that need to shoot different players see cyberblade optional effect
                 Player alreadyShooted = null;
-
-                //debug
-                for (Player player: shootedPlayers){
-                    if (player != null) {
-                    }
-                }
 
                 if (!shootedPlayers.isEmpty() && shootedPlayers.get(0) != null){
                     alreadyShooted = shootedPlayers.get(0);

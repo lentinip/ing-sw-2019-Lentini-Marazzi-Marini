@@ -40,7 +40,6 @@ public class Ammo {
                 addYellow(1);
                 break;
             default:
-                System.console().printf("Error in switch of Ammo class");
         }
     }
 

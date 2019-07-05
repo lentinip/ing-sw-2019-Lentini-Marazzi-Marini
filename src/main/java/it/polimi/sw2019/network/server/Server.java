@@ -53,6 +53,8 @@ public class Server {
 
     private static Logger LOGGER = Logger.getLogger("server");
 
+    private SocketServerProbeHandler socketServerProbeHandler = new SocketServerProbeHandler(this);
+
 
     /* Methods */
 
@@ -64,8 +66,6 @@ public class Server {
     public static void main(String[] args) {
 
             Server server = new Server();
-            System.out.println("SERVER STARTED!");
-
             try {
                 server.start(1111, 1099 );
             } catch (RemoteException e) {
@@ -100,8 +100,6 @@ public class Server {
         sendMessage(loginReport);
         currentWaitingRoom.startSetupTimer();
         currentWaitingRoom = new VirtualView(this);
-        System.out.print(virtualViewMap.keySet());
-
     }
 
     /**
@@ -115,16 +113,8 @@ public class Server {
 
         verifyOnline(new Message("All"), currentWaitingRoom);
 
-        System.out.print("\n");
-        System.out.print("\nUsername: ");
-        System.out.print(username);
-        System.out.print("\n");
-
-
         //If there is a player connected with the same username, tell the client he has to choose another username
         if(virtualViewMap.containsKey(username) && !virtualViewMap.get(username).getDisconnectedPlayers().contains(username)) {
-
-            System.out.print("\nFirst if\n");
 
             try {
                 loginMessage.createLoginReport(false);
@@ -137,8 +127,6 @@ public class Server {
 
         //If there is a player disconnected with the same username, tell the client if he wants to rejoin that match or if he wants to begin another match (In this case he has to choose another username)
         else if (virtualViewMap.containsKey(username) && !virtualViewMap.get(username).getWaitingPlayers().get(username).getConnected() && virtualViewMap.get(username).getDisconnectedPlayers().contains(username)) {
-
-            System.out.print("\nSecond if\n");
 
             reconnectionMessage.createReconnectionMessage();
             try {
@@ -153,8 +141,6 @@ public class Server {
         //If the username is usable
         else {
             try{
-                System.out.print("\nThird if");
-
                 Client client = new Client(username, clientInterface);
 
                 currentWaitingRoom.addWaitingPlayer(username, client);
@@ -180,9 +166,6 @@ public class Server {
                 currentWaitingRoom.getTimer().cancel();
                 startMatch();
             }
-            System.out.print("\nNumber of waiting players: ");
-            System.out.print(currentWaitingRoom.getNumOfWaitingPlayers());
-            System.out.print("\n\n");
         }
     }
 
@@ -231,7 +214,6 @@ public class Server {
                 if (virtualViewMap.get(user) != null) {
                     virtualViewMap.get(user).addDisconnectedPlayer(user);
                     LOGGER.log(Level.WARNING, e.getMessage());
-                    System.out.print("non sono riuscito a inviare un messaggio al client per verificare che sia connesso");
                 }
             }
         }
@@ -244,22 +226,15 @@ public class Server {
      */
     public void verifyOnline(Message message, VirtualView virtualView) {
 
-        System.out.print("\n sono nella verifyOnline");
-
         List<String> usernames = new ArrayList<>();
         usernames.addAll(virtualView.getUsernames());
 
         for(String user : usernames) {
 
             try {
-
-                System.out.print("\n" + user);
                 virtualView.getWaitingPlayers().get(user).notify(message, this, user);
             } catch (RemoteException e1) {
-
-                //removeWaitingPlayer(user);
                 LOGGER.log(Level.WARNING, e1.getMessage());
-                System.out.print("Ho rimosso il player con username:" + user);
             }
         }
     }
@@ -272,8 +247,6 @@ public class Server {
      * @param message message received
      */
     public void receiveMessage(Message message){
-
-        System.out.print("\n I received message from " + message.getUsername());
 
         if(message.getTypeOfMessage() == TypeOfMessage.RECONNECTION_REQUEST ) {
 
@@ -296,8 +269,6 @@ public class Server {
         }
 
         else if( virtualViewMap.get(message.getUsername()) != null && virtualViewMap.get(message.getUsername()).getWaitingPlayers().get(message.getUsername()).getConnected()) {
-
-            System.out.print("\n The message as been sent by an authorized player");
 
             //when the first player chooses the setup options we send to everyOne a message with the choices that the player has taken
             if (message.getTypeOfMessage() == TypeOfMessage.MATCH_SETUP) {
@@ -381,10 +352,8 @@ public class Server {
             Message updateMatchState = new Message(username);
             virtualViewMap.get(username).notify(updateMatchState);
             if (username.equals(virtualViewMap.get(username).getCurrentPlayer())){
-                System.out.print("\nCurrent player reconnected\n");
                 sendMessage(virtualViewMap.get(username).getLastMessage());
             }
-            //System.out.print("\nLast message :"+ virtualViewMap.get(username).getLastMessage().getTypeOfMessage() + " receiver: " +  virtualViewMap.get(username).getLastMessage().getUsername());
         }
     }
 
@@ -393,13 +362,6 @@ public class Server {
      * @param username user disconnected
      */
     public void removeWaitingPlayer(String username) {
-
-        System.out.print("\n");
-        System.out.print("\nI'm removing this username: ");
-        System.out.print(username);
-        System.out.print("\n");
-
-
 
         //I have to reset the timer if I don't have 3 players anymore
         if (currentWaitingRoom.getNumOfWaitingPlayers() < 3){
@@ -424,8 +386,6 @@ public class Server {
             virtualViewMap.remove(user);
         }
     }
-
-    SocketServerProbeHandler socketServerProbeHandler = new SocketServerProbeHandler(this);
 
     /**
      * method to start rmi and socket server
@@ -455,8 +415,6 @@ public class Server {
             Message message = new Message(user);
 
             try {
-
-                System.out.print("\n" + user);
                 virtualViewMap.get(user).getWaitingPlayers().get(user).getClientInterface().notify(message);
             } catch (RemoteException e) {
 

@@ -223,14 +223,10 @@ public class Effect {
 
         if (!shootableCells(owner).isEmpty()){ /* can I shoot someone? */
 
-            //System.out.print("\n 2");
-
             return true;
         }
 
         if (move == null){ /* I can't shoot anyone and I don't have a move */
-
-            System.out.print("\n 3");
 
             return false;
         }

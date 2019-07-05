@@ -60,6 +60,30 @@ public class Payment {
         this.reloadInFrenzy = reloadInFrenzy;
     }
 
+    public void setPayingPlayer(Player payingPlayer) {
+        this.payingPlayer = payingPlayer;
+    }
+
+    public void setLeftCost(Ammo leftCost) {
+        this.leftCost = leftCost;
+    }
+
+    public void setInitialCost(Ammo initialCost) {
+        this.initialCost = initialCost;
+    }
+
+    public void setSelectedPowerups(List<Powerup> selectedPowerups) {
+        this.selectedPowerups = selectedPowerups;
+    }
+
+    public void setUsablePowerup(Powerup usablePowerup) {
+        this.usablePowerup = usablePowerup;
+    }
+
+    public void setPendingMessage(Message pendingMessage) {
+        this.pendingMessage = pendingMessage;
+    }
+
     /**
      * This method reset all the attributes to avoid errors the next time I receive a new payment message
      * I don't need to reset the pendingMessage or the payingPlayer cause they are overwritten every time

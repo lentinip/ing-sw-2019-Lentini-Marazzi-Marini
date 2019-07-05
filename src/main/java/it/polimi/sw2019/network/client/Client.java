@@ -145,18 +145,12 @@ public class Client {
         rmi = loginMessage.deserializeLoginMessage().isRmi();
         username = loginMessage.getUsername();
 
-        System.out.print("\n");
-        System.out.print("Connect - Username: ");
-        System.out.print(username);
-        System.out.print("\n");
-
         try {
 
             if (rmi) {
 
                 if (clientActions != null){
                     clientActions = null;
-                    System.gc();
                 }
                 clientActions = new RmiClient(this);
                 clientActions.register(username);
@@ -199,10 +193,8 @@ public class Client {
 
             case LOGIN_REPORT:
                 if (message.deserializeLoginReport().getLoginSuccessful()){
-                    System.out.print("\n\nConnected.\n\n");
                     LoginReport loginReport = message.deserializeLoginReport();
                     if(loginReport.getNumberOfPlayers() != 0){
-                        System.out.print("\n\nWere're here.\n\n");
                         view.displayLoginSuccessful(loginReport);
                     }
                 }
@@ -250,7 +242,6 @@ public class Client {
                 view.displayPlayerDisconnectedWindow(message.deserializeIndexMessage().getSelectionIndex());
                 break;
             case RECONNECTION_REQUEST:
-                System.out.print("\nReconnection request\n");
                 view.displayReconnectionWindow();
                 break;
             case PLAYER_ALREADY_LOGGED:
@@ -345,20 +336,7 @@ public class Client {
      */
     public void send(Message messageToSend){
 
-        System.out.print("\n");
-        System.out.print("MESSAGE:");
-        System.out.print("\n");
-        System.out.print("Username :");
-        System.out.print(messageToSend.getUsername());
-        System.out.print("\n");
-        System.out.print("\nTypeOfMessage: ");
-        System.out.print(messageToSend.getTypeOfMessage());
-        System.out.print("\n");
-        System.out.print("\nTypeOfAction: ");
-        System.out.print(messageToSend.getTypeOfAction());
-        System.out.print("\n");
         lastMessageForReconnection = messageToSend;
-
 
         try {
             clientActions.doSomething(messageToSend);

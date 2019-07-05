@@ -68,6 +68,22 @@ public class TurnManager {
         return isFirstRound;
     }
 
+    public void setView(VirtualView view) {
+        this.view = view;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public VirtualView getView() {
+        return view;
+    }
+
     /**
      * this methodo call the corresponding method in the model
      * and do everything necessary to end a turn and start a new one
@@ -95,8 +111,11 @@ public class TurnManager {
 
         //Changes the parameters here
         currentPlayer = match.getCurrentPlayer();
-        view.setMessageSender(currentPlayer.getName());
-        view.setCurrentPlayer(currentPlayer.getName());
+
+        if (currentPlayer != null) {
+            view.setMessageSender(currentPlayer.getName());
+            view.setCurrentPlayer(currentPlayer.getName());
+        }
 
         //sending the winner message if the match is ended
         if (match.isEnded()){
@@ -107,7 +126,7 @@ public class TurnManager {
             //removing disconnected players from the leader board
             for (String name: view.getUsernames()){
 
-                if (!view.getWaitingPlayers().get(name).getConnected()) {
+                if (!view.getWaitingPlayers().isEmpty() && !view.getWaitingPlayers().get(name).getConnected()) {
                     disconnected.add(match.getPlayerByUsername(name).getCharacter());
                     pointsMap.remove(match.getPlayerByUsername(name).getCharacter());
                 }
@@ -180,13 +199,6 @@ public class TurnManager {
         //Gets the powerup selected
         Powerup powerup = spawningPlayer.getPowerups().get(powerupIndex);
 
-        System.out.print("\nI'm inside the spawn\n");
-
-        System.out.print("\n PowerupIndex: " + powerupIndex + "\n");
-
-        System.out.println("spawning player = " + spawningPlayer.getName());
-
-
         //Gets the room with the color of the powerup
         Room room = match.getBoard().getRoomByColor(powerup.getColor());
 
@@ -202,9 +214,6 @@ public class TurnManager {
         // updating the model and the player attribute isDead
         spawningPlayer.setDead(false);
         match.getDeadPlayers().remove(spawningPlayer);
-
-        System.out.println("spawning player = " + spawningPlayer.getName());
-        System.out.println("spawning player is dead = " + spawningPlayer.isDead());
 
         match.notifyPrivateHand(spawningPlayer);
 
@@ -250,7 +259,6 @@ public class TurnManager {
 
         if (!match.getDeadPlayers().isEmpty()){
 
-            System.out.print("\n Size of the dead players array: " + match.getDeadPlayers().size() + "\n");
             receiver = match.getDeadPlayers().get(0);
 
             singleActionManager.getAtomicActions().drawPowerup(receiver);
