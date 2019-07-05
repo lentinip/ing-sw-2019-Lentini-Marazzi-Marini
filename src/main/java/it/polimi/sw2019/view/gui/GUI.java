@@ -639,7 +639,7 @@ public class GUI extends Application implements ViewInterface {
 
     /**
      * Loads the screen for the match settings
-     * @param numberOfPlayers
+     * @param numberOfPlayers number of players in the match
      */
     public void askMatchSetting(Integer numberOfPlayers){
         Platform.runLater(() -> {

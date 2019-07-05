@@ -56,7 +56,7 @@ public class Score extends Tokens {
 
     /**
      * Method that returns a Map of Characters that represents the game LeaderBoard
-     * @param characters characters in game
+     * @param characters characters NOT in game anymore
      * @return a map with every character and its position on the leader board
      */
     public Map<Character, Integer> getRankingMap(List<Character> characters) {
@@ -70,18 +70,20 @@ public class Score extends Tokens {
         Map<Character, Integer> ranking = new LinkedHashMap<>();
         List<Map.Entry<Character, Integer>> list = new LinkedList<>(sortedMap.entrySet());
 
-        int rank = 1;
-        Map.Entry<Character, Integer> previousEntry = list.get(0);
-        RankingComparator rankingComparator = new RankingComparator();
+        if (!list.isEmpty()){
+            int rank = 1;
+            Map.Entry<Character, Integer> previousEntry = list.get(0);
+            RankingComparator rankingComparator = new RankingComparator();
 
-        for (int i=0; i<list.size(); i++){
-            if (rankingComparator.compare(previousEntry, list.get(i))==0){
-                ranking.put(list.get(i).getKey(), rank);
-            }
-            else {
-                previousEntry = list.get(i);
-                rank++;
-                ranking.put(list.get(i).getKey(), rank);
+            for (int i=0; i<list.size(); i++){
+                if (rankingComparator.compare(previousEntry, list.get(i))==0){
+                    ranking.put(list.get(i).getKey(), rank);
+                }
+                else {
+                    previousEntry = list.get(i);
+                    rank++;
+                    ranking.put(list.get(i).getKey(), rank);
+                }
             }
         }
 

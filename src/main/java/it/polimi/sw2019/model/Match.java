@@ -260,7 +260,7 @@ public class Match extends Observable {
         if (isEnded){
 
             //System.out.print("\n ended ");
-            currentPlayer = null;
+            currentPlayer = players.get(0);
             return;
         }
 

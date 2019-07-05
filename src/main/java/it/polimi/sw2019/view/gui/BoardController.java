@@ -58,7 +58,7 @@ public class BoardController {
 
     private Client client;
 
-    private final Semaphore runMutex = new Semaphore(1);
+    private final Semaphore semaphore = new Semaphore(1);
 
     private TypeOfAction currentTypeOfAction;
 
@@ -652,105 +652,109 @@ public class BoardController {
     /**
      * This method configure the board using the message received from the main Controller.
      * This method needs to be called after the controller is instantiated.
+     * @param client reference of the Client instance
      * @param configuration configuration message
      */
     public void configureBoard(Client client, MatchStart configuration){
 
 
         try {
-            runMutex.acquire();
+            //First acquires a semaphore for safety
+            semaphore.acquire();
+
+            //The next lines bind the content of the BoardScreen to a specific scale.
+            //The result is that the window is resizable, the content fits the window using a specific scale and the background fills the empty spaces.
+            //The stackPane specified in the fxml file keeps the content in the middle of the window.
+            Scene scene = pane.getScene();
+
+            double origW = 1261;
+            double origH = 901;
+
+            pane.setMinSize(origW, origH);
+            pane.setMaxSize(origW, origH);
+
+            NumberBinding maxScale = Bindings.min(scene.widthProperty().divide(origW),scene.heightProperty().divide(origH));
+            pane.scaleXProperty().bind(maxScale);
+            pane.scaleYProperty().bind(maxScale);
+
+            //Sets the client and saves the message in the configurationMessage attribute
+            this.client = client;
+            configurationMessage = configuration;
+
+            //First sets the image of the board and the tiles
+            String boardPath = getBoardPath(configuration.getBoardType());
+
+            boardImage.setImage(new Image(boardPath));
+            initializeAmmoTiles(configuration.getBoardType());
+
+            //Initializes the possible easyMode with 5 skulls
+            if(configuration.isEightSkulls()){
+                setEasyMode();
+            }
+
+            //Initializes my playerBoard
+
+            myIndex = configuration.getUsernames().indexOf(client.getUsername());
+            Character myCharacter = configuration.getCharacters().get(myIndex);
+            boolean iAmTheFirst=false;
+
+            if (myIndex==0){
+                iAmTheFirst=true;
+
+            }
+
+            initializeMyPlayerBoard(myCharacter, iAmTheFirst);
+
+            //Initializes the other playerBoards
+
+            List<String> usernames = new ArrayList<>(configuration.getUsernames());
+            List<Character> characters = new ArrayList<>(configuration.getCharacters());
+
+            usernames.remove(myIndex);
+            characters.remove(myIndex);
+
+            for (int i=0; i < usernames.size(); i++){
+
+                if (!iAmTheFirst && i==0){
+                    initializeOtherPlayerBoards(usernames.get(0),characters.get(0),true, 0);
+                }
+                else {
+                    initializeOtherPlayerBoards(usernames.get(i), characters.get(i), false, i);
+                }
+            }
+
+            //Orders the playerBoardControllers in an arrayList by the Character order
+            orderAllPlayerBoards();
+
+            //Sets if there's the frenzy mode
+            initializeFrenzyLabel(configuration.isFrenzy());
+
+            //Gets the timer value
+            Long longValue = configuration.getTurnDuration();
+            timerDuration = longValue.intValue();
+
+            //Initializes the timer timer
+            initializeTimer();
+
+            //If the timer already started
+            if(configuration.getTimeLeft()>=0){
+                //Gets the time left
+                Long timerLeftLong = configuration.getTimeLeft();
+                Double time = timerLeftLong.doubleValue();
+                //Sets in the attribute timeLeft the amount of time left
+                timeLeft = timerDuration.doubleValue() - time;
+                //With this boolean the timer know that has to start from a different value
+                reconnected=true;
+            }
+
+            //Releases the semaphore
+            semaphore.release();
+
         }
         catch (InterruptedException e){
+            Thread.currentThread().interrupt();
             logger.log(Level.SEVERE, e.getMessage());
         }
-
-
-
-        Scene scene = pane.getScene();
-
-        double origW = 1261;
-        double origH = 901;
-
-        pane.setMinSize(origW, origH);
-        pane.setMaxSize(origW, origH);
-
-        NumberBinding maxScale = Bindings.min(scene.widthProperty().divide(origW),scene.heightProperty().divide(origH));
-        pane.scaleXProperty().bind(maxScale);
-        pane.scaleYProperty().bind(maxScale);
-
-
-        this.client = client;
-        configurationMessage = configuration;
-
-        //First sets the image of the board and the tiles
-
-        String boardPath = getBoardPath(configuration.getBoardType());
-
-        boardImage.setImage(new Image(boardPath));
-        initializeAmmoTiles(configuration.getBoardType());
-
-        //Initialize the possible easyMode with 5 skulls
-        if(configuration.isEightSkulls()){
-            setEasyMode();
-        }
-        //Initialize my playerBoard
-
-        myIndex = configuration.getUsernames().indexOf(client.getUsername());
-        Character myCharacter = configuration.getCharacters().get(myIndex);
-        boolean iAmTheFirst=false;
-
-        if (myIndex==0){
-            iAmTheFirst=true;
-
-        }
-
-        initializeMyPlayerBoard(myCharacter, iAmTheFirst);
-
-        //Initialize the playerBoards
-
-        List<String> usernames = new ArrayList<>(configuration.getUsernames());
-        List<Character> characters = new ArrayList<>(configuration.getCharacters());
-
-        usernames.remove(myIndex);
-        characters.remove(myIndex);
-
-        for (int i=0; i < usernames.size(); i++){
-
-            if (!iAmTheFirst && i==0){
-                initializeOtherPlayerBoards(usernames.get(0),characters.get(0),true, 0);
-            }
-            else {
-                initializeOtherPlayerBoards(usernames.get(i), characters.get(i), false, i);
-            }
-        }
-
-        //Orders the playerBoardControllers in an arrayList by the Character order
-        orderAllPlayerBoards();
-
-        //Set if there's the frenzy mode
-        initializeFrenzyLabel(configuration.isFrenzy());
-
-        Long longValue = configuration.getTurnDuration();
-        timerDuration = longValue.intValue();
-
-        System.out.print("Time Turn: "+ configuration.getTurnDuration()+"\n");
-        System.out.print("Time Turn Long Value: "+ longValue+"\n");
-        System.out.print("Time Turn Integer Value: "+ timerDuration.toString() +"\n");
-        System.out.print("Time Left: "+ configuration.getTimeLeft()+"\n");
-
-
-        //Initialize timer
-        initializeTimer();
-
-        if(configuration.getTimeLeft()>=0){
-            //The timer already started
-            Long timerLeftLong = configuration.getTimeLeft();
-            Double time = timerLeftLong.doubleValue();
-            timeLeft = timerDuration.doubleValue() - time;
-            reconnected=true;
-        }
-
-        runMutex.release();
     }
 
     /**
@@ -776,8 +780,13 @@ public class BoardController {
      */
     public void initializeTimer(){
         IntegerProperty timeSeconds = new SimpleIntegerProperty(timerDuration);
+
+        //Sets the progress property of the progress bar
         timer.progressProperty().bind(timeSeconds.divide(timerDuration.doubleValue()));
+
         timeSeconds.set(timerDuration);
+
+        //Creates a Timeline (JavaFX) that changes the timeSeconds property
         timeline = new Timeline();
         timeline.getKeyFrames().add(
                 new KeyFrame(Duration.seconds(timerDuration/1000),
@@ -788,6 +797,7 @@ public class BoardController {
      * Starts the timer
      */
     public void startTimer() {
+        //If the player just reconnected the timer starts from timeLeft
         if (reconnected){
             timeline.playFrom(new Duration(timeLeft));
             reconnected=false;
@@ -854,12 +864,14 @@ public class BoardController {
         board1AmmoTiles.add(board1AmmoTile9);
         board1AmmoTiles.add(board1AmmoTile10);
 
+        //If the board is not the one with this ammoTiles hides them
         if (!url.contentEquals("Board1.json")){
             for (ImageView ammoTile : board1AmmoTiles){
                 ammoTile.setVisible(false);
             }
         }
         else {
+            //Sets this ammoTiles as the one of the board using
             boardAmmoTiles = board1AmmoTiles;
         }
 
@@ -1172,8 +1184,10 @@ public class BoardController {
         loader.setLocation(getClass().getResource("/FXMLFiles/MyPlayerBoardGroup.fxml"));
         try {
             Group myPlayerBoardGroup = loader.load();
+            //Puts it in a specific spot in the screen
             myPlayerBoardGroup.setLayoutX(398.0);
             myPlayerBoardGroup.setLayoutY(671.0);
+            //Also inside a Pane
             mainPane.getChildren().add(myPlayerBoardGroup);
         }
         catch (LoadException e){
@@ -1203,6 +1217,7 @@ public class BoardController {
         try {
             Group playerBoard = loader.load();
 
+            //Using the index puts them in a specific spot in the window
             playerBoard.setLayoutX(842.0);
 
             switch(index){
@@ -1222,6 +1237,7 @@ public class BoardController {
                     logger.log(Level.SEVERE, "MORE THAN 4 PLAYERS IN THE initializeOtherPlayerBoards METHOD");
                     break;
             }
+            //Also adds them in a Pane
             mainPane.getChildren().add(playerBoard);
         }
         catch (LoadException e){
@@ -1393,29 +1409,32 @@ public class BoardController {
     public void updateMatch(MatchState matchState){
 
         try {
-            runMutex.acquire();
+            semaphore.acquire();
 
 
             updateCells(matchState.getCells());
             updatePlayerBoards(matchState.getPlayerBoardMessages(), matchState.getPlayerHands(), matchState.getCurrentPlayer());
             updateLeftActions(matchState.getCurrentPlayerLeftActions());
             updateKillTrack(matchState.getKillSequence(), matchState.getOverkillSequence());
+            //If the killTrack is full shows a new token with which the player can access a new screen with a summary of the tokens that are actually used for the kills
             if (matchState.getKillSequence().size()>killTrackSkulls.size()){
                 updateKillTrackSummary(matchState.getKillSequence(), matchState.getOverkillSequence());
             }
             updateDecks(matchState.getWeaponsDeckSize(), matchState.getPowerupsDeckSize());
             updateCurrentPlayer(matchState.getCurrentPlayer());
 
+            //If the player of the client doesn't have anymore actions
             if (matchState.getCurrentPlayer() == myPlayerBoard.getCharacter() && matchState.getCurrentPlayerLeftActions()==0){
                 showOnlyReload();
             }
+            //If the player of the client is not the current player
             if (matchState.getCurrentPlayer() != myPlayerBoard.getCharacter()){
                 disableActions();
             }
 
             oldMatchState = matchState;
 
-            runMutex.release();
+            semaphore.release();
 
         }
         catch (InterruptedException e){
@@ -1465,11 +1484,11 @@ public class BoardController {
                 if (cellNumber!=2 && cellNumber!=4 && cellNumber!=11){
 
                     if (messageCell.getAmmoTile()==null){
-                        //set the ammoTile invisible
+                        //set the ammoTile not visible if there is no ammoTile
                         boardAmmoTiles.get(getAmmoPosition(messageCell)).setVisible(false);
                     }
                     else {
-
+                        //Gets the ammoTile ImageView (of the cell described in the messageCell) and sets the image, and shows the imageView
                         ImageView cellAmmo = boardAmmoTiles.get(getAmmoPosition(messageCell));
                         Image ammoImage = getAmmoImage(messageCell.getAmmoTile());
                         cellAmmo.setImage(ammoImage);
@@ -1493,6 +1512,7 @@ public class BoardController {
      */
     public void updateSpawnCell(MessageCell messageCell, List<ImageView> spawnCellWeapons){
         for (int i=0; i<3; i++){
+            //For how many weapons in the cell
             if (i<messageCell.getWeapons().size()){
                 String weaponName = messageCell.getWeapons().get(i);
 
@@ -1500,6 +1520,7 @@ public class BoardController {
                 spawnCellWeapons.get(i).setImage(weaponImage);
                 spawnCellWeapons.get(i).setVisible(true);
             }
+            //If the weapons are less than the ImageViews of the spawn cell
             else {
                 spawnCellWeapons.get(i).setVisible(false);
             }
@@ -1790,7 +1811,7 @@ public class BoardController {
     public void canIShoot(boolean canIShoot){
 
         try {
-            runMutex.acquire();
+            semaphore.acquire();
 
 
             if (oldMatchState.getCurrentPlayerLeftActions()==0 && iAmTheCurrentPlayer()){
@@ -1806,7 +1827,7 @@ public class BoardController {
                 actionReports.setDamageSession(false);
             }
 
-            runMutex.release();
+            semaphore.release();
         }
         catch (InterruptedException e){
             Thread.currentThread().interrupt();
@@ -1830,7 +1851,7 @@ public class BoardController {
      */
     public void showAvailableCells(List<BoardCoord> cells, TypeOfAction typeOfAction){
         try {
-            runMutex.acquire();
+            semaphore.acquire();
 
             currentTypeOfAction = typeOfAction;
 
@@ -1845,7 +1866,7 @@ public class BoardController {
                 disableActions();
             }
 
-            runMutex.release();
+            semaphore.release();
         }
         catch (InterruptedException e){
             Thread.currentThread().interrupt();
@@ -1869,7 +1890,7 @@ public class BoardController {
      */
     public List<Image> getImageCards(TypeOfAction typeOfAction){
         try {
-            runMutex.acquire();
+            semaphore.acquire();
 
             List<Image> result = new ArrayList<>();
             List<ImageView> imageViewList;
@@ -1919,7 +1940,7 @@ public class BoardController {
                 }
             }
 
-            runMutex.release();
+            semaphore.release();
 
             return result;
         }
@@ -1939,7 +1960,7 @@ public class BoardController {
      */
     public void showSelectablePlayers(List<Character> characters, TypeOfAction typeOfAction, boolean noOption){
         try {
-            runMutex.acquire();
+            semaphore.acquire();
 
             currentTypeOfAction = typeOfAction;
             disablePositions();
@@ -1964,7 +1985,6 @@ public class BoardController {
                     default:
                         break;
                 }
-                runMutex.release();
 
             }
 
@@ -1975,6 +1995,8 @@ public class BoardController {
             }
 
             disableActions();
+
+            semaphore.release();
         }
         catch (InterruptedException e){
             Thread.currentThread().interrupt();

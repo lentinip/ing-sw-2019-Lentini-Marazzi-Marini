@@ -503,7 +503,7 @@ public class PlayerBoardController {
 
     /**
      * Loads the OtherPlayerHandScreen and sets the parameters so that the player can choose to open the window in a next moment.
-     * @param username
+     * @param username username of the player owner of the playerBoard.
      */
     public void initializePlayerHand(String username){
 
@@ -631,7 +631,7 @@ public class PlayerBoardController {
     /**
      * Shows a skull for each number of deaths of the player owner of the playerBoard.
      * If the number of deaths of the player is bigger than the number of skulls it shows only 6 skulls
-     * @param numberOfDeaths
+     * @param numberOfDeaths number of deaths of the player owner of the playerBoard.
      */
     public void updateNumberOfDeaths(int numberOfDeaths){
         for (int i=0; i<numberOfDeaths && i<skullList.size(); i++){

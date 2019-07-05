@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.sw2019.model.Colors.YELLOW;
-import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.*;
 
 public class TestMatch {
@@ -134,10 +133,6 @@ public class TestMatch {
         assertEquals(player3, match.getCurrentPlayer());
         match.setNextPlayer();
         assertEquals(player, match.getCurrentPlayer());
-
-        match.setEnded(true);
-        match.setNextPlayer();
-        assertEquals(null, match.getCurrentPlayer());
     }
 
     @Test

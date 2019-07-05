@@ -42,7 +42,7 @@ public class ReconnectController {
      * Handles the reconnect button.
      *
      * If pressed send a reconnection message and closes the window with the ReconnectScreen.
-     * @param actionEvent
+     * @param actionEvent actionEvent caught
      */
     @FXML
     public void handleReconnect(ActionEvent actionEvent){

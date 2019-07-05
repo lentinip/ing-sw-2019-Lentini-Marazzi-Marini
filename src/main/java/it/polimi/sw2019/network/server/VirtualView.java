@@ -510,9 +510,11 @@ public class VirtualView extends Observable implements Observer {
     public void saveLastMessage(Message message){
 
         TypeOfMessage type = message.getTypeOfMessage();
-        if (type != TypeOfMessage.PRIVATE_HAND && type != TypeOfMessage.LOGIN_REPORT && type != TypeOfMessage.DISCONNECTED && type != TypeOfMessage.RECONNECTION_REQUEST && type != TypeOfMessage.RECONNECTION && type != TypeOfMessage.PLAYER_ALREADY_LOGGED && (type == TypeOfMessage.AVAILABLE_CARDS && message.getTypeOfAction() == TypeOfAction.GRAB) ){
+        if (type != TypeOfMessage.PRIVATE_HAND && type != TypeOfMessage.LOGIN_REPORT && type != TypeOfMessage.DISCONNECTED && type != TypeOfMessage.RECONNECTION_REQUEST && type != TypeOfMessage.RECONNECTION && type != TypeOfMessage.PLAYER_ALREADY_LOGGED && !(type == TypeOfMessage.AVAILABLE_CARDS && message.getTypeOfAction() == TypeOfAction.GRAB) ){
 
             lastMessage = message;
+            System.out.print("\nlast message username " + lastMessage.getUsername() + "\n");
+            System.out.print("\nlast message type " + lastMessage.getTypeOfMessage() + "\n");
         }
     }
 
