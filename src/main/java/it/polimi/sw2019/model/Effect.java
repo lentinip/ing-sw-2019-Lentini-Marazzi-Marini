@@ -159,7 +159,7 @@ public class Effect {
     }
 
     /**
-     * used to knwo cell you can shoot in with your weapon
+     * used to know cell you can shoot in with your weapon
      * @param owner player who is shooting
      * @return the cells where the weapon can shoot with at least one player inside
      */
@@ -171,7 +171,10 @@ public class Effect {
 
         for (int i = 0; i < reachableCells.size(); i++) {
 
+            //System.out.print("\n" + i + reachableCells.get(i));
             targetsPlayer.addAll(reachableCells.get(i).playersInCell()); /* removing the player who is shooting from the list of the possible targets */
+
+            //System.out.print("\n" + reachableCells.get(i).playersInCell());
 
             if (targetsPlayer.contains(owner)) {
                 targetsPlayer.remove(owner);

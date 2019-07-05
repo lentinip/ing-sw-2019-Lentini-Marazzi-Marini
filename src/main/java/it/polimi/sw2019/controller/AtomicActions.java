@@ -211,6 +211,8 @@ public class  AtomicActions {
             String report = "  DAMAGED ︻デ┳═ー  ";
             Message message = new Message("All");
             message.createActionReports(report, shooter.getCharacter(), receiver.getCharacter(), true);
+            //testing print
+            //System.out.print("\n" + report + "\n" + shooter.getCharacter() + "\n");
             view.display(message);
         }
 

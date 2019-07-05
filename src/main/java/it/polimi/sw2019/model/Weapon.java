@@ -201,21 +201,27 @@ public class Weapon {
 
         if ( !hasAMoveTypeEffect ){
 
+            System.out.print("\n 0");
             return hasOneUsableEffect(allPlayers);
         }
 
         else {
 
+            System.out.print("\n1a");
+
             if ( !hasOneUsableEffect(allPlayers) ){
 
+                System.out.print("\n1");
                 int moves = getMoveTypeEffect().getMove().getMoveYou();
                 Cell startingPosition = owner.getPosition();    /* saving the starting position */
 
                 for (Cell reachableCell: startingPosition.reachableCells(moves)){
 
+                    System.out.print("\n1");
                     owner.setPosition(reachableCell);
 
                     if ( hasOneUsableEffect(allPlayers) ){
+                        System.out.print("\nn");
                         owner.setPosition(startingPosition);
 
                         return true;
