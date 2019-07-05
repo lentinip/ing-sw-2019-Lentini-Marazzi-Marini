@@ -465,4 +465,54 @@ public class TestAtomicActions {
         assertEquals(receiver.getPlayerBoard().getMarks().getMarkSequence().size(), 2);
     }
 
+    /**
+     * this test verifies if I set the correct amount of damage and the correct state in the receiver of the attack attributes.
+     * There's also a commented print in the code of the method dealDamage to verify if the message gets the correct parameters
+     */
+    @Test
+    public void dealDamageTest() {
+
+        List<String> usernames = new ArrayList<>();
+        usernames.add("Carlo");
+        usernames.add("Fausto");
+        usernames.add("Beppe");
+        usernames.add("Fulvio");
+        usernames.add("Renato");
+
+        List<Character> characters = new ArrayList<>();
+        characters.add(Character.SPROG);
+        characters.add(Character.DISTRUCTOR);
+
+        VirtualView virtualView = new VirtualView(new Server());
+        Client client = new Client("Giancarlo", new ClientImplementation(new it.polimi.sw2019.network.client.Client()));
+        virtualView.addWaitingPlayer("Giancarlo", client);
+        Match match = new Match(false, false, usernames,"Board1.json", virtualView);
+
+        AtomicActions atomicActions = new AtomicActions(match, virtualView);
+
+        Player player = new Player();
+        match.setCurrentPlayer(player);
+        player.setName("Giancarlo");
+        player.setCharacter(Character.SPROG);
+        Cell cell = new Cell();
+        player.setPosition(cell);
+
+        Player receiver = new Player();
+        receiver.setCharacter(Character.DISTRUCTOR);
+        PlayerBoard playerBoard = new PlayerBoard();
+        DamageTokens damageTokens = new DamageTokens(characters);
+        playerBoard.setDamage(damageTokens);
+        playerBoard.setMarks(new Marks(characters));
+        receiver.setPlayerBoard(playerBoard);
+
+        atomicActions.dealDamage(player, receiver, 3);
+
+        assertEquals(State.ADRENALINIC1, receiver.getState());
+        assertEquals(3, receiver.getPlayerBoard().getDamage().getTotalDamage());
+
+        atomicActions.dealDamage(player, receiver, 3);
+
+        assertEquals(State.ADRENALINIC2, receiver.getState());
+        assertEquals(6, receiver.getPlayerBoard().getDamage().getTotalDamage());
+    }
 }

@@ -1,4 +1,12 @@
 it.polimi.sw2019
 it.polimi.sw2019.controller
 it.polimi.sw2019.model
+it.polimi.sw2019.network.client
+it.polimi.sw2019.network.client.rmi
+it.polimi.sw2019.network.client.socket
+it.polimi.sw2019.commons.messages
+it.polimi.sw2019.network.server
+it.polimi.sw2019.network.server.rmi
+it.polimi.sw2019.network.server.socket
 it.polimi.sw2019.view
+it.polimi.sw2019.view.gui

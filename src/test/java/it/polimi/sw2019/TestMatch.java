@@ -313,14 +313,6 @@ public class TestMatch {
         match.setFrenzyMode(false);
         assertFalse(match.getFrenzyMode());
         match.setLastPlayer(null);
-        /*match.getBoard().getKillTrack().addKill(Character.VIOLET);
-        match.getBoard().getKillTrack().addKill(Character.VIOLET);
-        match.getBoard().getKillTrack().addKill(Character.VIOLET);
-        match.getBoard().getKillTrack().addKill(Character.VIOLET);
-        match.getBoard().getKillTrack().addKill(Character.VIOLET);
-        match.getBoard().getKillTrack().addKill(Character.VIOLET);
-        match.getBoard().getKillTrack().addKill(Character.VIOLET);
-        match.getBoard().getKillTrack().addKill(Character.VIOLET);*/
         match.getBoard().getKillTrack().setTotalKills(8);
         match.setIWantFrenzyMode(true);
         assertTrue(match.isiWantFrenzyMode());

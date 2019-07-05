@@ -84,6 +84,22 @@ public class Payment {
         this.pendingMessage = pendingMessage;
     }
 
+    public Ammo getLeftCost() {
+        return leftCost;
+    }
+
+    public Ammo getInitialCost() {
+        return initialCost;
+    }
+
+    public List<Powerup> getSelectedPowerups() {
+        return selectedPowerups;
+    }
+
+    public Powerup getUsablePowerup() {
+        return usablePowerup;
+    }
+
     /**
      * This method reset all the attributes to avoid errors the next time I receive a new payment message
      * I don't need to reset the pendingMessage or the payingPlayer cause they are overwritten every time

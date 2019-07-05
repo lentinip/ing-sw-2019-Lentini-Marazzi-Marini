@@ -42,6 +42,9 @@ public class TestBoard {
         assertNull(board.getCell(35, 12));
     }
 
+    /**
+     * test if we get the correct cell after the selection
+     */
     @Test
     public void secondGetCellTest() {
 
@@ -174,6 +177,9 @@ public class TestBoard {
         assertTrue(powerupsDeck.containsAll(board.getPowerupsDeck()));
     }
 
+    /**
+     * this test verifies if the KillTrack has been updated correctly, specifically verifies if the killSequence and overkillSequence are correct
+     */
     @Test
     public void updateKillTrackTest() {
 

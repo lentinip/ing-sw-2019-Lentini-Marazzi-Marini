@@ -8,6 +8,9 @@ import static org.junit.Assert.*;
 
 public class TestAmmo {
 
+    /**
+     * verifies if I set the correct amount of red ammo
+     */
     @Test
     public void setRedTest() {
 
@@ -38,6 +41,9 @@ public class TestAmmo {
         assertEquals(0, ammo.getRed());
     }
 
+    /**
+     * verifies if I set the correct amount of yellow ammo
+     */
     @Test
     public void setYellowTest() {
 
@@ -58,6 +64,9 @@ public class TestAmmo {
         assertEquals(k, ammo.getYellow());
     }
 
+    /**
+     * verifies if I set the correct amount of blue ammo
+     */
     @Test
     public void setBlueTest() {
 
@@ -80,6 +89,9 @@ public class TestAmmo {
         assertEquals(k, ammo.getBlue());
     }
 
+    /**
+     * verifies if I remove the correct amount of ammos
+     */
     @Test
     public void ammoSubtractionTest() {
 
@@ -94,6 +106,9 @@ public class TestAmmo {
         assertEquals(1, ammo.getRed());
     }
 
+    /**
+     * verifies if the ammo is empty
+     */
     @Test
     public void isZeroTest() {
 
@@ -106,6 +121,9 @@ public class TestAmmo {
         assertFalse(ammo.isZero());
     }
 
+    /**
+     * verifies if I get the correct copy of the ammo
+     */
     @Test
     public void copyTest() {
 

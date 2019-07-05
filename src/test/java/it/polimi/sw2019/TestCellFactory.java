@@ -92,6 +92,9 @@ public class TestCellFactory {
         assertTrue(cellFactory.isCommon());
     }
 
+    /**
+     * verifies if I set correctly the list of cells and rooms
+     */
     @Test
     public void TestSetCell() {
 
