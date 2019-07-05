@@ -46,13 +46,7 @@ public class TestPayment {
     }
 
     @Test
-    public void payAndThenTest() {
-
-public class TestPayment {
-
-
-    @Test
-    public void payAndThenUsePowerupTest(){
+    public void payAndThenUsePowerupTest() {
 
         MatchSetup matchSetup = new MatchSetup(true, false, "Board1.json");
         Message mes = new Message("prova1");
@@ -74,7 +68,7 @@ public class TestPayment {
 
 
     @Test
-    public void payAndContinueTest(){
+    public void payAndContinueTest() {
 
         MatchSetup matchSetup = new MatchSetup(true, false, "Board1.json");
         Message mes = new Message("prova1");
@@ -98,7 +92,7 @@ public class TestPayment {
         Message message = new Message("prova1");
         message.createSingleActionReload(0);
         payment.setPendingMessage(message);
-        payment.setInitialCost(new Ammo(0,0,0));
+        payment.setInitialCost(new Ammo(0, 0, 0));
 
         payment.setReloadInFrenzy(true);
         payment.payAndContinue();
@@ -109,7 +103,7 @@ public class TestPayment {
         prova1.getWeapons().get(0).setOwner(prova1);
         message.createSingleActionReload(0);
         payment.setPendingMessage(message);
-        payment.setInitialCost(new Ammo(0,0,0));
+        payment.setInitialCost(new Ammo(0, 0, 0));
         payment.setReloadInFrenzy(false);
         payment.payAndContinue();
 
@@ -119,7 +113,7 @@ public class TestPayment {
         prova1.addPowerup(controller.getMatch().getBoard().drawPowerup());
         controller.getMatch().getCurrentPlayer().getWeapons().add(controller.getMatch().getBoard().drawWeapon());
         prova1.getWeapons().get(0).setOwner(prova1);
-        payment.setInitialCost(new Ammo(0,0,0));
+        payment.setInitialCost(new Ammo(0, 0, 0));
         payment.setReloadInFrenzy(false);
         payment.payAndContinue();
 

@@ -1,0 +1,1648 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007fff7fbcad3d, pid=6190, tid=0x0000000000000307
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_191-b12) (build 1.8.0_191-b12)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.191-b12 mixed mode bsd-amd64 compressed oops)
+# Problematic frame:
+# C  [libsystem_platform.dylib+0x1d3d]  _platform_memmove$VARIANT$Haswell+0x5d
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007ff7c29ee000):  JavaThread "JavaFX Application Thread" [_thread_in_native, id=775, stack(0x00007ffee508a000,0x00007ffee588a000)]
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000000
+
+Registers:
+RAX=0x0000000000000000, RBX=0x000000000000000c, RCX=0x0000000000000000, RDX=0x0000000000000010
+RSP=0x00007ffee57e2980, RBP=0x00007ffee57e2980, RSI=0x0000000135294d00, RDI=0x0000000000000000
+R8 =0x000000000000000c, R9 =0x0000000000000000, R10=0x000000000000000c, R11=0xfffffffecad6b300
+R12=0x0000000000000000, R13=0x0000000400000000, R14=0x0000000000000030, R15=0x0000000135294d00
+RIP=0x00007fff7fbcad3d, EFLAGS=0x0000000000010202, ERR=0x0000000000000006
+  TRAPNO=0x000000000000000e
+
+Top of Stack: (sp=0x00007ffee57e2980)
+0x00007ffee57e2980:   00007ffee57e29c0 00007fff4ff34243
+0x00007ffee57e2990:   0000000000002440 00007ffee57e2ad8
+0x00007ffee57e29a0:   0000000000002002 00007ff7c251ac30
+0x00007ffee57e29b0:   00007ffee57e2a30 0000000000000008
+0x00007ffee57e29c0:   00007ffee57e2aa0 00007fff51344d71
+0x00007ffee57e29d0:   0000000000000000 0000000000000000
+0x00007ffee57e29e0:   40a2100000000000 4099000000000000
+0x00007ffee57e29f0:   0000000135294d00 000000000000000c
+0x00007ffee57e2a00:   000000000000000c 0000000000002440
+0x00007ffee57e2a10:   0000000000000000 000000000000000c
+0x00007ffee57e2a20:   000000000000000c 0000000400000000
+0x00007ffee57e2a30:   0000000000000000 0000000000000000
+0x00007ffee57e2a40:   4028000000000000 4028000000000000
+0x00007ffee57e2a50:   0000000000000000 0000000000000000
+0x00007ffee57e2a60:   40a2100000000000 4099000000000000
+0x00007ffee57e2a70:   0000000000000000 0000000000000000
+0x00007ffee57e2a80:   41efffffffc00000 41efffffff800000
+0x00007ffee57e2a90:   00007ff732915670 00007fffb6342070
+0x00007ffee57e2aa0:   00007ffee57e2b70 00007fff51344ab6
+0x00007ffee57e2ab0:   0000000000000000 0000000000000000
+0x00007ffee57e2ac0:   4028000000000000 4028000000000000
+0x00007ffee57e2ad0:   00007ffee57e2b10 00007fffb6342070
+0x00007ffee57e2ae0:   00000000c2000000 00007fff51344b0f
+0x00007ffee57e2af0:   00007fffae47aa58 00007ffee57e2b80
+0x00007ffee57e2b00:   0000000000000908 0000000000000640
+0x00007ffee57e2b10:   00000000fffffffe 00000000fffffffc
+0x00007ffee57e2b20:   0000000134487000 0000000000002440
+0x00007ffee57e2b30:   0000000000000020 0000000000000000
+0x00007ffee57e2b40:   0000000400000000 0000000000000020
+0x00007ffee57e2b50:   0000000000000000 0000000000000000
+0x00007ffee57e2b60:   0000000000000020 00007fffb6342070
+0x00007ffee57e2b70:   00007ffee57e2cf0 00007fff51344963 
+
+Instructions: (pc=0x00007fff7fbcad3d)
+0x00007fff7fbcad1d:   82 8c 01 00 00 e9 a9 01 00 00 48 83 fa 10 76 56
+0x00007fff7fbcad2d:   c5 f8 10 4c 16 f0 48 83 ea 20 76 2a c5 fc 10 06
+0x00007fff7fbcad3d:   c5 fc 11 07 48 83 c6 20 48 83 c7 20 48 83 ea 20
+0x00007fff7fbcad4d:   72 14 c5 fc 10 06 c5 fc 11 07 48 83 c6 20 48 83 
+
+Register to memory mapping:
+
+RAX=0x0000000000000000 is an unknown value
+RBX=0x000000000000000c is an unknown value
+RCX=0x0000000000000000 is an unknown value
+RDX=0x0000000000000010 is an unknown value
+RSP=0x00007ffee57e2980 is pointing into the stack for thread: 0x00007ff7c29ee000
+RBP=0x00007ffee57e2980 is pointing into the stack for thread: 0x00007ff7c29ee000
+RSI=0x0000000135294d00 is an unknown value
+RDI=0x0000000000000000 is an unknown value
+R8 =0x000000000000000c is an unknown value
+R9 =0x0000000000000000 is an unknown value
+R10=0x000000000000000c is an unknown value
+R11=0xfffffffecad6b300 is an unknown value
+R12=0x0000000000000000 is an unknown value
+R13=0x0000000400000000 is an unknown value
+R14=0x0000000000000030 is an unknown value
+R15=0x0000000135294d00 is an unknown value
+
+
+Stack: [0x00007ffee508a000,0x00007ffee588a000],  sp=0x00007ffee57e2980,  free space=7522k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [libsystem_platform.dylib+0x1d3d]  _platform_memmove$VARIANT$Haswell+0x5d
+C  [vImage+0x31243]  vImageCopyBuffer+0xf3
+C  [AppKit+0x225d71]  __copy_region_block_invoke_2+0x262
+C  [AppKit+0x225ab6]  __copy_region_block_invoke+0xb8
+C  [AppKit+0x225963]  copy_region+0x141
+C  [AppKit+0x22407a]  -[_NSCGSWindowBackingStore defineBackBufferInRegion:]+0x20b
+C  [AppKit+0x223e5c]  -[_NSCGSWindowBackingStore defineBackBufferInRect:]+0x38
+C  [AppKit+0x22344e]  backing_store_delegate+0x36b
+C  [AppKit+0x53f79d]  backing_store_DrawImage.llvm.1485844590212887067+0x1fd
+C  [CoreGraphics+0x341c6]  CGContextDelegateDrawImage+0x29
+C  [CoreGraphics+0x339a4]  CGContextDrawImageWithOptions+0x1b0
+C  [CoreGraphics+0x7cf19]  CGContextDrawImages+0x269
+C  [CoreUI+0x3fb84]  _ZN20CUICoreThemeRenderer19DrawWindowBottomBarEPK13CUIDescriptor+0x59a
+C  [CoreUI+0x24a4a]  _ZN11CUIRenderer4DrawE6CGRectP9CGContextPK14__CFDictionaryPS5_+0x6f0
+C  [CoreUI+0x2432a]  CUIDraw+0x116
+C  [AppKit+0x13fc4d]  __44-[NSAppearance _drawInRect:context:options:]_block_invoke+0x2f
+C  [AppKit+0x2c957]  -[NSCompositeAppearance _callCoreUIWithBlock:options:]+0x16b
+C  [AppKit+0x13fc18]  -[NSAppearance _drawInRect:context:options:]+0x69
+C  [AppKit+0x22446b]  -[NSThemeFrame _maskCorners:clipRect:]+0xeb
+C  [AppKit+0x225487]  -[NSThemeFrame drawOverlayRect:]+0x85
+C  [AppKit+0x22539a]  -[NSView _drawOverlayRectSet:]+0xd7
+C  [AppKit+0x12c852]  -[NSView _recursiveDisplayRectIfNeededIgnoringOpacity:isVisibleRect:rectIsVisibleRectForView:topView:]+0x1a9e
+C  [AppKit+0x12ad8e]  -[NSThemeFrame _recursiveDisplayRectIfNeededIgnoringOpacity:isVisibleRect:rectIsVisibleRectForView:topView:]+0x41
+C  [AppKit+0x128690]  -[NSView _oldDisplayRectIgnoringOpacity:isVisibleRect:rectIsVisibleRectForView:]+0x765
+C  [AppKit+0x127cc9]  -[NSView _displayRectIgnoringOpacity:isVisibleRect:rectIsVisibleRectForView:]+0xfd
+C  [AppKit+0x1248be]  -[NSView displayIfNeeded]+0x516
+C  [AppKit+0x116c0d]  -[NSThemeFrame handleSetFrameCommonRedisplay]+0x10c
+C  [AppKit+0xf8875]  -[NSWindow _setFrameCommon:display:stashSize:]+0xd54
+C  [AppKit+0xf7b0e]  -[NSWindow _setFrame:display:allowImplicitAnimation:stashSize:]+0xc0
+C  [AppKit+0xf7a47]  -[NSWindow setFrame:display:]+0x33
+C  [AppKit+0x102139]  -[NSWindow setFrame:display:animate:]+0x82
+C  [libglass.dylib+0x255ea]  -[GlassWindow(Java) _setFlipFrame:display:animate:]+0xca
+C  [libglass.dylib+0x250fc]  -[GlassWindow(Java) _setWindowFrameWithRect:withDisplay:withAnimate:]+0x9c
+C  [libglass.dylib+0x2533c]  -[GlassWindow(Java) _setBounds:y:xSet:ySet:w:h:cw:ch:]+0x22c
+C  [libglass.dylib+0x29ffa]  Java_com_sun_glass_ui_mac_MacWindow__1setBounds+0x1ba
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+V  [libjvm.dylib+0x2ef9fe]
+V  [libjvm.dylib+0x3502f4]
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b0d5 [0x000000010e53b000+0xd5]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+V  [libjvm.dylib+0x2ef9fe]
+V  [libjvm.dylib+0x3502f4]
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b0d5 [0x000000010e53b000+0xd5]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+V  [libjvm.dylib+0x2ef9fe]
+V  [libjvm.dylib+0x326d3c]
+V  [libjvm.dylib+0x31951f]
+C  [libglass.dylib+0x1fe8a]  -[GlassViewDelegate setFrameSize:]+0x10a
+C  [libglass.dylib+0x1e098]  -[GlassView3D setFrameSize:]+0x58
+C  [AppKit+0x9eb29]  -[NSView setFrame:]+0x1de
+C  [libglass.dylib+0x1e103]  -[GlassView3D setFrame:]+0x53
+C  [AppKit+0xa5d77]  -[NSView resizeWithOldSuperviewSize:]+0x301
+C  [AppKit+0xa5905]  -[NSView resizeSubviewsWithOldSize:]+0x203
+C  [AppKit+0x9f7f8]  -[NSView setFrameSize:]+0x70b
+C  [AppKit+0x9eb29]  -[NSView setFrame:]+0x1de
+C  [AppKit+0xa5d77]  -[NSView resizeWithOldSuperviewSize:]+0x301
+C  [AppKit+0xa5905]  -[NSView resizeSubviewsWithOldSize:]+0x203
+C  [AppKit+0x9f7f8]  -[NSView setFrameSize:]+0x70b
+C  [AppKit+0x10c75b]  -[NSThemeFrame setFrameSize:]+0x1ef
+C  [AppKit+0xf9721]  -[NSWindow _setFrame:updateBorderViewSize:]+0x3ad
+C  [AppKit+0xf905a]  -[NSWindow _oldPlaceWindow:]+0x207
+C  [AppKit+0xf861f]  -[NSWindow _setFrameCommon:display:stashSize:]+0xafe
+C  [AppKit+0xf7b0e]  -[NSWindow _setFrame:display:allowImplicitAnimation:stashSize:]+0xc0
+C  [AppKit+0xf7a47]  -[NSWindow setFrame:display:]+0x33
+C  [AppKit+0x102139]  -[NSWindow setFrame:display:animate:]+0x82
+C  [libglass.dylib+0x255ea]  -[GlassWindow(Java) _setFlipFrame:display:animate:]+0xca
+C  [libglass.dylib+0x250fc]  -[GlassWindow(Java) _setWindowFrameWithRect:withDisplay:withAnimate:]+0x9c
+C  [libglass.dylib+0x2533c]  -[GlassWindow(Java) _setBounds:y:xSet:ySet:w:h:cw:ch:]+0x22c
+C  [libglass.dylib+0x29ffa]  Java_com_sun_glass_ui_mac_MacWindow__1setBounds+0x1ba
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+V  [libjvm.dylib+0x2ef9fe]
+V  [libjvm.dylib+0x3502f4]
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b0d5 [0x000000010e53b000+0xd5]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+...<more frames>...
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.mac.MacWindow._setBounds(JIIZZIIIIFF)V+0
+j  com.sun.glass.ui.Window.setBounds(IIZZIIIIFF)V+29
+j  com.sun.javafx.tk.quantum.WindowStage.setBounds(FFZZFFFFFF)V+462
+j  javafx.stage.Window$TKBoundsConfigurator.apply()V+110
+j  javafx.stage.Window$TKBoundsConfigurator.pulse()V+1
+j  com.sun.javafx.tk.Toolkit.lambda$runPulse$29(Lcom/sun/javafx/tk/TKPulseListener;)Ljava/lang/Void;+1
+j  com.sun.javafx.tk.Toolkit$$Lambda$199.run()Ljava/lang/Object;+4
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.Toolkit.runPulse(Lcom/sun/javafx/tk/TKPulseListener;Ljava/security/AccessControlContext;)V+21
+j  com.sun.javafx.tk.Toolkit.firePulse()V+129
+j  com.sun.javafx.tk.quantum.QuantumToolkit.pulse(Z)V+93
+j  com.sun.javafx.tk.quantum.PaintCollector.liveRepaintRenderJob(Lcom/sun/javafx/tk/quantum/ViewScene;)V+14
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Void;+354
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$ViewEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1392  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x000000010e53b063 [0x000000010e53b000+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleViewEvent$367()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$94.get()Ljava/lang/Object;+4
+J 1407 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x000000010e53ecf4 [0x000000010e53e7c0+0x534]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleViewEvent(Lcom/sun/glass/ui/View;JI)V+63
+j  com.sun.glass.ui.View.handleViewEvent(JI)V+14
+j  com.sun.glass.ui.View.notifyResize(II)V+34
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x00007ff7c5441800 JavaThread "Attach Listener" daemon [_thread_blocked, id=51971, stack(0x0000700005aa5000,0x0000700005ba5000)]
+  0x00007ff792ab5800 JavaThread "Prism Font Disposer" daemon [_thread_blocked, id=51803, stack(0x00007000059a2000,0x0000700005aa2000)]
+  0x00007ff774000000 JavaThread "JavaFX-Launcher" [_thread_blocked, id=48387, stack(0x000070000589f000,0x000070000599f000)]
+  0x00007ff7c384a000 JavaThread "Thread-3" daemon [_thread_in_native, id=85763, stack(0x0000700005799000,0x0000700005819000)]
+=>0x00007ff7c29ee000 JavaThread "JavaFX Application Thread" [_thread_in_native, id=775, stack(0x00007ffee508a000,0x00007ffee588a000)]
+  0x00007ff7c29f0800 JavaThread "Thread-1" daemon [_thread_blocked, id=37635, stack(0x0000700005178000,0x0000700005278000)]
+  0x00007ff7c28f4000 JavaThread "QuantumRenderer-0" daemon [_thread_blocked, id=22531, stack(0x0000700005075000,0x0000700005175000)]
+  0x00007ff792819800 JavaThread "Service Thread" daemon [_thread_blocked, id=43011, stack(0x0000700004e6f000,0x0000700004f6f000)]
+  0x00007ff792800800 JavaThread "C1 CompilerThread3" daemon [_thread_blocked, id=21763, stack(0x0000700004d6c000,0x0000700004e6c000)]
+  0x00007ff7c5021000 JavaThread "C2 CompilerThread2" daemon [_thread_blocked, id=16899, stack(0x0000700004c69000,0x0000700004d69000)]
+  0x00007ff7c5020000 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=17411, stack(0x0000700004b66000,0x0000700004c66000)]
+  0x00007ff7c28ee800 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=17667, stack(0x0000700004a63000,0x0000700004b63000)]
+  0x00007ff7c28ed000 JavaThread "Monitor Ctrl-Break" daemon [_thread_in_native, id=15875, stack(0x0000700004960000,0x0000700004a60000)]
+  0x00007ff7c2825000 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=17923, stack(0x000070000485d000,0x000070000495d000)]
+  0x00007ff7b2827000 JavaThread "Finalizer" daemon [_thread_blocked, id=19203, stack(0x000070000475a000,0x000070000485a000)]
+  0x00007ff7c3807800 JavaThread "Reference Handler" daemon [_thread_blocked, id=13571, stack(0x0000700004657000,0x0000700004757000)]
+  0x00007ff7c4001800 JavaThread "main" [_thread_blocked, id=9731, stack(0x0000700003a33000,0x0000700003b33000)]
+
+Other Threads:
+  0x00007ff7c501f800 VMThread [stack: 0x0000700004554000,0x0000700004654000] [id=13315]
+  0x00007ff792822000 WatcherThread [stack: 0x0000700004f72000,0x0000700005072000] [id=42755]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap:
+ PSYoungGen      total 153088K, used 79701K [0x0000000715580000, 0x0000000720000000, 0x00000007c0000000)
+  eden space 131584K, 60% used [0x0000000715580000,0x000000071a3557c0,0x000000071d600000)
+  from space 21504K, 0% used [0x000000071eb00000,0x000000071eb00000,0x0000000720000000)
+  to   space 21504K, 0% used [0x000000071d600000,0x000000071d600000,0x000000071eb00000)
+ ParOldGen       total 349696K, used 0K [0x00000005c0000000, 0x00000005d5580000, 0x0000000715580000)
+  object space 349696K, 0% used [0x00000005c0000000,0x00000005c0000000,0x00000005d5580000)
+ Metaspace       used 17586K, capacity 18596K, committed 18816K, reserved 1064960K
+  class space    used 2644K, capacity 2851K, committed 2944K, reserved 1048576K
+
+Card table byte_map: [0x000000011d056000,0x000000011e057000] byte_map_base: 0x000000011a256000
+
+Marking Bits: (ParMarkBitMap*) 0x000000010c4f9e00
+ Begin Bits: [0x000000011e057000, 0x0000000126057000)
+ End Bits:   [0x0000000126057000, 0x000000012e057000)
+
+Polling page: 0x000000010a3fa000
+
+CodeCache: size=245760Kb used=5134Kb max_used=5134Kb free=240625Kb
+ bounds [0x000000010e056000, 0x000000010e566000, 0x000000011d056000]
+ total_blobs=2125 nmethods=1457 adapters=581
+ compilation: enabled
+
+Compilation events (10 events):
+Event: 5.620 Thread 0x00007ff792800800 1454       3       javafx.scene.Node::getAutomaticOrientation (5 bytes)
+Event: 5.620 Thread 0x00007ff792800800 nmethod 1454 0x000000010e559a50 code [0x000000010e559ba0, 0x000000010e559cd0]
+Event: 5.620 Thread 0x00007ff792800800 1455       3       com.sun.javafx.geom.RectBounds::setBounds (22 bytes)
+Event: 5.620 Thread 0x00007ff792800800 nmethod 1455 0x000000010e559d50 code [0x000000010e559ea0, 0x000000010e55a010]
+Event: 5.620 Thread 0x00007ff792800800 1456       3       java.lang.Math::min (46 bytes)
+Event: 5.621 Thread 0x00007ff792800800 nmethod 1456 0x000000010e55a090 code [0x000000010e55a200, 0x000000010e55a550]
+Event: 5.621 Thread 0x00007ff792800800 1458       1       com.sun.javafx.geom.RectBounds::getMaxY (5 bytes)
+Event: 5.621 Thread 0x00007ff792800800 nmethod 1458 0x000000010e55a5d0 code [0x000000010e55a720, 0x000000010e55a830]
+Event: 5.621 Thread 0x00007ff792800800 1457       3       com.sun.javafx.geom.RectBounds::deriveWithNewBounds (80 bytes)
+Event: 5.621 Thread 0x00007ff792800800 nmethod 1457 0x000000010e55a890 code [0x000000010e55aa40, 0x000000010e55b0e8]
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (10 events):
+Event: 0.761 Thread 0x00007ff7c29ee000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x000000010e315584 method=java.io.DataInputStream.readShort()S @ 4
+Event: 0.761 Thread 0x00007ff7c29ee000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x000000010e315584 method=java.io.DataInputStream.readShort()S @ 4
+Event: 0.762 Thread 0x00007ff7c29ee000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x000000010e315584 method=java.io.DataInputStream.readShort()S @ 4
+Event: 0.762 Thread 0x00007ff7c29ee000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x000000010e315584 method=java.io.DataInputStream.readShort()S @ 4
+Event: 0.766 Thread 0x00007ff7c29ee000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x000000010e172490 method=java.lang.String.equals(Ljava/lang/Object;)Z @ 8
+Event: 0.766 Thread 0x00007ff7c29ee000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x000000010e172490 method=java.lang.String.equals(Ljava/lang/Object;)Z @ 8
+Event: 0.766 Thread 0x00007ff7c29ee000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x000000010e172490 method=java.lang.String.equals(Ljava/lang/Object;)Z @ 8
+Event: 0.767 Thread 0x00007ff7c29ee000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x000000010e172490 method=java.lang.String.equals(Ljava/lang/Object;)Z @ 8
+Event: 0.954 Thread 0x00007ff7c29ee000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000000010e293120 method=java.lang.CharacterData.of(I)Ljava/lang/CharacterData; @ 4
+Event: 3.304 Thread 0x00007ff7c29ee000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000000010e38f528 method=jdk.internal.org.objectweb.asm.Type.getArgumentsAndReturnSizes(Ljava/lang/String;)I @ 47
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (10 events):
+Event: 0.133 Thread 0x00007ff7c4001800 Exception <a 'java/security/PrivilegedActionException'> (0x0000000715e03428) thrown at [/Users/java_re/workspace/8-2-build-macosx-x86_64/jdk8u191/11896/hotspot/src/share/vm/prims/jvm.cpp, line 1435]
+Event: 0.133 Thread 0x00007ff7c4001800 Exception <a 'java/security/PrivilegedActionException'> (0x0000000715e03638) thrown at [/Users/java_re/workspace/8-2-build-macosx-x86_64/jdk8u191/11896/hotspot/src/share/vm/prims/jvm.cpp, line 1435]
+Event: 0.133 Thread 0x00007ff7c4001800 Exception <a 'java/lang/NullPointerException'> (0x0000000715e04258) thrown at [/Users/java_re/workspace/8-2-build-macosx-x86_64/jdk8u191/11896/hotspot/src/share/vm/interpreter/linkResolver.cpp, line 1185]
+Event: 0.407 Thread 0x00007ff7c29ee000 Exception <a 'java/lang/NullPointerException'> (0x0000000717258e18) thrown at [/Users/java_re/workspace/8-2-build-macosx-x86_64/jdk8u191/11896/hotspot/src/share/vm/interpreter/linkResolver.cpp, line 1185]
+Event: 0.407 Thread 0x00007ff7c29ee000 Exception <a 'java/lang/NullPointerException'> (0x0000000717258e18) thrown at [/Users/java_re/workspace/8-2-build-macosx-x86_64/jdk8u191/11896/hotspot/src/share/vm/prims/jvm.cpp, line 1439]
+Event: 0.444 Thread 0x00007ff7c29ee000 Exception <a 'java/io/FileNotFoundException'> (0x00000007174b8020) thrown at [/Users/java_re/workspace/8-2-build-macosx-x86_64/jdk8u191/11896/hotspot/src/share/vm/prims/jni.cpp, line 709]
+Event: 0.577 Thread 0x00007ff7c29ee000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000007175674c8) thrown at [/Users/java_re/workspace/8-2-build-macosx-x86_64/jdk8u191/11896/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 605]
+Event: 0.578 Thread 0x00007ff7c29ee000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000007175698a8) thrown at [/Users/java_re/workspace/8-2-build-macosx-x86_64/jdk8u191/11896/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 605]
+Event: 0.578 Thread 0x00007ff7c29ee000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x000000071756b750) thrown at [/Users/java_re/workspace/8-2-build-macosx-x86_64/jdk8u191/11896/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 605]
+Event: 0.635 Thread 0x00007ff7c29ee000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000007183c91e8) thrown at [/Users/java_re/workspace/8-2-build-macosx-x86_64/jdk8u191/11896/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 605]
+
+Events (10 events):
+Event: 5.621 loading class com/sun/javafx/tk/quantum/QuantumToolkit
+Event: 5.621 loading class com/sun/javafx/tk/quantum/QuantumToolkit done
+Event: 5.621 loading class com/sun/javafx/tk/RenderJob
+Event: 5.621 loading class com/sun/javafx/tk/RenderJob done
+Event: 5.621 loading class java/lang/Throwable$WrappedPrintStream
+Event: 5.622 loading class java/lang/Throwable$PrintStreamOrWriter
+Event: 5.622 loading class java/lang/Throwable$PrintStreamOrWriter done
+Event: 5.622 loading class java/lang/Throwable$WrappedPrintStream done
+Event: 5.622 loading class java/util/IdentityHashMap$KeySet
+Event: 5.622 loading class java/util/IdentityHashMap$KeySet done
+
+
+Dynamic libraries:
+0x00007fff53291000 	/System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa
+0x00007fff5efa9000 	/System/Library/Frameworks/Security.framework/Versions/A/Security
+0x00007fff51f26000 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/ApplicationServices
+0x00007fff7f06f000 	/usr/lib/libz.1.dylib
+0x00007fff7c9c9000 	/usr/lib/libSystem.B.dylib
+0x00007fff7e200000 	/usr/lib/libobjc.A.dylib
+0x00007fff53a79000 	/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
+0x00007fff55cfb000 	/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation
+0x00007fff5111f000 	/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit
+0x00007fff5360c000 	/System/Library/Frameworks/CoreData.framework/Versions/A/CoreData
+0x00007fff7649c000 	/System/Library/PrivateFrameworks/RemoteViewServices.framework/Versions/A/RemoteViewServices
+0x00007fff7a709000 	/System/Library/PrivateFrameworks/UIFoundation.framework/Versions/A/UIFoundation
+0x00007fff7bdeb000 	/System/Library/PrivateFrameworks/XCTTargetBootstrap.framework/Versions/A/XCTTargetBootstrap
+0x00007fff53991000 	/System/Library/Frameworks/CoreDisplay.framework/Versions/A/CoreDisplay
+0x00007fff711ef000 	/System/Library/PrivateFrameworks/IconServices.framework/Versions/A/IconServices
+0x00007fff5861f000 	/System/Library/Frameworks/Metal.framework/Versions/A/Metal
+0x00007fff6876a000 	/System/Library/PrivateFrameworks/DesktopServicesPriv.framework/Versions/A/DesktopServicesPriv
+0x00007fff7d563000 	/usr/lib/libenergytrace.dylib
+0x00007fff78bf2000 	/System/Library/PrivateFrameworks/SkyLight.framework/Versions/A/SkyLight
+0x00007fff53ebf000 	/System/Library/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics
+0x00007fff4feeb000 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate
+0x00007fff56443000 	/System/Library/Frameworks/IOSurface.framework/Versions/A/IOSurface
+0x00007fff685d6000 	/System/Library/PrivateFrameworks/DFRFoundation.framework/Versions/A/DFRFoundation
+0x00007fff52409000 	/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox
+0x00007fff52682000 	/System/Library/Frameworks/AudioUnit.framework/Versions/A/AudioUnit
+0x00007fff6866b000 	/System/Library/PrivateFrameworks/DataDetectorsCore.framework/Versions/A/DataDetectorsCore
+0x00007fff52d95000 	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox
+0x00007fff7d6bc000 	/usr/lib/libicucore.A.dylib
+0x00007fff5e51e000 	/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore
+0x00007fff53169000 	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SpeechRecognition.framework/Versions/A/SpeechRecognition
+0x00007fff7cb1d000 	/usr/lib/libauto.dylib
+0x00007fff7ef63000 	/usr/lib/libxml2.2.dylib
+0x00007fff681b3000 	/System/Library/PrivateFrameworks/CoreUI.framework/Versions/A/CoreUI
+0x00007fff534f7000 	/System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio
+0x00007fff55b30000 	/System/Library/Frameworks/DiskArbitration.framework/Versions/A/DiskArbitration
+0x00007fff7d96a000 	/usr/lib/liblangid.dylib
+0x00007fff725fd000 	/System/Library/PrivateFrameworks/MultitouchSupport.framework/Versions/A/MultitouchSupport
+0x00007fff563b2000 	/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
+0x00007fff7c58a000 	/usr/lib/libDiagnosticMessagesClient.dylib
+0x00007fff54cce000 	/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices
+0x00007fff742a4000 	/System/Library/PrivateFrameworks/PerformanceAnalysis.framework/Versions/A/PerformanceAnalysis
+0x00007fff5d70c000 	/System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL
+0x00007fff5329f000 	/System/Library/Frameworks/ColorSync.framework/Versions/A/ColorSync
+0x00007fff54550000 	/System/Library/Frameworks/CoreImage.framework/Versions/A/CoreImage
+0x00007fff556a7000 	/System/Library/Frameworks/CoreText.framework/Versions/A/CoreText
+0x00007fff564a6000 	/System/Library/Frameworks/ImageIO.framework/Versions/A/ImageIO
+0x00007fff64808000 	/System/Library/PrivateFrameworks/Backup.framework/Versions/A/Backup
+0x00007fff7ca70000 	/usr/lib/libarchive.2.dylib
+0x00007fff529da000 	/System/Library/Frameworks/CFNetwork.framework/Versions/A/CFNetwork
+0x00007fff5f703000 	/System/Library/Frameworks/SystemConfiguration.framework/Versions/A/SystemConfiguration
+0x00007fff7c4bb000 	/usr/lib/libCRFSuite.dylib
+0x00007fff7cc0c000 	/usr/lib/libc++.1.dylib
+0x00007fff7cc60000 	/usr/lib/libc++abi.dylib
+0x00007fff7f865000 	/usr/lib/system/libcache.dylib
+0x00007fff7f86a000 	/usr/lib/system/libcommonCrypto.dylib
+0x00007fff7f875000 	/usr/lib/system/libcompiler_rt.dylib
+0x00007fff7f87d000 	/usr/lib/system/libcopyfile.dylib
+0x00007fff7f887000 	/usr/lib/system/libcorecrypto.dylib
+0x00007fff7f992000 	/usr/lib/system/libdispatch.dylib
+0x00007fff7f9cc000 	/usr/lib/system/libdyld.dylib
+0x00007fff7f9f9000 	/usr/lib/system/libkeymgr.dylib
+0x00007fff7fa07000 	/usr/lib/system/liblaunch.dylib
+0x00007fff7fa08000 	/usr/lib/system/libmacho.dylib
+0x00007fff7fa0e000 	/usr/lib/system/libquarantine.dylib
+0x00007fff7fa11000 	/usr/lib/system/libremovefile.dylib
+0x00007fff7fa13000 	/usr/lib/system/libsystem_asl.dylib
+0x00007fff7fa2b000 	/usr/lib/system/libsystem_blocks.dylib
+0x00007fff7fa2c000 	/usr/lib/system/libsystem_c.dylib
+0x00007fff7fab4000 	/usr/lib/system/libsystem_configuration.dylib
+0x00007fff7fab8000 	/usr/lib/system/libsystem_coreservices.dylib
+0x00007fff7fabc000 	/usr/lib/system/libsystem_darwin.dylib
+0x00007fff7fac3000 	/usr/lib/system/libsystem_dnssd.dylib
+0x00007fff7faca000 	/usr/lib/system/libsystem_info.dylib
+0x00007fff7fb3f000 	/usr/lib/system/libsystem_m.dylib
+0x00007fff7fb8b000 	/usr/lib/system/libsystem_malloc.dylib
+0x00007fff7fbb6000 	/usr/lib/system/libsystem_networkextension.dylib
+0x00007fff7fbc1000 	/usr/lib/system/libsystem_notify.dylib
+0x00007fff7fbde000 	/usr/lib/system/libsystem_sandbox.dylib
+0x00007fff7fbe2000 	/usr/lib/system/libsystem_secinit.dylib
+0x00007fff7fb16000 	/usr/lib/system/libsystem_kernel.dylib
+0x00007fff7fbc9000 	/usr/lib/system/libsystem_platform.dylib
+0x00007fff7fbd3000 	/usr/lib/system/libsystem_pthread.dylib
+0x00007fff7fbe5000 	/usr/lib/system/libsystem_symptoms.dylib
+0x00007fff7fbed000 	/usr/lib/system/libsystem_trace.dylib
+0x00007fff7fc04000 	/usr/lib/system/libunwind.dylib
+0x00007fff7fc0a000 	/usr/lib/system/libxpc.dylib
+0x00007fff7cbed000 	/usr/lib/libbsm.0.dylib
+0x00007fff7f9fa000 	/usr/lib/system/libkxld.dylib
+0x00007fff63bf9000 	/System/Library/PrivateFrameworks/AppleFSCompression.framework/Versions/A/AppleFSCompression
+0x00007fff7c889000 	/usr/lib/libOpenScriptingUtil.dylib
+0x00007fff7cf15000 	/usr/lib/libcoretls.dylib
+0x00007fff7cf2c000 	/usr/lib/libcoretls_cfhelpers.dylib
+0x00007fff7e997000 	/usr/lib/libpam.2.dylib
+0x00007fff7eb57000 	/usr/lib/libsqlite3.dylib
+0x00007fff7ef51000 	/usr/lib/libxar.1.dylib
+0x00007fff7cbfe000 	/usr/lib/libbz2.1.0.dylib
+0x00007fff7d96c000 	/usr/lib/liblzma.5.dylib
+0x00007fff7de1d000 	/usr/lib/libnetwork.dylib
+0x00007fff7ca59000 	/usr/lib/libapple_nghttp2.dylib
+0x00007fff7e99e000 	/usr/lib/libpcap.A.dylib
+0x00007fff5506d000 	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/FSEvents.framework/Versions/A/FSEvents
+0x00007fff54d4c000 	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/CarbonCore
+0x00007fff55229000 	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Metadata
+0x00007fff552c8000 	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/OSServices.framework/Versions/A/OSServices
+0x00007fff55313000 	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/SearchKit.framework/Versions/A/SearchKit
+0x00007fff54ccf000 	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/AE.framework/Versions/A/AE
+0x00007fff55076000 	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/LaunchServices
+0x00007fff55024000 	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/DictionaryServices.framework/Versions/A/DictionaryServices
+0x00007fff5537b000 	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/SharedFileList.framework/Versions/A/SharedFileList
+0x00007fff596e7000 	/System/Library/Frameworks/NetFS.framework/Versions/A/NetFS
+0x00007fff72863000 	/System/Library/PrivateFrameworks/NetAuth.framework/Versions/A/NetAuth
+0x00007fff7c1ef000 	/System/Library/PrivateFrameworks/login.framework/Versions/A/Frameworks/loginsupport.framework/Versions/A/loginsupport
+0x00007fff7a312000 	/System/Library/PrivateFrameworks/TCC.framework/Versions/A/TCC
+0x00007fff67810000 	/System/Library/PrivateFrameworks/CoreNLP.framework/Versions/A/CoreNLP
+0x00007fff722f6000 	/System/Library/PrivateFrameworks/MetadataUtilities.framework/Versions/A/MetadataUtilities
+0x00007fff7da41000 	/usr/lib/libmecabra.dylib
+0x00007fff51f27000 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/ATS
+0x00007fff52276000 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSyncLegacy.framework/Versions/A/ColorSyncLegacy
+0x00007fff52315000 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/HIServices
+0x00007fff52368000 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/LangAnalysis.framework/Versions/A/LangAnalysis
+0x00007fff52378000 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/PrintCore
+0x00007fff523c2000 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/QD.framework/Versions/A/QD
+0x00007fff523fc000 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/SpeechSynthesis.framework/Versions/A/SpeechSynthesis
+0x00007fff7cc88000 	/usr/lib/libcompression.dylib
+0x00007fff588ef000 	/System/Library/Frameworks/MetalPerformanceShaders.framework/Versions/A/MetalPerformanceShaders
+0x00007fff4ff03000 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vImage.framework/Versions/A/vImage
+0x00007fff50f7d000 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/vecLib
+0x00007fff50ec9000 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libvMisc.dylib
+0x00007fff50ce1000 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libvDSP.dylib
+0x00007fff5059d000 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
+0x00007fff5088a000 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libLAPACK.dylib
+0x00007fff50c34000 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libLinearAlgebra.dylib
+0x00007fff50ccd000 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libSparseBLAS.dylib
+0x00007fff50c4a000 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libQuadrature.dylib
+0x00007fff50817000 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBNNS.dylib
+0x00007fff50c50000 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libSparse.dylib
+0x00007fff6eb52000 	/System/Library/PrivateFrameworks/GPUWrangler.framework/Versions/A/GPUWrangler
+0x00007fff70e24000 	/System/Library/PrivateFrameworks/IOAccelerator.framework/Versions/A/IOAccelerator
+0x00007fff70e2f000 	/System/Library/PrivateFrameworks/IOPresentment.framework/Versions/A/IOPresentment
+0x00007fff685e6000 	/System/Library/PrivateFrameworks/DSExternalDisplay.framework/Versions/A/DSExternalDisplay
+0x00007fff5cb63000 	/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libCoreFSCache.dylib
+0x00007fff586e3000 	/System/Library/Frameworks/MetalPerformanceShaders.framework/Frameworks/MPSCore.framework/Versions/A/MPSCore
+0x00007fff58703000 	/System/Library/Frameworks/MetalPerformanceShaders.framework/Frameworks/MPSImage.framework/Versions/A/MPSImage
+0x00007fff587a8000 	/System/Library/Frameworks/MetalPerformanceShaders.framework/Frameworks/MPSNeuralNetwork.framework/Versions/A/MPSNeuralNetwork
+0x00007fff58780000 	/System/Library/Frameworks/MetalPerformanceShaders.framework/Frameworks/MPSMatrix.framework/Versions/A/MPSMatrix
+0x00007fff588d4000 	/System/Library/Frameworks/MetalPerformanceShaders.framework/Frameworks/MPSRayIntersector.framework/Versions/A/MPSRayIntersector
+0x00007fff7231f000 	/System/Library/PrivateFrameworks/MetalTools.framework/Versions/A/MetalTools
+0x00007fff634a6000 	/System/Library/PrivateFrameworks/AggregateDictionary.framework/Versions/A/AggregateDictionary
+0x00007fff7c86a000 	/usr/lib/libMobileGestalt.dylib
+0x00007fff5580a000 	/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo
+0x00007fff6f962000 	/System/Library/PrivateFrameworks/GraphVisualizer.framework/Versions/A/GraphVisualizer
+0x00007fff697e2000 	/System/Library/PrivateFrameworks/FaceCore.framework/Versions/A/FaceCore
+0x00007fff5c191000 	/System/Library/Frameworks/OpenCL.framework/Versions/A/OpenCL
+0x00007fff7c5c2000 	/usr/lib/libFosl_dynamic.dylib
+0x00007fff730ce000 	/System/Library/PrivateFrameworks/OTSVG.framework/Versions/A/OTSVG
+0x00007fff5202b000 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontParser.dylib
+0x00007fff52143000 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontRegistry.dylib
+0x00007fff56714000 	/System/Library/Frameworks/ImageIO.framework/Versions/A/Resources/libJPEG.dylib
+0x00007fff56a26000 	/System/Library/Frameworks/ImageIO.framework/Versions/A/Resources/libTIFF.dylib
+0x00007fff569fc000 	/System/Library/Frameworks/ImageIO.framework/Versions/A/Resources/libPng.dylib
+0x00007fff56632000 	/System/Library/Frameworks/ImageIO.framework/Versions/A/Resources/libGIF.dylib
+0x00007fff56637000 	/System/Library/Frameworks/ImageIO.framework/Versions/A/Resources/libJP2.dylib
+0x00007fff56a23000 	/System/Library/Frameworks/ImageIO.framework/Versions/A/Resources/libRadiance.dylib
+0x00007fff63d50000 	/System/Library/PrivateFrameworks/AppleJPEG.framework/Versions/A/AppleJPEG
+0x00007fff5cb6e000 	/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGFXShared.dylib
+0x00007fff5cd31000 	/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLU.dylib
+0x00007fff5cb77000 	/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib
+0x00007fff5cb83000 	/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLImage.dylib
+0x00007fff5cb60000 	/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libCVMSPluginSupport.dylib
+0x00007fff5cb69000 	/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libCoreVMClient.dylib
+0x00007fff7d3d9000 	/usr/lib/libcups.2.dylib
+0x00007fff57bea000 	/System/Library/Frameworks/Kerberos.framework/Versions/A/Kerberos
+0x00007fff56117000 	/System/Library/Frameworks/GSS.framework/Versions/A/GSS
+0x00007fff7eaec000 	/usr/lib/libresolv.9.dylib
+0x00007fff7d5cb000 	/usr/lib/libiconv.2.dylib
+0x00007fff6fac1000 	/System/Library/PrivateFrameworks/Heimdal.framework/Versions/A/Heimdal
+0x00007fff7d59b000 	/usr/lib/libheimdal-asn1.dylib
+0x00007fff5c205000 	/System/Library/Frameworks/OpenDirectory.framework/Versions/A/OpenDirectory
+0x00007fff66575000 	/System/Library/PrivateFrameworks/CommonAuth.framework/Versions/A/CommonAuth
+0x00007fff5c1e9000 	/System/Library/Frameworks/OpenDirectory.framework/Versions/A/Frameworks/CFOpenDirectory.framework/Versions/A/CFOpenDirectory
+0x00007fff5f2a9000 	/System/Library/Frameworks/SecurityFoundation.framework/Versions/A/SecurityFoundation
+0x00007fff629ef000 	/System/Library/PrivateFrameworks/APFS.framework/Versions/A/APFS
+0x00007fff7ef4d000 	/usr/lib/libutil.dylib
+0x00007fff7cc76000 	/usr/lib/libcharset.1.dylib
+0x00007fff63fed000 	/System/Library/PrivateFrameworks/AppleSauce.framework/Versions/A/AppleSauce
+0x00007fff6416e000 	/System/Library/PrivateFrameworks/AssertionServices.framework/Versions/A/AssertionServices
+0x00007fff6489e000 	/System/Library/PrivateFrameworks/BaseBoard.framework/Versions/A/BaseBoard
+0x00007fff7d99c000 	/usr/lib/libmecab.1.0.0.dylib
+0x00007fff7d595000 	/usr/lib/libgermantok.dylib
+0x00007fff7ca46000 	/usr/lib/libThaiTokenizer.dylib
+0x00007fff7c4f2000 	/usr/lib/libChineseTokenizer.dylib
+0x00007fff714dd000 	/System/Library/PrivateFrameworks/LanguageModeling.framework/Versions/A/LanguageModeling
+0x00007fff67256000 	/System/Library/PrivateFrameworks/CoreEmoji.framework/Versions/A/CoreEmoji
+0x00007fff715b9000 	/System/Library/PrivateFrameworks/Lexicon.framework/Versions/A/Lexicon
+0x00007fff715fc000 	/System/Library/PrivateFrameworks/LinguisticData.framework/Versions/A/LinguisticData
+0x00007fff7cc77000 	/usr/lib/libcmph.dylib
+0x00007fff5f367000 	/System/Library/Frameworks/ServiceManagement.framework/Versions/A/ServiceManagement
+0x00007fff647ff000 	/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/BackgroundTaskManagement
+0x00007fff7f046000 	/usr/lib/libxslt.1.dylib
+0x00007fff53096000 	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Ink.framework/Versions/A/Ink
+0x00007fff7a584000 	/System/Library/PrivateFrameworks/TextureIO.framework/Versions/A/TextureIO
+0x00007fff7ca9a000 	/usr/lib/libate.dylib
+0x00007fff68535000 	/System/Library/PrivateFrameworks/CrashReporterSupport.framework/Versions/A/CrashReporterSupport
+0x00007fff77cc3000 	/System/Library/PrivateFrameworks/Sharing.framework/Versions/A/Sharing
+0x00007fff64551000 	/System/Library/PrivateFrameworks/AuthKit.framework/Versions/A/AuthKit
+0x00007fff63aa5000 	/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Apple80211
+0x00007fff682df000 	/System/Library/PrivateFrameworks/CoreUtils.framework/Versions/A/CoreUtils
+0x00007fff5584a000 	/System/Library/Frameworks/CoreWLAN.framework/Versions/A/CoreWLAN
+0x00007fff56246000 	/System/Library/Frameworks/IOBluetooth.framework/Versions/A/IOBluetooth
+0x00007fff76143000 	/System/Library/PrivateFrameworks/ProtocolBuffer.framework/Versions/A/ProtocolBuffer
+0x00007fff72559000 	/System/Library/PrivateFrameworks/MobileKeyBag.framework/Versions/A/MobileKeyBag
+0x00007fff67b23000 	/System/Library/PrivateFrameworks/CorePhoneNumbers.framework/Versions/A/CorePhoneNumbers
+0x00007fff63d04000 	/System/Library/PrivateFrameworks/AppleIDAuthSupport.framework/Versions/A/AppleIDAuthSupport
+0x00007fff714b0000 	/System/Library/PrivateFrameworks/KeychainCircle.framework/Versions/A/KeychainCircle
+0x00007fff762f9000 	/System/Library/PrivateFrameworks/ROCKit.framework/Versions/A/ROCKit
+0x00007fff684d1000 	/System/Library/PrivateFrameworks/CoreWiFi.framework/Versions/A/CoreWiFi
+0x00007fff535e1000 	/System/Library/Frameworks/CoreBluetooth.framework/Versions/A/CoreBluetooth
+0x00007fff6872c000 	/System/Library/PrivateFrameworks/DebugSymbols.framework/Versions/A/DebugSymbols
+0x00007fff6809f000 	/System/Library/PrivateFrameworks/CoreSymbolication.framework/Versions/A/CoreSymbolication
+0x00007fff79d9f000 	/System/Library/PrivateFrameworks/Symbolication.framework/Versions/A/Symbolication
+0x00007fff79642000 	/System/Library/PrivateFrameworks/SpeechRecognitionCore.framework/Versions/A/SpeechRecognitionCore
+0x000000010bc00000 	/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/server/libjvm.dylib
+0x00007fff7ee28000 	/usr/lib/libstdc++.6.dylib
+0x000000010a3b6000 	/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/libverify.dylib
+0x000000010a3c4000 	/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/libjava.dylib
+0x000000010cbb4000 	/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/libinstrument.dylib
+0x000000010cc1f000 	/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/libzip.dylib
+0x000000010de4a000 	/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/libnet.dylib
+0x000000010def7000 	/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/libprism_es2.dylib
+0x00007fff67ca7000 	/System/Library/PrivateFrameworks/CoreServicesInternal.framework/Versions/A/CoreServicesInternal
+0x00007fff5d71c000 	/System/Library/Frameworks/OpenGL.framework/Versions/A/Resources/GLEngine.bundle/GLEngine
+0x00007fff5cbbe000 	/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLProgrammability.dylib
+0x00007fff4c2d9000 	/System/Library/Extensions/AppleIntelKBLGraphicsGLDriver.bundle/Contents/MacOS/AppleIntelKBLGraphicsGLDriver
+0x00007fff6eb46000 	/System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/Libraries/libGPUSupportMercury.dylib
+0x000000012fd17000 	/System/Library/Extensions/AMDRadeonX4000GLDriver.bundle/Contents/MacOS/AMDRadeonX4000GLDriver
+0x00007fff486f6000 	/System/Library/Extensions/AMDRadeonX4000GLDriver.bundle/Contents/MacOS/ATIRadeonX4000SCLib.dylib
+0x00007fff5d8b4000 	/System/Library/Frameworks/OpenGL.framework/Versions/A/Resources/GLRendererFloat.bundle/GLRendererFloat
+0x00007fff5c188000 	/System/Library/Frameworks/OpenCL.framework/Versions/A/Libraries/libcldcpuengine.dylib
+0x00007fff7d0cb000 	/usr/lib/libcrypto.35.dylib
+0x00007fff7a702000 	/System/Library/PrivateFrameworks/TrustEvaluationAgent.framework/Versions/A/TrustEvaluationAgent
+0x000000012fecd000 	/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/libglass.dylib
+0x00007fff4828e000 	/System/Library/CoreServices/RawCamera.bundle/Contents/MacOS/RawCamera
+0x00007fff723c2000 	/System/Library/PrivateFrameworks/MobileAsset.framework/Versions/A/MobileAsset
+0x00007fff79ced000 	/System/Library/PrivateFrameworks/StreamingZip.framework/Versions/A/StreamingZip
+0x00007fff57f77000 	/System/Library/Frameworks/MediaToolbox.framework/Versions/A/MediaToolbox
+0x00007fff66dfb000 	/System/Library/PrivateFrameworks/CoreAVCHD.framework/Versions/A/CoreAVCHD
+0x00007fff57ebd000 	/System/Library/Frameworks/MediaAccessibility.framework/Versions/A/MediaAccessibility
+0x00007fff71e1f000 	/System/Library/PrivateFrameworks/Mangrove.framework/Versions/A/Mangrove
+0x00007fff54b6d000 	/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia
+0x00007fff5f9cf000 	/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox
+0x00007fff66a17000 	/System/Library/PrivateFrameworks/CoreAUC.framework/Versions/A/CoreAUC
+0x00007fff7eb55000 	/usr/lib/libspindump.dylib
+0x00007fff640d3000 	/System/Library/PrivateFrameworks/AppleVA.framework/Versions/A/AppleVA
+0x00007fff4feec000 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vImage.framework/Versions/A/Libraries/libCGInterfaces.dylib
+0x00007fff69c07000 	/System/Library/PrivateFrameworks/FamilyControls.framework/Versions/A/FamilyControls
+0x00007fff66568000 	/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Frameworks/CommerceCore.framework/Versions/A/CommerceCore
+0x00007fff7a072000 	/System/Library/PrivateFrameworks/SystemAdministration.framework/Versions/A/SystemAdministration
+0x00007fff639a6000 	/System/Library/PrivateFrameworks/AppContainer.framework/Versions/A/AppContainer
+0x00007fff639c2000 	/System/Library/PrivateFrameworks/AppSandbox.framework/Versions/A/AppSandbox
+0x00007fff77b64000 	/System/Library/PrivateFrameworks/SecCodeWrapper.framework/Versions/A/SecCodeWrapper
+0x00007fff7eb06000 	/usr/lib/libsandbox.1.dylib
+0x00007fff7c839000 	/usr/lib/libMatch.1.dylib
+0x00007fff68ab1000 	/System/Library/PrivateFrameworks/DiskManagement.framework/Versions/A/DiskManagement
+0x00007fff55a50000 	/System/Library/Frameworks/DirectoryService.framework/Versions/A/DirectoryService
+0x00007fff689e2000 	/System/Library/PrivateFrameworks/DiskImages.framework/Versions/A/DiskImages
+0x00007fff716f5000 	/System/Library/PrivateFrameworks/LoginUIKit.framework/Versions/A/Frameworks/LoginUICore.framework/Versions/A/LoginUICore
+0x00007fff7c4fd000 	/usr/lib/libCoreStorage.dylib
+0x00007fff7d3c6000 	/usr/lib/libcsfde.dylib
+0x00007fff7e986000 	/usr/lib/libodfde.dylib
+0x00007fff71f37000 	/System/Library/PrivateFrameworks/MediaKit.framework/Versions/A/MediaKit
+0x00007fff55a5c000 	/System/Library/Frameworks/DiscRecording.framework/Versions/A/DiscRecording
+0x00007fff68c23000 	/System/Library/PrivateFrameworks/EFILogin.framework/Versions/A/EFILogin
+0x00007fff760ee000 	/System/Library/PrivateFrameworks/ProtectedCloudStorage.framework/Versions/A/ProtectedCloudStorage
+0x00007fff7d458000 	/usr/lib/libcurl.4.dylib
+0x00007fff7d2c5000 	/usr/lib/libcrypto.42.dylib
+0x00007fff7edf8000 	/usr/lib/libssl.44.dylib
+0x00007fff57c04000 	/System/Library/Frameworks/LDAP.framework/Versions/A/LDAP
+0x00007fff7eb42000 	/usr/lib/libsasl2.2.dylib
+0x00007fff67053000 	/System/Library/PrivateFrameworks/CoreDaemon.framework/Versions/B/CoreDaemon
+0x00007fff63fe8000 	/System/Library/PrivateFrameworks/AppleSRP.framework/Versions/A/AppleSRP
+0x00007fff7b53b000 	/System/Library/PrivateFrameworks/ViewBridge.framework/Versions/A/ViewBridge
+0x00000001328e9000 	/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/libjavafx_font.dylib
+0x00007fff521df000 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libTrueTypeScaler.dylib
+0x00000001328f5000 	/usr/lib/libobjc-trampolines.dylib
+0x00007fff485ea000 	/System/Library/Extensions/AMDMTLBronzeDriver.bundle/Contents/MacOS/AMDMTLBronzeDriver
+0x00007fff70e1a000 	/System/Library/PrivateFrameworks/IOAccelMemoryInfo.framework/Versions/A/IOAccelMemoryInfo
+0x00007fff4d0ae000 	/System/Library/Extensions/AppleIntelKBLGraphicsMTLDriver.bundle/Contents/MacOS/AppleIntelKBLGraphicsMTLDriver
+0x00007fff6d4b1000 	/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/3902/Libraries/libmetal_timestamp.dylib
+0x00000001329af000 	/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/libprism_common.dylib
+
+VM Arguments:
+jvm_args: -javaagent:/Applications/IntelliJ IDEA CE.app/Contents/lib/idea_rt.jar=49823:/Applications/IntelliJ IDEA CE.app/Contents/bin -Dfile.encoding=UTF-8 
+java_command: it.polimi.sw2019.view.gui.GUI
+java_class_path (initial): /Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/deploy.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/cldrdata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/jaccess.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/nashorn.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/javaws.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/jfxswt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/management-agent.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/plugin.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/lib/ant-javafx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Wireshark.app/Contents/MacOS
+SHELL=/bin/bash
+
+Signal Handlers:
+SIGSEGV: [libjvm.dylib+0x5b5de9], sa_mask[0]=11111111011111110111111111111111, sa_flags=SA_ONSTACK|SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.dylib+0x5b5de9], sa_mask[0]=11111111011111110111111111111111, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.dylib+0x48b6b0], sa_mask[0]=11111111011111110111111111111111, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: [libjvm.dylib+0x48b6b0], sa_mask[0]=11111111011111110111111111111111, sa_flags=SA_RESTART|SA_SIGINFO
+SIGXFSZ: [libjvm.dylib+0x48b6b0], sa_mask[0]=11111111011111110111111111111111, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.dylib+0x48b6b0], sa_mask[0]=11111111011111110111111111111111, sa_flags=SA_RESTART|SA_SIGINFO
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGUSR2: [libjvm.dylib+0x48b1ce], sa_mask[0]=00100000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: [libjvm.dylib+0x489759], sa_mask[0]=11111111011111110111111111111111, sa_flags=SA_RESTART|SA_SIGINFO
+SIGINT: [libjvm.dylib+0x489759], sa_mask[0]=11111111011111110111111111111111, sa_flags=SA_RESTART|SA_SIGINFO
+SIGTERM: [libjvm.dylib+0x489759], sa_mask[0]=11111111011111110111111111111111, sa_flags=SA_RESTART|SA_SIGINFO
+SIGQUIT: [libjvm.dylib+0x489759], sa_mask[0]=11111111011111110111111111111111, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+---------------  S Y S T E M  ---------------
+
+OS:Bsduname:Darwin 18.6.0 Darwin Kernel Version 18.6.0: Thu Apr 25 23:16:27 PDT 2019; root:xnu-4903.261.4~2/RELEASE_X86_64 x86_64
+rlimit: STACK 8192k, CORE 0k, NPROC 2837, NOFILE 10240, AS infinity
+load average:2.50 2.47 2.17
+
+CPU:total 12 (initial active 12) (6 cores per cpu, 2 threads per core) family 6 model 158 stepping 10, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2, adx
+
+Memory: 4k page, physical 33554432k(778924k free)
+
+/proc/meminfo:
+
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.191-b12) for bsd-amd64 JRE (1.8.0_191-b12), built on Oct  6 2018 08:37:07 by "java_re" with gcc 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2336.11.00)
+
+time: Sun May 26 15:39:20 2019
+elapsed time: 5 seconds (0d 0h 0m 5s)
+

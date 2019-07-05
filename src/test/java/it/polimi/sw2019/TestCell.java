@@ -174,10 +174,6 @@ public class TestCell {
         assertEquals(resultCells, cell.nearCells());
     }
 
-    /**
-     * verifies if I get the correct cells reachable from a selected cell.
-     * With the number of moves >0 we also get the near cells of the near cell (and so on)
-     */
     @Test
     public void reachableCellsTest() {
 
