@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.sw2019.model.Colors.YELLOW;
+import it.polimi.sw2019.commons.Colors;
 import static org.junit.Assert.*;
 
 public class TestWeapon {
@@ -197,7 +197,7 @@ public class TestWeapon {
         list1.add(cell1);
         list1.add(cell2);
         list1.add(cell3);
-        Room yellowRoom = new Room(YELLOW, cell3, list1);
+        Room yellowRoom = new Room(Colors.YELLOW, cell3, list1);
         List<Player> players1 = new ArrayList<>();
         players1.add(player1);
         players1.add(player2);
@@ -378,7 +378,7 @@ public class TestWeapon {
         list1.add(cell1);
         list1.add(cell2);
         list1.add(cell3);
-        Room yellowRoom = new Room(YELLOW, cell3, list1);
+        Room yellowRoom = new Room(Colors.YELLOW, cell3, list1);
         List<Player> players1 = new ArrayList<>();
         players1.add(player1);
         players1.add(player2);
@@ -642,7 +642,7 @@ public class TestWeapon {
         list1.add(cell1);
         list1.add(cell2);
         list1.add(cell3);
-        Room yellowRoom = new Room(YELLOW, cell3, list1);
+        Room yellowRoom = new Room(Colors.YELLOW, cell3, list1);
         List<Player> players1 = new ArrayList<>();
         players1.add(player1);
         players1.add(player2);
@@ -831,7 +831,7 @@ public class TestWeapon {
         list1.add(cell1);
         list1.add(cell2);
         list1.add(cell3);
-        Room yellowRoom = new Room(YELLOW, cell3, list1);
+        Room yellowRoom = new Room(Colors.YELLOW, cell3, list1);
         List<Player> players1 = new ArrayList<>();
         players1.add(player1);
         players1.add(player2);

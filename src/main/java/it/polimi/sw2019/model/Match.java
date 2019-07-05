@@ -92,10 +92,6 @@ public class Match extends Observable {
 
     /* Methods */
 
-    public boolean isEasyMode() {
-        return easyMode;
-    }
-
     public void setLastPlayer(Player lastPlayer) {
         this.lastPlayer = lastPlayer;
     }

@@ -11,6 +11,9 @@ import static org.junit.Assert.assertEquals;
 
 public class TestAmmoTileFactory {
 
+    /**
+     * verifies if the ammoTile factory creates the correct ammoTile with the correct parameters
+     */
     @Test
     public void createAmmoTilesTest() {
 
@@ -26,6 +29,9 @@ public class TestAmmoTileFactory {
         assertEquals(resultAmmoTiles, ammoTileFactory.createAmmoTiles());
     }
 
+    /**
+     * verifies if I set the correct quantity
+     */
     @Test
     public void setQuantityTest() {
 
@@ -35,6 +41,9 @@ public class TestAmmoTileFactory {
         assertEquals(3, ammoTileFactory.getQuantity());
     }
 
+    /**
+     * verifies if I set the correct ammoTile
+     */
     @Test
     public void setAmmoTileTest() {
 

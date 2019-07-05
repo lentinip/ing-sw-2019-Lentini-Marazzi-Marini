@@ -11,6 +11,9 @@ import static org.junit.Assert.assertEquals;
 
 public class TestDamageTokens {
 
+    /**
+     * verifies if I add the correct amount of damages in DamageTokens
+     */
     @Test
     public void addDamageTest() {
 
@@ -47,6 +50,9 @@ public class TestDamageTokens {
         assertEquals(i, damageTokens.getTotalDamage());
     }
 
+    /**
+     * verifies if the damageTokens have been set to the initial values correctly
+     */
     @Test
     public void resetTest() {
 
@@ -69,6 +75,9 @@ public class TestDamageTokens {
 
     }
 
+    /**
+     * verifies if I get the correct ranking list of players who did the damages
+     */
     @Test
     public void getRankingTest() {
 

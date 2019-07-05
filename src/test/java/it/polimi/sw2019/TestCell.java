@@ -56,6 +56,10 @@ public class TestCell {
 
     }
 
+    /**
+     * verifies if I get the correct player in the cell selected.
+     * The methods gets the list of all players in the match and select the ones that are in the selected cell
+     */
     @Test
     public void playersInCellTest() {
 
@@ -104,6 +108,9 @@ public class TestCell {
         assertTrue(cell2.playersInCell().isEmpty());
     }
 
+    /**
+     * verifies if the cell structure built with the method setCellStructure is correct
+     */
     @Test
     public void setCellStructureTest() {
 
@@ -118,6 +125,9 @@ public class TestCell {
         assertEquals(room, cell.getRoom());
     }
 
+    /**
+     * verifies if the method has set the correct cells as neighbors of the selected cell
+     */
     @Test
     public void setCellNeighborsTest() {
 
@@ -135,6 +145,9 @@ public class TestCell {
         assertEquals(cell4, cell.getRight());
     }
 
+    /**
+     * verifies if the near cells match with the neighbors cells
+     */
     @Test
     public void nearCellsTest() {
 
@@ -161,6 +174,10 @@ public class TestCell {
         assertEquals(resultCells, cell.nearCells());
     }
 
+    /**
+     * verifies if I get the correct cells reachable from a selected cell.
+     * With the number of moves >0 we also get the near cells of the near cell (and so on)
+     */
     @Test
     public void reachableCellsTest() {
 
@@ -248,6 +265,9 @@ public class TestCell {
         assertEquals(resultCells, cell.reachableCells(2));
     }
 
+    /**
+     * verifies if I get the correct coordinates of the selected cell
+     */
     @Test
     public void getCoordTest() {
 
