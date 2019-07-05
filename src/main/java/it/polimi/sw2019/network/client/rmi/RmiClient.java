@@ -30,6 +30,23 @@ public class RmiClient implements ClientActions {
         ClientImplementation clientImplementation = new ClientImplementation(client);
         clientInterface = (ClientInterface) UnicastRemoteObject.exportObject(clientImplementation, 0); //Port 0 because I use a random available port
         this.client = client;
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+                try {
+                    Registry registry1 = LocateRegistry.getRegistry(client.getIpAddress(), 1099);
+                    ServerInterface serverInterface1 =(ServerInterface) registry.lookup("Server");
+
+                } catch (Exception e) {
+                    LOGGER.log(Level.WARNING, "connection failure");
+                    System.exit(0);
+                    timer.cancel();
+                }
+            }
+        }, 0, 5000);
     }
 
     /* Attributes */
@@ -68,7 +85,7 @@ public class RmiClient implements ClientActions {
             } catch (RemoteException e) {
 
                 LOGGER.log(Level.WARNING, "connection failure");
-                client.getView().displayConnectionFailure();
+                System.exit(0);
             }
         }
         else {
@@ -77,7 +94,7 @@ public class RmiClient implements ClientActions {
             } catch (RemoteException e) {
 
                 LOGGER.log(Level.WARNING, "connection failure");
-                client.getView().displayConnectionFailure();
+                System.exit(0);
             }
         }
     }

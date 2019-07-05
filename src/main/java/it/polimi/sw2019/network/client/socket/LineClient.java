@@ -1,6 +1,5 @@
 package it.polimi.sw2019.network.client.socket;
 
-
 import it.polimi.sw2019.network.client.ClientInterface;
 import it.polimi.sw2019.commons.messages.Message;
 import it.polimi.sw2019.network.client.Client;
@@ -79,10 +78,16 @@ public class LineClient extends Thread implements ServerInterface {
                     } catch (Exception e) {
                         System.out.println("\n I'm not connected");
                         clientClass.getView().displayConnectionFailure();
+                        try{
+                            socketClient.close();
+                        }
+                        catch (IOException e1) {
+                            //DO nothing
+                        }
                         timer.cancel();
                     }
                 }
-            }, 0, 5000);
+            }, 0, 8000);
 
         } catch (IOException e) {
             connected = false;
@@ -124,6 +129,7 @@ public class LineClient extends Thread implements ServerInterface {
 
                 go = false;
                 LOGGER.log(Level.WARNING, "failure: error occurred during connection to server");
+                clientClass.getView().displayConnectionFailure();
             }
         }
     }
