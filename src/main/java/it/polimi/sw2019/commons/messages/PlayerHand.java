@@ -1,4 +1,4 @@
-package it.polimi.sw2019.network.messages;
+package it.polimi.sw2019.commons.messages;
 
 import java.util.ArrayList;
 import java.util.List;

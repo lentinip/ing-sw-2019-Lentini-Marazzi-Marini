@@ -1,9 +1,9 @@
 package it.polimi.sw2019.view.gui;
 
-import it.polimi.sw2019.model.Character;
-import it.polimi.sw2019.model.TypeOfAction;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.TypeOfAction;
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.messages.*;
+import it.polimi.sw2019.commons.messages.*;
 import it.polimi.sw2019.view.ViewInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -31,6 +31,11 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Main GUI class for the Graphic User Interface
+ *
+ * @author lentinip
+ */
 public class GUI extends Application implements ViewInterface {
 
     /* Attributes */
@@ -634,7 +639,7 @@ public class GUI extends Application implements ViewInterface {
 
     /**
      * Loads the screen for the match settings
-     * @param numberOfPlayers
+     * @param numberOfPlayers number of players in the match
      */
     public void askMatchSetting(Integer numberOfPlayers){
         Platform.runLater(() -> {
@@ -961,6 +966,9 @@ public class GUI extends Application implements ViewInterface {
         boardController.setActionReportsStage(stage);
     }
 
+    /**
+     * Starts a mediaPlayer with the adrenalinaMusic
+     */
     public void startMusic(){
         Platform.runLater(() -> {
 

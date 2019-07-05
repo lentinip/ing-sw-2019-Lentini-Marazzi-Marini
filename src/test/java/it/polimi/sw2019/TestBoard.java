@@ -1,8 +1,9 @@
 package it.polimi.sw2019;
 
+import it.polimi.sw2019.commons.Colors;
 import it.polimi.sw2019.model.*;
-import it.polimi.sw2019.model.Character;
-import it.polimi.sw2019.network.messages.BoardCoord;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.messages.BoardCoord;
 import org.junit.Test;
 
 import java.util.ArrayList;

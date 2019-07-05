@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="420.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.SelecAmmoColorController">
+<AnchorPane prefHeight="420.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.sw2019.view.gui.SelectAmmoColorController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="533.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
       <ImageView fitHeight="533.0" fitWidth="800.0" opacity="0.5">

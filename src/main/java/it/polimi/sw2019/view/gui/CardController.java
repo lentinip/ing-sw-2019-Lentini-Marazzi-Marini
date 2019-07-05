@@ -2,7 +2,7 @@ package it.polimi.sw2019.view.gui;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import it.polimi.sw2019.model.Colors;
+import it.polimi.sw2019.commons.Colors;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -12,6 +12,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class that manages the cards JSONs and Images for the client
+ *
+ * @author lentinip
+ */
 public class CardController {
 
     public CardController(){
@@ -43,6 +48,11 @@ public class CardController {
 
     /* Methods */
 
+    /**
+     * Method for getting a weapon Image
+     * @param name weapon's name (as in the WeaponsAssetsDictionary.json)
+     * @return the Image of the weapon with the specified name
+     */
     public Image getWeaponImage(String name){
         String path = weapons.get(name);
         try{
@@ -54,6 +64,12 @@ public class CardController {
         }
     }
 
+    /**
+     * Method for getting a powerup Image
+     * @param name powerup's name (as in the PowerupsAssetsDictionary.json)
+     * @param color color of the wanted powerup
+     * @return the Image of the powerup with the specified name and color
+     */
     public Image getPowerupImage(String name, Colors color){
         if (name.equals("powerupsBack.png")){
             return new Image(powerups.get(name));
@@ -63,6 +79,12 @@ public class CardController {
         return new Image(path);
     }
 
+    /**
+     * Method for getting the type of a weapon (needed for the SelectEffectController).
+     * The type of a weapon defines how the player can select the effects.
+     * @param name weapon's name as in the WeaponsTypesDictionary.json
+     * @return Integer of the weapon's type
+     */
     public Integer getWeaponType(String name){
         try {
             return new Integer(weaponsTypes.get(name).intValue());
@@ -75,6 +97,11 @@ public class CardController {
 
     }
 
+    /**
+     * Applies an effect to an imageView depending on the boolean unloaded
+     * @param card imageView to which is going to be applied the effect
+     * @param unloaded if true the opacity of the imageView is going to be 0.4, if false is going to be 1.0.
+     */
     public static void setUnavailable(ImageView card, boolean unloaded) {
         if (unloaded) {
             card.setOpacity(0.4);

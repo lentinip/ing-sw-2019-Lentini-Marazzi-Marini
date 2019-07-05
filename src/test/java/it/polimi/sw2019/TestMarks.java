@@ -1,6 +1,6 @@
 package it.polimi.sw2019;
 
-import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.commons.Character;
 import it.polimi.sw2019.model.Marks;
 import org.junit.Test;
 

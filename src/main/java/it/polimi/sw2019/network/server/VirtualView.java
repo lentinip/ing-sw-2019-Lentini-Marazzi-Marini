@@ -3,12 +3,12 @@ package it.polimi.sw2019.network.server;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import it.polimi.sw2019.controller.Controller;
-import it.polimi.sw2019.model.TypeOfAction;
-import it.polimi.sw2019.network.messages.Message;
-import it.polimi.sw2019.network.messages.TypeOfMessage;
+import it.polimi.sw2019.commons.TypeOfAction;
+import it.polimi.sw2019.commons.messages.Message;
+import it.polimi.sw2019.commons.messages.TypeOfMessage;
 
 
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,8 +18,14 @@ import java.util.logging.Logger;
  */
 public class VirtualView extends Observable implements Observer {
 
+
     /**
-     * Default constructor
+     * Default constructor (for testing)
+     */
+    public VirtualView(){}
+
+    /**
+     * Customize constructor
      * @param server reference to the server
      */
     public VirtualView(Server server){
@@ -27,13 +33,35 @@ public class VirtualView extends Observable implements Observer {
 
         TimeConfigurations timeConfigurations = new TimeConfigurations();
         Gson json = new Gson();
+
+        //Tries to read the timerConfigurations from a file configurations.json outside the jar
         try {
-            JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("/configurations.json")));
+
+            String configurationsPath = "";
+            try {
+                File file = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                File file1 = new File(file.getParentFile().toURI());
+                configurationsPath = file1.toPath().toString();
+            }
+            catch (Exception e){
+                //do nothing
+            }
+
+            JsonReader jsonReader = new JsonReader(new InputStreamReader(new FileInputStream(configurationsPath + "/configurations.json")));
             timeConfigurations = json.fromJson(jsonReader, TimeConfigurations.class);
+
+        } catch (IOException e) {
+            LOGGER.log(Level.INFO, "file outside jar not found, is going to be used the default one");
+
+            try {
+                JsonReader jsonReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("/configurations.json")));
+                timeConfigurations = json.fromJson(jsonReader, TimeConfigurations.class);
+            }
+            catch (Exception e1){
+                LOGGER.log(Level.SEVERE, "file not found");
+            }
         }
-        catch (Exception e){
-            LOGGER.log(Level.SEVERE, "file not found");
-        }
+
         //reading the timer from the file and converting it in milliseconds
         setTurnTimer(timeConfigurations.getTurnTimer()*1000);
         setMatchCreationTimer(timeConfigurations.getMatchCreationTime()*1000);
@@ -41,6 +69,7 @@ public class VirtualView extends Observable implements Observer {
         setMatchSetupTimer(timeConfigurations.getMatchSetupTimer()*1000);
         addObserver(new Controller(this));
 
+        System.out.print("\nTurn timer: " + turnTimer +"\n");
     }
 
     /* Attributes */
@@ -510,9 +539,11 @@ public class VirtualView extends Observable implements Observer {
     public void saveLastMessage(Message message){
 
         TypeOfMessage type = message.getTypeOfMessage();
-        if (type != TypeOfMessage.PRIVATE_HAND && type != TypeOfMessage.LOGIN_REPORT && type != TypeOfMessage.DISCONNECTED && type != TypeOfMessage.RECONNECTION_REQUEST && type != TypeOfMessage.RECONNECTION && type != TypeOfMessage.PLAYER_ALREADY_LOGGED && (type == TypeOfMessage.AVAILABLE_CARDS && message.getTypeOfAction() == TypeOfAction.GRAB) ){
+        if (type != TypeOfMessage.PRIVATE_HAND && type != TypeOfMessage.LOGIN_REPORT && type != TypeOfMessage.DISCONNECTED && type != TypeOfMessage.RECONNECTION_REQUEST && type != TypeOfMessage.RECONNECTION && type != TypeOfMessage.PLAYER_ALREADY_LOGGED && !(type == TypeOfMessage.AVAILABLE_CARDS && message.getTypeOfAction() == TypeOfAction.GRAB) ){
 
             lastMessage = message;
+            System.out.print("\nlast message username " + lastMessage.getUsername() + "\n");
+            System.out.print("\nlast message type " + lastMessage.getTypeOfMessage() + "\n");
         }
     }
 

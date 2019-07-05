@@ -1,6 +1,7 @@
 package it.polimi.sw2019.model;
 
-import java.lang.reflect.Array;
+import it.polimi.sw2019.commons.Character;
+
 import java.util.*;
 
 /**

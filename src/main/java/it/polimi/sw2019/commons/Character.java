@@ -1,4 +1,4 @@
-package it.polimi.sw2019.model;
+package it.polimi.sw2019.commons;
 
 /**
  * @author lentinip, poligenius, Mi97ch

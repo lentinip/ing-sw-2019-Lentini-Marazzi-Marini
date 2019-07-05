@@ -1,9 +1,9 @@
 package it.polimi.sw2019.view.gui;
 
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.messages.AvailableEffects;
-import it.polimi.sw2019.network.messages.IndexMessage;
-import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.commons.messages.AvailableEffects;
+import it.polimi.sw2019.commons.messages.IndexMessage;
+import it.polimi.sw2019.commons.messages.Message;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -14,12 +14,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import javax.smartcardio.Card;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Controller for the SelectEffectCardScreen
+ *
+ * @author lentinip
+ */
 public class SelectEffectController {
 
     /* Attributes */
@@ -91,6 +95,9 @@ public class SelectEffectController {
 
     /* Methods */
 
+    /**
+     * Initializes the controls
+     */
     public void initialize(){
 
         initializeGroup0();
@@ -117,6 +124,9 @@ public class SelectEffectController {
         });
     }
 
+    /**
+     * Initialize the controls for the weapons with type 1
+     */
     public void initializeGroup0(){
         radioButton0.setUserData(0);
         radioButton1.setUserData(1);
@@ -125,6 +135,9 @@ public class SelectEffectController {
         radioButtonsGroup0.add(radioButton1);
     }
 
+    /**
+     * Initialize the controls for the weapons with type 2
+     */
     public void initializeGroup1(){
         radioButton2.setUserData(0);
         radioButton3.setUserData(1);
@@ -135,18 +148,34 @@ public class SelectEffectController {
         radioButtonsGroup1.add(radioButton4);
     }
 
+    /**
+     * Initialize the controls for the weapons with type 3
+     */
     public void initializeGroup2(){
         checkBoxes.add(checkBox0);
         checkBoxes.add(checkBox1);
         checkBoxes.add(checkBox2);
     }
 
+    /**
+     * Shows the controls specified in the parameter
+     * @param controlsList list of the controls to show
+     */
     public void showControls(List<Control> controlsList){
         for (Control control : controlsList){
             control.setVisible(true);
         }
     }
 
+    /**
+     * Method that needs to be called after the controller is instantiated.
+     *
+     * Manages everything to show.
+     *
+     * @param client reference to the Client instance
+     * @param availableEffects availableEffect message
+     * @param noOption false if the player must choose
+     */
     public void configure(Client client, AvailableEffects availableEffects, boolean noOption){
 
         this.client = client;
@@ -189,6 +218,10 @@ public class SelectEffectController {
         ableControls(availableEffects.getIndexes());
     }
 
+    /**
+     * Ables the controls using the indexes in the indexMessages
+     * @param indexMessages list of indexMessages
+     */
     public void ableControls(List<IndexMessage> indexMessages){
         for (IndexMessage indexMessage : indexMessages){
             if (indexMessage.getSelectionIndex() == 3){
@@ -200,6 +233,10 @@ public class SelectEffectController {
         }
     }
 
+    /**
+     * Handles the selection of the checkboxes
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleCheckBoxSelection(ActionEvent actionEvent){
         if (checkBox0.isSelected() && !checkBox1.isSelected() && !checkBox2.isSelected()){
@@ -233,6 +270,12 @@ public class SelectEffectController {
         }
     }
 
+    /**
+     * Handles the send button
+     *
+     * Creates also alerts if the player didn't make a possible choice
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleSendButton(ActionEvent actionEvent){
         if (choice < 0){
@@ -254,18 +297,32 @@ public class SelectEffectController {
 
     }
 
+    /**
+     * Handles the close button.
+     *
+     * Sends the index -1.
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleCloseButton(ActionEvent actionEvent){
         sendIndex(-1);
         closeWindow();
     }
 
+    /**
+     * Sends an index.
+     *
+     * @param index index to be sent
+     */
     public void sendIndex(int index){
         Message message = new Message(client.getUsername());
         message.createSelectedEffect(index);
         client.send(message);
     }
 
+    /**
+     * Closes the window with the SelectEffectStage.
+     */
     public void closeWindow(){
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
@@ -275,6 +332,11 @@ public class SelectEffectController {
         this.weaponsManualStage = weaponsManualStage;
     }
 
+    /**
+     * Handler for the WeaponsManual button.
+     * If clicked shows the weaponsManualStage.
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleWeaponsManualButton(ActionEvent actionEvent){
         if (weaponsManualStage.isShowing()){
@@ -284,6 +346,4 @@ public class SelectEffectController {
             weaponsManualStage.show();
         }
     }
-
-
 }

@@ -1,7 +1,9 @@
 package it.polimi.sw2019.controller;
 
+import it.polimi.sw2019.commons.Colors;
+import it.polimi.sw2019.commons.TypeOfAction;
 import it.polimi.sw2019.model.*;
-import it.polimi.sw2019.network.messages.*;
+import it.polimi.sw2019.commons.messages.*;
 import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;

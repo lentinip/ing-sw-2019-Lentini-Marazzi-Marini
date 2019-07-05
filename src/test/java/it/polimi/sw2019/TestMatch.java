@@ -1,7 +1,8 @@
 package it.polimi.sw2019;
 
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.Colors;
 import it.polimi.sw2019.model.*;
-import it.polimi.sw2019.model.Character;
 import it.polimi.sw2019.network.server.Server;
 import it.polimi.sw2019.network.server.VirtualView;
 import org.junit.Test;
@@ -9,8 +10,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.sw2019.model.Colors.YELLOW;
-import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.*;
 
 public class TestMatch {
@@ -134,10 +133,6 @@ public class TestMatch {
         assertEquals(player3, match.getCurrentPlayer());
         match.setNextPlayer();
         assertEquals(player, match.getCurrentPlayer());
-
-        match.setEnded(true);
-        match.setNextPlayer();
-        assertEquals(null, match.getCurrentPlayer());
     }
 
     @Test
@@ -222,7 +217,7 @@ public class TestMatch {
         list1.add(cell1);
         list1.add(cell2);
         list1.add(cell3);
-        Room yellowRoom = new Room(YELLOW, cell3, list1);
+        Room yellowRoom = new Room(Colors.YELLOW, cell3, list1);
         List<Player> players1 = new ArrayList<>();
         yellowRoom.setPlayers(players1);
         cell.setRoom(yellowRoom);

@@ -1,5 +1,7 @@
 package it.polimi.sw2019.model;
 
+import it.polimi.sw2019.commons.Character;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -125,10 +127,10 @@ public class KillTokens extends Tokens{
             if (o1.getValue().equals(o2.getValue())){
                 //If o1 killed someone in the killSequence before o2 he is going to be the greater
                 if (killSequence.indexOf(o1.getKey()) > killSequence.indexOf(o2.getKey())){
-                    return 1;
+                    return -1;
                 }
                 if (killSequence.indexOf(o1.getKey()) < killSequence.indexOf(o2.getKey())){
-                    return -1;
+                    return 1;
                 }
             }
             return o1.getValue().compareTo(o2.getValue());

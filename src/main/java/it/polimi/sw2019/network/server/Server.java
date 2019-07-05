@@ -1,17 +1,19 @@
 package it.polimi.sw2019.network.server;
 
-import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.commons.Character;
 import it.polimi.sw2019.network.client.ClientInterface;
-import it.polimi.sw2019.network.messages.*;
+import it.polimi.sw2019.commons.messages.*;
 import it.polimi.sw2019.network.server.rmi.RmiServer;
 import it.polimi.sw2019.network.server.socket.SocketServer;
+import it.polimi.sw2019.network.server.socket.SocketServerProbeHandler;
 
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -437,6 +439,8 @@ public class Server {
         }
     }
 
+    SocketServerProbeHandler socketServerProbeHandler = new SocketServerProbeHandler(this);
+
     /**
      * method to start rmi and socket server
      * @param socketPort socket port
@@ -448,6 +452,9 @@ public class Server {
         socketServer.startServer(socketPort);
         socketServer.start();
         rmiServer.startServer(rmiPort);
+
+        socketServerProbeHandler.startServer(7777);
+        socketServerProbeHandler.start();
     }
 
     /**

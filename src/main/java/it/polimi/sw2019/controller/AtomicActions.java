@@ -1,7 +1,7 @@
 package it.polimi.sw2019.controller;
 
 import it.polimi.sw2019.model.*;
-import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.commons.messages.Message;
 import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.List;

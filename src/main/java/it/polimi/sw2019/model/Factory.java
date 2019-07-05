@@ -4,6 +4,8 @@ package it.polimi.sw2019.model;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.Colors;
 
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;

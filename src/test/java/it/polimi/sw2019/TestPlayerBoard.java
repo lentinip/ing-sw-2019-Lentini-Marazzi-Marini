@@ -1,13 +1,12 @@
 package it.polimi.sw2019;
 
 import it.polimi.sw2019.model.*;
-import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.commons.Character;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.TestCase.*;
 
 public class TestPlayerBoard {
@@ -21,6 +20,7 @@ public class TestPlayerBoard {
 
         Ammo ammo = new Ammo(0, 0, 0);
         playerBoard.setAmmo(ammo);
+
 
         assertFalse(playerBoard.hasAtLeastOneAmmo());
     }

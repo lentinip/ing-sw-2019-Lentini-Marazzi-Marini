@@ -1,7 +1,7 @@
 package it.polimi.sw2019.view.gui;
 
-import it.polimi.sw2019.model.Character;
-import it.polimi.sw2019.network.messages.LeaderBoard;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.messages.LeaderBoard;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +12,11 @@ import javafx.stage.Stage;
 
 import java.util.*;
 
+/**
+ * Controller for the LeaderBoardScreen
+ *
+ * @author lentinip
+ */
 public class LeaderBoardController {
 
     /* Attributes */
@@ -53,6 +58,9 @@ public class LeaderBoardController {
 
     /* Methods */
 
+    /**
+     * Initializes the List of the Labels
+     */
     public void initialize(){
 
         positions.add(position0);
@@ -68,6 +76,16 @@ public class LeaderBoardController {
         usernames.add(username4);
     }
 
+    /**
+     * Method that needs to be called after the controller is instantiated.
+     *
+     * Sets the labels using the leaderBoard message.
+     *
+     * @param gui Reference to the GUI
+     * @param leaderBoard leaderBoard message
+     * @param usernameStrings List of usernames from the configurationMessage
+     * @param characters List of Characters from the configurationMessage
+     */
     public void configure(GUI gui, LeaderBoard leaderBoard, List<String> usernameStrings, List<Character> characters){
         this.gui = gui;
 
@@ -113,6 +131,12 @@ public class LeaderBoardController {
 
     }
 
+    /**
+     * Initializes a Map with the Characters and the usernames
+     * @param usernames List of usernames (Strings)
+     * @param characters List of Characters
+     * @return Returns a map with the Character as a key and his username as the value
+     */
     public Map<Character, String> createUsernamesMap(List<String> usernames, List<Character> characters){
         Map<Character, String> map = new EnumMap<>(Character.class);
         for (int i=0; i<usernames.size(); i++){
@@ -121,12 +145,24 @@ public class LeaderBoardController {
         return map;
     }
 
+    /**
+     * Handles the Exit Game button.
+     *
+     * It closes the program.
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleExitGameButton(ActionEvent actionEvent){
         Platform.exit();
         System.exit(0);
     }
 
+    /**
+     * Handles the New Game button.
+     *
+     * Closes all the windows of the program and displays again the login window.
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleNewGameButton(ActionEvent actionEvent){
         Button button = (Button) actionEvent.getSource();

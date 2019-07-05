@@ -1,14 +1,18 @@
 package it.polimi.sw2019.view.gui;
 
-import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.commons.Character;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controller for the KillTrackScreen
+ *
+ * @author lentinip
+ */
 public class KillTrackController {
 
     /* Attributes */
@@ -30,20 +34,13 @@ public class KillTrackController {
 
     private Map<Character, Label> labelsMap = new EnumMap<>(Character.class);
 
-    private Integer banshee = 0;
-
-    private Integer distructor = 0;
-
-    private Integer dozer = 0;
-
-    private Integer sprog = 0;
-
-    private Integer violet = 0;
-
     private Map<Character, Integer> integerMap = new EnumMap<>(Character.class);
 
     /* Methods */
 
+    /**
+     * Initializes the Maps
+     */
     public void initialize(){
 
         labelsMap.put(Character.BANSHEE, bansheeLabel);
@@ -52,13 +49,18 @@ public class KillTrackController {
         labelsMap.put(Character.SPROG, sprogLabel);
         labelsMap.put(Character.VIOLET, violetLabel);
 
-        integerMap.put(Character.BANSHEE, banshee);
-        integerMap.put(Character.DISTRUCTOR, distructor);
-        integerMap.put(Character.DOZER, dozer);
-        integerMap.put(Character.SPROG, sprog);
-        integerMap.put(Character.VIOLET, violet);
+        integerMap.put(Character.BANSHEE, 0);
+        integerMap.put(Character.DISTRUCTOR, 0);
+        integerMap.put(Character.DOZER, 0);
+        integerMap.put(Character.SPROG, 0);
+        integerMap.put(Character.VIOLET, 0);
     }
 
+    /**
+     * Updates the KillTrackScreen with the new data
+     * @param killTrack List of characters that killed somebody
+     * @param overKillTokens List of boolean of the overkills (true if it is an overkill)
+     */
     public void updateTokens(List<Character> killTrack, List<Boolean> overKillTokens){
         for (int i=0; i<killTrack.size(); i++){
             Character character = killTrack.get(i);
@@ -73,6 +75,9 @@ public class KillTrackController {
         }
     }
 
+    /**
+     * Sets the number of the tokens on the killTrack for each player in his label on the KillTrackScreen
+     */
     public void showValues(){
         for (Map.Entry<Character, Label> labelEntry : labelsMap.entrySet()){
             Integer value = integerMap.get(labelEntry.getKey());

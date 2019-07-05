@@ -1,6 +1,6 @@
 package it.polimi.sw2019;
 
-import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.commons.Character;
 import it.polimi.sw2019.model.KillTokens;
 import it.polimi.sw2019.model.Score;
 import org.junit.Test;
@@ -72,8 +72,8 @@ public class TestKillTokens {
 
         List<Character> resultCharacters = new ArrayList<>();
         resultCharacters.add(Character.DOZER);
-        resultCharacters.add(Character.DISTRUCTOR);
         resultCharacters.add(Character.BANSHEE);
+        resultCharacters.add(Character.DISTRUCTOR);
         resultCharacters.add(Character.VIOLET);
         resultCharacters.add(Character.SPROG);
 
@@ -82,7 +82,9 @@ public class TestKillTokens {
         characters.add(Character.DISTRUCTOR);
         characters.add(Character.DOZER);
         characters.add(Character.VIOLET);
+
         KillTokens killTokens = new KillTokens(characters);
+
         killTokens.addOverkill(Character.DOZER);
         killTokens.addOverkill(Character.BANSHEE);
         killTokens.addKill(Character.DISTRUCTOR);
@@ -123,5 +125,22 @@ public class TestKillTokens {
         int k = score.getMap().get(Character.SPROG);
 
         assertEquals(6, k);
+    }
+
+    @Test
+    public void getRankingTest1() {
+        //Checks if the ranking is empty if nobody did a single kill
+        List<Character> characters = new ArrayList<>();
+        characters.add(Character.BANSHEE);
+        characters.add(Character.DISTRUCTOR);
+        characters.add(Character.DOZER);
+        characters.add(Character.VIOLET);
+
+        KillTokens killTokens = new KillTokens(characters);
+
+        List<Character> ranking = killTokens.getRanking();
+        List<Character> expectedResult = new ArrayList<>();
+
+        assertEquals(expectedResult, ranking);
     }
 }

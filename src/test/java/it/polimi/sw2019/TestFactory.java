@@ -1,7 +1,7 @@
 package it.polimi.sw2019;
 
 import it.polimi.sw2019.model.*;
-import it.polimi.sw2019.model.Character;
+import it.polimi.sw2019.commons.Character;
 import org.junit.Assert;
 import org.junit.Test;
 

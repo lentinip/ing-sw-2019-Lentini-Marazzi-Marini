@@ -1,8 +1,7 @@
 package it.polimi.sw2019;
 
 import it.polimi.sw2019.model.Ammo;
-import it.polimi.sw2019.model.Colors;
-import org.junit.Before;
+import it.polimi.sw2019.commons.Colors;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

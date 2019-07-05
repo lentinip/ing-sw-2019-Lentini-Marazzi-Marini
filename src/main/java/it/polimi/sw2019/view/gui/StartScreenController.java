@@ -1,7 +1,7 @@
 package it.polimi.sw2019.view.gui;
 
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.commons.messages.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -12,6 +12,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Controller for the StartScreenWindow
+ *
+ * @author lentinip
+ */
 public class StartScreenController {
 
     /* Attributes */
@@ -42,12 +47,22 @@ public class StartScreenController {
         this.client = client;
     }
 
+    /**
+     * Sets the type of connection using the typeOfConnectionBox.
+     * Calls also ableStartButton().
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void setTypeOfConnection(ActionEvent actionEvent){
         this.typeOfConnection = typeOfConnectionBox.getSelectionModel().getSelectedItem();
         ableStartButton();
     }
 
+    /**
+     * Sets the username using the usernameTextField.
+     * Calls also ableStartButton().
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void setUsername(ActionEvent actionEvent) {
 
@@ -66,6 +81,9 @@ public class StartScreenController {
         ableStartButton();
     }
 
+    /**
+     * Initializes the data in the typeOfConnectionBox
+     */
     public void initialize(){
         typeOfConnectionBox.getItems().removeAll(typeOfConnectionBox.getItems());
 
@@ -76,6 +94,9 @@ public class StartScreenController {
         typeOfConnectionBox.getItems().addAll(typeOfConnections);
     }
 
+    /**
+     * Ables the start button if the player chose a type of connection and also a username.
+     */
     public void ableStartButton(){
         if (typeOfConnection!=null && username!=null){
             startGameButton.setDisable(false);
@@ -85,6 +106,12 @@ public class StartScreenController {
         }
     }
 
+    /**
+     * Handles the startGame button.
+     *
+     * Shows the pleaseWaitGroup and sends the loginMessage
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleStartGameButton(ActionEvent actionEvent){
 
@@ -107,6 +134,9 @@ public class StartScreenController {
         }
     }
 
+    /**
+     * Hides the pleaseWaitGroup and ables the controls again.
+     */
     public void hidePleaseWait(){
         usernameTextField.setDisable(false);
         typeOfConnectionBox.setDisable(false);

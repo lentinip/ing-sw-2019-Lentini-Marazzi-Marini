@@ -1,6 +1,7 @@
 package it.polimi.sw2019.model;
 
-import it.polimi.sw2019.network.messages.*;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.messages.*;
 import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
@@ -180,6 +181,10 @@ public class Match extends Observable {
         this.easyMode = easyMode;
     }
 
+    public boolean isEasyMode() {
+        return easyMode;
+    }
+
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
@@ -264,7 +269,7 @@ public class Match extends Observable {
         if (isEnded){
 
             //System.out.print("\n ended ");
-            currentPlayer = null;
+            currentPlayer = players.get(0);
             return;
         }
 

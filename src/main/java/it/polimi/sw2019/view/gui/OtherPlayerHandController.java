@@ -1,6 +1,6 @@
 package it.polimi.sw2019.view.gui;
 
-import it.polimi.sw2019.network.messages.PlayerHand;
+import it.polimi.sw2019.commons.messages.PlayerHand;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -9,6 +9,11 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller for the OtherPlayerHandScreen
+ *
+ * @author lentinip
+ */
 public class OtherPlayerHandController {
 
     /* Attributes */
@@ -47,6 +52,9 @@ public class OtherPlayerHandController {
 
     /* Methods */
 
+    /**
+     * Initializes the structures with the imageViews
+     */
     public void initialize(){
         weapons.add(weaponImage0);
         weapons.add(weaponImage1);
@@ -57,10 +65,19 @@ public class OtherPlayerHandController {
         powerups.add(powerupImage2);
     }
 
+    /**
+     * Method that needs to be called after the controller is instantiated.
+     *
+     * @param username String with the username of the player associated with the playerHands received by this controller.
+     */
     public void configure(String username){
         usernameLabel.setText(username);
     }
 
+    /**
+     * Updates the OtherPlayerHandScreen associated with this controller
+     * @param playerHand playerHand to show
+     */
     public void updatePlayerHand(PlayerHand playerHand){
         if (oldPlayerHandMessage == null || !oldPlayerHandMessage.equals(playerHand)){
 

@@ -3,7 +3,6 @@ package it.polimi.sw2019;
 import it.polimi.sw2019.model.Cell;
 import it.polimi.sw2019.model.Room;
 import it.polimi.sw2019.model.Player;
-import it.polimi.sw2019.network.messages.BoardCoord;
 import org.junit.Test;
 
 import java.util.ArrayList;

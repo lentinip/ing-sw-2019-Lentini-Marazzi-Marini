@@ -1,16 +1,21 @@
 package it.polimi.sw2019.view.gui;
 
-import it.polimi.sw2019.model.Colors;
+import it.polimi.sw2019.commons.Colors;
 import it.polimi.sw2019.network.client.Client;
-import it.polimi.sw2019.network.messages.Message;
-import it.polimi.sw2019.network.messages.PlayerBoardMessage;
+import it.polimi.sw2019.commons.messages.Message;
+import it.polimi.sw2019.commons.messages.PlayerBoardMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class SelecAmmoColorController {
+/**
+ * Controller for the SelectAmmoColorScreen.
+ *
+ * @author lentinip
+ */
+public class SelectAmmoColorController {
 
     /* Attributes */
 
@@ -32,12 +37,24 @@ public class SelecAmmoColorController {
 
     /* Methods */
 
+    /**
+     * Initializes the data in the buttons
+     */
     public void initialize(){
         blueButton.setUserData(Colors.BLUE);
         redButton.setUserData(Colors.RED);
         yellowButton.setUserData(Colors.YELLOW);
     }
 
+    /**
+     * Method that needs to be called after the controller is instantiated.
+     *
+     * Manages everything to show.
+     *
+     * @param client reference to the Client instance
+     * @param playerBoardMessage playerBoardMessage of the player of this client
+     * @param ammoGroup ammoGroup of the player of this client
+     */
     public void configure(Client client, PlayerBoardMessage playerBoardMessage, Group ammoGroup){
         this.client = client;
         this.ammoGroup = ammoGroup;
@@ -55,6 +72,13 @@ public class SelecAmmoColorController {
         }
     }
 
+    /**
+     * Handles the button pressed.
+     *
+     * Sends a message with the choice.
+     *
+     * @param actionEvent actionEvent caught
+     */
     @FXML
     public void handleButton(ActionEvent actionEvent){
         Button button = (Button) actionEvent.getSource();

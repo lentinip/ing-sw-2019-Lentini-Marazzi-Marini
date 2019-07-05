@@ -1,10 +1,11 @@
 package it.polimi.sw2019.controller;
 
+import it.polimi.sw2019.commons.TypeOfAction;
 import it.polimi.sw2019.model.*;
-import it.polimi.sw2019.model.Character;
-import it.polimi.sw2019.network.messages.BoardCoord;
-import it.polimi.sw2019.network.messages.IndexMessage;
-import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.messages.BoardCoord;
+import it.polimi.sw2019.commons.messages.IndexMessage;
+import it.polimi.sw2019.commons.messages.Message;
 import it.polimi.sw2019.network.server.VirtualView;
 
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ public class Choices {
         this.atomicActions = atomicActions;
         this.singleActionManager = singleActionManager;
     }
+
+    public Choices(){}
 
     /* Attributes */
 
@@ -104,6 +107,10 @@ public class Choices {
 
     public Powerup getSelectedPowerup() {
         return selectedPowerup;
+    }
+
+    public void setSelectedPlayer(Player selectedPlayer) {
+        this.selectedPlayer = selectedPlayer;
     }
 
     /**
@@ -902,7 +909,7 @@ public class Choices {
     }
 
     /**
-     * apply the demage in cells chosen for all target effects
+     * apply the damage in cells chosen for all target effects
      */
     public void applyAllTargetEffect(){
 

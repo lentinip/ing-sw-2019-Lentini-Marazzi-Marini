@@ -1,8 +1,9 @@
 package it.polimi.sw2019.model;
 
 
-import it.polimi.sw2019.network.messages.BoardCoord;
-import it.polimi.sw2019.network.messages.MessageCell;
+import it.polimi.sw2019.commons.Character;
+import it.polimi.sw2019.commons.messages.BoardCoord;
+import it.polimi.sw2019.commons.messages.MessageCell;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,12 +2,14 @@ package it.polimi.sw2019.network.client.socket;
 
 
 import it.polimi.sw2019.network.client.ClientInterface;
-import it.polimi.sw2019.network.messages.Message;
+import it.polimi.sw2019.commons.messages.Message;
 import it.polimi.sw2019.network.client.Client;
 import it.polimi.sw2019.network.server.socket.ServerInterface;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,6 +50,9 @@ public class LineClient extends Thread implements ServerInterface {
 
     private Client clientClass;
 
+    private static Timer timer = new Timer();
+
+
     /* Methods */
 
     /**
@@ -55,7 +60,6 @@ public class LineClient extends Thread implements ServerInterface {
      * @param clientInterface client interface for socket
      */
     private void startLine(ClientInterface clientInterface) {
-
         try {
             this.client = clientInterface;
             socketClient = new Socket(host, port);
@@ -63,9 +67,25 @@ public class LineClient extends Thread implements ServerInterface {
             ObjectOut.flush();
             ObjectIn = new ObjectInputStream(new BufferedInputStream(socketClient.getInputStream()));
             connected = true;
+
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+
+                    try {
+                        Socket socket = new Socket(host, 7777);
+                        socket.close();
+                    } catch (Exception e) {
+                        System.out.println("\n I'm not connected");
+                        clientClass.getView().displayConnectionFailure();
+                        timer.cancel();
+                    }
+                }
+            }, 0, 5000);
+
         } catch (IOException e) {
             connected = false;
-            clientClass.getView().displayConnectionFailure();
         }
 
 
@@ -104,7 +124,6 @@ public class LineClient extends Thread implements ServerInterface {
 
                 go = false;
                 LOGGER.log(Level.WARNING, "failure: error occurred during connection to server");
-                clientClass.getView().displayConnectionFailure();
             }
         }
     }
