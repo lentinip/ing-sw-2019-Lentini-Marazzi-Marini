@@ -7,8 +7,6 @@ import it.polimi.sw2019.network.server.rmi.RmiServer;
 import it.polimi.sw2019.network.server.socket.SocketServer;
 import it.polimi.sw2019.network.server.socket.SocketServerProbeHandler;
 
-import java.io.IOException;
-import java.net.ServerSocket;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,10 +38,6 @@ public class Server {
     }
 
     /* Attributes */
-
-    private int rmiPort;
-
-    private int socketPort;
 
     private VirtualView currentWaitingRoom;
 
@@ -82,14 +76,6 @@ public class Server {
 
     public Map<String, VirtualView> getVirtualViewMap() {
         return virtualViewMap;
-    }
-
-    public void setRmiPort(int rmiPort) {
-        this.rmiPort = rmiPort;
-    }
-
-    public void setSocketPort(int socketPort) {
-        this.socketPort = socketPort;
     }
 
     public VirtualView getWaitingRoom(String username) {
